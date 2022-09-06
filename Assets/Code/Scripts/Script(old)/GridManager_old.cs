@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class GridManager : MonoBehaviour
+public class GridManager_old: MonoBehaviour
 {
     public float mapScale = 2f;
     public GameObject tilePath;
