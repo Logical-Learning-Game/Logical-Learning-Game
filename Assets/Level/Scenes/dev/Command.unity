@@ -1547,18 +1547,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: isDragable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: isInstantiator
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 453976726206186422, guid: e3bc92079e5c92b4eb5f0f9899954d41,
         type: 3}
       propertyPath: m_Name
@@ -1568,6 +1556,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 453976726206186422, guid: e3bc92079e5c92b4eb5f0f9899954d41,
+        type: 3}
+      propertyPath: m_TagString
+      value: CommandInitiator
       objectReference: {fileID: 0}
     - target: {fileID: 453976726206186423, guid: e3bc92079e5c92b4eb5f0f9899954d41,
         type: 3}
@@ -1683,10 +1676,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1837642227}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: isInstantiator
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5198160312805148498, guid: 68a18d858fd30324f8757eb8e83ed5d0,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1797,6 +1786,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackCommand
       objectReference: {fileID: 0}
+    - target: {fileID: 5198160312805148499, guid: 68a18d858fd30324f8757eb8e83ed5d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198160312805148499, guid: 68a18d858fd30324f8757eb8e83ed5d0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CommandInitiator
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68a18d858fd30324f8757eb8e83ed5d0, type: 3}
 --- !u!1001 &3961844863235787458
@@ -1810,6 +1809,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LeftForwardCommand
+      objectReference: {fileID: 0}
+    - target: {fileID: 3961844864186045233, guid: 945a0a3b400c58543b326f5d425b2a16,
+        type: 3}
+      propertyPath: m_TagString
+      value: CommandInitiator
       objectReference: {fileID: 0}
     - target: {fileID: 3961844864186045238, guid: 945a0a3b400c58543b326f5d425b2a16,
         type: 3}
@@ -1916,18 +1920,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: isDragable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: isInstantiator
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3961844865092261968, guid: 945a0a3b400c58543b326f5d425b2a16,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1967,18 +1959,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1837642227}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: isDragable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: isInstantiator
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4796859790608695989, guid: fa90714052c15a547a5a320af0e60c34,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2089,6 +2069,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightForwardCommand
       objectReference: {fileID: 0}
+    - target: {fileID: 4796859790608695990, guid: fa90714052c15a547a5a320af0e60c34,
+        type: 3}
+      propertyPath: m_TagString
+      value: CommandInitiator
+      objectReference: {fileID: 0}
     - target: {fileID: 4796859791311992056, guid: fa90714052c15a547a5a320af0e60c34,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2157,18 +2142,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: isDragable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: isInstantiator
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4900637980321345672, guid: 30914a2917d76114f9f22c74a8cb2894,
         type: 3}
@@ -2288,7 +2261,7 @@ PrefabInstance:
     - target: {fileID: 4900637980321345673, guid: 30914a2917d76114f9f22c74a8cb2894,
         type: 3}
       propertyPath: m_TagString
-      value: StarterCommand
+      value: CommandInitiator
       objectReference: {fileID: 0}
     - target: {fileID: 5032903873070974574, guid: 30914a2917d76114f9f22c74a8cb2894,
         type: 3}
