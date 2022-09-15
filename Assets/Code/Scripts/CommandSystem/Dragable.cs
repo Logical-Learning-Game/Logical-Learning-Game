@@ -59,6 +59,8 @@ public class Dragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        //check if drop command outside command panel
+
         CommandManager.SaveCommandState();
         Debug.Log("Saved");
     }

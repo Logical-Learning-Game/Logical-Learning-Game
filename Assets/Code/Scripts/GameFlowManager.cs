@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState { Play, Won, Lost };
+public enum GameState { Start, Plan, Play, Won, Failed };
 public class GameFlowManager : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -14,6 +14,6 @@ public class GameFlowManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-  
+
     }
 }

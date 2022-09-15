@@ -10,9 +10,12 @@ public class CommandManager : MonoBehaviour
 {
     public static CommandManager Instance { get; private set; }
 
+
     public static List<CommandState> savedCommandStates = new List<CommandState>();
+
+    public List<GameObject> commandObjects;
+    public List<AbstractCommand> commands;
     
-    public List<GameObject> commands;
     // Start is called before the first frame update
 
     private void Awake()
@@ -21,6 +24,7 @@ public class CommandManager : MonoBehaviour
         {
             Instance = this;
             SaveCommandState();
+            commands = new List<AbstractCommand>();
         }
         else
         {
@@ -38,14 +42,25 @@ public class CommandManager : MonoBehaviour
             Debug.Log("Undoing");
             UndoCommand();
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Executing");
+            ExecuteCommands();
+        }
+
+        if (GameObject.FindGameObjectsWithTag("StarterCommand").Length > 0)
+        {
+            GameObject.Find("StarterCommandInitiator").GetComponent<StartCommandInitiator>().setEnabled(false);
+        }
+        else
+        {
+            GameObject.Find("StarterCommandInitiator").GetComponent<StartCommandInitiator>().setEnabled(true);
+
+        }
     }
-    public void InstantiateCommand(GameObject initCommand,PointerEventData eventData)
-    {
-        GameObject command = Instantiate(initCommand, eventData.position, Quaternion.identity);
-        //command.GetComponent<Dragable>().isInstantiator = false;
-        command.GetComponent<Dragable>().isDragable = true;
-        command.transform.SetParent(gameObject.transform.parent);
-        eventData.pointerDrag = command;
+    public void InstantiateCommand(AbstractCommand command)
+    { 
         commands.Add(command);
     }
 
@@ -66,5 +81,36 @@ public class CommandManager : MonoBehaviour
             savedCommandStates[savedCommandStates.Count - 2].LoadCommandState();
             savedCommandStates.RemoveAt(savedCommandStates.Count - 1);
         }
+    }
+
+    //public void RemoveCommand(ICommand command)
+    //{
+    //    commands.Remove(command);
+    //    command.SetActive(false) ;
+    //}
+    public void RemoveCommand(GameObject command)
+    {
+        //need more implementation
+        command.SetActive(false);
+    }
+    public void ExecuteCommands()
+    {
+        //need more implementation
+        GameObject startCommandObject = GameObject.FindGameObjectsWithTag("StarterCommand")[0];
+        AbstractCommand startCommand = GetCommandFromGameObject(startCommandObject);
+        startCommand.Execute();
+    }
+
+    public AbstractCommand GetCommandFromGameObject(GameObject commandObject)
+    {
+        //need more implementation
+        foreach (AbstractCommand command in commands)
+        {
+            if (command.GetCommandObject().Equals(commandObject))
+            {
+                return command;
+            }
+        }
+        return null;
     }
 }
