@@ -9,6 +9,9 @@ public class GameStateManager : MonoBehaviour
     [field: SerializeField]
     public GameObject ProfilePanel { get; private set; }
 
+    [field: SerializeField]
+    public Sprite UserPlaceholder { get; private set; }
+
     private static GameStateManager _instance;
 
     private AbstractGameState _currentGameState;
