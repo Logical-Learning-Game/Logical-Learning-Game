@@ -29,7 +29,7 @@ public abstract class CommandInitiator : MonoBehaviour, IBeginDragHandler, IDrag
     public GameObject CommandInitiate(PointerEventData eventData)
     {
         GameObject commandObject = Instantiate(commandPrefab, eventData.position, Quaternion.identity);
-        commandObject.GetComponent<Dragable>().isDragable = true;
+        commandObject.GetComponent<Draggable>().isDraggable = true;
         commandObject.transform.SetParent(gameObject.transform.parent.parent);
         eventData.pointerDrag = commandObject;
         return commandObject;

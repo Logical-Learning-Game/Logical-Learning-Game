@@ -68,12 +68,12 @@ public class CommandManager : MonoBehaviour
             if (selectedCommand == command)
             {
                 command.GetCommandObject().GetComponent<Selectable>().SetisSelected(true);
-                //command.GetCommandObject().GetComponent<Dragable>().SetisDragable(false);
+                //command.GetCommandObject().GetComponent<Draggable>().SetisDraggable(false);
             }
             else
             {
                 command.GetCommandObject().GetComponent<Selectable>().SetisSelected(false);
-                //command.GetCommandObject().GetComponent<Dragable>().SetisDragable(true);
+                //command.GetCommandObject().GetComponent<Draggable>().SetisDraggable(true);
             }
             
         }

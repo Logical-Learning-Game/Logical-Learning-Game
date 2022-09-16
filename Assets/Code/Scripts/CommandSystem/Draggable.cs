@@ -2,14 +2,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Dragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField]
     private float _dragSpeed = 0.09f;
     private RectTransform draggingObjectRectTransform;
     private Vector3 velocity = Vector3.zero;
 
-    public bool isDragable = true;
+    public bool isDraggable = true;
     
     public bool isDragging = false;
 
@@ -23,7 +23,7 @@ public class Dragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnDrag(PointerEventData eventData)
     {
         
-        if (isDragable && RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingObjectRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
+        if (isDraggable && RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingObjectRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
         {
             isDragging = true;
             dragPosition = globalMousePosition;
@@ -65,8 +65,8 @@ public class Dragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         Debug.Log("Saved");
     }
 
-    public void SetisDragable(bool isDragable)
+    public void SetisDraggable(bool isDraggable)
     {
-        this.isDragable = isDragable;
+        this.isDraggable = isDraggable;
     }
 }

@@ -20,7 +20,7 @@ public class CommandState
         {
             if (element.type == SavedElement.Type.Command)
             {
-                state.commandPositions.Add(element.GetComponent<Dragable>().dragPosition);
+                state.commandPositions.Add(element.GetComponent<Draggable>().dragPosition);
                 //state.commandIsActives.Add(element.gameObject.activeSelf);
             }
         }
@@ -38,7 +38,7 @@ public class CommandState
             if (elementToLoad.type == SavedElement.Type.Command)
             {
                 elementToLoad.transform.position = remainingCommandPositions[0];
-                elementToLoad.GetComponent<Dragable>().isDragging = false;
+                elementToLoad.GetComponent<Draggable>().isDragging = false;
                 remainingCommandPositions.RemoveAt(0);
 
                 //elementToLoad.gameObject.SetActive(remainingCommandIsActives[0]);
