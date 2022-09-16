@@ -5,6 +5,7 @@ using TMPro;
 public abstract class AbstractCommand
 {
     private GameObject commandObject;
+    public AbstractCommand linkedCommand = null;
     public AbstractCommand(GameObject commandObject)
     {
         this.commandObject = commandObject;
@@ -16,6 +17,11 @@ public abstract class AbstractCommand
     }
 
     public abstract void Execute();
+
+    public void LinkTo(AbstractCommand linkedCommand)
+    {
+        this.linkedCommand = linkedCommand;
+    }
 
     public GameObject GetCommandObject()
     {

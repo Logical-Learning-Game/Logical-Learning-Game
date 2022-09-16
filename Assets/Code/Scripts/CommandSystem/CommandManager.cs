@@ -13,9 +13,11 @@ public class CommandManager : MonoBehaviour
 
     public static List<CommandState> savedCommandStates = new List<CommandState>();
 
-    public List<GameObject> commandObjects;
+    //public List<GameObject> commandObjects;
     public List<AbstractCommand> commands;
-    
+
+    public AbstractCommand selectedCommand;
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -49,6 +51,7 @@ public class CommandManager : MonoBehaviour
             ExecuteCommands();
         }
 
+        // test method (max command)
         if (GameObject.FindGameObjectsWithTag("StarterCommand").Length > 0)
         {
             GameObject.Find("StarterCommandInitiator").GetComponent<StartCommandInitiator>().setEnabled(false);
@@ -56,8 +59,26 @@ public class CommandManager : MonoBehaviour
         else
         {
             GameObject.Find("StarterCommandInitiator").GetComponent<StartCommandInitiator>().setEnabled(true);
-
         }
+        //
+
+        // test method updateCommandGameObject
+        foreach (AbstractCommand command in commands)
+        {
+            if (selectedCommand == command)
+            {
+                command.GetCommandObject().GetComponent<Selectable>().SetisSelected(true);
+                //command.GetCommandObject().GetComponent<Dragable>().SetisDragable(false);
+            }
+            else
+            {
+                command.GetCommandObject().GetComponent<Selectable>().SetisSelected(false);
+                //command.GetCommandObject().GetComponent<Dragable>().SetisDragable(true);
+            }
+            
+        }
+        
+        //
     }
     public void InstantiateCommand(AbstractCommand command)
     { 
@@ -112,5 +133,11 @@ public class CommandManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void SetSelectedCommand(GameObject commandObject)
+    {
+        Debug.Log("Setting" + commandObject.name + "to selected");
+        selectedCommand = GetCommandFromGameObject(commandObject);
     }
 }

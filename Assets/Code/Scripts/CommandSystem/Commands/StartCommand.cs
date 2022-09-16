@@ -13,6 +13,7 @@ public class StartCommand : AbstractCommand
         //actionSequence.text += "\nStart!\n";
         ActionManager.Instance.ClearSequenceText();
         ActionManager.Instance.AddSequenceText("Start!\n");
+        linkedCommand?.Execute();
     }
 
 }

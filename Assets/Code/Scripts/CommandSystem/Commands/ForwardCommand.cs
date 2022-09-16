@@ -13,6 +13,7 @@ public class ForwardCommand : AbstractCommand
     {
         //actionSequence.text += "Forward\n";
         ActionManager.Instance.AddSequenceText("Forward\n");
+        linkedCommand?.Execute();
     }
 
 }

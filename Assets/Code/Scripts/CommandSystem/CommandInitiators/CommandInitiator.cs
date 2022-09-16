@@ -10,6 +10,8 @@ public abstract class CommandInitiator : MonoBehaviour, IBeginDragHandler, IDrag
     public bool isEnabled;
     [SerializeField]
     private Color commandColor;
+    [SerializeField]
+    private GameObject baseIcon;
     private Color disableColor = Color.gray;
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -56,12 +58,14 @@ public abstract class CommandInitiator : MonoBehaviour, IBeginDragHandler, IDrag
         if (isEnabled)
         {
             //Debug.Log("Enabled");
-            gameObject.GetComponentsInChildren<Image>()[0].color = commandColor;
+            //gameObject.GetComponentsInChildren<Image>()[0].color = commandColor;
+            baseIcon.GetComponent<Image>().color = commandColor;
         }
         else
         {
             //Debug.Log("Disabled");
-            gameObject.GetComponentsInChildren<Image>()[0].color = disableColor;
+            //gameObject.GetComponentsInChildren<Image>()[0].color = disableColor;
+            baseIcon.GetComponent<Image>().color = disableColor;
         }
     }
 

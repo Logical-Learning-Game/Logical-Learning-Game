@@ -1809,7 +1809,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13394d5a6283eb64abba58dc6b56678a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commandObjects: []
 --- !u!114 &1837642230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2324,10 +2323,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 781899a52de2d124bbc3e4bcd859f829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commandPrefab: {fileID: 453976726206186422, guid: e3bc92079e5c92b4eb5f0f9899954d41,
+  commandPrefab: {fileID: 6854392509148973821, guid: 64499fdd8d0e43540b02b946043ff5bd,
     type: 3}
   isEnabled: 1
   commandColor: {r: 0.21176471, g: 0.83137256, b: 0, a: 1}
+  baseIcon: {fileID: 145431938}
 --- !u!58 &4901289556296622646
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2356,10 +2356,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a26b12cea7a1e4ea0cfe996f5771d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commandPrefab: {fileID: 4796859790608695990, guid: fa90714052c15a547a5a320af0e60c34,
+  commandPrefab: {fileID: 9066646401321634963, guid: e9aee20f89ca2c449a190c93f486d08e,
     type: 3}
   isEnabled: 1
   commandColor: {r: 0.14117648, g: 0.43921572, b: 0.92549026, a: 1}
+  baseIcon: {fileID: 529872106}
 --- !u!58 &5539163074630418876
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2404,10 +2405,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d536173bbc5edbb4d9995dc7136099e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commandPrefab: {fileID: 4900637980321345673, guid: 30914a2917d76114f9f22c74a8cb2894,
+  commandPrefab: {fileID: 3366067978891241191, guid: 61a0b7bd198aac9459bd498decaa0230,
     type: 3}
   isEnabled: 1
   commandColor: {r: 1, g: 0.32941177, b: 0.21960784, a: 1}
+  baseIcon: {fileID: 2074907884}
 --- !u!58 &7469116357372357817
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2436,10 +2438,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37cb7c8bd7ed18e4d966a8a6f75cc1f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commandPrefab: {fileID: 3961844864186045233, guid: 945a0a3b400c58543b326f5d425b2a16,
+  commandPrefab: {fileID: 5437307690110836144, guid: c949f69c2d1b47246aa74c651f68d622,
     type: 3}
   isEnabled: 1
   commandColor: {r: 0.14117648, g: 0.4392157, b: 0.9254902, a: 1}
+  baseIcon: {fileID: 1869058705}
 --- !u!222 &7875442737223459002
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2568,10 +2571,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2edf890968452eb4cbce695ba0b7a6ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commandPrefab: {fileID: 5198160312805148499, guid: 68a18d858fd30324f8757eb8e83ed5d0,
+  commandPrefab: {fileID: 5484362435968703181, guid: 4e72645f2628c634dbbc65afef05f191,
     type: 3}
   isEnabled: 1
   commandColor: {r: 0.9607844, g: 0.7725491, b: 0, a: 1}
+  baseIcon: {fileID: 7875442737223459005}
 --- !u!222 &7875442738669961772
 CanvasRenderer:
   m_ObjectHideFlags: 0

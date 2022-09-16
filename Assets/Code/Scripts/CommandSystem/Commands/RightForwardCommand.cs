@@ -13,6 +13,7 @@ public class RightForwardCommand : AbstractCommand
     {
         //actionSequence.text += "RightForward\n";
         ActionManager.Instance.AddSequenceText("RightForward\n");
+        linkedCommand?.Execute();
     }
 
 

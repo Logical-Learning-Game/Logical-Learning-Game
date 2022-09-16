@@ -64,4 +64,9 @@ public class Dragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         CommandManager.SaveCommandState();
         Debug.Log("Saved");
     }
+
+    public void SetisDragable(bool isDragable)
+    {
+        this.isDragable = isDragable;
+    }
 }
