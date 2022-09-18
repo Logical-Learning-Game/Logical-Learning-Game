@@ -27,6 +27,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartCommand
       objectReference: {fileID: 0}
+    - target: {fileID: 453976726206186422, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_TagString
+      value: StarterCommand
+      objectReference: {fileID: 0}
     - target: {fileID: 453976726206186423, guid: c92514866af3716438c8f9fca985f38f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -150,3 +155,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c92514866af3716438c8f9fca985f38f, type: 3}
+--- !u!1 &3366067978891241191 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 453976726206186422, guid: c92514866af3716438c8f9fca985f38f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2952801781097276753}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5275416658029898761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3366067978891241191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8dccfedeb67ca84fbbb33088a961333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  linkedCommand: {fileID: 0}

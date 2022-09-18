@@ -1,31 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using TMPro;
-public abstract class AbstractCommand
+public abstract class AbstractCommand : MonoBehaviour
 {
-    private GameObject commandObject;
-    public AbstractCommand linkedCommand = null;
-    public AbstractCommand(GameObject commandObject)
+
+    public AbstractCommand nextCommand = null;
+    public AbstractCommand previousCommand = null;
+
+    private void Awake()
     {
-        this.commandObject = commandObject;
+        Debug.Log("AbstractCommand Awake");
     }
 
     public void SetActive(bool active)
     {
-        commandObject.SetActive(active);
+        gameObject.SetActive(active);
     }
 
+    //public abstract void Execute();
     public abstract void Execute();
 
-    public void LinkTo(AbstractCommand linkedCommand)
+    public void LinkTo(AbstractCommand nextCommand)
     {
-        this.linkedCommand = linkedCommand;
-    }
-
-    public GameObject GetCommandObject()
-    {
-        return commandObject;
+        this.nextCommand = nextCommand;
+        nextCommand.previousCommand = this;
     }
 
 }

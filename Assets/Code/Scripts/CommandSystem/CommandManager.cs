@@ -14,9 +14,9 @@ public class CommandManager : MonoBehaviour
     public static List<CommandState> savedCommandStates = new List<CommandState>();
 
     //public List<GameObject> commandObjects;
-    public List<AbstractCommand> commands;
+    public List<GameObject> commands;
 
-    public AbstractCommand selectedCommand;
+    public GameObject selectedCommand;
 
     // Start is called before the first frame update
 
@@ -26,7 +26,7 @@ public class CommandManager : MonoBehaviour
         {
             Instance = this;
             SaveCommandState();
-            commands = new List<AbstractCommand>();
+            commands = new List<GameObject>();
         }
         else
         {
@@ -51,40 +51,43 @@ public class CommandManager : MonoBehaviour
             ExecuteCommands();
         }
 
-        // test method (max command)
+        //test method(max command)
         if (GameObject.FindGameObjectsWithTag("StarterCommand").Length > 0)
         {
-            GameObject.Find("StarterCommandInitiator").GetComponent<StartCommandInitiator>().setEnabled(false);
+            GameObject.Find("StartCommandInitiator").GetComponent<CommandInitiator>().setEnabled(false);
         }
         else
         {
-            GameObject.Find("StarterCommandInitiator").GetComponent<StartCommandInitiator>().setEnabled(true);
+            GameObject.Find("StartCommandInitiator").GetComponent<CommandInitiator>().setEnabled(true);
         }
-        //
 
-        // test method updateCommandGameObject
-        foreach (AbstractCommand command in commands)
-        {
-            if (selectedCommand == command)
-            {
-                command.GetCommandObject().GetComponent<Selectable>().SetisSelected(true);
-                //command.GetCommandObject().GetComponent<Draggable>().SetisDraggable(false);
-            }
-            else
-            {
-                command.GetCommandObject().GetComponent<Selectable>().SetisSelected(false);
-                //command.GetCommandObject().GetComponent<Draggable>().SetisDraggable(true);
-            }
-            
-        }
+        OnSelectCommand();
+        
         
         //
     }
-    public void InstantiateCommand(AbstractCommand command)
+    public void AddCommand(GameObject command)
     { 
         commands.Add(command);
     }
 
+    public void OnSelectCommand()
+    {
+        foreach(GameObject command in commands)
+        {
+            if (selectedCommand == command)
+            {
+                command.GetComponent<Selectable>().SetisSelected(true);
+                //command.GetComponent<Draggable>().SetisDraggable(false);
+            }
+            else
+            {
+                command.GetComponent<Selectable>().SetisSelected(false);
+                //command.GetComponent<Draggable>().SetisDraggable(true);
+            }
+        }
+
+    }
     private int GetCommandCount()
     {
         return GameObject.FindGameObjectsWithTag("CommandInitiator").Length;
@@ -117,27 +120,15 @@ public class CommandManager : MonoBehaviour
     public void ExecuteCommands()
     {
         //need more implementation
-        GameObject startCommandObject = GameObject.FindGameObjectsWithTag("StarterCommand")[0];
-        AbstractCommand startCommand = GetCommandFromGameObject(startCommandObject);
-        startCommand.Execute();
+        GameObject startCommand = GameObject.FindGameObjectsWithTag("StarterCommand")[0] ;
+        startCommand.GetComponent<AbstractCommand>().Execute();
     }
 
-    public AbstractCommand GetCommandFromGameObject(GameObject commandObject)
-    {
-        //need more implementation
-        foreach (AbstractCommand command in commands)
-        {
-            if (command.GetCommandObject().Equals(commandObject))
-            {
-                return command;
-            }
-        }
-        return null;
-    }
+   
 
     public void SetSelectedCommand(GameObject commandObject)
     {
         Debug.Log("Setting" + commandObject.name + "to selected");
-        selectedCommand = GetCommandFromGameObject(commandObject);
+        selectedCommand = commandObject;
     }
 }

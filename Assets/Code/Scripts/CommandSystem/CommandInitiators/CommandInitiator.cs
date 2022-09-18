@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public abstract class CommandInitiator : MonoBehaviour, IBeginDragHandler, IDragHandler
+public class CommandInitiator : MonoBehaviour, IBeginDragHandler, IDragHandler
 {
     public GameObject commandPrefab;
     public bool isEnabled;
@@ -20,15 +20,19 @@ public abstract class CommandInitiator : MonoBehaviour, IBeginDragHandler, IDrag
         if (isEnabled)
         {
             GameObject commandObject = CommandInitiate(eventData);
-            CommandManager.Instance.InstantiateCommand(Initiate(commandObject));
+            CommandManager.Instance.AddCommand(commandObject);
         }
 
     }
 
-    public abstract AbstractCommand Initiate(GameObject commandObject);
+    //public GameObject Initiate(GameObject commandObject)
+    //{
+        
+    //};
     public GameObject CommandInitiate(PointerEventData eventData)
     {
         GameObject commandObject = Instantiate(commandPrefab, eventData.position, Quaternion.identity);
+        
         commandObject.GetComponent<Draggable>().isDraggable = true;
         commandObject.transform.SetParent(gameObject.transform.parent.parent);
         eventData.pointerDrag = commandObject;
