@@ -69,4 +69,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     {
         this.isDraggable = isDraggable;
     }
+    
+    public void SetisDragging(bool isDragging)
+    {
+        this.isDragging = isDragging;
+    }
 }

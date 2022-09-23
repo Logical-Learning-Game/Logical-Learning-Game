@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 public class ForwardCommand : AbstractCommand
 {
-    
 
     public override void Execute()
     {

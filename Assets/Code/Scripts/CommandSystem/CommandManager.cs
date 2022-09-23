@@ -11,7 +11,7 @@ public class CommandManager : MonoBehaviour
     public static CommandManager Instance { get; private set; }
 
 
-    public static List<CommandState> savedCommandStates = new List<CommandState>();
+    public static List<CommandState> savedCommandStates;
 
     //public List<GameObject> commandObjects;
     public List<GameObject> commands;
@@ -25,8 +25,9 @@ public class CommandManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            SaveCommandState();
             commands = new List<GameObject>();
+            savedCommandStates = new List<CommandState>();
+            SaveCommandState();
         }
         else
         {
@@ -77,12 +78,12 @@ public class CommandManager : MonoBehaviour
         {
             if (selectedCommand == command)
             {
-                command.GetComponent<Selectable>().SetisSelected(true);
+                command.GetComponent<CommandSelectable>().SetisSelected(true);
                 //command.GetComponent<Draggable>().SetisDraggable(false);
             }
             else
             {
-                command.GetComponent<Selectable>().SetisSelected(false);
+                command.GetComponent<CommandSelectable>().SetisSelected(false);
                 //command.GetComponent<Draggable>().SetisDraggable(true);
             }
         }
@@ -95,6 +96,8 @@ public class CommandManager : MonoBehaviour
 
     public static void SaveCommandState()
     {
+        //Debug.Log(savedCommandStates);
+        //Debug.Log(CommandState.GetCurrentState());
         savedCommandStates.Add(CommandState.GetCurrentState());
     }
 
@@ -128,7 +131,7 @@ public class CommandManager : MonoBehaviour
 
     public void SetSelectedCommand(GameObject commandObject)
     {
-        Debug.Log("Setting" + commandObject.name + "to selected");
+        //Debug.Log("Setting" + commandObject.name + "to selected");
         selectedCommand = commandObject;
     }
 }

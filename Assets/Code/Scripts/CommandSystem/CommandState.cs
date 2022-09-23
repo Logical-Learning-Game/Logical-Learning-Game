@@ -5,45 +5,65 @@ using UnityEngine;
 public class CommandState
 {
     #region
-    public List<Vector3> commandPositions;
-    //public List<bool> commandIsActives;
+    public class CommandSnapshot
+    {
+        public GameObject commandObject;
+        public Vector3 position;
+        public bool isActive;
+        public AbstractCommand next;
+        public AbstractCommand previous;
+        public CommandSnapshot(GameObject commandObject = null, Vector3 position = default, bool isActive = false, AbstractCommand next = null, AbstractCommand previous = null)
+        {
+            this.commandObject = commandObject;
+            this.position = position;
+            this.isActive = isActive;
+            this.next = next;
+            this.previous = previous;
+        }
+
+    }
+    public List<CommandSnapshot> commandSnapshots;
+
     #endregion
 
     public static CommandState GetCurrentState()
     {
         CommandState state = new CommandState();
+        state.commandSnapshots = new List<CommandSnapshot>();
         SavedElement[] elementsToSave = GameObject.FindObjectsOfType<SavedElement>();
-        state.commandPositions = new List<Vector3>();
-        //state.commandIsActives = new List<bool>();
+
 
         foreach (SavedElement element in elementsToSave)
         {
             if (element.type == SavedElement.Type.Command)
             {
-                state.commandPositions.Add(element.GetComponent<Draggable>().dragPosition);
-                //state.commandIsActives.Add(element.gameObject.activeSelf);
+                CommandSnapshot snapshot = new CommandSnapshot(
+                    element.gameObject,
+                    element.transform.position,
+                    element.gameObject.activeSelf,
+                    element.gameObject.GetComponent<AbstractCommand>().nextCommand,
+                    element.gameObject.GetComponent<AbstractCommand>().previousCommand
+                    );
+                state.commandSnapshots.Add(snapshot);
             }
         }
         return state;
+
     }
 
     public void LoadCommandState()
     {
-        SavedElement[] elementsToLoad = GameObject.FindObjectsOfType<SavedElement>();
-        List<Vector3> remainingCommandPositions = new List<Vector3>(commandPositions);
-        //List<bool> remainingCommandIsActives = new List<bool>(commandIsActives);
-        
-        foreach (SavedElement elementToLoad in elementsToLoad)
+        //SavedElement[] elementsToLoad = GameObject.FindObjectsOfType<SavedElement>();
+        List<CommandSnapshot> remainingSnapshots = new List<CommandSnapshot>(commandSnapshots);
+        foreach (CommandSnapshot snapshot in remainingSnapshots)
         {
-            if (elementToLoad.type == SavedElement.Type.Command)
+            if (snapshot.commandObject)
             {
-                elementToLoad.transform.position = remainingCommandPositions[0];
-                elementToLoad.GetComponent<Draggable>().isDragging = false;
-                remainingCommandPositions.RemoveAt(0);
-
-                //elementToLoad.gameObject.SetActive(remainingCommandIsActives[0]);
-                //remainingCommandIsActives.RemoveAt(0);
+                snapshot.commandObject.SetActive(snapshot.isActive);
+                snapshot.commandObject.transform.position = snapshot.position;
+                snapshot.commandObject.GetComponent<Draggable>().SetisDragging(false);
             }
         }
+
     }
 }
