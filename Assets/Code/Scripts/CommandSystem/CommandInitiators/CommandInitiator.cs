@@ -19,23 +19,26 @@ public class CommandInitiator : MonoBehaviour, IBeginDragHandler, IDragHandler
 
         if (isEnabled)
         {
-            GameObject commandObject = CommandInitiate(eventData);
-            CommandManager.Instance.AddCommand(commandObject);
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                GameObject commandObject = CommandInitiate(eventData);
+                CommandManager.Instance.AddCommand(commandObject);
+            }
         }
 
     }
 
     //public GameObject Initiate(GameObject commandObject)
     //{
-        
+
     //};
     public GameObject CommandInitiate(PointerEventData eventData)
     {
         GameObject commandObject = Instantiate(commandPrefab, eventData.position, Quaternion.identity);
-        
-        commandObject.GetComponent<Draggable>().isDraggable = true;
+        Draggable draggableComponent = commandObject.GetComponentInChildren<Draggable>();
+        draggableComponent.isDraggable = true;
         commandObject.transform.SetParent(gameObject.transform.parent.parent);
-        eventData.pointerDrag = commandObject;
+        eventData.pointerDrag = draggableComponent.gameObject;
         return commandObject;
     }
 

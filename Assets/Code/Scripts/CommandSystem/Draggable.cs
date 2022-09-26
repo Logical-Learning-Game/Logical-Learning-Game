@@ -6,28 +6,35 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 {
     [SerializeField]
     private float _dragSpeed = 0.09f;
+
+    [SerializeField]
     private RectTransform draggingObjectRectTransform;
+    private RectTransform draggableRectTransform;
+
     private Vector3 velocity = Vector3.zero;
 
     public bool isDraggable = true;
-    
+
     public bool isDragging = false;
 
     public Vector2 dragPosition;
-    
+
     private void Awake()
     {
-        draggingObjectRectTransform = transform as RectTransform;
+        draggingObjectRectTransform = transform.parent.transform as RectTransform;
         dragPosition = draggingObjectRectTransform.position;
+
+        draggableRectTransform = transform as RectTransform;
     }
     public void OnDrag(PointerEventData eventData)
     {
-        
-        if (isDraggable && RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingObjectRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
+        if (eventData.button == PointerEventData.InputButton.Left && isDraggable)
         {
-            isDragging = true;
-            dragPosition = globalMousePosition;
-           
+            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggableRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
+            {
+                isDragging = true;
+                dragPosition = globalMousePosition;
+            }
         }
     }
 
@@ -48,7 +55,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                 draggingObjectRectTransform.position = dragPosition;
                 isDragging = false;
             }
-        } 
+        }
 
     }
 
@@ -62,14 +69,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         //check if drop command outside command panel
 
         CommandManager.SaveCommandState();
-        Debug.Log("Saved");
     }
 
     public void SetisDraggable(bool isDraggable)
     {
         this.isDraggable = isDraggable;
     }
-    
+
     public void SetisDragging(bool isDragging)
     {
         this.isDragging = isDragging;

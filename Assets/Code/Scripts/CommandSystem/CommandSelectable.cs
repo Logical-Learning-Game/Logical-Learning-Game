@@ -13,7 +13,7 @@ public class CommandSelectable : MonoBehaviour
 
     private void Awake()
     {
-        selectingObjectRectTransform = transform as RectTransform;
+        selectingObjectRectTransform = transform.parent.transform as RectTransform;
         selectedBorder.SetActive(false);
     }
 

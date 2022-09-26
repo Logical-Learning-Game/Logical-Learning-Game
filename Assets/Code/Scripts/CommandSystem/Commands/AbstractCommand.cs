@@ -7,7 +7,7 @@ public abstract class AbstractCommand : MonoBehaviour
 {
 
     public AbstractCommand nextCommand = null;
-    public AbstractCommand previousCommand = null;
+    public List<AbstractCommand> previousCommand = new List<AbstractCommand>();
 
     private void Awake()
     {
@@ -25,7 +25,15 @@ public abstract class AbstractCommand : MonoBehaviour
     public void LinkTo(AbstractCommand nextCommand)
     {
         this.nextCommand = nextCommand;
-        nextCommand.previousCommand = this;
+        nextCommand.previousCommand.Add(this);
     }
 
+    public void Unlink()
+    {
+        if (nextCommand != null)
+        {
+            nextCommand.previousCommand.Remove(this);
+            nextCommand = null;
+        }
+    }
 }

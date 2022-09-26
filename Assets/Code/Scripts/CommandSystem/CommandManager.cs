@@ -6,18 +6,21 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
+
 public class CommandManager : MonoBehaviour
 {
     public static CommandManager Instance { get; private set; }
 
-
     public static List<CommandState> savedCommandStates;
 
-    //public List<GameObject> commandObjects;
     public List<GameObject> commands;
 
     public GameObject selectedCommand;
 
+    private int maxSteps = 10;
+    private int currentSteps = 0;
+    
+    
     // Start is called before the first frame update
 
     private void Awake()
@@ -34,7 +37,7 @@ public class CommandManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        GetComponent<GridLayoutGroup>().spacing = new Vector2(105f - 15f*GetCommandCount(), 0);
+        GetComponent<GridLayoutGroup>().spacing = new Vector2(105f - 15f * GetCommandCount(), 0);
     }
 
     // Update is called once per frame
@@ -63,27 +66,26 @@ public class CommandManager : MonoBehaviour
         }
 
         OnSelectCommand();
-        
-        
+
         //
     }
     public void AddCommand(GameObject command)
-    { 
+    {
         commands.Add(command);
     }
 
     public void OnSelectCommand()
     {
-        foreach(GameObject command in commands)
+        foreach (GameObject command in commands)
         {
             if (selectedCommand == command)
             {
-                command.GetComponent<CommandSelectable>().SetisSelected(true);
+                command.GetComponentInChildren<CommandSelectable>().SetisSelected(true);
                 //command.GetComponent<Draggable>().SetisDraggable(false);
             }
             else
             {
-                command.GetComponent<CommandSelectable>().SetisSelected(false);
+                command.GetComponentInChildren<CommandSelectable>().SetisSelected(false);
                 //command.GetComponent<Draggable>().SetisDraggable(true);
             }
         }
@@ -96,11 +98,20 @@ public class CommandManager : MonoBehaviour
 
     public static void SaveCommandState()
     {
-        //Debug.Log(savedCommandStates);
-        //Debug.Log(CommandState.GetCurrentState());
-        savedCommandStates.Add(CommandState.GetCurrentState());
-    }
+        CommandState state = CommandState.GetCurrentState();
+        
+        //Debug.Log(state.commandSnapshots);
+        //Debug.Log(savedCommandStates.LastOrDefault()?.commandSnapshots);
+        //Debug.Log("state:" + (savedCommandStates.LastOrDefault()?.commandSnapshots != state.commandSnapshots));
+        
+        if (!CommandState.IsSameWithLastState(state, savedCommandStates))
+        {
+            savedCommandStates.Add(state);
+            Debug.Log("Saved");
+        }
 
+    }
+    
     public static void UndoCommand()
     {
         if (savedCommandStates.Count > 1)
@@ -110,11 +121,6 @@ public class CommandManager : MonoBehaviour
         }
     }
 
-    //public void RemoveCommand(ICommand command)
-    //{
-    //    commands.Remove(command);
-    //    command.SetActive(false) ;
-    //}
     public void RemoveCommand(GameObject command)
     {
         //need more implementation
@@ -123,15 +129,31 @@ public class CommandManager : MonoBehaviour
     public void ExecuteCommands()
     {
         //need more implementation
-        GameObject startCommand = GameObject.FindGameObjectsWithTag("StarterCommand")[0] ;
+        GameObject startCommand = GameObject.FindGameObjectsWithTag("StarterCommand")[0];
         startCommand.GetComponent<AbstractCommand>().Execute();
     }
-
-   
 
     public void SetSelectedCommand(GameObject commandObject)
     {
         //Debug.Log("Setting" + commandObject.name + "to selected");
         selectedCommand = commandObject;
     }
+
+    public int RemainingStep()
+    {
+        currentSteps += 1;
+        return maxSteps - currentSteps;
+    }
+
+    private void ResetSteps()
+    {
+        currentSteps = 0;
+    }
+
+    public void SetMaxSteps(int step)
+    {
+        maxSteps = step;
+    }
+
+    
 }
