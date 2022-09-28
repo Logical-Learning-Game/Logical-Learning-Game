@@ -19,8 +19,10 @@ public class CommandManager : MonoBehaviour
 
     private int maxSteps = 10;
     private int currentSteps = 0;
-    
-    
+
+    private MaxCommand maxCommand;
+
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -30,6 +32,7 @@ public class CommandManager : MonoBehaviour
             Instance = this;
             commands = new List<GameObject>();
             savedCommandStates = new List<CommandState>();
+            maxCommand = new MaxCommand();
             SaveCommandState();
         }
         else
@@ -37,7 +40,6 @@ public class CommandManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        GetComponent<GridLayoutGroup>().spacing = new Vector2(105f - 15f * GetCommandCount(), 0);
     }
 
     // Update is called once per frame
@@ -55,16 +57,7 @@ public class CommandManager : MonoBehaviour
             ExecuteCommands();
         }
 
-        //test method(max command)
-        if (GameObject.FindGameObjectsWithTag("StarterCommand").Length > 0)
-        {
-            GameObject.Find("StartCommandInitiator").GetComponent<CommandInitiator>().setEnabled(false);
-        }
-        else
-        {
-            GameObject.Find("StartCommandInitiator").GetComponent<CommandInitiator>().setEnabled(true);
-        }
-
+        OnCheckRemainingCommand();
         OnSelectCommand();
 
         //
@@ -99,11 +92,11 @@ public class CommandManager : MonoBehaviour
     public static void SaveCommandState()
     {
         CommandState state = CommandState.GetCurrentState();
-        
+
         //Debug.Log(state.commandSnapshots);
         //Debug.Log(savedCommandStates.LastOrDefault()?.commandSnapshots);
         //Debug.Log("state:" + (savedCommandStates.LastOrDefault()?.commandSnapshots != state.commandSnapshots));
-        
+
         if (!CommandState.IsSameWithLastState(state, savedCommandStates))
         {
             savedCommandStates.Add(state);
@@ -111,7 +104,7 @@ public class CommandManager : MonoBehaviour
         }
 
     }
-    
+
     public static void UndoCommand()
     {
         if (savedCommandStates.Count > 1)
@@ -129,8 +122,17 @@ public class CommandManager : MonoBehaviour
     public void ExecuteCommands()
     {
         //need more implementation
-        GameObject startCommand = GameObject.FindGameObjectsWithTag("StarterCommand")[0];
-        startCommand.GetComponent<AbstractCommand>().Execute();
+        ResetSteps();
+        if (VerifyCommand())
+        {
+            GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
+            startCommand.GetComponent<AbstractCommand>().Execute();
+        }
+        else
+        {
+            Debug.Log("Invalid Command, Please Check");
+        }
+
     }
 
     public void SetSelectedCommand(GameObject commandObject)
@@ -139,10 +141,9 @@ public class CommandManager : MonoBehaviour
         selectedCommand = commandObject;
     }
 
-    public int RemainingStep()
+    public void StepUp()
     {
         currentSteps += 1;
-        return maxSteps - currentSteps;
     }
 
     private void ResetSteps()
@@ -150,10 +151,77 @@ public class CommandManager : MonoBehaviour
         currentSteps = 0;
     }
 
+    public int GetRemainingStep()
+    {
+        return maxSteps - currentSteps;
+    }
+
+    public bool VerifyCommand()
+    {
+        // need implementation
+        Debug.Log("Verifying");
+        
+        foreach (GameObject commandObj in commands)
+        {
+            commandObj.GetComponent<AbstractCommand>().UpdateLink("Disabled");
+        }
+
+        GameObject startCommandObj = GameObject.FindGameObjectWithTag("StartCommand");
+        AbstractCommand command = startCommandObj.GetComponent<AbstractCommand>();
+        HashSet<AbstractCommand> verifiedSet = new HashSet<AbstractCommand>();
+        while (command && !verifiedSet.Contains(command))
+        {
+            verifiedSet.Add(command);
+            command.UpdateLink("Default");
+            command = command.nextCommand;
+        }
+       
+        Debug.Log("Verifying Completed");
+        return true;
+    }
+
     public void SetMaxSteps(int step)
     {
+        // max step can be change in each level
         maxSteps = step;
     }
 
-    
+    public void OnExecute(AbstractCommand command)
+    {
+        // update linerenderer color when command is execute
+        
+
+        // check for limiting steps
+        StepUp();
+        if (GetRemainingStep() > 0)
+        {
+            if (command.nextCommand)
+            {
+                command.UpdateLink("Success");
+                command.nextCommand.Execute();
+            }
+            else
+            {
+                Debug.Log("All Commands Executed");
+            }
+        }
+        else
+        {
+            Debug.Log("Max Step Exceed");
+        }
+
+    }
+
+    public void OnCheckRemainingCommand()
+    {
+        // StartCommand
+        if (GameObject.FindGameObjectsWithTag("StartCommand").Length >= maxCommand.Start)
+        {
+            GameObject.Find("StartCommandInitiator").GetComponent<CommandInitiator>().setEnabled(false);
+        }
+        else
+        {
+            GameObject.Find("StartCommandInitiator").GetComponent<CommandInitiator>().setEnabled(true);
+        }
+    }
 }

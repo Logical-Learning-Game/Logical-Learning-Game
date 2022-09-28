@@ -9,7 +9,8 @@ public class ForwardCommand : AbstractCommand
     {
         //actionSequence.text += "Forward\n";
         ActionManager.Instance.AddSequenceText("Forward\n");
-        nextCommand?.Execute();
+        CommandManager.Instance.OnExecute(this);
+
     }
 
 }

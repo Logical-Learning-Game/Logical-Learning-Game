@@ -9,7 +9,8 @@ public class BackCommand : AbstractCommand
     {
         //actionSequence.text += "Back\n";
         ActionManager.Instance.AddSequenceText("Back\n");
-        nextCommand?.Execute();
+        CommandManager.Instance.OnExecute(this);
+
     }
 
   

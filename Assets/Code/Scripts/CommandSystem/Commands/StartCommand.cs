@@ -6,10 +6,11 @@ public class StartCommand : AbstractCommand
 {
     public override void Execute()
     {
-        //actionSequence.text += "\nStart!\n";
+        // Reset ActionManager
         ActionManager.Instance.ClearSequenceText();
         ActionManager.Instance.AddSequenceText("Start!\n");
-        nextCommand?.Execute();
+        CommandManager.Instance.OnExecute(this);
+ 
     }
 
 }

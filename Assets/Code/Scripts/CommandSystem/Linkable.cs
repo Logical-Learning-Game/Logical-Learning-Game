@@ -12,19 +12,27 @@ public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     [SerializeField]
     private GameObject lineDrawerObject;
-    
+
     [SerializeField]
     private bool isLinking = false;
     [SerializeField]
     private Vector2 linkPosition;
-    
+
+    private Dictionary<string, Color> LinkColor = new Dictionary<string, Color>() {
+        { "Default", Color.white },
+        { "Disabled", Color.grey },
+        { "Success", Color.green },
+        { "Error", Color.red },
+        { "Looping", Color.yellow }
+    };
+
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("begin drag");
+
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log("begin drag");
             isLinking = true;
+            gameObject.GetComponentInParent<AbstractCommand>().Unlink();
             linkPosition = eventData.position;
         }
     }
@@ -39,21 +47,26 @@ public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         Debug.Log("end drag");
         isLinking = false;
+        Debug.Log(eventData.pointerEnter.name);
         //if pointer is over a linkable object
         if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Linkable>() != null)
         {
             //if the object is not the same as this object
             if (eventData.pointerEnter != gameObject)
             {
-                Debug.Log(eventData.pointerEnter.name);
+                //Debug.Log(eventData.pointerEnter.name);
                 //if the object is not already linked to this object
                 if (!eventData.pointerEnter.GetComponentInParent<AbstractCommand>().previousCommand.Contains(gameObject.GetComponentInParent<AbstractCommand>()))
                 {
                     //link the two objects
+                    gameObject.GetComponentInParent<AbstractCommand>().Unlink();
                     gameObject.GetComponentInParent<AbstractCommand>().LinkTo(eventData.pointerEnter.GetComponentInParent<AbstractCommand>());
+                    
                 }
             }
         }
+        CommandManager.SaveCommandState();
+        CommandManager.Instance.VerifyCommand();
     }
 
     // Start is called before the first frame update
@@ -70,24 +83,25 @@ public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
             lineDrawerObject.transform.SetParent(GameObject.Find("LineDrawers").transform);
         }
-        
+
         //gameObject.SetActive(false);
     }
- 
+
 
     // Update is called once per frame
     void LateUpdate()
     {
-        UpdateLinePosition();
+        UpdateLine();
         lineDrawerObject.transform.position = gameObject.transform.position;
         lineDrawerObject.GetComponent<UILineRenderer>().SetVerticesDirty();
     }
 
-    void UpdateLinePosition()
+    void UpdateLine()
     {
         if (isLinking)
         {
             lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = linkPosition - (Vector2)gameObject.transform.position;
+            SetLinkColor("Default");
         }
         else if (gameObject.GetComponentInParent<AbstractCommand>().nextCommand)
         {
@@ -97,5 +111,10 @@ public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         {
             lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = Vector2.zero;
         }
+    }
+
+    public void SetLinkColor(string color)
+    {
+        lineDrawerObject.GetComponent<UILineRenderer>().color = LinkColor[color];
     }
 }

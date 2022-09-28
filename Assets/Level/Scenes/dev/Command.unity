@@ -368,7 +368,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1616651855}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1610,6 +1610,7 @@ GameObject:
   - component: {fileID: 1616651855}
   - component: {fileID: 1616651856}
   - component: {fileID: 1616651857}
+  - component: {fileID: 1616651858}
   m_Layer: 5
   m_Name: Commands
   m_TagString: Untagged
@@ -1629,8 +1630,8 @@ RectTransform:
   m_LocalScale: {x: 2, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 301811738}
   - {fileID: 1837642227}
+  - {fileID: 301811738}
   m_Father: {fileID: 790422121}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1673,6 +1674,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616651854}
   m_CullTransparentMesh: 1
+--- !u!114 &1616651858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616651854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13394d5a6283eb64abba58dc6b56678a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commands: []
+  selectedCommand: {fileID: 0}
 --- !u!1 &1753511503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,10 +1800,9 @@ GameObject:
   - component: {fileID: 1837642227}
   - component: {fileID: 1837642231}
   - component: {fileID: 1837642230}
-  - component: {fileID: 1837642229}
   - component: {fileID: 1837642228}
   m_Layer: 5
-  m_Name: CommandManager
+  m_Name: CommandBar
   m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1812,7 +1826,7 @@ RectTransform:
   - {fileID: 1499716084}
   - {fileID: 897729190}
   m_Father: {fileID: 1616651855}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1843,20 +1857,6 @@ MonoBehaviour:
   m_Spacing: {x: 30, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &1837642229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837642226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13394d5a6283eb64abba58dc6b56678a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  commands: []
-  selectedCommand: {fileID: 0}
 --- !u!114 &1837642230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2319,7 +2319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
