@@ -172,4 +172,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be00c36281540264981798967f0b5cf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkedCommand: {fileID: 0}
+  nextCommand: {fileID: 0}
+  previousCommand: []

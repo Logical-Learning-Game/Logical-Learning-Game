@@ -9,8 +9,9 @@ public class StartCommand : AbstractCommand
         // Reset ActionManager
         ActionManager.Instance.ClearSequenceText();
         ActionManager.Instance.AddSequenceText("Start!\n");
+        UpdateLink("Success");
         CommandManager.Instance.OnExecute(this);
- 
+        
     }
 
 }

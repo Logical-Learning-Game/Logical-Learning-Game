@@ -167,13 +167,18 @@ public class CommandManager : MonoBehaviour
         }
 
         GameObject startCommandObj = GameObject.FindGameObjectWithTag("StartCommand");
+        if (startCommandObj == null)
+        {
+            return false;
+        }
+        
         AbstractCommand command = startCommandObj.GetComponent<AbstractCommand>();
         HashSet<AbstractCommand> verifiedSet = new HashSet<AbstractCommand>();
         while (command && !verifiedSet.Contains(command))
         {
             verifiedSet.Add(command);
             command.UpdateLink("Default");
-            command = command.nextCommand;
+            command = command.GetNextCommand();
         }
        
         Debug.Log("Verifying Completed");
@@ -197,7 +202,6 @@ public class CommandManager : MonoBehaviour
         {
             if (command.nextCommand)
             {
-                command.UpdateLink("Success");
                 command.nextCommand.Execute();
             }
             else
@@ -215,6 +219,7 @@ public class CommandManager : MonoBehaviour
     public void OnCheckRemainingCommand()
     {
         // StartCommand
+
         if (GameObject.FindGameObjectsWithTag("StartCommand").Length >= maxCommand.Start)
         {
             GameObject.Find("StartCommandInitiator").GetComponent<CommandInitiator>().setEnabled(false);

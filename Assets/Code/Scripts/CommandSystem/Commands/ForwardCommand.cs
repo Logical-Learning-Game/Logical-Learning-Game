@@ -9,8 +9,9 @@ public class ForwardCommand : AbstractCommand
     {
         //actionSequence.text += "Forward\n";
         ActionManager.Instance.AddSequenceText("Forward\n");
+        UpdateLink("Success");
         CommandManager.Instance.OnExecute(this);
-
+        
     }
 
 }

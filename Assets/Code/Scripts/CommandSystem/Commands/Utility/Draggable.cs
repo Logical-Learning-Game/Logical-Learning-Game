@@ -28,6 +28,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     }
     public void OnDrag(PointerEventData eventData)
     {
+
         if (eventData.button == PointerEventData.InputButton.Left && isDraggable)
         {
             if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggableRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
@@ -67,6 +68,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     public void OnEndDrag(PointerEventData eventData)
     {
         //check if drop command outside command panel
+        Debug.Log(eventData.pointerEnter.name);
 
         CommandManager.SaveCommandState();
     }

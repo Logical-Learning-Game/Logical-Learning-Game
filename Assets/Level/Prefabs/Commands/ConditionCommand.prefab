@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6436603494726945099
+--- !u!1001 &1983826376251173273
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,22 +10,27 @@ PrefabInstance:
     - target: {fileID: 453976724882877230, guid: c92514866af3716438c8f9fca985f38f,
         type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.8584906
       objectReference: {fileID: 0}
     - target: {fileID: 453976724882877230, guid: c92514866af3716438c8f9fca985f38f,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.83137256
+      value: 0.44868279
       objectReference: {fileID: 0}
     - target: {fileID: 453976724882877230, guid: c92514866af3716438c8f9fca985f38f,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.21176471
+      value: 0.80411613
       objectReference: {fileID: 0}
     - target: {fileID: 453976726206186422, guid: c92514866af3716438c8f9fca985f38f,
         type: 3}
       propertyPath: m_Name
-      value: ForwardCommand
+      value: ConditionCommand
+      objectReference: {fileID: 0}
+    - target: {fileID: 453976726206186422, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_TagString
+      value: ConditionCommand
       objectReference: {fileID: 0}
     - target: {fileID: 453976726206186423, guid: c92514866af3716438c8f9fca985f38f,
         type: 3}
@@ -132,30 +137,43 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 453976726654437816, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4b255fc2095ed094891e5aabd78daeaf,
+        type: 3}
     - target: {fileID: 453976726654437819, guid: c92514866af3716438c8f9fca985f38f,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.75
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 453976726654437819, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c92514866af3716438c8f9fca985f38f, type: 3}
---- !u!1 &6854392509148973821 stripped
+--- !u!1 &2146861295583947311 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 453976726206186422, guid: c92514866af3716438c8f9fca985f38f,
     type: 3}
-  m_PrefabInstance: {fileID: 6436603494726945099}
+  m_PrefabInstance: {fileID: 1983826376251173273}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5497614910992654843
+--- !u!114 &-6142963024130723025
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6854392509148973821}
+  m_GameObject: {fileID: 2146861295583947311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b29294f300256040ae821f238e847b2, type: 3}
+  m_Script: {fileID: 11500000, guid: f04caa91cae854f42942a6335b0159d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nextCommand: {fileID: 0}
   previousCommand: []
+  nextCommandIfTrue: {fileID: 0}
+  nextCommandIfFalse: {fileID: 0}

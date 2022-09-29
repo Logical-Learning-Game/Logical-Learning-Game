@@ -10,6 +10,7 @@ public class LeftForwardCommand : AbstractCommand
     {
         //actionSequence.text += "LeftForward\n";
         ActionManager.Instance.AddSequenceText("LeftForward\n");
+        UpdateLink("Success");
         CommandManager.Instance.OnExecute(this);
         
     }

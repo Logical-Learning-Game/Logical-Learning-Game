@@ -9,13 +9,6 @@ public abstract class AbstractCommand : MonoBehaviour
     public AbstractCommand nextCommand = null;
     public List<AbstractCommand> previousCommand = new List<AbstractCommand>();
 
-    private Dictionary<string, Color> LinkColor = new Dictionary<string, Color>() {
-        { "Default", Color.white },
-        { "Disabled", Color.grey },
-        { "Success", Color.green },
-        { "Error", Color.red },
-        { "Looping", Color.yellow }
-    };
 
     private void Awake()
     {
@@ -28,9 +21,17 @@ public abstract class AbstractCommand : MonoBehaviour
     }
 
     //public abstract void Execute();
-    public abstract void Execute();
+    public virtual void Execute()
+    {
+           
+    }
 
-    public void LinkTo(AbstractCommand nextCommand)
+    public virtual AbstractCommand GetNextCommand()
+    {
+        return nextCommand;
+    }
+
+    public virtual void LinkTo(AbstractCommand nextCommand)
     {
         if (nextCommand.GetType() != typeof(StartCommand))
         {
@@ -44,7 +45,7 @@ public abstract class AbstractCommand : MonoBehaviour
  
     }
 
-    public void Unlink()
+    public virtual void Unlink()
     {
         if (nextCommand != null)
         {
@@ -53,12 +54,12 @@ public abstract class AbstractCommand : MonoBehaviour
         }
     }
 
-    public void UpdateLink(string color)
+    public virtual void UpdateLink(string color)
     {
         gameObject.GetComponentInChildren<Linkable>().SetLinkColor(color);
     }
 
-    public void SoftRemove()
+    public virtual void SoftRemove()
     {
         if (nextCommand != null)
         {

@@ -10,8 +10,9 @@ public class RightForwardCommand : AbstractCommand
     {
         //actionSequence.text += "RightForward\n";
         ActionManager.Instance.AddSequenceText("RightForward\n");
+        UpdateLink("Success");
         CommandManager.Instance.OnExecute(this);
-
+        
     }
 
 

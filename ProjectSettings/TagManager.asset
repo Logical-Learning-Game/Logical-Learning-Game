@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - StarterCommand
   - MoveCommand
   - CommandInitiator
+  - StartCommand
+  - ConditionCommand
   layers:
   - Default
   - TransparentFX
@@ -43,10 +44,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: UILineRenderer
-    uniqueID: 1431397341
-    locked: 0
-  - name: UIItem
-    uniqueID: 1466619531
     locked: 0

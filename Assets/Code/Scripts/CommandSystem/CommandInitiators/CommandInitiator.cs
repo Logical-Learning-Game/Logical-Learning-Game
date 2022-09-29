@@ -37,7 +37,7 @@ public class CommandInitiator : MonoBehaviour, IBeginDragHandler, IDragHandler
         GameObject commandObject = Instantiate(commandPrefab, eventData.position, Quaternion.identity);
         Draggable draggableComponent = commandObject.GetComponentInChildren<Draggable>();
         draggableComponent.isDraggable = true;
-        commandObject.transform.SetParent(gameObject.transform.parent.parent);
+        commandObject.transform.SetParent(GameObject.Find("CommandBoard").transform);
         eventData.pointerDrag = draggableComponent.gameObject;
         return commandObject;
     }

@@ -8,17 +8,17 @@ using UnityEngine.UI.Extensions;
 public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField]
-    private GameObject lineDrawerPrefab;
+    protected GameObject lineDrawerPrefab;
 
     [SerializeField]
-    private GameObject lineDrawerObject;
+    protected GameObject lineDrawerObject;
 
     [SerializeField]
-    private bool isLinking = false;
+    protected bool isLinking = false;
     [SerializeField]
-    private Vector2 linkPosition;
+    protected Vector2 linkPosition;
 
-    private Dictionary<string, Color> LinkColor = new Dictionary<string, Color>() {
+    protected Dictionary<string, Color> LinkColor = new Dictionary<string, Color>() {
         { "Default", Color.white },
         { "Disabled", Color.grey },
         { "Success", Color.green },
@@ -26,7 +26,7 @@ public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         { "Looping", Color.yellow }
     };
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public virtual void OnBeginDrag(PointerEventData eventData)
     {
 
         if (eventData.button == PointerEventData.InputButton.Right)
@@ -37,17 +37,15 @@ public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         }
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public virtual void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("on drag");
         linkPosition = eventData.position;
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public virtual void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("end drag");
+
         isLinking = false;
-        Debug.Log(eventData.pointerEnter.name);
         //if pointer is over a linkable object
         if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Linkable>() != null)
         {
@@ -70,7 +68,7 @@ public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
 
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
         if (!lineDrawerObject)
         {
@@ -89,23 +87,23 @@ public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
 
     // Update is called once per frame
-    void LateUpdate()
+    protected void LateUpdate()
     {
         UpdateLine();
         lineDrawerObject.transform.position = gameObject.transform.position;
         lineDrawerObject.GetComponent<UILineRenderer>().SetVerticesDirty();
     }
 
-    void UpdateLine()
+    protected virtual void UpdateLine()
     {
         if (isLinking)
         {
             lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = linkPosition - (Vector2)gameObject.transform.position;
             SetLinkColor("Default");
         }
-        else if (gameObject.GetComponentInParent<AbstractCommand>().nextCommand)
+        else if (gameObject.GetComponentInParent<AbstractCommand>().GetNextCommand())
         {
-            lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = gameObject.GetComponentInParent<AbstractCommand>().nextCommand.transform.position - gameObject.transform.position;
+            lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = gameObject.GetComponentInParent<AbstractCommand>().GetNextCommand().transform.position - gameObject.transform.position;
         }
         else
         {
