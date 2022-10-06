@@ -1,43 +1,45 @@
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CommandSelectable : MonoBehaviour
+namespace Unity.Game.Command
 {
-    
-    private RectTransform selectingObjectRectTransform;
-    [SerializeField]
-    private GameObject selectedBorder;
-    [SerializeField]
-    private bool isSelected = false;
-
-    private void Awake()
+    public class CommandSelectable : MonoBehaviour
     {
-        selectingObjectRectTransform = transform.parent.transform as RectTransform;
-        selectedBorder.SetActive(false);
-    }
 
+        private RectTransform selectingObjectRectTransform;
+        [SerializeField]
+        private GameObject selectedBorder;
+        [SerializeField]
+        private bool isSelected = false;
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        //check onclick
-        if (Input.GetMouseButtonDown(0))
+        private void Awake()
         {
-            if (RectTransformUtility.RectangleContainsScreenPoint(selectingObjectRectTransform, Input.mousePosition))
-            {
-                CommandManager.Instance.SetSelectedCommand(selectingObjectRectTransform.gameObject);
-            }
+            selectingObjectRectTransform = transform.parent.transform as RectTransform;
+            selectedBorder.SetActive(false);
         }
 
-        selectedBorder.SetActive(isSelected);
+
+
+        // Update is called once per frame
+        void Update()
+        {
+            //check onclick
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (RectTransformUtility.RectangleContainsScreenPoint(selectingObjectRectTransform, Input.mousePosition))
+                {
+                    CommandManager.Instance.SetSelectedCommand(selectingObjectRectTransform.gameObject);
+                }
+            }
+
+            selectedBorder.SetActive(isSelected);
+
+        }
+
+        public void SetisSelected(bool isSelected)
+        {
+            this.isSelected = isSelected;
+        }
 
     }
-
-    public void SetisSelected(bool isSelected)
-    {
-        this.isSelected = isSelected;
-    }
-
 }

@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.Game.Action;
-
-
-public class StartCommand : AbstractCommand
+namespace Unity.Game.Command
 {
-    public override IEnumerator Execute()
-    {
-        // Reset ActionManager
-        ActionManager.Instance.ClearAction();
-        yield return base.Execute();
-        
-    }
 
-    public override void AddAction()
+    public class StartCommand : AbstractCommand
     {
-        ActionManager.Instance.AddAction(new Action.StartAction());
+        public override IEnumerator Execute()
+        {
+            // Reset ActionManager
+            ActionManager.Instance.ClearAction();
+            yield return base.Execute();
+
+        }
+
+        public override void AddAction()
+        {
+            ActionManager.Instance.AddAction(new Action.StartAction());
+        }
     }
 }

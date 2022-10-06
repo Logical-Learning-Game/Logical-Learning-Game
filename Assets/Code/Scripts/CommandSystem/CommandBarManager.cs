@@ -6,25 +6,27 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-
-public class CommandBarManager : MonoBehaviour
+namespace Unity.Game.Command
 {
-    public static CommandBarManager Instance { get; private set; }
-    
-    private HorizontalLayoutGroup layoutGroup;
-    private float spacing;
-    private void Awake()
+    public class CommandBarManager : MonoBehaviour
     {
-        layoutGroup = GetComponent<HorizontalLayoutGroup>();
-    }
+        public static CommandBarManager Instance { get; private set; }
 
-    private float CalculateSpacing()
-    {
-        return 4f;
-    }
+        private HorizontalLayoutGroup layoutGroup;
+        private float spacing;
+        private void Awake()
+        {
+            layoutGroup = GetComponent<HorizontalLayoutGroup>();
+        }
 
-    private void Update()
-    {
-        layoutGroup.spacing = CalculateSpacing();
+        private float CalculateSpacing()
+        {
+            return 4f;
+        }
+
+        private void Update()
+        {
+            layoutGroup.spacing = CalculateSpacing();
+        }
     }
 }

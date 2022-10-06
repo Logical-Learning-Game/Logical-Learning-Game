@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class CommandDropzone : MonoBehaviour, IDropHandler
+namespace Unity.Game.Command
 {
-    public void OnDrop(PointerEventData data)
+    public class CommandDropzone : MonoBehaviour, IDropHandler
     {
-        if (data.pointerDrag != null)
+        public void OnDrop(PointerEventData data)
         {
-            Debug.Log("Dropped object was: " + data.pointerDrag);
+            if (data.pointerDrag != null)
+            {
+                Debug.Log("Dropped object was: " + data.pointerDrag);
+            }
         }
     }
 }

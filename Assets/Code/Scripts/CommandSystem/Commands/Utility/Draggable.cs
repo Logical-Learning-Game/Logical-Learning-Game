@@ -2,93 +2,96 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+namespace Unity.Game.Command
 {
-    [SerializeField]
-    private float _dragSpeed = 0.09f;
-
-    [SerializeField]
-    private RectTransform draggingObjectRectTransform;
-    private RectTransform draggableRectTransform;
-
-    private Vector3 velocity = Vector3.zero;
-
-    public bool isDraggable = true;
-
-    public bool isDragging = false;
-
-    public Vector2 dragPosition;
-
-    private void Awake()
+    public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
-        draggingObjectRectTransform = transform.parent.transform as RectTransform;
-        dragPosition = draggingObjectRectTransform.position;
+        [SerializeField]
+        private float _dragSpeed = 0.09f;
 
-        draggableRectTransform = transform as RectTransform;
-    }
-    public void OnDrag(PointerEventData eventData)
-    {
+        [SerializeField]
+        private RectTransform draggingObjectRectTransform;
+        private RectTransform draggableRectTransform;
 
-        if (eventData.button == PointerEventData.InputButton.Left && isDraggable)
+        private Vector3 velocity = Vector3.zero;
+
+        public bool isDraggable = true;
+
+        public bool isDragging = false;
+
+        public Vector2 dragPosition;
+
+        private void Awake()
         {
-            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggableRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
+            draggingObjectRectTransform = transform.parent.transform as RectTransform;
+            dragPosition = draggingObjectRectTransform.position;
+
+            draggableRectTransform = transform as RectTransform;
+        }
+        public void OnDrag(PointerEventData eventData)
+        {
+
+            if (eventData.button == PointerEventData.InputButton.Left && isDraggable)
             {
-                isDragging = true;
-                dragPosition = globalMousePosition;
+                if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggableRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
+                {
+                    isDragging = true;
+                    dragPosition = globalMousePosition;
+                }
             }
         }
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (isDragging)
+        // Start is called before the first frame update
+        void Start()
         {
-            draggingObjectRectTransform.position = Vector3.SmoothDamp(draggingObjectRectTransform.position, dragPosition, ref velocity, _dragSpeed);
-            if (Vector3.Distance(draggingObjectRectTransform.position, dragPosition) < 0.5f)
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (isDragging)
             {
-                draggingObjectRectTransform.position = dragPosition;
+                draggingObjectRectTransform.position = Vector3.SmoothDamp(draggingObjectRectTransform.position, dragPosition, ref velocity, _dragSpeed);
+                if (Vector3.Distance(draggingObjectRectTransform.position, dragPosition) < 0.5f)
+                {
+                    draggingObjectRectTransform.position = dragPosition;
+                    SetisDraggable(false);
+                }
+            }
+
+            if (CommandManager.Instance.isExecuting)
+            {
                 SetisDraggable(false);
             }
+            else
+            {
+                SetisDraggable(true);
+            }
         }
 
-        if (CommandManager.Instance.isExecuting)
+
+        public void OnBeginDrag(PointerEventData eventData)
         {
-            SetisDraggable(false);
+            //
         }
-        else
+
+        public void OnEndDrag(PointerEventData eventData)
         {
-            SetisDraggable(true);
+            //check if drop command outside command panel
+            Debug.Log(eventData.pointerEnter.name);
+
+            CommandManager.SaveCommandState();
         }
-    }
 
+        public void SetisDraggable(bool isDraggable)
+        {
+            this.isDraggable = isDraggable;
+        }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        //
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        //check if drop command outside command panel
-        Debug.Log(eventData.pointerEnter.name);
-
-        CommandManager.SaveCommandState();
-    }
-
-    public void SetisDraggable(bool isDraggable)
-    {
-        this.isDraggable = isDraggable;
-    }
-
-    public void SetisDragging(bool isDragging)
-    {
-        this.isDragging = isDragging;
+        public void SetisDragging(bool isDragging)
+        {
+            this.isDragging = isDragging;
+        }
     }
 }

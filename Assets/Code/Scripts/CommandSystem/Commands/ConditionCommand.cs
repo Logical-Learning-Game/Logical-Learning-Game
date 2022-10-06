@@ -3,106 +3,110 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.Game.Action;
-public class ConditionCommand : AbstractCommand
+
+namespace Unity.Game.Command
 {
-    // default nextCommand is false case;
-    public AbstractCommand nextCommandIfTrue;
-    public AbstractCommand nextCommandIfFalse;
-    public Condition commandCondition = new Condition();
-    //public override void Execute()
-    //{
-
-    //    ActionManager.Instance.AddSequenceText("Condition: ");
-    //    if (commandCondition.GetResult())
-    //    {
-    //        ActionManager.Instance.AddSequenceText("True\n");
-    //        nextCommand = nextCommandIfTrue;
-    //    }
-    //    else
-    //    {
-    //        ActionManager.Instance.AddSequenceText("False\n");
-    //        nextCommand = nextCommandIfFalse;
-    //    }
-    //    CommandManager.Instance.OnExecute(this);
-
-    //}
-    public override void AddAction()
+    public class ConditionCommand : AbstractCommand
     {
-        ActionManager.Instance.AddAction(new Action.ConditionAction());
-    }
+        // default nextCommand is false case;
+        public AbstractCommand nextCommandIfTrue;
+        public AbstractCommand nextCommandIfFalse;
+        public Condition commandCondition = new Condition();
+        //public override void Execute()
+        //{
 
-    public override void LinkTo(AbstractCommand nextCommand)
-    {
-        //override LinkTo to LinkToFalseCommand
-        if (nextCommand.GetType() != typeof(StartCommand))
+        //    ActionManager.Instance.AddSequenceText("Condition: ");
+        //    if (commandCondition.GetResult())
+        //    {
+        //        ActionManager.Instance.AddSequenceText("True\n");
+        //        nextCommand = nextCommandIfTrue;
+        //    }
+        //    else
+        //    {
+        //        ActionManager.Instance.AddSequenceText("False\n");
+        //        nextCommand = nextCommandIfFalse;
+        //    }
+        //    CommandManager.Instance.OnExecute(this);
+
+        //}
+        public override void AddAction()
         {
-            nextCommandIfFalse = nextCommand;
-            nextCommand.previousCommand.Add(this);
-        }
-        else
-        {
-            Debug.Log("Cannot Link to Start Command");
+            ActionManager.Instance.AddAction(new Action.ConditionAction());
         }
 
-    }
-
-    public override void Unlink()
-    {
-        if (nextCommandIfFalse != null)
+        public override void LinkTo(AbstractCommand nextCommand)
         {
-            nextCommandIfFalse.previousCommand.Remove(this);
-            nextCommandIfFalse = null;
+            //override LinkTo to LinkToFalseCommand
+            if (nextCommand.GetType() != typeof(StartCommand))
+            {
+                nextCommandIfFalse = nextCommand;
+                nextCommand.previousCommand.Add(this);
+            }
+            else
+            {
+                Debug.Log("Cannot Link to Start Command");
+            }
+
         }
-    }
 
-    public override void UpdateLink(string color)
-    {
-        gameObject.GetComponentInChildren<Linkable>().SetLinkColor(color);
-        // implement another linkable for true case
-
-    }
-
-    public override void SoftRemove()
-    {
-        if (nextCommandIfFalse != null)
+        public override void Unlink()
         {
-            nextCommandIfFalse.previousCommand.Remove(this);
+            if (nextCommandIfFalse != null)
+            {
+                nextCommandIfFalse.previousCommand.Remove(this);
+                nextCommandIfFalse = null;
+            }
         }
-        foreach (AbstractCommand command in previousCommand)
+
+        public override void UpdateLink(string color)
         {
-            command.nextCommand = null;
-        }
-        previousCommand.Clear();
-        gameObject.SetActive(false);
-    }
+            gameObject.GetComponentInChildren<Linkable>().SetLinkColor(color);
+            // implement another linkable for true case
 
-    public void LinkToTrue(AbstractCommand nextCommand)
-    {
-        if (nextCommand.GetType() != typeof(StartCommand))
+        }
+
+        public override void SoftRemove()
         {
-            nextCommandIfTrue = nextCommand;
-            nextCommand.previousCommand.Add(this);
+            if (nextCommandIfFalse != null)
+            {
+                nextCommandIfFalse.previousCommand.Remove(this);
+            }
+            foreach (AbstractCommand command in previousCommand)
+            {
+                command.nextCommand = null;
+            }
+            previousCommand.Clear();
+            gameObject.SetActive(false);
         }
-        else
+
+        public void LinkToTrue(AbstractCommand nextCommand)
         {
-            Debug.Log("Cannot Link to Start Command");
+            if (nextCommand.GetType() != typeof(StartCommand))
+            {
+                nextCommandIfTrue = nextCommand;
+                nextCommand.previousCommand.Add(this);
+            }
+            else
+            {
+                Debug.Log("Cannot Link to Start Command");
+            }
         }
-    }
 
-    public void UnlinkTrue()
-    {
-        if (nextCommandIfTrue != null)
+        public void UnlinkTrue()
         {
-            nextCommandIfTrue.previousCommand.Remove(this);
-            nextCommandIfTrue = null;
+            if (nextCommandIfTrue != null)
+            {
+                nextCommandIfTrue.previousCommand.Remove(this);
+                nextCommandIfTrue = null;
+            }
         }
+
+        public void UpdateLinkTrue(string color)
+        {
+            gameObject.GetComponentInChildren<ConditionLinkable>().SetLinkColor(color);
+            // implement another linkable for true case
+
+        }
+
     }
-
-    public void UpdateLinkTrue(string color)
-    {
-        gameObject.GetComponentInChildren<ConditionLinkable>().SetLinkColor(color);
-        // implement another linkable for true case
-
-    }
-
 }
