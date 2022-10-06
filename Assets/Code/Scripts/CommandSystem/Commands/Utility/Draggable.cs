@@ -54,11 +54,20 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             if (Vector3.Distance(draggingObjectRectTransform.position, dragPosition) < 0.5f)
             {
                 draggingObjectRectTransform.position = dragPosition;
-                isDragging = false;
+                SetisDraggable(false);
             }
         }
 
+        if (CommandManager.Instance.isExecuting)
+        {
+            SetisDraggable(false);
+        }
+        else
+        {
+            SetisDraggable(true);
+        }
     }
+
 
     public void OnBeginDrag(PointerEventData eventData)
     {

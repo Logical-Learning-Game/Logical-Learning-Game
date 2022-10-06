@@ -2,18 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class RightForwardCommand : AbstractCommand
+using Unity.Game.Action;
+
+public class RightForwardCommand : BaseMoveCommand
 {
-   
 
-    public override void Execute()
+
+    //public override void Execute()
+    //{
+    //    //actionSequence.text += "RightForward\n";
+    //    ActionManager.Instance.AddSequenceText("RightForward\n");
+    //    UpdateLink("Success");
+    //    CommandManager.Instance.OnExecute(this);
+
+    //}
+
+    public override void AddAction()
     {
-        //actionSequence.text += "RightForward\n";
-        ActionManager.Instance.AddSequenceText("RightForward\n");
-        UpdateLink("Success");
-        CommandManager.Instance.OnExecute(this);
-        
+        ActionManager.Instance.AddAction(new Action.RightForwardAction());
     }
-
-
 }

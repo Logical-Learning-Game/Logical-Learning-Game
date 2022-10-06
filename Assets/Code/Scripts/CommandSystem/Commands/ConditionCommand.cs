@@ -2,28 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Game.Action;
 public class ConditionCommand : AbstractCommand
 {
     // default nextCommand is false case;
     public AbstractCommand nextCommandIfTrue;
     public AbstractCommand nextCommandIfFalse;
     public Condition commandCondition = new Condition();
-    public override void Execute()
+    //public override void Execute()
+    //{
+
+    //    ActionManager.Instance.AddSequenceText("Condition: ");
+    //    if (commandCondition.GetResult())
+    //    {
+    //        ActionManager.Instance.AddSequenceText("True\n");
+    //        nextCommand = nextCommandIfTrue;
+    //    }
+    //    else
+    //    {
+    //        ActionManager.Instance.AddSequenceText("False\n");
+    //        nextCommand = nextCommandIfFalse;
+    //    }
+    //    CommandManager.Instance.OnExecute(this);
+
+    //}
+    public override void AddAction()
     {
-
-        ActionManager.Instance.AddSequenceText("Condition: ");
-        if (commandCondition.GetResult())
-        {
-            ActionManager.Instance.AddSequenceText("True\n");
-            nextCommand = nextCommandIfTrue;
-        }
-        else
-        {
-            ActionManager.Instance.AddSequenceText("False\n");
-            nextCommand = nextCommandIfFalse;
-        }
-        CommandManager.Instance.OnExecute(this);
-
+        ActionManager.Instance.AddAction(new Action.ConditionAction());
     }
 
     public override void LinkTo(AbstractCommand nextCommand)

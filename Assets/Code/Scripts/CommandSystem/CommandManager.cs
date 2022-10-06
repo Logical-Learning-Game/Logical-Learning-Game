@@ -22,6 +22,7 @@ public class CommandManager : MonoBehaviour
 
     private MaxCommand maxCommand;
 
+    public bool isExecuting = false;
 
     // Start is called before the first frame update
 
@@ -84,10 +85,6 @@ public class CommandManager : MonoBehaviour
         }
 
     }
-    private int GetCommandCount()
-    {
-        return GameObject.FindGameObjectsWithTag("CommandInitiator").Length;
-    }
 
     public static void SaveCommandState()
     {
@@ -122,11 +119,13 @@ public class CommandManager : MonoBehaviour
     public void ExecuteCommands()
     {
         //need more implementation
-        ResetSteps();
+        
         if (VerifyCommand())
         {
+            ResetSteps();
+            isExecuting = true;
             GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
-            startCommand.GetComponent<AbstractCommand>().Execute();
+            startCommand.GetComponent<AbstractCommand>().StartExecute();
         }
         else
         {
@@ -202,7 +201,7 @@ public class CommandManager : MonoBehaviour
         {
             if (command.nextCommand)
             {
-                command.nextCommand.Execute();
+                command.nextCommand.StartExecute();
             }
             else
             {

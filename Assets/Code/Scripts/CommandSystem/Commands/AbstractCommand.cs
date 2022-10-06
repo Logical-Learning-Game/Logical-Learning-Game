@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using Unity.Game.Action;
+
 public abstract class AbstractCommand : MonoBehaviour
 {
-
+    
     public AbstractCommand nextCommand = null;
     public List<AbstractCommand> previousCommand = new List<AbstractCommand>();
-
 
     private void Awake()
     {
@@ -21,9 +22,22 @@ public abstract class AbstractCommand : MonoBehaviour
     }
 
     //public abstract void Execute();
-    public virtual void Execute()
+    public virtual IEnumerator Execute()
     {
-           
+        Debug.Log("Command Executing");
+        UpdateLink("Executing");
+        AddAction();
+        yield return new WaitForSeconds(1);
+        Debug.Log("Executing Complete");
+        UpdateLink("Success");
+        CommandManager.Instance.OnExecute(this);
+    }
+
+    public abstract void AddAction();
+
+    public void StartExecute ()
+    {
+        StartCoroutine(Execute());
     }
 
     public virtual AbstractCommand GetNextCommand()

@@ -3,39 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ActionManager : MonoBehaviour
+namespace Unity.Game.Action
 {
-    // Start is called before the first frame update
-    public static ActionManager Instance { get; private set; }
-    private TMP_Text actionSequence;
-
-    void Awake()
+    public class ActionManager : MonoBehaviour
     {
-        if (Instance == null)
+        // Start is called before the first frame update
+        public static ActionManager Instance { get; private set; }
+        private TMP_Text actionSequence;
+        public List<Action> actionList;
+
+        void Awake()
         {
-            Debug.Log("actionManager Initialized");
-            Instance = this;
-            actionSequence = GameObject.Find("ActionSequence").GetComponent<TMP_Text>();
+            if (Instance == null)
+            {
+                Debug.Log("actionManager Initialized");
+                Instance = this;
+                actionSequence = GameObject.Find("ActionSequence").GetComponent<TMP_Text>();
+                actionList = new List<Action>();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+
+        // Update is called once per frame
+        void Update()
         {
-            Destroy(gameObject);
+
+        }
+
+        private void AddSequenceText(string text)
+        {
+            actionSequence.text += text;
+        }
+
+        public void AddAction(Action action)
+        {
+            AddSequenceText(action.actionName + "\n");
+            actionList.Add(action);
+        }
+
+        private void ClearSequenceText()
+        {
+            actionSequence.text = "Action:\n";
+        }
+
+        public void ClearAction()
+        {
+            ClearSequenceText();
+            actionList.Clear();
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void AddSequenceText(string text)
-    {
-        actionSequence.text += text;
-    }
-
-    public void ClearSequenceText()
-    {
-        actionSequence.text = "Action:\n";
-    }
 }

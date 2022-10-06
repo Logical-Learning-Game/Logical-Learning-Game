@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using Unity.Game.Action;
 
-public class BackCommand : BaseMoveCommand
+public abstract class BaseMoveCommand : AbstractCommand
 {
 
     //public override void Execute()
@@ -15,10 +15,5 @@ public class BackCommand : BaseMoveCommand
     //    CommandManager.Instance.OnExecute(this);
 
     //}
-    public override void AddAction()
-    {
-        ActionManager.Instance.AddAction(new Action.BackAction());
-    }
-
 
 }

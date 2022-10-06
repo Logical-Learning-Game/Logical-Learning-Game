@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Game.Action;
+
+
 public class StartCommand : AbstractCommand
 {
-    public override void Execute()
+    public override IEnumerator Execute()
     {
         // Reset ActionManager
-        ActionManager.Instance.ClearSequenceText();
-        ActionManager.Instance.AddSequenceText("Start!\n");
-        UpdateLink("Success");
-        CommandManager.Instance.OnExecute(this);
+        ActionManager.Instance.ClearAction();
+        yield return base.Execute();
         
     }
 
+    public override void AddAction()
+    {
+        ActionManager.Instance.AddAction(new Action.StartAction());
+    }
 }

@@ -23,7 +23,7 @@ public class Linkable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         { "Disabled", Color.grey },
         { "Success", Color.green },
         { "Error", Color.red },
-        { "Looping", Color.yellow }
+        { "Executing", Color.yellow }
     };
 
     public virtual void OnBeginDrag(PointerEventData eventData)
