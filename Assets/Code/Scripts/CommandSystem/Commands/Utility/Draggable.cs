@@ -35,7 +35,7 @@ namespace Unity.Game.Command
             {
                 if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggableRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
                 {
-                    isDragging = true;
+                    SetisDragging(true);
                     dragPosition = globalMousePosition;
                 }
             }
@@ -56,7 +56,8 @@ namespace Unity.Game.Command
                 if (Vector3.Distance(draggingObjectRectTransform.position, dragPosition) < 0.5f)
                 {
                     draggingObjectRectTransform.position = dragPosition;
-                    SetisDraggable(false);
+                    SetisDragging(false);
+                    CommandManager.SaveCommandState();
                 }
             }
 
@@ -81,7 +82,8 @@ namespace Unity.Game.Command
             //check if drop command outside command panel
             Debug.Log(eventData.pointerEnter.name);
 
-            CommandManager.SaveCommandState();
+            CommandManager.Instance.VerifyCommand();
+
         }
 
         public void SetisDraggable(bool isDraggable)

@@ -12,101 +12,86 @@ namespace Unity.Game.Command
         public AbstractCommand nextCommandIfTrue;
         public AbstractCommand nextCommandIfFalse;
         public Condition commandCondition = new Condition();
-        //public override void Execute()
-        //{
+        
+        public override IEnumerator AddAction()
+        {
+            yield return ActionManager.Instance.AddAction(new Action.ConditionAction(commandCondition));
+            Debug.Log("conditionresult"+commandCondition.GetResult());
+        }
 
-        //    ActionManager.Instance.AddSequenceText("Condition: ");
-        //    if (commandCondition.GetResult())
+        //public override void LinkTo(AbstractCommand nextCommand)
+        //{
+        //    //override LinkTo to LinkToFalseCommand
+        //    if (nextCommand.GetType() != typeof(StartCommand))
         //    {
-        //        ActionManager.Instance.AddSequenceText("True\n");
-        //        nextCommand = nextCommandIfTrue;
+        //        nextCommandIfFalse = nextCommand;
+        //        nextCommand.previousCommand.Add(this);
         //    }
         //    else
         //    {
-        //        ActionManager.Instance.AddSequenceText("False\n");
-        //        nextCommand = nextCommandIfFalse;
+        //        Debug.Log("Cannot Link to Start Command");
         //    }
-        //    CommandManager.Instance.OnExecute(this);
 
         //}
-        public override void AddAction()
-        {
-            ActionManager.Instance.AddAction(new Action.ConditionAction());
-        }
 
-        public override void LinkTo(AbstractCommand nextCommand)
-        {
-            //override LinkTo to LinkToFalseCommand
-            if (nextCommand.GetType() != typeof(StartCommand))
-            {
-                nextCommandIfFalse = nextCommand;
-                nextCommand.previousCommand.Add(this);
-            }
-            else
-            {
-                Debug.Log("Cannot Link to Start Command");
-            }
+        //public override void Unlink()
+        //{
+        //    if (nextCommandIfFalse != null)
+        //    {
+        //        nextCommandIfFalse.previousCommand.Remove(this);
+        //        nextCommandIfFalse = null;
+        //    }
+        //}
 
-        }
+        //public override void UpdateLink(string color)
+        //{
+        //    gameObject.GetComponentInChildren<Linkable>().SetLinkColor(color);
+        //    // implement another linkable for true case
 
-        public override void Unlink()
-        {
-            if (nextCommandIfFalse != null)
-            {
-                nextCommandIfFalse.previousCommand.Remove(this);
-                nextCommandIfFalse = null;
-            }
-        }
+        //}
 
-        public override void UpdateLink(string color)
-        {
-            gameObject.GetComponentInChildren<Linkable>().SetLinkColor(color);
-            // implement another linkable for true case
+        //public override void SoftRemove()
+        //{
+        //    if (nextCommandIfFalse != null)
+        //    {
+        //        nextCommandIfFalse.previousCommand.Remove(this);
+        //    }
+        //    foreach (AbstractCommand command in previousCommand)
+        //    {
+        //        command.nextCommand = null;
+        //    }
+        //    previousCommand.Clear();
+        //    gameObject.SetActive(false);
+        //}
 
-        }
+        //public void LinkToTrue(AbstractCommand nextCommand)
+        //{
+        //    if (nextCommand.GetType() != typeof(StartCommand))
+        //    {
+        //        nextCommandIfTrue = nextCommand;
+        //        nextCommand.previousCommand.Add(this);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Cannot Link to Start Command");
+        //    }
+        //}
 
-        public override void SoftRemove()
-        {
-            if (nextCommandIfFalse != null)
-            {
-                nextCommandIfFalse.previousCommand.Remove(this);
-            }
-            foreach (AbstractCommand command in previousCommand)
-            {
-                command.nextCommand = null;
-            }
-            previousCommand.Clear();
-            gameObject.SetActive(false);
-        }
+        //public void UnlinkTrue()
+        //{
+        //    if (nextCommandIfTrue != null)
+        //    {
+        //        nextCommandIfTrue.previousCommand.Remove(this);
+        //        nextCommandIfTrue = null;
+        //    }
+        //}
 
-        public void LinkToTrue(AbstractCommand nextCommand)
-        {
-            if (nextCommand.GetType() != typeof(StartCommand))
-            {
-                nextCommandIfTrue = nextCommand;
-                nextCommand.previousCommand.Add(this);
-            }
-            else
-            {
-                Debug.Log("Cannot Link to Start Command");
-            }
-        }
+        //public void UpdateLinkTrue(string color)
+        //{
+        //    gameObject.GetComponentInChildren<ConditionLinkable>().SetLinkColor(color);
+        //    // implement another linkable for true case
 
-        public void UnlinkTrue()
-        {
-            if (nextCommandIfTrue != null)
-            {
-                nextCommandIfTrue.previousCommand.Remove(this);
-                nextCommandIfTrue = null;
-            }
-        }
-
-        public void UpdateLinkTrue(string color)
-        {
-            gameObject.GetComponentInChildren<ConditionLinkable>().SetLinkColor(color);
-            // implement another linkable for true case
-
-        }
+        //}
 
     }
 }

@@ -16,9 +16,9 @@ namespace Unity.Game.Command
 
         }
 
-        public override void AddAction()
+        public override IEnumerator AddAction()
         {
-            ActionManager.Instance.AddAction(new Action.StartAction());
+            yield return ActionManager.Instance.AddAction(new Action.StartAction());
         }
     }
 }

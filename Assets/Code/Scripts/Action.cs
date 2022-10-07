@@ -8,7 +8,12 @@ namespace Unity.Game.Action
     public class Action
     {
         public string actionName;
-
+        
+        public virtual IEnumerator Execute()
+        {
+            yield return new WaitForSeconds(1);
+        }
+        
     }
 
     public class StartAction : Action
@@ -51,11 +56,18 @@ namespace Unity.Game.Action
     }
     public class ConditionAction : Action
     {
-        public ConditionAction()
+        Condition condition;
+        public ConditionAction(Condition condition)
         {
             actionName = "Condition";
+            this.condition = condition;
         }
 
+        public override IEnumerator Execute()
+        {
+            condition.SetResult(true);
+            return base.Execute();
+        }
     }
 
 }

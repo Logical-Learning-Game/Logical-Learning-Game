@@ -9,9 +9,9 @@ namespace Unity.Game.Command
     public class BackCommand : BaseMoveCommand
     {
 
-        public override void AddAction()
+        public override IEnumerator AddAction()
         {
-            ActionManager.Instance.AddAction(new Action.BackAction());
+            yield return ActionManager.Instance.AddAction(new Action.BackAction());
         }
 
 

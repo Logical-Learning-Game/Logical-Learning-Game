@@ -38,10 +38,14 @@ namespace Unity.Game.Action
             actionSequence.text += text;
         }
 
-        public void AddAction(Action action)
+        public IEnumerator AddAction(Action action)
         {
             AddSequenceText(action.actionName + "\n");
             actionList.Add(action);
+
+            yield return action.Execute();
+            // Action Execute Completed
+            
         }
 
         private void ClearSequenceText()

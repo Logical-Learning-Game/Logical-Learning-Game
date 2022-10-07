@@ -6,9 +6,9 @@ public class Condition
 {
     private bool result = false;
 
-    public Condition()
+    public Condition(bool result = false)
     {
-        
+        this.result = result;
     }
 
     public void SetResult(bool result)

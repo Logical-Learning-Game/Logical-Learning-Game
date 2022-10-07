@@ -9,9 +9,9 @@ namespace Unity.Game.Command
     {
 
 
-        public override void AddAction()
+        public override IEnumerator AddAction()
         {
-            ActionManager.Instance.AddAction(new Action.ForwardAction());
+            yield return ActionManager.Instance.AddAction(new Action.ForwardAction());
         }
 
     }

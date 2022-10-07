@@ -124,7 +124,7 @@ namespace Unity.Game.Command
             if (VerifyCommand())
             {
                 ResetSteps();
-                isExecuting = true;
+                SetisExecuting(true);
                 GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
                 startCommand.GetComponent<AbstractCommand>().StartExecute();
             }
@@ -206,14 +206,21 @@ namespace Unity.Game.Command
                 }
                 else
                 {
+                    SetisExecuting(false);
                     Debug.Log("All Commands Executed");
                 }
             }
             else
             {
+                SetisExecuting(false);
                 Debug.Log("Max Step Exceed");
             }
 
+        }
+
+        public void SetisExecuting(bool isExecuting)
+        {
+            this.isExecuting = isExecuting;
         }
 
         public void OnCheckRemainingCommand()

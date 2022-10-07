@@ -9,9 +9,9 @@ namespace Unity.Game.Command
     public class LeftForwardCommand : BaseMoveCommand
     {
 
-        public override void AddAction()
+        public override IEnumerator AddAction()
         {
-            ActionManager.Instance.AddAction(new Action.LeftForwardAction());
+            yield return ActionManager.Instance.AddAction(new Action.LeftForwardAction());
         }
 
     }

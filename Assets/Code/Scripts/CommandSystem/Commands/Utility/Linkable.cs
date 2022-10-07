@@ -15,8 +15,9 @@ namespace Unity.Game.Command
         [SerializeField]
         protected GameObject lineDrawerObject;
 
-        [SerializeField]
-        protected bool isLinking = false;
+        public bool isLinking = false;
+        public bool isLinkable = true;
+
         [SerializeField]
         protected Vector2 linkPosition;
 
@@ -30,43 +31,48 @@ namespace Unity.Game.Command
 
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
-
-            if (eventData.button == PointerEventData.InputButton.Right)
+            if (isLinkable)
             {
-                isLinking = true;
-                gameObject.GetComponentInParent<AbstractCommand>().Unlink();
-                linkPosition = eventData.position;
+                if (eventData.button == PointerEventData.InputButton.Right)
+                {
+                    SetisLinking(true);
+                    gameObject.GetComponentInParent<AbstractCommand>().Unlink();
+                    linkPosition = eventData.position;
+                }
             }
+
         }
 
         public virtual void OnDrag(PointerEventData eventData)
         {
-            linkPosition = eventData.position;
+            if (isLinking) linkPosition = eventData.position;
         }
 
         public virtual void OnEndDrag(PointerEventData eventData)
         {
-
-            isLinking = false;
-            //if pointer is over a linkable object
-            if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Linkable>() != null)
+            if (isLinking)
             {
-                //if the object is not the same as this object
-                if (eventData.pointerEnter != gameObject)
+                //if pointer is over a linkable object
+                if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Linkable>() != null)
                 {
-                    //Debug.Log(eventData.pointerEnter.name);
-                    //if the object is not already linked to this object
-                    if (!eventData.pointerEnter.GetComponentInParent<AbstractCommand>().previousCommand.Contains(gameObject.GetComponentInParent<AbstractCommand>()))
+                    //if the object is not the same as this object
+                    if (eventData.pointerEnter != gameObject)
                     {
-                        //link the two objects
-                        gameObject.GetComponentInParent<AbstractCommand>().Unlink();
-                        gameObject.GetComponentInParent<AbstractCommand>().LinkTo(eventData.pointerEnter.GetComponentInParent<AbstractCommand>());
+                        //Debug.Log(eventData.pointerEnter.name);
+                        //if the object is not already linked to this object
+                        if (!eventData.pointerEnter.GetComponentInParent<AbstractCommand>().previousCommand.Contains(gameObject.GetComponentInParent<AbstractCommand>()))
+                        {
+                            //link the two objects
+                            gameObject.GetComponentInParent<AbstractCommand>().Unlink();
+                            gameObject.GetComponentInParent<AbstractCommand>().LinkTo(eventData.pointerEnter.GetComponentInParent<AbstractCommand>());
 
+                        }
                     }
                 }
+                CommandManager.SaveCommandState();
+                CommandManager.Instance.VerifyCommand();
+                SetisLinking(false);
             }
-            CommandManager.SaveCommandState();
-            CommandManager.Instance.VerifyCommand();
         }
 
         // Start is called before the first frame update
@@ -94,6 +100,15 @@ namespace Unity.Game.Command
             UpdateLine();
             lineDrawerObject.transform.position = gameObject.transform.position;
             lineDrawerObject.GetComponent<UILineRenderer>().SetVerticesDirty();
+
+            if (CommandManager.Instance.isExecuting)
+            {
+                SetisLinkable(false);
+            }
+            else
+            {
+                SetisLinkable(true);
+            }
         }
 
         protected virtual void UpdateLine()
@@ -116,6 +131,18 @@ namespace Unity.Game.Command
         public void SetLinkColor(string color)
         {
             lineDrawerObject.GetComponent<UILineRenderer>().color = LinkColor[color];
+        }
+
+        public void SetisLinkable(bool isLinkable)
+        {
+            this.isLinkable = isLinkable;
+        }
+
+        public void SetisLinking(bool isLinking)
+        {
+
+            this.isLinking = isLinking;
+
         }
     }
 }

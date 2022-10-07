@@ -27,14 +27,14 @@ namespace Unity.Game.Command
         {
             Debug.Log("Command Executing");
             UpdateLink("Executing");
-            AddAction();
-            yield return new WaitForSeconds(1);
+            
+            yield return AddAction();
             Debug.Log("Executing Complete");
             UpdateLink("Success");
             CommandManager.Instance.OnExecute(this);
         }
 
-        public abstract void AddAction();
+        public abstract IEnumerator AddAction();
 
         public void StartExecute()
         {
