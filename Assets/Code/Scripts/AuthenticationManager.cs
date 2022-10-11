@@ -8,6 +8,10 @@ using System.IO;
 using Newtonsoft.Json;
 using Authentication;
 using Authentication.Token;
+using System.Collections;
+using UnityEngine.Networking;
+using System.Text;
+using Repository.GoogleAPI;
 
 public class AuthenticationManager : MonoBehaviour
 {
@@ -62,6 +66,43 @@ public class AuthenticationManager : MonoBehaviour
         }
     }
 
+    private IEnumerator SendSignInLog(GoogleUser user)
+    {
+        var req = new UnityWebRequest("http://localhost:8000/v1/player/login_log", "POST");
+
+        string body = JsonConvert.SerializeObject(user);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(body);
+
+        req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        req.downloadHandler = new DownloadHandlerBuffer();
+        req.SetRequestHeader("Content-Type", "application/json");
+        yield return req.SendWebRequest();
+
+        if (req.error != null)
+        {
+            Debug.LogFormat("error {0}", req.error);
+        }
+    }
+
+    private string ReadJwtClaim(string idToken)
+    {
+        string[] parts = idToken.Split('.');
+        if (parts.Length > 2)
+        {
+            string decode = parts[1];
+            int padLength = 4 - decode.Length % 4;
+            if (padLength < 4)
+            {
+                decode += new string('=', padLength);
+            }
+
+            byte[] bytes = System.Convert.FromBase64String(decode);
+            string userInfo = Encoding.ASCII.GetString(bytes);
+            return userInfo;
+        }
+        return null;
+    }
+
     public async void OnGoogleSignInClick()
     {
         try
@@ -91,6 +132,20 @@ public class AuthenticationManager : MonoBehaviour
 
             await AuthenticationService.Instance.SignInWithOpenIdConnectAsync(GoogleOIDConfig.PROVIDER_NAME, googleToken.IdToken);
             PlayerPrefs.SetString("access_token", googleToken.AccessToken);
+
+            string rawJsonClaim = ReadJwtClaim(googleToken.IdToken);
+            var googleJwtClaim = JsonConvert.DeserializeObject<GoogleJWTClaim>(rawJsonClaim);
+            Debug.Log(rawJsonClaim);
+            Debug.Log(googleJwtClaim.Email);
+
+            var googleUser = new GoogleUser
+            {
+                PlayerID = AuthenticationService.Instance.PlayerId,
+                Email = googleJwtClaim.Email,
+                Name = googleJwtClaim.Name,
+            };
+
+            StartCoroutine(SendSignInLog(googleUser));
 
             GameStateManager.Instance.Authenticated();
         }
