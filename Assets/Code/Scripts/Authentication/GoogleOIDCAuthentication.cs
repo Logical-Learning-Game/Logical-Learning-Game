@@ -33,7 +33,7 @@ namespace Authentication
             httpListener.Start();
 
             // Creates the OAuth 2.0 authorization request.
-            string authorizationRequest = string.Format("{0}?response_type=code&scope=openid%20profile&redirect_uri={1}&client_id={2}&state={3}",
+            string authorizationRequest = string.Format("{0}?response_type=code&scope=openid email%20profile&redirect_uri={1}&client_id={2}&state={3}",
                     _googleOIDMetadata.AuthorizationEndpoint,
                     Uri.EscapeDataString(redirectURI),
                     GoogleOIDConfig.CLIENT_ID,
