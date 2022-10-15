@@ -12,9 +12,12 @@ namespace Unity.Game.Command
         [SerializeField]
         protected GameObject lineDrawerPrefab;
 
+        private GameObject lineDrawerObject;
+        public GameObject LineDrawerObject { get => lineDrawerObject; set => lineDrawerObject = value; }
+        
         [SerializeField]
-        protected GameObject lineDrawerObject;
-
+        private float ResolutionRatio = 42.5f;
+        
         public bool isLinking = false;
         public bool isLinkable = true;
 
@@ -29,6 +32,8 @@ namespace Unity.Game.Command
         { "Executing", Color.yellow }
     };
 
+        
+
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
             if (isLinkable)
@@ -36,7 +41,7 @@ namespace Unity.Game.Command
                 if (eventData.button == PointerEventData.InputButton.Right)
                 {
                     SetisLinking(true);
-                    gameObject.GetComponentInParent<AbstractCommand>().Unlink();
+                    gameObject.GetComponent<AbstractCommand>().Unlink();
                     linkPosition = eventData.position;
                 }
             }
@@ -52,6 +57,7 @@ namespace Unity.Game.Command
         {
             if (isLinking)
             {
+                Debug.Log(eventData.pointerEnter.name);
                 //if pointer is over a linkable object
                 if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Linkable>() != null)
                 {
@@ -60,11 +66,11 @@ namespace Unity.Game.Command
                     {
                         //Debug.Log(eventData.pointerEnter.name);
                         //if the object is not already linked to this object
-                        if (!eventData.pointerEnter.GetComponentInParent<AbstractCommand>().previousCommand.Contains(gameObject.GetComponentInParent<AbstractCommand>()))
+                        if (!eventData.pointerEnter.GetComponent<AbstractCommand>().previousCommand.Contains(gameObject.GetComponent<AbstractCommand>()))
                         {
                             //link the two objects
-                            gameObject.GetComponentInParent<AbstractCommand>().Unlink();
-                            gameObject.GetComponentInParent<AbstractCommand>().LinkTo(eventData.pointerEnter.GetComponentInParent<AbstractCommand>());
+                            gameObject.GetComponent<AbstractCommand>().Unlink();
+                            gameObject.GetComponent<AbstractCommand>().LinkTo(eventData.pointerEnter.GetComponent<AbstractCommand>());
 
                         }
                     }
@@ -84,8 +90,7 @@ namespace Unity.Game.Command
                 UILineRenderer lineDrawer = lineDrawerObject.GetComponent<UILineRenderer>();
                 lineDrawer.Points = new Vector2[2] { Vector2.zero, Vector2.zero };
                 lineDrawer.Points[0] = new Vector2(0, 0);
-                lineDrawer.lineThickness = 20f;
-                Debug.Log("Linkable Awake");
+                lineDrawer.lineThickness = 50f;
 
                 lineDrawerObject.transform.SetParent(GameObject.Find("LineDrawers").transform);
             }
@@ -116,22 +121,21 @@ namespace Unity.Game.Command
             if (isLinking)
             {
                 lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = linkPosition - (Vector2)gameObject.transform.position;
-                SetLinkColor("Default");
             }
-            else if (gameObject.GetComponentInParent<AbstractCommand>().GetNextCommand())
+            else if (gameObject.GetComponent<AbstractCommand>().GetNextCommand())
             {
-                lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = gameObject.GetComponentInParent<AbstractCommand>().GetNextCommand().transform.position - gameObject.transform.position;
+                lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = gameObject.GetComponent<AbstractCommand>().GetNextCommand().transform.position - gameObject.transform.position;
             }
             else
             {
                 lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = Vector2.zero;
             }
+
+
+            lineDrawerObject.GetComponent<UILineRenderer>().Resolution = Vector2.Distance(lineDrawerObject.GetComponent<UILineRenderer>().Points[0], lineDrawerObject.GetComponent<UILineRenderer>().Points[1]) / ResolutionRatio;
         }
 
-        public void SetLinkColor(string color)
-        {
-            lineDrawerObject.GetComponent<UILineRenderer>().color = LinkColor[color];
-        }
+
 
         public void SetisLinkable(bool isLinkable)
         {
@@ -143,6 +147,12 @@ namespace Unity.Game.Command
 
             this.isLinking = isLinking;
 
+        }
+
+        public void OnDelete()
+        {
+            lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = Vector2.zero;
+            lineDrawerObject.SetActive(false);
         }
     }
 }

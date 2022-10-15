@@ -12,9 +12,10 @@ namespace Unity.Game.Command
 
         public AbstractCommand nextCommand = null;
         public List<AbstractCommand> previousCommand = new List<AbstractCommand>();
-
+        public CommandStatus status;
         private void Awake()
         {
+            status = gameObject.GetComponent<CommandStatus>();
             Debug.Log("AbstractCommand Awake");
         }
 
@@ -26,11 +27,11 @@ namespace Unity.Game.Command
         public virtual IEnumerator Execute()
         {
             Debug.Log("Command Executing");
-            UpdateLink("Executing");
-            
+            status.SetStatus(CommandStatus.Status.Executing);
+
             yield return AddAction();
             Debug.Log("Executing Complete");
-            UpdateLink("Success");
+            status.SetStatus(CommandStatus.Status.Success);
             CommandManager.Instance.OnExecute(this);
         }
 
@@ -69,16 +70,13 @@ namespace Unity.Game.Command
             }
         }
 
-        public virtual void UpdateLink(string color)
-        {
-            gameObject.GetComponentInChildren<Linkable>().SetLinkColor(color);
-        }
 
-        public virtual void SoftRemove()
+        public virtual void Delete()
         {
             if (nextCommand != null)
             {
                 nextCommand.previousCommand.Remove(this);
+                nextCommand = null;
             }
             foreach (AbstractCommand command in previousCommand)
             {
@@ -86,6 +84,7 @@ namespace Unity.Game.Command
             }
             previousCommand.Clear();
             gameObject.SetActive(false);
+            gameObject.GetComponentInChildren<Linkable>().OnDelete();
         }
     }
 }

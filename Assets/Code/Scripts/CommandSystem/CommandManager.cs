@@ -59,32 +59,21 @@ namespace Unity.Game.Command
                 ExecuteCommands();
             }
 
-            OnCheckRemainingCommand();
-            OnSelectCommand();
+            if (Input.GetKeyDown(KeyCode.Delete))
+            {
+                if (selectedCommand && !isExecuting)
+                {
+                    Debug.Log("Deleting " + selectedCommand.name);
+                    selectedCommand.GetComponent<AbstractCommand>().Delete();
+                }
+            }
 
-            //
+            OnCheckRemainingCommand();
+
         }
         public void AddCommand(GameObject command)
         {
             commands.Add(command);
-        }
-
-        public void OnSelectCommand()
-        {
-            foreach (GameObject command in commands)
-            {
-                if (selectedCommand == command)
-                {
-                    command.GetComponentInChildren<CommandSelectable>().SetisSelected(true);
-                    //command.GetComponent<Draggable>().SetisDraggable(false);
-                }
-                else
-                {
-                    command.GetComponentInChildren<CommandSelectable>().SetisSelected(false);
-                    //command.GetComponent<Draggable>().SetisDraggable(true);
-                }
-            }
-
         }
 
         public static void SaveCommandState()
@@ -123,6 +112,7 @@ namespace Unity.Game.Command
 
             if (VerifyCommand())
             {
+                SetSelectedCommand(null);
                 ResetSteps();
                 SetisExecuting(true);
                 GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
@@ -135,10 +125,20 @@ namespace Unity.Game.Command
 
         }
 
-        public void SetSelectedCommand(GameObject commandObject)
+        public void SetSelectedCommand(GameObject commandObject = null)
         {
-            //Debug.Log("Setting" + commandObject.name + "to selected");
+            if (selectedCommand)
+            {
+                selectedCommand.GetComponent<CommandStatus>().SetStatus(CommandStatus.Status.Default);
+            }
+            
             selectedCommand = commandObject;
+            
+            if(commandObject)
+            {
+                selectedCommand.GetComponent<CommandStatus>().SetStatus(CommandStatus.Status.Selected);
+            }
+            
         }
 
         public void StepUp()
@@ -163,7 +163,7 @@ namespace Unity.Game.Command
 
             foreach (GameObject commandObj in commands)
             {
-                commandObj.GetComponent<AbstractCommand>().UpdateLink("Disabled");
+                commandObj.GetComponent<AbstractCommand>().status.SetStatus(CommandStatus.Status.Default);
             }
 
             GameObject startCommandObj = GameObject.FindGameObjectWithTag("StartCommand");
@@ -177,7 +177,7 @@ namespace Unity.Game.Command
             while (command && !verifiedSet.Contains(command))
             {
                 verifiedSet.Add(command);
-                command.UpdateLink("Default");
+                command.status.SetStatus(CommandStatus.Status.Default);
                 command = command.GetNextCommand();
             }
 

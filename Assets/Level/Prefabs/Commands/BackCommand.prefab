@@ -152,6 +152,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 6839639301408412308, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839639301408412308, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.7725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839639301408412308, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.9607844
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839639301408412308, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7386902379585726231, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8829738438923631630, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: ResolutionRatio
+      value: 42.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c92514866af3716438c8f9fca985f38f, type: 3}
 --- !u!1 &5484362435968703181 stripped

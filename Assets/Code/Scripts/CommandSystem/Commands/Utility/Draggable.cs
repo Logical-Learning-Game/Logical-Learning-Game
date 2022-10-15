@@ -23,7 +23,7 @@ namespace Unity.Game.Command
 
         private void Awake()
         {
-            draggingObjectRectTransform = transform.parent.transform as RectTransform;
+            draggingObjectRectTransform = transform as RectTransform;
             dragPosition = draggingObjectRectTransform.position;
 
             draggableRectTransform = transform as RectTransform;
@@ -81,8 +81,11 @@ namespace Unity.Game.Command
         {
             //check if drop command outside command panel
             Debug.Log(eventData.pointerEnter.name);
-
-            CommandManager.Instance.VerifyCommand();
+            if(isDraggable)
+            {
+                CommandManager.Instance.VerifyCommand();
+            }
+            
 
         }
 
