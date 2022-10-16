@@ -13,10 +13,11 @@ namespace Unity.Game.Command
         public AbstractCommand nextCommand = null;
         public List<AbstractCommand> previousCommand = new List<AbstractCommand>();
         public CommandStatus status;
-        private void Awake()
+        protected virtual void Awake()
         {
             status = gameObject.GetComponent<CommandStatus>();
-            Debug.Log("AbstractCommand Awake");
+            //Debug.Log("AbstractCommand Awake");
+            
         }
 
         public void SetActive(bool active)

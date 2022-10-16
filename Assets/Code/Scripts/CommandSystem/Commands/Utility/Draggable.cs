@@ -7,7 +7,7 @@ namespace Unity.Game.Command
     public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         [SerializeField]
-        private float _dragSpeed = 0.09f;
+        private float _dragSpeed = 0.1f;
 
         [SerializeField]
         private RectTransform draggingObjectRectTransform;
@@ -20,6 +20,8 @@ namespace Unity.Game.Command
         public bool isDragging = false;
 
         public Vector2 dragPosition;
+        [SerializeField]
+        private Vector2 draggingOffset;
 
         private void Awake()
         {
@@ -30,7 +32,6 @@ namespace Unity.Game.Command
         }
         public void OnDrag(PointerEventData eventData)
         {
-
             if (eventData.button == PointerEventData.InputButton.Left && isDraggable)
             {
                 if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggableRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
@@ -52,10 +53,11 @@ namespace Unity.Game.Command
         {
             if (isDragging)
             {
-                draggingObjectRectTransform.position = Vector3.SmoothDamp(draggingObjectRectTransform.position, dragPosition, ref velocity, _dragSpeed);
-                if (Vector3.Distance(draggingObjectRectTransform.position, dragPosition) < 0.5f)
+                draggingObjectRectTransform.position = Vector3.SmoothDamp(draggingObjectRectTransform.position, dragPosition - draggingOffset, ref velocity, _dragSpeed);
+                if (Vector3.Distance(draggingObjectRectTransform.position, dragPosition - draggingOffset) < 0.5f)
                 {
-                    draggingObjectRectTransform.position = dragPosition;
+                    draggingObjectRectTransform.position = dragPosition - draggingOffset;
+
                     SetisDragging(false);
                     CommandManager.SaveCommandState();
                 }
@@ -74,18 +76,27 @@ namespace Unity.Game.Command
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            //
+            if (eventData.button == PointerEventData.InputButton.Left && isDraggable)
+            {
+                if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggableRectTransform, eventData.position, eventData.pressEventCamera, out var globalMousePosition))
+                {
+                    draggingOffset = globalMousePosition - draggableRectTransform.position;
+                    SetisDragging(true);
+                    dragPosition = globalMousePosition;
+                }
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             //check if drop command outside command panel
+
             Debug.Log(eventData.pointerEnter.name);
-            if(isDraggable)
+            if (isDraggable)
             {
                 CommandManager.Instance.VerifyCommand();
             }
-            
+
 
         }
 
