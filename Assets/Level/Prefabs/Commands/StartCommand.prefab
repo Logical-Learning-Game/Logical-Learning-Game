@@ -7,6 +7,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 453976724882877225, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 453976724882877225, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 453976724882877225, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 453976724882877225, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 453976724882877225, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 453976724882877225, guid: c92514866af3716438c8f9fca985f38f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 453976724882877230, guid: c92514866af3716438c8f9fca985f38f,
         type: 3}
       propertyPath: m_Color.b
@@ -190,3 +220,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextCommand: {fileID: 0}
   previousCommand: []
+  status: {fileID: 0}

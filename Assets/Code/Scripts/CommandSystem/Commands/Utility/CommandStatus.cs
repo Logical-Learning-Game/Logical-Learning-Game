@@ -49,7 +49,6 @@ namespace Unity.Game.Command
                 case Status.Selected:
                     gameObject.GetComponent<UICircle>().color = CommandColor.Selected;
                     gameObject.GetComponent<Linkable>().LineDrawerObject.GetComponent<UILineRenderer>().color = CommandColor.Selected;
-
                     break;
                 default:
                     break;

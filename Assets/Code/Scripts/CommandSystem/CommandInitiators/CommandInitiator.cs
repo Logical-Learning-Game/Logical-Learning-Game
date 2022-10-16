@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI.Extensions;
 
 namespace Unity.Game.Command
 {
@@ -12,8 +13,6 @@ namespace Unity.Game.Command
         public bool isEnabled;
         [SerializeField]
         private Color commandColor;
-        [SerializeField]
-        private GameObject baseIcon;
         private Color disableColor = Color.gray;
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -26,6 +25,7 @@ namespace Unity.Game.Command
                     GameObject commandObject = CommandInitiate(eventData);
                     CommandManager.Instance.AddCommand(commandObject);
                     CommandManager.Instance.SetSelectedCommand(commandObject);
+                    CommandBarManager.Instance.OnUpdateCommandBar();
                 }
             }
 
@@ -52,36 +52,29 @@ namespace Unity.Game.Command
 
         public void Start()
         {
-            if (isEnabled)
-            {
-                gameObject.GetComponentsInChildren<Image>()[0].color = commandColor;
-            }
-            else
-            {
-                gameObject.GetComponentsInChildren<Image>()[0].color = disableColor;
-            }
+            OnUpdateCommandBar();
         }
 
         public void Update()
         {
 
-            if (isEnabled)
-            {
-                //Debug.Log("Enabled");
-                //gameObject.GetComponentsInChildren<Image>()[0].color = commandColor;
-                baseIcon.GetComponent<Image>().color = commandColor;
-            }
-            else
-            {
-                //Debug.Log("Disabled");
-                //gameObject.GetComponentsInChildren<Image>()[0].color = disableColor;
-                baseIcon.GetComponent<Image>().color = disableColor;
-            }
         }
 
         public void setEnabled(bool isEnabled)
         {
             this.isEnabled = isEnabled;
+        }
+        
+        public void OnUpdateCommandBar()
+        {
+            if (isEnabled)
+            {
+                gameObject.GetComponent<UICircle>().color = commandColor;
+            }
+            else
+            {
+                gameObject.GetComponent<UICircle>().color = disableColor;
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Unity.Game.Command
         private int maxSteps = 10;
         private int currentSteps = 0;
 
-        private MaxCommand maxCommand;
+        
 
         public bool isExecuting = false;
 
@@ -34,7 +34,6 @@ namespace Unity.Game.Command
                 Instance = this;
                 commands = new List<GameObject>();
                 savedCommandStates = new List<CommandState>();
-                maxCommand = new MaxCommand();
                 SaveCommandState();
             }
             else
@@ -51,6 +50,7 @@ namespace Unity.Game.Command
             {
                 Debug.Log("Undoing");
                 UndoCommand();
+                CommandBarManager.Instance.OnUpdateCommandBar();
             }
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -66,9 +66,8 @@ namespace Unity.Game.Command
                     Debug.Log("Deleting " + selectedCommand.name);
                     selectedCommand.GetComponent<AbstractCommand>().Delete();
                 }
+                CommandBarManager.Instance.OnUpdateCommandBar();
             }
-
-            OnCheckRemainingCommand();
 
         }
         public void AddCommand(GameObject command)
@@ -101,27 +100,25 @@ namespace Unity.Game.Command
             }
         }
 
-        public void RemoveCommand(GameObject command)
-        {
-            //need more implementation
-            command.SetActive(false);
-        }
         public void ExecuteCommands()
         {
             //need more implementation
+            if (!isExecuting)
+            {
+                if (VerifyCommand())
+                {
+                    SetSelectedCommand(null);
+                    ResetSteps();
+                    SetisExecuting(true);
+                    GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
+                    startCommand.GetComponent<AbstractCommand>().StartExecute();
+                }
+                else
+                {
+                    Debug.Log("Invalid Command, Please Check");
+                }
+            }
 
-            if (VerifyCommand())
-            {
-                SetSelectedCommand(null);
-                ResetSteps();
-                SetisExecuting(true);
-                GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
-                startCommand.GetComponent<AbstractCommand>().StartExecute();
-            }
-            else
-            {
-                Debug.Log("Invalid Command, Please Check");
-            }
 
         }
 
@@ -131,14 +128,14 @@ namespace Unity.Game.Command
             {
                 selectedCommand.GetComponent<CommandStatus>().SetStatus(CommandStatus.Status.Default);
             }
-            
+
             selectedCommand = commandObject;
-            
-            if(commandObject)
+
+            if (selectedCommand)
             {
                 selectedCommand.GetComponent<CommandStatus>().SetStatus(CommandStatus.Status.Selected);
             }
-            
+
         }
 
         public void StepUp()
@@ -163,7 +160,7 @@ namespace Unity.Game.Command
 
             foreach (GameObject commandObj in commands)
             {
-                commandObj.GetComponent<AbstractCommand>().status.SetStatus(CommandStatus.Status.Default);
+                commandObj.GetComponent<AbstractCommand>().status.SetStatus(CommandStatus.Status.Error);
             }
 
             GameObject startCommandObj = GameObject.FindGameObjectWithTag("StartCommand");
@@ -223,18 +220,5 @@ namespace Unity.Game.Command
             this.isExecuting = isExecuting;
         }
 
-        public void OnCheckRemainingCommand()
-        {
-            // StartCommand
-
-            if (GameObject.FindGameObjectsWithTag("StartCommand").Length >= maxCommand.Start)
-            {
-                GameObject.Find("StartCommandInitiator").GetComponent<CommandInitiator>().setEnabled(false);
-            }
-            else
-            {
-                GameObject.Find("StartCommandInitiator").GetComponent<CommandInitiator>().setEnabled(true);
-            }
-        }
     }
 }
