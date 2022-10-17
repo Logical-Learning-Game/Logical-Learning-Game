@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.Game.Action;
+using Unity.Game.Conditions;
 
 namespace Unity.Game.Command
 {
@@ -14,11 +15,39 @@ namespace Unity.Game.Command
 
         [SerializeField]
         private AbstractCommand linkerCommand;
-        
+
+        public override IEnumerator Execute()
+        {
+            Debug.Log("Condition Command Executing");
+            status.SetStatus(CommandStatus.Status.Executing);
+            linkerCommand.status.SetStatus(CommandStatus.Status.Executing);
+            
+            yield return AddAction();
+            
+            Debug.Log("Executing Complete");
+
+            if (commandCondition.GetResult())
+            {
+                // lead to NextCommand of LinkerCommand When Result is True
+                status.SetStatus(CommandStatus.Status.Default);
+                linkerCommand.status.SetStatus(CommandStatus.Status.Success);
+                CommandManager.Instance.OnExecute(linkerCommand);
+            }
+            else
+            {
+                
+                // lead to Default NextCommand
+                status.SetStatus(CommandStatus.Status.Success);
+                linkerCommand.status.SetStatus(CommandStatus.Status.Default);
+                CommandManager.Instance.OnExecute(this);
+            }
+
+        }
+
         public override IEnumerator AddAction()
         {
             yield return ActionManager.Instance.AddAction(new Action.ConditionAction(commandCondition));
-            Debug.Log("conditionresult" + commandCondition.GetResult());
+            Debug.Log("Condition Result: " + commandCondition.GetResult());
         }
 
         protected override void Awake()

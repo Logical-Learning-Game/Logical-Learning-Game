@@ -45,3 +45,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: CommandFx
+    uniqueID: 967526679
+    locked: 0
+  - name: CommandUtil
+    uniqueID: 1874242493
+    locked: 0
+  - name: CommandComponent
+    uniqueID: 2433156343
+    locked: 0
