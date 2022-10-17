@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
-using Unity.Game.Action;
+using UnityEngine.UI.Extensions;
 
 namespace Unity.Game.Command
 {
     public abstract class AbstractCommand : MonoBehaviour
     {
+        public static HashSet<System.Type> UnlinkableTypes = new HashSet<System.Type>() {
+            typeof(LinkerCommand),
+            typeof(StartCommand)
+        };
 
         public AbstractCommand nextCommand = null;
         public List<AbstractCommand> previousCommand = new List<AbstractCommand>();
@@ -17,7 +21,7 @@ namespace Unity.Game.Command
         {
             status = gameObject.GetComponent<CommandStatus>();
             //Debug.Log("AbstractCommand Awake");
-            
+
         }
 
         public void SetActive(bool active)
@@ -50,14 +54,14 @@ namespace Unity.Game.Command
 
         public virtual void LinkTo(AbstractCommand nextCommand)
         {
-            if (nextCommand.GetType() != typeof(StartCommand))
+            if (!UnlinkableTypes.Contains(nextCommand.GetType()))
             {
                 this.nextCommand = nextCommand;
                 nextCommand.previousCommand.Add(this);
             }
             else
             {
-                Debug.Log("Cannot Link to Start Command");
+                Debug.Log("Cannot Link to UnlinkableType Command");
             }
 
         }
@@ -86,6 +90,12 @@ namespace Unity.Game.Command
             previousCommand.Clear();
             gameObject.SetActive(false);
             gameObject.GetComponentInChildren<Linkable>().OnDelete();
+        }
+
+        public virtual void OnStatusChange()
+        {
+            gameObject.GetComponent<UICircle>().color = CommandStatus.statusToColor[status.GetStatus()];
+            gameObject.GetComponent<Linkable>().LineDrawerObject.GetComponent<UILineRenderer>().color = CommandStatus.statusToColor[status.GetStatus()];
         }
     }
 }

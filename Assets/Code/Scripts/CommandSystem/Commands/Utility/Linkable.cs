@@ -24,13 +24,6 @@ namespace Unity.Game.Command
         [SerializeField]
         protected Vector2 linkPosition;
 
-        protected Dictionary<string, Color> LinkColor = new Dictionary<string, Color>() {
-        { "Default", Color.white },
-        { "Disabled", Color.grey },
-        { "Success", Color.green },
-        { "Error", Color.red },
-        { "Executing", Color.yellow }
-    };
 
         
 
