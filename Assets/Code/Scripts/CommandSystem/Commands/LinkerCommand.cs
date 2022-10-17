@@ -7,8 +7,6 @@ namespace Unity.Game.Command
 {
     public class LinkerCommand : AbstractCommand
     {
-
-
         public override IEnumerator AddAction()
         {
             yield return null;

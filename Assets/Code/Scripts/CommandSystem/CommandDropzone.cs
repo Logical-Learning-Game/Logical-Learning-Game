@@ -11,7 +11,7 @@ namespace Unity.Game.Command
         {
             if (data.pointerDrag != null)
             {
-                Debug.Log("Dropped object was: " + data.pointerDrag);
+                //Debug.Log("Dropped object was: " + data.pointerDrag);
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Unity.Game.Command
         private int maxSteps = 10;
         private int currentSteps = 0;
 
-        
+
 
         public bool isExecuting = false;
 
@@ -107,7 +107,7 @@ namespace Unity.Game.Command
             {
                 if (VerifyCommand())
                 {
-                    SetSelectedCommand(null);
+                    //SetSelectedCommand(null);
                     ResetSteps();
                     SetisExecuting(true);
                     GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
@@ -122,21 +122,23 @@ namespace Unity.Game.Command
 
         }
 
-        public void SetSelectedCommand(GameObject commandObject = null)
-        {
-            if (selectedCommand)
-            {
-                selectedCommand.GetComponent<CommandStatus>().SetStatus(CommandStatus.Status.Default);
-            }
+        //temporatory remove selectable due to unexpected bugs
+        
+        //public void SetSelectedCommand(GameObject commandObject = null)
+        //{
+        //    //if (selectedCommand)
+        //    //{
+        //    //    selectedCommand.GetComponent<CommandStatus>().SetStatus(CommandStatus.Status.Default);
+        //    //}
 
-            selectedCommand = commandObject;
+        //    selectedCommand = commandObject;
 
-            if (selectedCommand)
-            {
-                selectedCommand.GetComponent<CommandStatus>().SetStatus(CommandStatus.Status.Selected);
-            }
+        //    if (selectedCommand)
+        //    {
+        //        selectedCommand.GetComponent<CommandStatus>().SetStatus(CommandStatus.Status.Selected);
+        //    }
 
-        }
+        //}
 
         public void StepUp()
         {
@@ -155,27 +157,53 @@ namespace Unity.Game.Command
 
         public bool VerifyCommand()
         {
-            // need implementation
+            // need more implementation
             Debug.Log("Verifying");
 
-            foreach (GameObject commandObj in commands)
+            // Set All Command Status to Status.Error First
+            foreach (AbstractCommand commandOnBoard in GetComponentsInChildren<AbstractCommand>())
             {
-                commandObj.GetComponent<AbstractCommand>().status.SetStatus(CommandStatus.Status.Error);
+                //Debug.Log("Setting " + commandOnBoard.name + " to Error");
+                commandOnBoard.status.SetStatus(CommandStatus.Status.Error);
             }
 
             GameObject startCommandObj = GameObject.FindGameObjectWithTag("StartCommand");
             if (startCommandObj == null)
             {
+                Debug.Log("No Start Command");
                 return false;
             }
 
-            AbstractCommand command = startCommandObj.GetComponent<AbstractCommand>();
+            List<AbstractCommand> verifyQueue = new List<AbstractCommand>();
             HashSet<AbstractCommand> verifiedSet = new HashSet<AbstractCommand>();
-            while (command && !verifiedSet.Contains(command))
+
+            verifyQueue.Add(startCommandObj.GetComponent<AbstractCommand>());
+
+            // use bfs to verifying all reachable commands
+            while (verifyQueue.Count > 0)
             {
-                verifiedSet.Add(command);
-                command.status.SetStatus(CommandStatus.Status.Default);
-                command = command.GetNextCommand();
+                AbstractCommand verifyingCommand = verifyQueue[0];
+                verifiedSet.Add(verifyingCommand);
+
+                verifyingCommand.OnVerify();
+
+                foreach (AbstractCommand commandNode in verifyingCommand.GetAllNextCommands())
+                {
+                    if (!verifiedSet.Contains(commandNode))
+                    {
+                        verifyQueue.Add(commandNode);
+                    }
+                }
+                verifyQueue.RemoveAt(0);
+            }
+
+            // check if there are commands with Status.Error
+            foreach (CommandStatus status in GetComponents<CommandStatus>())
+            {
+                if (status.GetStatus() == CommandStatus.Status.Error)
+                {
+                    return false;
+                }
             }
 
             Debug.Log("Verifying Completed");

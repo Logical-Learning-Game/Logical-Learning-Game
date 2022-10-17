@@ -231,8 +231,7 @@ MonoBehaviour:
   nextCommand: {fileID: 0}
   previousCommand: []
   status: {fileID: 0}
-  nextCommandIfTrue: {fileID: 0}
-  nextCommandIfFalse: {fileID: 0}
+  linkerCommand: {fileID: 0}
 --- !u!114 &8054692069878699451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55bfca51f349ce44b706b8acc8e8d58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
 --- !u!114 &4623624007206397758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -548,6 +546,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167852275887091191, guid: 2af16d3b62f37a342adcdd0380d3788e,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167852275887091191, guid: 2af16d3b62f37a342adcdd0380d3788e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167852275887091191, guid: 2af16d3b62f37a342adcdd0380d3788e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 6839639301408412308, guid: 2af16d3b62f37a342adcdd0380d3788e,
         type: 3}

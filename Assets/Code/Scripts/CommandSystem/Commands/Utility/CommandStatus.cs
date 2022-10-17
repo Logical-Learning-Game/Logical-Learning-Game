@@ -27,9 +27,10 @@ namespace Unity.Game.Command
             {Status.Executing, CommandColor.Warning},
             {Status.Selected, CommandColor.Selected}
         };
-   
+        
 
         public Status status = Status.Default;
+
 
         public void SetStatus(Status status)
         {
@@ -42,5 +43,6 @@ namespace Unity.Game.Command
         {
             return status;
         }
+        
     }
 }

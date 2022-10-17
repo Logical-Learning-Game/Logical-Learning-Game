@@ -50,7 +50,7 @@ namespace Unity.Game.Command
         {
             if (isLinking)
             {
-                Debug.Log(eventData.pointerEnter.name);
+                //Debug.Log(eventData.pointerEnter.name);
                 //if pointer is over a linkable object
                 if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Linkable>() != null)
                 {
@@ -93,7 +93,7 @@ namespace Unity.Game.Command
 
 
         // Update is called once per frame
-        protected void LateUpdate()
+        protected void Update()
         {
             UpdateLine();
             lineDrawerObject.transform.position = gameObject.transform.position;
@@ -115,9 +115,9 @@ namespace Unity.Game.Command
             {
                 lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = linkPosition - (Vector2)gameObject.transform.position;
             }
-            else if (gameObject.GetComponent<AbstractCommand>().GetNextCommand())
+            else if (gameObject.GetComponent<AbstractCommand>().nextCommand != null)
             {
-                lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = gameObject.GetComponent<AbstractCommand>().GetNextCommand().transform.position - gameObject.transform.position;
+                lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = gameObject.GetComponent<AbstractCommand>().nextCommand.transform.position - gameObject.transform.position;
             }
             else
             {

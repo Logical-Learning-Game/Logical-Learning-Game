@@ -19,7 +19,8 @@ namespace Unity.Game.Command
         public CommandStatus status;
         protected virtual void Awake()
         {
-            status = gameObject.GetComponent<CommandStatus>();
+            status = gameObject.AddComponent<CommandStatus>();
+ 
             //Debug.Log("AbstractCommand Awake");
 
         }
@@ -45,11 +46,6 @@ namespace Unity.Game.Command
         public void StartExecute()
         {
             StartCoroutine(Execute());
-        }
-
-        public virtual AbstractCommand GetNextCommand()
-        {
-            return nextCommand;
         }
 
         public virtual void LinkTo(AbstractCommand nextCommand)
@@ -96,6 +92,23 @@ namespace Unity.Game.Command
         {
             gameObject.GetComponent<UICircle>().color = CommandStatus.statusToColor[status.GetStatus()];
             gameObject.GetComponent<Linkable>().LineDrawerObject.GetComponent<UILineRenderer>().color = CommandStatus.statusToColor[status.GetStatus()];
+        }
+
+        public virtual void OnVerify()
+        {
+            // set status from error to default after verified
+            status.SetStatus(CommandStatus.Status.Default);
+        }
+
+        public virtual List<AbstractCommand> GetAllNextCommands()
+        {
+            List<AbstractCommand> AllNextCommands = new List<AbstractCommand>() { };
+            if (nextCommand != null)
+            {
+                AllNextCommands.Add(nextCommand);
+            }
+
+            return AllNextCommands;
         }
     }
 }

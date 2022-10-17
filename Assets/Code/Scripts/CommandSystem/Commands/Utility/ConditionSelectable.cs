@@ -4,7 +4,7 @@ using UnityEngine.UI.Extensions;
 
 namespace Unity.Game.Command
 {
-    public class Selectable : MonoBehaviour
+    public class ConditionSelectable : MonoBehaviour
     {
 
         private RectTransform selectingObjectRectTransform;
@@ -12,6 +12,7 @@ namespace Unity.Game.Command
         private void Awake()
         {
             selectingObjectRectTransform = transform as RectTransform;
+
         }
 
 
@@ -27,7 +28,6 @@ namespace Unity.Game.Command
             //        if (RectTransformUtility.RectangleContainsScreenPoint(selectingObjectRectTransform, Input.mousePosition))
             //        {
             //            CommandManager.Instance.SetSelectedCommand(selectingObjectRectTransform.gameObject);
-            //            CommandManager.Instance.VerifyCommand();
             //        }
             //    }
             //}

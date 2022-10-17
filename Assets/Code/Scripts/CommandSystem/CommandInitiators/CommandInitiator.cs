@@ -24,7 +24,7 @@ namespace Unity.Game.Command
                 {
                     GameObject commandObject = CommandInitiate(eventData);
                     CommandManager.Instance.AddCommand(commandObject);
-                    CommandManager.Instance.SetSelectedCommand(commandObject);
+                    //CommandManager.Instance.SetSelectedCommand(commandObject);
                     CommandBarManager.Instance.OnUpdateCommandBar();
                 }
             }
