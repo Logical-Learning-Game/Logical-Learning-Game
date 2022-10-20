@@ -66,6 +66,7 @@ namespace Unity.Game.Action
 
         public override IEnumerator Execute()
         {
+            // mocking a conditionchecker
             condition.SetResult(true);
             return base.Execute();
         }

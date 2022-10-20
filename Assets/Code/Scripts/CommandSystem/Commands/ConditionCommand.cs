@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 using Unity.Game.Action;
 using Unity.Game.Conditions;
 
@@ -78,6 +79,18 @@ namespace Unity.Game.Command
                 } 
             }
             return AllNextCommands;
+        }
+
+        public void SetCondition(Condition condition)
+        {
+            Debug.Log("Setting Condition to: " + condition.conditionName);
+            commandCondition = condition;
+            OnSetCondition();
+        }
+
+        private void OnSetCondition()
+        {
+            linkerCommand.transform.Find("CommandSign").GetComponent<Image>().color = commandCondition.conditionName == ConditionName.MockTrue ? Color.green : Color.red;
         }
     }
     

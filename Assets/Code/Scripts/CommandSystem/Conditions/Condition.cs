@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Unity.Game.Conditions
 {
-
-
+    public enum ConditionName { MockTrue, MockFalse }
     public class Condition
     {
         private bool result = false;
+        public ConditionName conditionName;
 
         public Condition(bool result = false)
         {
@@ -25,5 +25,22 @@ namespace Unity.Game.Conditions
             return result;
         }
 
+        public void CheckCondition()
+        {
+            // mock ConditionPicker True/False
+            if (conditionName == ConditionName.MockTrue)
+            {
+                SetResult(true);
+            }
+            else if (conditionName == ConditionName.MockFalse)
+            {
+                SetResult(false);
+            }
+
+        }
+
     }
+
 }
+
+

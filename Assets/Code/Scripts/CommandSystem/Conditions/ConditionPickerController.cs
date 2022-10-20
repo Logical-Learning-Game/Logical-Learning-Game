@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Game.Command;
 
 namespace Unity.Game.Conditions
 {
@@ -10,6 +11,8 @@ namespace Unity.Game.Conditions
     {
 
         public static ConditionPickerController Instance { get; private set; }
+
+        private ConditionCommand selectingCommand;
         void Awake()
         {
             if (Instance == null)
@@ -34,11 +37,12 @@ namespace Unity.Game.Conditions
         {
             if (Input.GetMouseButtonDown(0))
             {
-                foreach (Image condition in GetComponentsInChildren<Image>())
+                foreach (ConditionChoice choice in GetComponentsInChildren<ConditionChoice>())
                 {
-                    if (RectTransformUtility.RectangleContainsScreenPoint(condition.transform as RectTransform, Input.mousePosition))
+                    if (RectTransformUtility.RectangleContainsScreenPoint(choice.transform as RectTransform, Input.mousePosition))
                     {
-                        Debug.Log("Clicked on condition name: "+condition.gameObject.name);
+                        Debug.Log("Clicked on condition name: "+choice.gameObject.name);
+                        selectingCommand.SetCondition(choice.Condition);
                     }
 
                     //if (!RectTransformUtility.RectangleContainsScreenPoint(transform as RectTransform, Input.mousePosition))
@@ -55,6 +59,7 @@ namespace Unity.Game.Conditions
         {
             gameObject.SetActive(true);
             gameObject.transform.position = transform.position;
+            selectingCommand = transform.GetComponentInParent<ConditionCommand>();
         }
 
         public void Close()
