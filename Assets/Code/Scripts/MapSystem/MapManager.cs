@@ -55,7 +55,17 @@ namespace Unity.Game.Map
         // Update is called once per frame
         void Update()
         {
-
+            //briefly test OnTileEntered and IsEnterable
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                foreach (GameObject tile in TileObjects)
+                {
+                    if (tile.GetComponent<Tile>().IsEnterable())
+                    {
+                        tile.GetComponent<Tile>().OnTileEntered();
+                    }
+                }
+            }
         }
 
         void CreateMap()
