@@ -39,47 +39,45 @@ namespace Unity.Game.Level
             // movement test
             if (Input.GetKeyDown(KeyCode.W))
             {
-                //StartCoroutine(Player.Instance.MoveBy(1, 0));
-                StartCoroutine(Player.Instance.Move(Player.Instance.FrontPos()));
+                Debug.Log("player move from " + string.Join(",", GetPos()) + " to " + string.Join(",", GetPos(Player.Instance.Front())));
+                StartCoroutine(Player.Instance.MoveTo(Player.Instance.Front()));
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-                //StartCoroutine(Player.Instance.MoveBy(0, 1));
-                StartCoroutine(Player.Instance.Move(Player.Instance.LeftPos()));
+                Debug.Log("player move from " + string.Join(",", GetPos()) + " to " + string.Join(",", GetPos(Player.Instance.Left())));
+                StartCoroutine(Player.Instance.MoveTo(Player.Instance.Left()));
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
-                //StartCoroutine(Player.Instance.MoveBy(0, -1));
-                StartCoroutine(Player.Instance.Move(Player.Instance.RightPos()));
+                Debug.Log("player move from " + string.Join(",", GetPos()) + " to " + string.Join(",", GetPos(Player.Instance.Right())));
+                StartCoroutine(Player.Instance.MoveTo(Player.Instance.Right()));
             }
             if (Input.GetKeyDown(KeyCode.S))
             {
-                //StartCoroutine(Player.Instance.MoveBy(-1, 0));
-                StartCoroutine(Player.Instance.Move(Player.Instance.BackPos()));
+                Debug.Log("player move from " + string.Join(",", GetPos()) + " to " + string.Join(",", GetPos(Player.Instance.Back())));
+                StartCoroutine(Player.Instance.MoveTo(Player.Instance.Back()));
             }
-
 
             // tile from direction test
             if (Input.GetKeyDown(KeyCode.I))
             {
-                GetMapTile(Player.Instance.FrontPos());
-                //Debug.Log(Player.Instance.FrontPos()[0] + " : " + Player.Instance.FrontPos()[1]);
+                GetMapTile(GetPos(Player.Instance.Front()));
             }
             if (Input.GetKeyDown(KeyCode.J))
             {
-                GetMapTile(Player.Instance.LeftPos());
-                //Debug.Log(Player.Instance.LeftPos()[0] + " : " + Player.Instance.LeftPos()[1]);
+                GetMapTile(GetPos(Player.Instance.Left()));
             }
             if (Input.GetKeyDown(KeyCode.L))
             {
-                GetMapTile(Player.Instance.RightPos());
-
-                //Debug.Log(Player.Instance.RightPos()[0] + " : " + Player.Instance.RightPos()[1]);
+                GetMapTile(GetPos(Player.Instance.Right()));
             }
             if (Input.GetKeyDown(KeyCode.K))
             {
-                GetMapTile(Player.Instance.BackPos());
-                //Debug.Log(Player.Instance.BackPos()[0] + " : " + Player.Instance.BackPos()[1]);
+                GetMapTile(GetPos(Player.Instance.Back()));
+            }
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                GetMapTile(GetPos());
             }
         }
 
@@ -95,6 +93,12 @@ namespace Unity.Game.Level
                 Debug.Log(MapManager.Instance.TileObjects[pos[0], pos[1]].name);
                 return MapManager.Instance.TileObjects[pos[0], pos[1]].GetComponent<Tile>();
             }
+        }
+
+        public int[] GetPos(Vector3 pos = new Vector3())
+        {
+            Debug.Log(pos);
+            return new int[] { Player.Instance.posX + (int)pos.x, Player.Instance.posZ + (int)pos.z };
         }
 
         void SetPlayerPosition(int x, int z)
