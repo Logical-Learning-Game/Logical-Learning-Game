@@ -10,7 +10,6 @@ namespace Unity.Game.Level
     public class LevelManager : MonoBehaviour
     {
         public static LevelManager Instance { get; private set; }
-        public int[] playerPosition = new int[] { 0, 0 };
 
         // Start is called before the first frame update
         void Awake()
@@ -97,17 +96,16 @@ namespace Unity.Game.Level
 
         public int[] GetPos(Vector3 pos = new Vector3())
         {
-            Debug.Log(pos);
-            return new int[] { Player.Instance.posX + (int)pos.x, Player.Instance.posZ + (int)pos.z };
+            int[] result = new int[] { Mathf.RoundToInt(Player.Instance.posX + pos.x), Mathf.RoundToInt(Player.Instance.posZ + pos.z) };
+            //Debug.Log("PosX: "+ Player.Instance.posX +"+"+ Mathf.RoundToInt(pos.x) + "= "+ Mathf.RoundToInt(Player.Instance.posX + pos.x) + "\nposZ: " + Player.Instance.posZ + "+" + Mathf.RoundToInt(pos.z) + "= " + Mathf.RoundToInt(Player.Instance.posZ + pos.z));
+            return result;
         }
 
         void SetPlayerPosition(int x, int z)
         {
-            playerPosition[0] = x;
-            playerPosition[1] = z;
-            Player.Instance.transform.position = new Vector3(playerPosition[0] * MapConfig.TILE_SCALE, Player.Instance.transform.position.y, playerPosition[1] * MapConfig.TILE_SCALE);
+            Player.Instance.transform.position = new Vector3(x * MapConfig.TILE_SCALE, Player.Instance.transform.position.y, z * MapConfig.TILE_SCALE);
         }
-
+        
         void SetPlayerRotation(int x, int z)
         {
             if (x == 0 && z == 1)
