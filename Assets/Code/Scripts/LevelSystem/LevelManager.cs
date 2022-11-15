@@ -113,12 +113,13 @@ namespace Unity.Game.Level
                 else // if cannot, return the player action
                 {
                     Debug.Log("Tile is not Enterable");
+                    StartCoroutine(Player.Instance.OnCannotMoveTo(Direction));
                 }
             }
             else // no tile reference, return the player action
             {
                 Debug.Log("Can't Move Into null Tile (" + tilePos[0] + "," + tilePos[1] + ")");
-                return;
+                StartCoroutine(Player.Instance.OnCannotMoveTo(Direction));
             }
         }
 
