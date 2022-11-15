@@ -81,20 +81,11 @@ public class Player : MonoBehaviour
         while (Vector3.Distance(transform.position, destination) >= 0.01f)
         {
             transform.position = Vector3.MoveTowards(transform.position, destination, PlayerConfig.PLAYER_MOVE_SPEED * Time.deltaTime);
-            //Debug.Log(transform.position+" : "+ destination);
             yield return null;
         }
         transform.position = Vector3Int.RoundToInt(destination);
         isMoving = false;
     }
-
-    public IEnumerator Move(int[] pos)
-    {
-        Debug.Log("test move " + pos[0] + " : " + pos[1]);
-        yield return MoveTo(new Vector3(pos[0] * MapConfig.TILE_SCALE, posY, pos[1] * MapConfig.TILE_SCALE));
-        Debug.Log("test move ended");
-    }
-
 
 
     // Update is called once per frame

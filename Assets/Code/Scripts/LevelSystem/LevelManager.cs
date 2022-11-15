@@ -38,23 +38,19 @@ namespace Unity.Game.Level
             // movement test
             if (Input.GetKeyDown(KeyCode.W))
             {
-                Debug.Log("player move from " + string.Join(",", GetPos()) + " to " + string.Join(",", GetPos(Player.Instance.Front())));
-                StartCoroutine(Player.Instance.MoveTo(Player.Instance.Front()));
+                OnPlayerMove(Player.Instance.Front());
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-                Debug.Log("player move from " + string.Join(",", GetPos()) + " to " + string.Join(",", GetPos(Player.Instance.Left())));
-                StartCoroutine(Player.Instance.MoveTo(Player.Instance.Left()));
+                OnPlayerMove(Player.Instance.Left());
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
-                Debug.Log("player move from " + string.Join(",", GetPos()) + " to " + string.Join(",", GetPos(Player.Instance.Right())));
-                StartCoroutine(Player.Instance.MoveTo(Player.Instance.Right()));
+                OnPlayerMove(Player.Instance.Right());
             }
             if (Input.GetKeyDown(KeyCode.S))
             {
-                Debug.Log("player move from " + string.Join(",", GetPos()) + " to " + string.Join(",", GetPos(Player.Instance.Back())));
-                StartCoroutine(Player.Instance.MoveTo(Player.Instance.Back()));
+                OnPlayerMove(Player.Instance.Back());
             }
 
             // tile from direction test
@@ -80,17 +76,49 @@ namespace Unity.Game.Level
             }
         }
 
-        Tile GetMapTile(int[] pos)
+        (Tile, int[]) GetMapTile(int[] pos)
         {
             if (pos[0] < 0 || pos[0] >= MapManager.Instance.TileObjects.GetLength(0) || pos[1] < 0 || pos[1] >= MapManager.Instance.TileObjects.GetLength(1))
             {
                 Debug.Log("Out of range");
-                return null;
+                return (null, pos);
             }
             else
             {
-                Debug.Log(MapManager.Instance.TileObjects[pos[0], pos[1]].name);
-                return MapManager.Instance.TileObjects[pos[0], pos[1]].GetComponent<Tile>();
+                //Debug.Log("Tile: " + MapManager.Instance.TileObjects[pos[0], pos[1]].name);
+                return (MapManager.Instance.TileObjects[pos[0], pos[1]].GetComponent<Tile>(), pos);
+            }
+        }
+        (Tile, int[]) GetMapTile(Vector3 direction)
+        {
+            int[] pos = GetPos(direction);
+            return GetMapTile(pos);
+        }
+
+        public void OnPlayerMove(Vector3 Direction)
+        {
+            // check tile behavior
+            (Tile moveToTile, int[] tilePos) = GetMapTile(Direction);
+            // if can get tile reference
+            if (moveToTile != null)
+            {
+                // if can enter, move the player 
+                if (moveToTile.IsEnterable() == true)
+                {
+                    Debug.Log("Tile is Enterable");
+                    Debug.Log("Player from ("+ string.Join(",", GetPos()) + ") Move Into: " + moveToTile.name + " at (" + tilePos[0] + "," + tilePos[1]+")");
+                    StartCoroutine(Player.Instance.MoveTo(Direction));
+                    moveToTile.OnTileEntered();
+                }
+                else // if cannot, return the player action
+                {
+                    Debug.Log("Tile is not Enterable");
+                }
+            }
+            else // no tile reference, return the player action
+            {
+                Debug.Log("Can't Move Into null Tile (" + tilePos[0] + "," + tilePos[1] + ")");
+                return;
             }
         }
 
@@ -105,7 +133,6 @@ namespace Unity.Game.Level
         {
             Player.Instance.transform.position = new Vector3(x * MapConfig.TILE_SCALE, Player.Instance.transform.position.y, z * MapConfig.TILE_SCALE);
         }
-        
         void SetPlayerRotation(int x, int z)
         {
             if (x == 0 && z == 1)

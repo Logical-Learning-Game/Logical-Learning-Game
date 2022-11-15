@@ -39,14 +39,14 @@ namespace Unity.Game.Map
             Debug.Log("MapManager Awake");
             if (Instance == null)
             {
-                Debug.Log("MapManager Instance is null");
+                //Debug.Log("MapManager Instance is null");
                 Instance = this;
                 DestroyMap();
                 CreateMap();
             }
             else
             {
-                Debug.Log("MapManager Instance is not null ");
+                //Debug.Log("MapManager Instance is not null ");
                 Destroy(gameObject);
             }
 
