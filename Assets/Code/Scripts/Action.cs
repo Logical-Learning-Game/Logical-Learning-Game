@@ -9,7 +9,6 @@ namespace Unity.Game.Action
     public class Action
     {
         public string actionName;
-        
         public virtual IEnumerator Execute()
         {
             yield return new WaitForSeconds(1);

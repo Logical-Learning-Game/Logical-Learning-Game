@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GlobalConfig;
 
 namespace Unity.Game.Map
 {
@@ -14,12 +15,11 @@ namespace Unity.Game.Map
         [SerializeField] private GameObject GoalTile;
         [SerializeField] private GameObject DoorTile;
         [SerializeField] private GameObject ConditionTile;
-
-        private float tileScale = 6f;
+        
         public static MapManager Instance { get; private set; }
         // temporary map string
         // E = Empty
-        // O = Obstracle
+        // O = Obstacle
         // C = Condition
         // G = Goal
         // D = Door
@@ -39,14 +39,14 @@ namespace Unity.Game.Map
             Debug.Log("MapManager Awake");
             if (Instance == null)
             {
-                Debug.Log("MapManager Instance is null");
+                //Debug.Log("MapManager Instance is null");
                 Instance = this;
                 DestroyMap();
                 CreateMap();
             }
             else
             {
-                Debug.Log("MapManager Instance is not null ");
+                //Debug.Log("MapManager Instance is not null ");
                 Destroy(gameObject);
             }
 
@@ -78,23 +78,23 @@ namespace Unity.Game.Map
                     switch (textTiles[i, j])
                     {
                         case "E":
-                            TileObjects[i, j] = Instantiate(EmptyTile, new Vector3(i * tileScale, 0, j * tileScale), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(EmptyTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         case "O":
-                            TileObjects[i, j] = Instantiate(ObstracleTile, new Vector3(i * tileScale, 0, j * tileScale), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(ObstracleTile, new Vector3(i *  MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         case "G":
-                            TileObjects[i, j] = Instantiate(GoalTile, new Vector3(i * tileScale, 0, j * tileScale), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(GoalTile, new Vector3(i *  MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         case "D":
-                            TileObjects[i, j] = Instantiate(DoorTile, new Vector3(i * tileScale, 0, j * tileScale), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(DoorTile, new Vector3(i *  MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         case "C":
-                            TileObjects[i, j] = Instantiate(ConditionTile, new Vector3(i * tileScale, 0, j * tileScale), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(ConditionTile, new Vector3(i *  MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         default:
