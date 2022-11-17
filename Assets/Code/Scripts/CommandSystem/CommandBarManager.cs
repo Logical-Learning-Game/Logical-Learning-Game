@@ -87,7 +87,7 @@ namespace Unity.Game.Command
 
         public void CheckRemainingCommand()
         {
-
+            
             // need more implementation later
             if (GameObject.FindGameObjectsWithTag("StartCommand").Length >= maxCommand.Start)
             {
