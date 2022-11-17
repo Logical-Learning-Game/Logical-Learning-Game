@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+using GlobalConfig;
 
 namespace Unity.Game.Command
 {
@@ -18,12 +18,13 @@ namespace Unity.Game.Command
 
         public GameObject selectedCommand;
 
-        private int maxSteps = 10;
+        private int maxSteps = CommandConfig.COMMAND_MAX_STEP;
         private int currentSteps = 0;
 
-
-
         public bool isExecuting = false;
+        private bool stopOnNextAction = false;
+        private bool isFreezing = false;
+
 
         // Start is called before the first frame update
 
@@ -53,21 +54,28 @@ namespace Unity.Game.Command
                 CommandBarManager.Instance.OnUpdateCommandBar();
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
-                Debug.Log("Executing");
-                ExecuteCommands();
+                ToggleExecute();
             }
 
-            if (Input.GetKeyDown(KeyCode.Delete))
+            if (Input.GetKeyDown(KeyCode.Backspace))
             {
-                if (selectedCommand && !isExecuting)
-                {
-                    Debug.Log("Deleting " + selectedCommand.name);
-                    selectedCommand.GetComponent<AbstractCommand>().Delete();
-                }
-                CommandBarManager.Instance.OnUpdateCommandBar();
+                Debug.Log("Clearing");
+                ClearCommands();
             }
+
+
+            // no selectable right now
+            //if (Input.GetKeyDown(KeyCode.Delete))
+            //{
+            //    if (selectedCommand && !isExecuting)
+            //    {
+            //        Debug.Log("Deleting " + selectedCommand.name);
+            //        selectedCommand.GetComponent<AbstractCommand>().Delete();
+            //    }
+            //    CommandBarManager.Instance.OnUpdateCommandBar();
+            //}
 
         }
         public void AddCommand(GameObject command)
@@ -109,7 +117,7 @@ namespace Unity.Game.Command
                 {
                     //SetSelectedCommand(null);
                     ResetSteps();
-                    SetisExecuting(true);
+                    SetIsExecuting(true);
                     GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
                     startCommand.GetComponent<AbstractCommand>().StartExecute();
                 }
@@ -121,9 +129,39 @@ namespace Unity.Game.Command
 
 
         }
+        public void ClearCommands() {
 
-        //temporatory remove selectable due to unexpected bugs
+            if (!isExecuting)
+            {
+                foreach (GameObject command in commands)
+                {
+                    command.GetComponent<AbstractCommand>().Delete();
+                }
+                commands.Clear();
+                CommandBarManager.Instance.OnUpdateCommandBar();
+            }
+        }
+        public void StopExecute()
+        {
+            SetStopOnNextAction(true);
+        }
+
+        public void ToggleExecute()
+        {
+            if (!isExecuting)
+            {
+                Debug.Log("Executing");
+                ExecuteCommands();
+            }
+            else
+            {
+                Debug.Log("Stopping");
+                StopExecute();
+            }
+        }
         
+        //temporatory remove selectable due to unexpected bugs
+
         //public void SetSelectedCommand(GameObject commandObject = null)
         //{
         //    //if (selectedCommand)
@@ -220,7 +258,13 @@ namespace Unity.Game.Command
         {
             // update linerenderer color when command is execute
 
-
+            if (stopOnNextAction == true)
+            {
+                SetStopOnNextAction(false);
+                SetIsExecuting(false);
+                return;
+            }
+            
             // check for limiting steps
             StepUp();
             if (GetRemainingStep() > 0)
@@ -231,21 +275,26 @@ namespace Unity.Game.Command
                 }
                 else
                 {
-                    SetisExecuting(false);
+                    SetIsExecuting(false);
                     Debug.Log("All Commands Executed");
                 }
             }
             else
             {
-                SetisExecuting(false);
+                SetIsExecuting(false);
                 Debug.Log("Max Step Exceed");
             }
 
         }
 
-        public void SetisExecuting(bool isExecuting)
+        public void SetIsExecuting(bool isExecuting)
         {
             this.isExecuting = isExecuting;
+        }
+
+        public void SetStopOnNextAction(bool stopOnNextAction)
+        {
+            this.stopOnNextAction = stopOnNextAction;
         }
 
     }
