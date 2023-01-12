@@ -7,5 +7,6 @@ namespace GlobalConfig
     {
         public static float TILE_SCALE { get; } = 6f;
         public static float TILE_INVESTIGATE_DISTANCE = 2 / 5f;
+        public static float MAP_ROTATE_SPEED = 1f;
     }
 }

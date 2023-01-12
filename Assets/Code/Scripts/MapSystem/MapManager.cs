@@ -15,7 +15,9 @@ namespace Unity.Game.Map
         [SerializeField] private GameObject GoalTile;
         [SerializeField] private GameObject DoorTile;
         [SerializeField] private GameObject ConditionTile;
+
         
+
         public static MapManager Instance { get; private set; }
         // temporary map string
         // E = Empty
@@ -26,10 +28,15 @@ namespace Unity.Game.Map
 
         private string[,] textTiles = new string[,]
         {
-           { "E","O","O","G" },
-           { "E","O","O","D" },
-           { "E","O","O","D" },
-           { "E","E","E","E" }
+           //{ "E","O","O","G" },
+           //{ "E","O","O","D" },
+           //{ "E","O","O","D" },
+           //{ "E","E","E","E" },
+           { "E","O","O","G","O","E" },
+           { "E","O","O","D","O","E" },
+           { "E","O","O","D","O","E" },
+           { "E","E","E","E","O","E" },
+           { "E","E","E","E","O","E" },
         };
 
         public GameObject[,] TileObjects;
@@ -39,17 +46,20 @@ namespace Unity.Game.Map
             Debug.Log("MapManager Awake");
             if (Instance == null)
             {
-                //Debug.Log("MapManager Instance is null");
                 Instance = this;
-                DestroyMap();
-                CreateMap();
+ 
             }
             else
             {
-                //Debug.Log("MapManager Instance is not null ");
                 Destroy(gameObject);
             }
 
+        }
+
+        private void Start()
+        {
+            DestroyMap();
+            CreateMap();
         }
 
         // Update is called once per frame
@@ -102,6 +112,8 @@ namespace Unity.Game.Map
                     }
                 }
             }
+            GameObject MapCenterObj = MapViewManager.Instance.GetMapCenter(textTiles.GetLength(0), textTiles.GetLength(1));
+            MapCenterObj.transform.SetParent(transform);
         }
 
         void DestroyMap()
