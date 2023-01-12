@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using GlobalConfig;
+using Unity.Game.Map;
 
 namespace Unity.Game.Command
 {
@@ -120,6 +121,7 @@ namespace Unity.Game.Command
                     SetIsExecuting(true);
                     GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
                     startCommand.GetComponent<AbstractCommand>().StartExecute();
+                    StartCoroutine(MapViewManager.Instance.ViewPlayerMove());
                 }
                 else
                 {
