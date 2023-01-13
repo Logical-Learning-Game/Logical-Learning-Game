@@ -28,15 +28,15 @@ namespace Unity.Game.Map
 
         private string[,] textTiles = new string[,]
         {
-           //{ "E","O","O","G" },
-           //{ "E","O","O","D" },
-           //{ "E","O","O","D" },
-           //{ "E","E","E","E" },
-           { "E","O","O","G","O","E" },
-           { "E","O","O","D","O","E" },
-           { "E","O","O","D","O","E" },
-           { "E","E","E","E","O","E" },
-           { "E","E","E","E","O","E" },
+           { "E","O","O","G" },
+           { "E","O","O","D" },
+           { "E","O","O","D" },
+           { "E","E","E","E" },
+           //{ "E","O","O","G","O","E" },
+           //{ "E","O","O","D","O","E" },
+           //{ "E","O","O","D","O","E" },
+           //{ "E","E","E","E","O","E" },
+           //{ "E","E","E","E","O","E" },
         };
 
         public GameObject[,] TileObjects;
