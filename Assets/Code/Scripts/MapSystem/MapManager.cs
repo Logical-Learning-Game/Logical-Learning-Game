@@ -16,7 +16,7 @@ namespace Unity.Game.Map
         [SerializeField] private GameObject DoorTile;
         [SerializeField] private GameObject ConditionTile;
 
-        
+
 
         public static MapManager Instance { get; private set; }
         // temporary map string
@@ -47,7 +47,7 @@ namespace Unity.Game.Map
             if (Instance == null)
             {
                 Instance = this;
- 
+
             }
             else
             {
@@ -88,23 +88,23 @@ namespace Unity.Game.Map
                     switch (textTiles[i, j])
                     {
                         case "E":
-                            TileObjects[i, j] = Instantiate(EmptyTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(EmptyTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         case "O":
-                            TileObjects[i, j] = Instantiate(ObstracleTile, new Vector3(i *  MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(ObstracleTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         case "G":
-                            TileObjects[i, j] = Instantiate(GoalTile, new Vector3(i *  MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(GoalTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         case "D":
-                            TileObjects[i, j] = Instantiate(DoorTile, new Vector3(i *  MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(DoorTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         case "C":
-                            TileObjects[i, j] = Instantiate(ConditionTile, new Vector3(i *  MapConfig.TILE_SCALE, 0, j *  MapConfig.TILE_SCALE), Quaternion.identity);
+                            TileObjects[i, j] = Instantiate(ConditionTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
                         default:
@@ -112,8 +112,11 @@ namespace Unity.Game.Map
                     }
                 }
             }
-            GameObject MapCenterObj = MapViewManager.Instance.GetMapCenter(textTiles.GetLength(0), textTiles.GetLength(1));
-            MapCenterObj.transform.SetParent(transform);
+
+            if (Application.isPlaying)
+            {
+                MapViewManager.Instance.GetMapCenter(textTiles.GetLength(0), textTiles.GetLength(1));
+            }
         }
 
         void DestroyMap()

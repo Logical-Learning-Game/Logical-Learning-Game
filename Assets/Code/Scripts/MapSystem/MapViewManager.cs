@@ -48,13 +48,12 @@ namespace Unity.Game.Map
             }
         }
 
-        public GameObject GetMapCenter(float x, float y)
+        public void GetMapCenter(float x, float y)
         {
             if (!MapCenterObj)
             {
-                GameObject MapCenter = new GameObject("MapCenter");
-                MapCenterObj = Instantiate(MapCenter);
-
+                MapCenterObj = new GameObject("MapCenter");
+                MapCenterObj.transform.SetParent(transform);
             }
             if (!MapCameraObj)
             {
@@ -62,9 +61,7 @@ namespace Unity.Game.Map
             }
 
             MapCameraObj.GetComponent<CinemachineVirtualCamera>().Follow = MapCenterObj.transform;
-            Debug.Log(MapCameraObj);
             MapCenterObj.transform.position = new Vector3((x - 1) * MapConfig.TILE_SCALE / 2, 0, (y - 1) * MapConfig.TILE_SCALE / 2);
-            return MapCenterObj;
         }
 
         private void SetIsMapRotating(bool isMapRotating)
