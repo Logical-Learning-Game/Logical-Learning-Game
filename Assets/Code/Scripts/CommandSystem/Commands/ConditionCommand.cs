@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.Game.Action;
 using Unity.Game.Conditions;
+using Unity.Game.Map;
 
 namespace Unity.Game.Command
 {
@@ -26,8 +27,9 @@ namespace Unity.Game.Command
             yield return AddAction();
             
             Debug.Log("Executing Complete");
+            ConditionSign tileSign = Player.Instance.GetLastSign();
 
-            if (commandCondition.GetResult())
+            if (commandCondition.CompareSign(tileSign))
             {
                 // lead to NextCommand of LinkerCommand When Result is True
                 status.SetStatus(CommandStatus.Status.Default);
@@ -36,7 +38,6 @@ namespace Unity.Game.Command
             }
             else
             {
-                
                 // lead to Default NextCommand
                 status.SetStatus(CommandStatus.Status.Success);
                 linkerCommand.status.SetStatus(CommandStatus.Status.Default);
@@ -48,7 +49,6 @@ namespace Unity.Game.Command
         public override IEnumerator AddAction()
         {
             yield return ActionManager.Instance.AddAction(new Action.ConditionAction(commandCondition));
-            Debug.Log("Condition Result: " + commandCondition.GetResult());
         }
 
         protected override void Awake()
@@ -83,14 +83,15 @@ namespace Unity.Game.Command
 
         public void SetCondition(Condition condition)
         {
-            Debug.Log("Setting Condition to: " + condition.conditionName);
+            Debug.Log("Setting Condition to: " + condition.sign);
             commandCondition = condition;
             OnSetCondition();
         }
 
         private void OnSetCondition()
         {
-            linkerCommand.transform.Find("CommandSign").GetComponent<Image>().color = commandCondition.conditionName == ConditionName.MockTrue ? Color.green : Color.red;
+            Debug.Log("Condition is Set");
+            //linkerCommand.transform.Find("CommandSign").GetComponent<Image>().color = commandCondition.sign == ConditionName.MockTrue ? Color.green : Color.red;
         }
     }
     
