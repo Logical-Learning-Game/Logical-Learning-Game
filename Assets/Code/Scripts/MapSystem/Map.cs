@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using GlobalConfig;
-using Unity.Game.Conditions;
 
 namespace Unity.Game.Map
 {
@@ -13,12 +12,11 @@ namespace Unity.Game.Map
            { TileType.EMPTY,TileType.OBSTACLE,TileType.OBSTACLE,TileType.GOAL },
            { TileType.EMPTY,TileType.OBSTACLE,TileType.OBSTACLE,TileType.EMPTY },
            { TileType.EMPTY,TileType.OBSTACLE,TileType.OBSTACLE,TileType.EMPTY },
-           { TileType.CONDITION_A,TileType.EMPTY,TileType.EMPTY,TileType.EMPTY },
+           { TileType.CONDITION_A,TileType.CONDITION_C,TileType.CONDITION_D,TileType.CONDITION_B },
        };
 
         public int Width { get { return TileArray.GetLength(0); } }
         public int Height { get { return TileArray.GetLength(1); } }
-
         //Item Implementation
         //public Item items[] = List<Item>();
 

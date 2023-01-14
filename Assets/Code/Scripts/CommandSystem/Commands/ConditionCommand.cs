@@ -81,16 +81,17 @@ namespace Unity.Game.Command
             return AllNextCommands;
         }
 
-        public void SetCondition(Condition condition)
+        public void SetCondition(ConditionSign condition)
         {
-            Debug.Log("Setting Condition to: " + condition.sign);
-            commandCondition = condition;
+            Debug.Log("Setting Condition to: " + condition.ToString());
+            commandCondition.SetConditionSign(condition);
             OnSetCondition();
         }
 
         private void OnSetCondition()
         {
-            Debug.Log("Condition is Set");
+            linkerCommand.GetComponent<LinkerCommand>().SetConditionSign(commandCondition.sign);
+
             //linkerCommand.transform.Find("CommandSign").GetComponent<Image>().color = commandCondition.sign == ConditionName.MockTrue ? Color.green : Color.red;
         }
     }

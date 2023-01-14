@@ -83,7 +83,7 @@ namespace Unity.Game.Command
                 UILineRenderer lineDrawer = lineDrawerObject.GetComponent<UILineRenderer>();
                 lineDrawer.Points = new Vector2[2] { Vector2.zero, Vector2.zero };
                 lineDrawer.Points[0] = new Vector2(0, 0);
-                lineDrawer.lineThickness = 50f;
+                lineDrawer.lineThickness = 30f;
 
                 lineDrawerObject.transform.SetParent(GameObject.Find("LineDrawers").transform);
             }

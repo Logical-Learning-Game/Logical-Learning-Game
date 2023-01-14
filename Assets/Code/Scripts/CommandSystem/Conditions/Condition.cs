@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Unity.Game.Conditions
 {
     public enum ConditionSign { EMPTY,A, B, C, D, E }
+
     public class Condition
     {
         public ConditionSign sign;

@@ -1,19 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 namespace Unity.Game.Conditions
 {
     public class ConditionChoice : MonoBehaviour
     {
-        [SerializeField]
-        private Condition condition = new Condition();
-        public Condition Condition
+        [SerializeField] private ConditionSign condition;
+        [SerializeField] private GameObject conditionDisplay;
+
+        public void SetCondition(ConditionSign sign)
         {
-            get { return condition; }
-            set { condition = value; }
+            condition = sign;
+            if (sign != ConditionSign.EMPTY)
+            {
+                conditionDisplay.GetComponent<TMP_Text>().text = sign.ToString();
+            }
+            else
+            {
+                conditionDisplay.GetComponent<TMP_Text>().text = "";
+
+            }
         }
 
-        
+        public ConditionSign GetCondition()
+        {
+            return condition;
+        }
+
     }
 }

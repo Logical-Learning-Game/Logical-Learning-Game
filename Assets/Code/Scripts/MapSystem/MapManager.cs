@@ -17,7 +17,7 @@ namespace Unity.Game.Map
         [SerializeField] private GameObject DoorTile;
         [SerializeField] private GameObject ConditionTile;
 
-        Map gameMap = new Map();
+        public Map gameMap = new Map();
 
         public static MapManager Instance { get; private set; }
         // temporary map string
