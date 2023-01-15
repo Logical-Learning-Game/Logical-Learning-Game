@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using GlobalConfig;
 
-namespace Unity.Game.Map
+namespace Unity.Game.MapSystem
 {
     public class MapViewManager : MonoBehaviour
     {

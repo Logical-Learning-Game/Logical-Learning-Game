@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Game.Map;
+using Unity.Game.MapSystem;
 using GlobalConfig;
 
 namespace Unity.Game.Level
@@ -11,6 +11,7 @@ namespace Unity.Game.Level
     {
         public static LevelManager Instance { get; private set; }
 
+        public Map gameMap;
         // Start is called before the first frame update
         void Awake()
         {
@@ -18,6 +19,7 @@ namespace Unity.Game.Level
             if (Instance == null)
             {
                 Instance = this;
+                gameMap = new Map();
             }
             else
             {
@@ -168,6 +170,16 @@ namespace Unity.Game.Level
             {
                 Player.Instance.transform.rotation = Quaternion.Euler(0, 270, 0);
             }
+        }
+
+        public Map GetMap()
+        {
+            return gameMap;
+        }
+
+        public void SetMap(Map map)
+        {
+            gameMap = map;
         }
     }
 }

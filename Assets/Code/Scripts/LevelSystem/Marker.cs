@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Game.Map;
+using Unity.Game.MapSystem;
 using GlobalConfig;
 
 namespace Unity.Game.Level

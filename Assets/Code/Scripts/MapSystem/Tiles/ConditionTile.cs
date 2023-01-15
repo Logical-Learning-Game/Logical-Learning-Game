@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.Game.Conditions;
 using TMPro;
 
-namespace Unity.Game.Map
+namespace Unity.Game.MapSystem
 {
     public class ConditionTile : Tile
     {

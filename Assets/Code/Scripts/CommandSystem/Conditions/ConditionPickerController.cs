@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Game.Command;
-using Unity.Game.Map;
+using Unity.Game.Level;
+using Unity.Game.MapSystem;
 using UnityEngine.UI.Extensions;
 
 namespace Unity.Game.Conditions
@@ -128,7 +129,7 @@ namespace Unity.Game.Conditions
 
         public HashSet<ConditionSign> GetUniqueConditions()
         {
-            TileType[,] TileArray = MapManager.Instance.gameMap.TileArray;
+            TileType[,] TileArray = LevelManager.Instance.GetMap().TileArray;
             HashSet<ConditionSign> uniqueConditions = new HashSet<ConditionSign>();
             foreach (TileType tile in TileArray)
             {

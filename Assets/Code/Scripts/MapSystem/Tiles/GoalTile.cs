@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Game.Command;
 
-namespace Unity.Game.Map
+namespace Unity.Game.MapSystem
 {
     public class GoalTile : Tile
     {

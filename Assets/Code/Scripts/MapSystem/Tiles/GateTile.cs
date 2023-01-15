@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Game.Conditions;
 
-namespace Unity.Game.Map
+namespace Unity.Game.MapSystem
 {
     public class GateTile : Tile
     {

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using GlobalConfig;
+using Unity.Game.ItemSystem;
 
-namespace Unity.Game.Map
+namespace Unity.Game.MapSystem
 {
     public enum TileType { EMPTY, OBSTACLE, GOAL, DOOR, CONDITION_A, CONDITION_B, CONDITION_C, CONDITION_D, CONDITION_E }
     public class Map

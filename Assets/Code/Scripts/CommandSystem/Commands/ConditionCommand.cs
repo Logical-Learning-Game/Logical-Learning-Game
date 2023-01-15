@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.Game.Action;
 using Unity.Game.Conditions;
-using Unity.Game.Map;
+using Unity.Game.MapSystem;
 
 namespace Unity.Game.Command
 {
