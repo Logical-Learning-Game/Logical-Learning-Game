@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
+using Unity.Game.Conditions;
 
 namespace Unity.Game
 {
@@ -49,6 +50,8 @@ namespace Unity.Game
                 return (int)(transform.position.z / MapConfig.TILE_SCALE);
             }
         }
+        
+        public ConditionSign lastSign = ConditionSign.EMPTY;
         // Start is called before the first frame update
         void Awake()
         {
@@ -163,6 +166,15 @@ namespace Unity.Game
             Debug.DrawRay(transform.position, transform.forward * MapConfig.TILE_SCALE / 2, Color.red);
             Debug.DrawRay(transform.position, Quaternion.Euler(0, -90, 0) * transform.forward * MapConfig.TILE_SCALE / 2, Color.blue);
             Debug.DrawRay(transform.position, Quaternion.Euler(0, 90, 0) * transform.forward * MapConfig.TILE_SCALE / 2, Color.blue);
+        }
+
+        public void SetLastSign(ConditionSign sign)
+        {
+            lastSign = sign;
+        }
+        public ConditionSign GetLastSign()
+        {
+            return lastSign;
         }
     }
 }

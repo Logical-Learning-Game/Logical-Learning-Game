@@ -4,39 +4,36 @@ using UnityEngine;
 
 namespace Unity.Game.Conditions
 {
-    public enum ConditionName { MockTrue, MockFalse }
+    public enum ConditionSign { EMPTY,A, B, C, D, E }
+
     public class Condition
     {
-        private bool result = false;
-        public ConditionName conditionName;
+        public ConditionSign sign;
 
-        public Condition(bool result = false)
+        public Condition()
         {
-            this.result = result;
+            sign = ConditionSign.A;
         }
 
-        public void SetResult(bool result)
+        public Condition(ConditionSign sign)
         {
-            this.result = result;
+            this.sign = sign;
+        }
+        public void SetConditionSign(ConditionSign sign)
+        {
+            this.sign = sign;
         }
 
-        public bool GetResult()
+        public bool CompareSign(ConditionSign tileSign)
         {
-            return result;
-        }
-
-        public void CheckCondition()
-        {
-            // mock ConditionPicker True/False
-            if (conditionName == ConditionName.MockTrue)
+            if (tileSign == sign)
             {
-                SetResult(true);
+                return true;
             }
-            else if (conditionName == ConditionName.MockFalse)
+            else
             {
-                SetResult(false);
+                return false;
             }
-
         }
 
     }
