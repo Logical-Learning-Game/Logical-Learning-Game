@@ -7,7 +7,7 @@ namespace Unity.Game.ItemSystem
     public enum ItemType { KEY_A, KEY_B, KEY_C }
     public class Item : MonoBehaviour
     {
-        ItemType itemType;
+        [SerializeField] ItemType itemType;
         void Start()
         {
 
