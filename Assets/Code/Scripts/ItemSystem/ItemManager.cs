@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Game.Level;
 using Unity.Game.MapSystem;
+using GlobalConfig;
 
 namespace Unity.Game.ItemSystem
 {
 
     public class ItemManager : MonoBehaviour
     {
-
+        [SerializeField] private GameObject KeyA;
+        [SerializeField] private GameObject KeyB;
+        [SerializeField] private GameObject KeyC;
         public static ItemManager Instance { get; private set; }
-        Map gameMap;
 
         public List<GameObject> ItemList;
         private void Awake()
@@ -28,18 +30,18 @@ namespace Unity.Game.ItemSystem
         // Start is called before the first frame update
         void Start()
         {
-            InitItemManager();
+    
         }
 
-        void InitItemManager()
+        public void InitItems()
         {
             if (ItemList.Count > 0)
             {
-                ItemList.Clear();
                 DestroyAllItemObjects();
+                ItemList.Clear();
             }
-            gameMap = LevelManager.Instance.GetMap();
-            SpawnItemsInMap();
+            Map gameMap = LevelManager.Instance.GetMap();
+            SpawnItemsInMap(gameMap);
         }
 
         // Update is called once per frame
@@ -47,10 +49,43 @@ namespace Unity.Game.ItemSystem
         {
 
         }
-
-        void SpawnItemsInMap()
+        
+        void SpawnItemsInMap(Map gameMap)
         {
+            uint[,] MapArray = gameMap.MapData;
 
+            for (int i = 0; i < gameMap.Width; i++)
+            {
+                for (int j = 0; j < gameMap.Height; j++)
+                {
+                    uint shifted = MapArray[i, j] >> 8;
+                    GameObject ItemObject;
+                    switch (shifted & 0b1111)
+                    {
+                        case 0b0000: // no item
+                            break;
+                        case 0b0001: // Key_A
+                            ItemObject = Instantiate(KeyA, new Vector3(i * MapConfig.TILE_SCALE, 2, j * MapConfig.TILE_SCALE), Quaternion.identity);
+                            ItemList.Add(ItemObject);
+                            MapManager.Instance.TileObjects[i, j].GetComponent<Tile>().SetItemObject(ItemObject);
+                            break;
+                        case 0b0010: // Key_B
+                            ItemObject = Instantiate(KeyB, new Vector3(i * MapConfig.TILE_SCALE, 2, j * MapConfig.TILE_SCALE), Quaternion.identity);
+                            ItemList.Add(ItemObject);
+                            MapManager.Instance.TileObjects[i, j].GetComponent<Tile>().SetItemObject(ItemObject);
+                            break;
+                        case 0b0011: // Key_C
+                            ItemObject = Instantiate(KeyC, new Vector3(i * MapConfig.TILE_SCALE, 2, j * MapConfig.TILE_SCALE), Quaternion.identity);
+                            ItemList.Add(ItemObject);
+                            MapManager.Instance.TileObjects[i, j].GetComponent<Tile>().SetItemObject(ItemObject);
+                            break;
+                        default:
+                            break;
+                    }
+
+
+                }
+            }
         }
 
         void RemoveItemFromMap(Item item)

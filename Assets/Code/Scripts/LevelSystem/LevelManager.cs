@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Game.MapSystem;
+using Unity.Game.ItemSystem;
+using Unity.Game.Conditions;
 using GlobalConfig;
 
 namespace Unity.Game.Level
@@ -19,12 +21,33 @@ namespace Unity.Game.Level
             if (Instance == null)
             {
                 Instance = this;
-                gameMap = new Map();
+
             }
             else
             {
                 Destroy(gameObject);
             }
+        }
+        void Start()
+        {
+            Map map = new Map();
+            InitLevel(map);
+        }
+
+        void InitLevel(Map map)
+        {
+            SetMap(map);
+            MapManager.Instance.InitMap();
+            ItemManager.Instance.InitItems();
+            ConditionPickerController.Instance.InitConditionPicker();
+            InitPlayer();
+        }
+
+        void InitPlayer()
+        {
+            (int[] playerPosition, int[] playerRotation) = gameMap.GetPlayerInit();
+            SetPlayerPosition(playerPosition[0], playerPosition[1]);
+            SetPlayerRotation(playerRotation[0], playerRotation[1]);
         }
 
         // Update is called once per frame
@@ -37,8 +60,8 @@ namespace Unity.Game.Level
                 // reset movement
                 if (Input.GetKeyDown(KeyCode.R))
                 {
-                    SetPlayerPosition(0, 0);
-                    SetPlayerRotation(1, 0);
+                    SetPlayerPosition(3, 0);
+                    SetPlayerRotation(1, 1);
                 }
 
                 // movement test 
@@ -154,19 +177,19 @@ namespace Unity.Game.Level
         }
         void SetPlayerRotation(int x, int z)
         {
-            if (x == 0 && z == 1)
+            if (x == 0 && z == 0)
             {
                 Player.Instance.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
-            else if (x == 1 && z == 0)
+            else if (x == 0 && z == 1)
             {
                 Player.Instance.transform.rotation = Quaternion.Euler(0, 90, 0);
             }
-            else if (x == 0 && z == -1)
+            else if (x == 1 && z == 0)
             {
                 Player.Instance.transform.rotation = Quaternion.Euler(0, 180, 0);
             }
-            else if (x == -1 && z == 0)
+            else if (x == 1 && z == 1)
             {
                 Player.Instance.transform.rotation = Quaternion.Euler(0, 270, 0);
             }
@@ -181,5 +204,7 @@ namespace Unity.Game.Level
         {
             gameMap = map;
         }
+
+       
     }
 }

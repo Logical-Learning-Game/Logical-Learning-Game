@@ -6,10 +6,11 @@ namespace Unity.Game.MapSystem
 {
     public class Tile : MonoBehaviour
     {
+        GameObject ItemObject;
         // Start is called before the first frame update
         void Awake()
         {
-            Debug.Log("Tile Created");
+
         }
 
         // Update is called once per frame
@@ -26,6 +27,16 @@ namespace Unity.Game.MapSystem
         public virtual void OnTileEntered()
         {
             Debug.Log("Character Entered Tile"+gameObject.name);
+        }
+
+        public void SetItemObject(GameObject itemObject)
+        {
+            ItemObject = itemObject;
+        }
+        
+        public GameObject GetItemObject()
+        {
+            return ItemObject;
         }
     }
 }

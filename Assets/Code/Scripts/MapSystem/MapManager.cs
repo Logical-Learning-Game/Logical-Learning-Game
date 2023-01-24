@@ -18,15 +18,12 @@ namespace Unity.Game.MapSystem
         [SerializeField] private GameObject DoorTile;
         [SerializeField] private GameObject ConditionTile;
 
-        Map gameMap;
-
         public static MapManager Instance { get; private set; }
 
         public GameObject[,] TileObjects;
         // Start is called before the first frame update
         void Awake()
         {
-            Debug.Log("MapManager Awake");
             if (Instance == null)
             {
                 Instance = this;
@@ -39,82 +36,69 @@ namespace Unity.Game.MapSystem
 
         }
 
-        private void Start()
+        void Start()
         {
-            InitMapManager();
+
 
         }
 
-        void InitMapManager()
+        public void InitMap()
         {
-            gameMap = LevelManager.Instance.GetMap();
+            Map gameMap = LevelManager.Instance.GetMap();
             DestroyMap();
-            CreateMap();
+            CreateMap(gameMap);
         }
 
         // Update is called once per frame
         void Update()
         {
-            //briefly test OnTileEntered and IsEnterable
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                foreach (GameObject tile in TileObjects)
-                {
-                    if (tile.GetComponent<Tile>().IsEnterable())
-                    {
-                        tile.GetComponent<Tile>().OnTileEntered();
-                    }
-                }
-            }
+
         }
 
-        void CreateMap()
+        void CreateMap(Map gameMap)
         {
-            TileType[,] tileArray = gameMap.TileArray;
+            uint[,] MapArray = gameMap.MapData;
             TileObjects = new GameObject[gameMap.Width, gameMap.Height];
             for (int i = 0; i < gameMap.Width; i++)
             {
                 for (int j = 0; j < gameMap.Height; j++)
                 {
-                    switch (gameMap.TileArray[i, j])
+                    uint shifted = MapArray[i, j] >> 4;
+                    switch (shifted & 0b1111)
                     {
-                        case TileType.EMPTY:
+                        case 0b0000: // empty
                             TileObjects[i, j] = Instantiate(EmptyTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
-                        case TileType.OBSTACLE:
+                        case 0b0001: //obstacle
                             TileObjects[i, j] = Instantiate(ObstracleTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
-                        case TileType.GOAL:
+                        case 0b0010: //goal
                             TileObjects[i, j] = Instantiate(GoalTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
-                        case TileType.DOOR:
-                            TileObjects[i, j] = Instantiate(DoorTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
-                            TileObjects[i, j].transform.SetParent(transform);
-                            break;
-                        case TileType.CONDITION_A:
+                        case 0b0011: //cond_a
                             TileObjects[i, j] = Instantiate(ConditionTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].GetComponent<ConditionTile>().SetTileCondition(ConditionSign.A);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
-                        case TileType.CONDITION_B:
+                        case 0b0100: //cond_b
                             TileObjects[i, j] = Instantiate(ConditionTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].GetComponent<ConditionTile>().SetTileCondition(ConditionSign.B);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
-                        case TileType.CONDITION_C:
+                        case 0b0101: //cond_c
                             TileObjects[i, j] = Instantiate(ConditionTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].GetComponent<ConditionTile>().SetTileCondition(ConditionSign.C);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
-                        case TileType.CONDITION_D:
+                        case 0b0110: //cond_d
                             TileObjects[i, j] = Instantiate(ConditionTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].GetComponent<ConditionTile>().SetTileCondition(ConditionSign.D);
                             TileObjects[i, j].transform.SetParent(transform);
                             break;
-                        case TileType.CONDITION_E:
+                        case 0b0111: //cond_e
                             TileObjects[i, j] = Instantiate(ConditionTile, new Vector3(i * MapConfig.TILE_SCALE, 0, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             TileObjects[i, j].GetComponent<ConditionTile>().SetTileCondition(ConditionSign.E);
                             TileObjects[i, j].transform.SetParent(transform);
@@ -122,6 +106,8 @@ namespace Unity.Game.MapSystem
                         default:
                             break;
                     }
+                    InitDoor(TileObjects[i, j], shifted);
+                    
                 }
             }
 
@@ -132,8 +118,20 @@ namespace Unity.Game.MapSystem
         }
         void DestroyMap()
         {
-            for (int i = this.transform.childCount; i > 0; --i)
-                DestroyImmediate(this.transform.GetChild(0).gameObject);
+            for (int i = this.transform.childCount; i > 0; --i)  
+               DestroyImmediate(this.transform.GetChild(0).gameObject);
+        }
+        
+        void InitDoor(GameObject tileObject,uint remainder)
+        {
+            //shift through item data
+            if (remainder>>4 == 0) return;
+            int direction = 0;
+            // init door from each side, implement later
+            //while(remainder != 0)
+            //{
+            //    remainder = remainder >> 4;
+            //}
         }
     }
 }
