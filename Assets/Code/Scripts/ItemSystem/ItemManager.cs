@@ -68,16 +68,19 @@ namespace Unity.Game.ItemSystem
                             ItemObject = Instantiate(KeyA, new Vector3(i * MapConfig.TILE_SCALE, 2, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             ItemList.Add(ItemObject);
                             MapManager.Instance.TileObjects[i, j].GetComponent<Tile>().SetItemObject(ItemObject);
+                            ItemObject.transform.SetParent(transform);
                             break;
                         case 0b0010: // Key_B
                             ItemObject = Instantiate(KeyB, new Vector3(i * MapConfig.TILE_SCALE, 2, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             ItemList.Add(ItemObject);
                             MapManager.Instance.TileObjects[i, j].GetComponent<Tile>().SetItemObject(ItemObject);
+                            ItemObject.transform.SetParent(transform);
                             break;
                         case 0b0011: // Key_C
                             ItemObject = Instantiate(KeyC, new Vector3(i * MapConfig.TILE_SCALE, 2, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             ItemList.Add(ItemObject);
                             MapManager.Instance.TileObjects[i, j].GetComponent<Tile>().SetItemObject(ItemObject);
+                            ItemObject.transform.SetParent(transform);
                             break;
                         default:
                             break;
@@ -88,19 +91,18 @@ namespace Unity.Game.ItemSystem
             }
         }
 
-        void RemoveItemFromMap(Item item)
+        public void RemoveItemFromMap(Item item)
         {
-
+            ItemList.Remove(item.gameObject);
+            Destroy(item.gameObject);
         }
 
         void DestroyAllItemObjects()
         {
-
             foreach (GameObject child in ItemList)
             {
                 Destroy(child);
             }
-
         }
     }
 

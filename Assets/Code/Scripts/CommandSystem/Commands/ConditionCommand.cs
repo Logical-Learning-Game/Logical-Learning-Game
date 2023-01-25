@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.Game.Action;
 using Unity.Game.Conditions;
-using Unity.Game.MapSystem;
+using Unity.Game.Level;
 
 namespace Unity.Game.Command
 {
@@ -27,7 +27,7 @@ namespace Unity.Game.Command
             yield return AddAction();
             
             Debug.Log("Executing Complete");
-            ConditionSign tileSign = Player.Instance.GetLastSign();
+            ConditionSign tileSign = LevelManager.Instance.GetLastSign();
 
             if (commandCondition.CompareSign(tileSign))
             {

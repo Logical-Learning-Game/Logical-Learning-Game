@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Game.Level;
 
 namespace Unity.Game.ItemSystem
 {
@@ -16,11 +17,19 @@ namespace Unity.Game.ItemSystem
         public virtual void OnPickUp()
         {
             //decide between force open door or require key to open door
-            //Player.Instance.AddItem(this.itemType)
-            //ItemManager.Instance.RemoveItemFromMap(this); 
-            //Destroy(gameObject);
+            LevelManager.Instance.AddItem(this.itemType);
+            ItemManager.Instance.RemoveItemFromMap(this);
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("Test Coliding");
+            if (other.gameObject.CompareTag("Player"))
+            {
+                Debug.Log("Found Player Tag");
+                OnPickUp();
+            }
+        }
 
     }
 }

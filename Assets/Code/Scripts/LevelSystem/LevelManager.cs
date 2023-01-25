@@ -13,7 +13,14 @@ namespace Unity.Game.Level
     {
         public static LevelManager Instance { get; private set; }
 
+
+        // level stats
         public Map gameMap;
+
+        // player stats
+        public List<ItemType> ItemList;
+        public ConditionSign lastSign = ConditionSign.EMPTY;
+
         // Start is called before the first frame update
         void Awake()
         {
@@ -21,7 +28,6 @@ namespace Unity.Game.Level
             if (Instance == null)
             {
                 Instance = this;
-
             }
             else
             {
@@ -36,6 +42,8 @@ namespace Unity.Game.Level
 
         void InitLevel(Map map)
         {
+            ItemList = new List<ItemType>();
+            lastSign = ConditionSign.EMPTY;
             SetMap(map);
             MapManager.Instance.InitMap();
             ItemManager.Instance.InitItems();
@@ -55,7 +63,7 @@ namespace Unity.Game.Level
         {
 
             // movement and map debug
-            if(GlobalConfig.LevelConfig.LEVEL_DEBUG_MODE == true)
+            if (GlobalConfig.LevelConfig.LEVEL_DEBUG_MODE == true)
             {
                 // reset movement
                 if (Input.GetKeyDown(KeyCode.R))
@@ -85,8 +93,8 @@ namespace Unity.Game.Level
                 // tile from direction test
                 if (Input.GetKeyDown(KeyCode.I))
                 {
-                    (Tile tile , int[] pos ) = GetMapTile(GetPos(Player.Instance.Front()));
-                    Debug.Log(tile.name+"at (" + pos[0]+","+pos[1]+")");
+                    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Front()));
+                    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
                 }
                 if (Input.GetKeyDown(KeyCode.J))
                 {
@@ -108,8 +116,8 @@ namespace Unity.Game.Level
                     (Tile tile, int[] pos) = GetMapTile(GetPos());
                     Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
                 }
-            }    
-            
+            }
+
         }
 
         (Tile, int[]) GetMapTile(int[] pos)
@@ -147,7 +155,7 @@ namespace Unity.Game.Level
                 if (moveToTile.IsEnterable() == true)
                 {
                     Debug.Log("Tile is Enterable");
-                    Debug.Log("Player from ("+ string.Join(",", GetPos()) + ") Move Into: " + moveToTile.name + " at (" + tilePos[0] + "," + tilePos[1]+")");
+                    Debug.Log("Player from (" + string.Join(",", GetPos()) + ") Move Into: " + moveToTile.name + " at (" + tilePos[0] + "," + tilePos[1] + ")");
                     yield return Player.Instance.MoveTo(Direction);
                     moveToTile.OnTileEntered();
                 }
@@ -205,6 +213,26 @@ namespace Unity.Game.Level
             gameMap = map;
         }
 
-       
+
+        public void SetLastSign(ConditionSign sign)
+        {
+            lastSign = sign;
+        }
+        public ConditionSign GetLastSign()
+        {
+            return lastSign;
+        }
+
+        public void AddItem(ItemType item)
+        {
+            ItemList.Add(item);
+        }
+
+        public void RemoveItem(ItemType item)
+        {
+            ItemList.Remove(item);
+
+        }
+
     }
 }

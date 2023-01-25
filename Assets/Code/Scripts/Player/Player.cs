@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using Unity.Game.Conditions;
+using Unity.Game.ItemSystem;
 
 namespace Unity.Game
 {
@@ -11,6 +12,7 @@ namespace Unity.Game
     {
         public static Player Instance { get; private set; }
         [SerializeField] private bool isMoving = false;
+        
 
         public Vector3 Front()
         {
@@ -51,7 +53,7 @@ namespace Unity.Game
             }
         }
         
-        public ConditionSign lastSign = ConditionSign.EMPTY;
+
         // Start is called before the first frame update
         void Awake()
         {
@@ -168,13 +170,5 @@ namespace Unity.Game
             Debug.DrawRay(transform.position, Quaternion.Euler(0, 90, 0) * transform.forward * MapConfig.TILE_SCALE / 2, Color.blue);
         }
 
-        public void SetLastSign(ConditionSign sign)
-        {
-            lastSign = sign;
-        }
-        public ConditionSign GetLastSign()
-        {
-            return lastSign;
-        }
     }
 }

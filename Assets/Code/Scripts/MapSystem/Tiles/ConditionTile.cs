@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Game.Conditions;
 using TMPro;
+using Unity.Game.Level;
 
 namespace Unity.Game.MapSystem
 {
@@ -19,8 +20,7 @@ namespace Unity.Game.MapSystem
         public override void OnTileEntered()
         {
             base.OnTileEntered();
-            Player.Instance.SetLastSign(tileCondition.sign);
-            Debug.Log("Entered Condition Tile, Character should memorize this pattern");
+            LevelManager.Instance.SetLastSign(tileCondition.sign);
         }
         
         public void SetTileCondition(ConditionSign sign)

@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using Unity.Game.Conditions;
 using Unity.Game.Level;
+using Unity.Game.ItemSystem;
 
 namespace Unity.Game.MapSystem
 {
@@ -17,10 +19,11 @@ namespace Unity.Game.MapSystem
         [SerializeField] private GameObject GoalTile;
         [SerializeField] private GameObject DoorTile;
         [SerializeField] private GameObject ConditionTile;
-
         public static MapManager Instance { get; private set; }
 
         public GameObject[,] TileObjects;
+
+        public Dictionary<GameObject, int[,]> DoorObjects;
         // Start is called before the first frame update
         void Awake()
         {
@@ -59,6 +62,7 @@ namespace Unity.Game.MapSystem
         {
             uint[,] MapArray = gameMap.MapData;
             TileObjects = new GameObject[gameMap.Width, gameMap.Height];
+            DoorObjects = new Dictionary<GameObject, int[,]>();
             for (int i = 0; i < gameMap.Width; i++)
             {
                 for (int j = 0; j < gameMap.Height; j++)
@@ -106,32 +110,61 @@ namespace Unity.Game.MapSystem
                         default:
                             break;
                     }
-                    InitDoor(TileObjects[i, j], shifted);
-                    
+                    InitDoor(i, j, shifted);
+
                 }
             }
 
+
+
             if (Application.isPlaying)
             {
+                CreateDoors();
                 MapViewManager.Instance.GetMapCenter(gameMap.Width, gameMap.Height);
             }
         }
         void DestroyMap()
         {
-            for (int i = this.transform.childCount; i > 0; --i)  
-               DestroyImmediate(this.transform.GetChild(0).gameObject);
+            for (int i = this.transform.childCount; i > 0; --i)
+                DestroyImmediate(this.transform.GetChild(0).gameObject);
         }
-        
-        void InitDoor(GameObject tileObject,uint remainder)
+
+        void InitDoor(int tileI, int tileJ, uint remainder)
         {
+
+            Dictionary<int, Tuple<int, int>> dict = new Dictionary<int, Tuple<int, int>>()
+            {
+                { 0, Tuple.Create(0, 1) },
+                { 1, Tuple.Create(1, 0) },
+                { 2, Tuple.Create(0, -1) },
+                { 3, Tuple.Create(-1, 0) },
+            };
+            // i is x ,j is z
             //shift through item data
-            if (remainder>>4 == 0) return;
-            int direction = 0;
-            // init door from each side, implement later
-            //while(remainder != 0)
-            //{
-            //    remainder = remainder >> 4;
-            //}
+            remainder >>= 4;
+            if (remainder == 0) return;
+            int directionCounter = 0;
+
+            while (remainder != 0)
+            {
+
+                if ((remainder & 0b1) == 1)
+                {
+                    Debug.Log("Found Door At (" + tileI + "," + tileJ + ") to " +"("+ (tileI + dict[directionCounter].Item1) + ", " + (tileJ + dict[directionCounter].Item2) + ")");
+                    
+                    Debug.Log("Door Type is"+((remainder>>1)&0b11));
+                   
+                }
+                directionCounter++;
+                remainder >>= 4;
+            }
+            // this function is not complete
+
+        }
+
+        void CreateDoors()
+        {
+
         }
     }
 }
