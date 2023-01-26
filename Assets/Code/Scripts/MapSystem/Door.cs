@@ -16,19 +16,34 @@ namespace Unity.Game.MapSystem
             doorKey = key;
         }
 
-        public void OpenDoor()
+        public IEnumerator TryOpenDoor(List<ItemType> items)
         {
             if (isOpened)
             {
-                return;
+                yield break;
             }
-            // add open animation
+            if(doorKey == ItemType.NONE)
+            {
+                SetIsOpened(true);
+                yield return new WaitForSeconds(0.5f);
+                gameObject.SetActive(false);
+            }
+            else if (items.Contains(doorKey))
+            {
+                //open door
+                SetIsOpened(true);
+                items.Remove(doorKey);
+                //implement open door animation later
+                yield return new WaitForSeconds(0.5f);
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                //play sound
+                yield return new WaitForSeconds(0.5f);
+            }
         }
 
-        public bool CompareKey(ItemType key)
-        {
-            return true;
-        }
 
         public ItemType GetKeyType()
         {
@@ -38,6 +53,11 @@ namespace Unity.Game.MapSystem
         public bool IsOpened()
         {
             return isOpened;
+        }
+
+        public void SetIsOpened(bool isOpened)
+        {
+            this.isOpened = isOpened;
         }
     }
 }

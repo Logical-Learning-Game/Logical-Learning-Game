@@ -137,6 +137,11 @@ namespace Unity.Game.Level
             // if can get tile reference
             if (moveToTile != null)
             {
+                // check if tile has a unlockable door
+                Door tileDoor = moveToTile.GetDoorOnTile(movingIntoDirection)?.GetComponent<Door>();
+                if (tileDoor != null) {
+                    yield return tileDoor.TryOpenDoor(ItemList);
+                }
                 // if can enter, move the player 
                 if (moveToTile.IsEnterable(movingIntoDirection) == true)
                 {
@@ -147,13 +152,13 @@ namespace Unity.Game.Level
                 }
                 else // if cannot, return the player action
                 {
-                    Debug.Log("Tile is not Enterable");
+                    //Debug.Log("Tile is not Enterable");
                     yield return Player.Instance.OnCannotMoveTo(Direction);
                 }
             }
             else // no tile reference, return the player action
             {
-                Debug.Log("Can't Move Into null Tile (" + tilePos.Item1 + "," + tilePos.Item2 + ")");
+                //Debug.Log("Can't Move Into null Tile (" + tilePos.Item1 + "," + tilePos.Item2 + ")");
                 yield return Player.Instance.OnCannotMoveTo(Direction);
             }
         }

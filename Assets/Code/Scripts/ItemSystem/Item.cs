@@ -5,7 +5,7 @@ using Unity.Game.Level;
 
 namespace Unity.Game.ItemSystem
 {
-    public enum ItemType { KEY_A, KEY_B, KEY_C }
+    public enum ItemType { NONE, KEY_A, KEY_B, KEY_C }
     public class Item : MonoBehaviour
     {
         [SerializeField] ItemType itemType;

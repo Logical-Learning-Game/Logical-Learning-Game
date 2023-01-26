@@ -204,6 +204,24 @@ namespace Unity.Game.MapSystem
                             if (fromTile != null && toTile != null && fromTile.GetDoorOnTile(dict[directionCounter]) == null)
                             {
                                 GameObject door = Instantiate(DoorPrefab, new Vector3((i + dict[directionCounter].Item1 / 2f) * MapConfig.TILE_SCALE, 1.8f, (j + dict[directionCounter].Item2 / 2f) * MapConfig.TILE_SCALE), Quaternion.identity);
+                                switch ((remainder >> 1) & 0b11)
+                                {
+                                    case 0b00:
+                                        door.GetComponent<Door>().SetDoorKey(ItemType.NONE);
+                                        break;
+                                    case 0b01:
+                                        door.GetComponent<Door>().SetDoorKey(ItemType.KEY_A);
+                                        break;
+                                    case 0b10:
+                                        door.GetComponent<Door>().SetDoorKey(ItemType.KEY_B);
+                                        break;
+                                    case 0b11:
+                                        door.GetComponent<Door>().SetDoorKey(ItemType.KEY_C);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                door.GetComponent<Door>().SetIsOpened(((remainder >> 3) & 0b1) == 1);
                                 door.transform.rotation = Quaternion.Euler(0, dict[directionCounter].Item2 * 90f, 0);
                                 door.transform.SetParent(transform);
                                 fromTile.AddDoorOnTile(dict[directionCounter], door);
