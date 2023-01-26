@@ -8,10 +8,10 @@ namespace Unity.Game.MapSystem
     public class GoalTile : Tile
     {
 
-        public override bool IsEnterable()
-        {
-            return true;
-        }
+        //public override bool IsEnterable()
+        //{
+        //    return true;
+        //}
 
         public override void OnTileEntered()
         {

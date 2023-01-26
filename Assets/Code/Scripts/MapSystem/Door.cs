@@ -34,5 +34,10 @@ namespace Unity.Game.MapSystem
         {
             return doorKey;
         }
+
+        public bool IsOpened()
+        {
+            return isOpened;
+        }
     }
 }

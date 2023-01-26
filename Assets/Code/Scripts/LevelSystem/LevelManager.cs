@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -91,52 +92,33 @@ namespace Unity.Game.Level
                 }
 
                 // tile from direction test
-                if (Input.GetKeyDown(KeyCode.I))
-                {
-                    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Front()));
-                    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                }
-                if (Input.GetKeyDown(KeyCode.J))
-                {
-                    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Left()));
-                    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                }
-                if (Input.GetKeyDown(KeyCode.L))
-                {
-                    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Right()));
-                    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                }
-                if (Input.GetKeyDown(KeyCode.K))
-                {
-                    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Back()));
-                    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                }
-                if (Input.GetKeyDown(KeyCode.M))
-                {
-                    (Tile tile, int[] pos) = GetMapTile(GetPos());
-                    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                }
+                //if (Input.GetKeyDown(KeyCode.I))
+                //{
+                //    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Front()));
+                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
+                //}
+                //if (Input.GetKeyDown(KeyCode.J))
+                //{
+                //    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Left()));
+                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
+                //}
+                //if (Input.GetKeyDown(KeyCode.L))
+                //{
+                //    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Right()));
+                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
+                //}
+                //if (Input.GetKeyDown(KeyCode.K))
+                //{
+                //    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Back()));
+                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
+                //}
+                //if (Input.GetKeyDown(KeyCode.M))
+                //{
+                //    (Tile tile, int[] pos) = GetMapTile(GetPos());
+                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
+                //}
             }
 
-        }
-
-        (Tile, int[]) GetMapTile(int[] pos)
-        {
-            if (pos[0] < 0 || pos[0] >= MapManager.Instance.TileObjects.GetLength(0) || pos[1] < 0 || pos[1] >= MapManager.Instance.TileObjects.GetLength(1))
-            {
-                //Debug.Log("Out of range");
-                return (null, pos);
-            }
-            else
-            {
-                //Debug.Log("Tile: " + MapManager.Instance.TileObjects[pos[0], pos[1]].name);
-                return (MapManager.Instance.TileObjects[pos[0], pos[1]].GetComponent<Tile>(), pos);
-            }
-        }
-        (Tile, int[]) GetMapTile(Vector3 direction)
-        {
-            int[] pos = GetPos(direction);
-            return GetMapTile(pos);
         }
 
         public void PlayerMove(Vector3 direction)
@@ -147,15 +129,19 @@ namespace Unity.Game.Level
         public IEnumerator OnPlayerMove(Vector3 Direction)
         {
             // check tile behavior
-            (Tile moveToTile, int[] tilePos) = GetMapTile(Direction);
+            Tuple<int, int> tilePos = GetPos(Direction);
+            Tuple<int, int> playerPos = GetPos();
+
+            Tuple<int, int> movingIntoDirection = Tuple.Create(playerPos.Item1 - tilePos.Item1, playerPos.Item2 - tilePos.Item2);
+            Tile moveToTile = MapManager.Instance.GetMapTile(tilePos);
             // if can get tile reference
             if (moveToTile != null)
             {
                 // if can enter, move the player 
-                if (moveToTile.IsEnterable() == true)
+                if (moveToTile.IsEnterable(movingIntoDirection) == true)
                 {
-                    Debug.Log("Tile is Enterable");
-                    Debug.Log("Player from (" + string.Join(",", GetPos()) + ") Move Into: " + moveToTile.name + " at (" + tilePos[0] + "," + tilePos[1] + ")");
+                    //Debug.Log("Tile is Enterable");
+                    //Debug.Log("Player from (" + string.Join(",", GetPos()) + ") Move Into: " + moveToTile.name + " at (" + tilePos[0] + "," + tilePos[1] + ")");
                     yield return Player.Instance.MoveTo(Direction);
                     moveToTile.OnTileEntered();
                 }
@@ -167,14 +153,14 @@ namespace Unity.Game.Level
             }
             else // no tile reference, return the player action
             {
-                Debug.Log("Can't Move Into null Tile (" + tilePos[0] + "," + tilePos[1] + ")");
+                Debug.Log("Can't Move Into null Tile (" + tilePos.Item1 + "," + tilePos.Item2 + ")");
                 yield return Player.Instance.OnCannotMoveTo(Direction);
             }
         }
 
-        public int[] GetPos(Vector3 pos = new Vector3())
+        public Tuple<int, int> GetPos(Vector3 pos = new Vector3())
         {
-            int[] result = new int[] { Mathf.RoundToInt(Player.Instance.posX + pos.x), Mathf.RoundToInt(Player.Instance.posZ + pos.z) };
+            Tuple<int, int> result = Tuple.Create(Mathf.RoundToInt(Player.Instance.posX + pos.x), Mathf.RoundToInt(Player.Instance.posZ + pos.z));
             //Debug.Log("PosX: "+ Player.Instance.posX +"+"+ Mathf.RoundToInt(pos.x) + "= "+ Mathf.RoundToInt(Player.Instance.posX + pos.x) + "\nposZ: " + Player.Instance.posZ + "+" + Mathf.RoundToInt(pos.z) + "= " + Mathf.RoundToInt(Player.Instance.posZ + pos.z));
             return result;
         }

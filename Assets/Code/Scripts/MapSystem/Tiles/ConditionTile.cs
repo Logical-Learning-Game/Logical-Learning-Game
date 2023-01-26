@@ -12,10 +12,11 @@ namespace Unity.Game.MapSystem
         // Condition, will be implement later
         Condition tileCondition = new Condition();
         [SerializeField] private GameObject conditionDisplay;
-        public override bool IsEnterable()
-        {
-            return true;
-        }
+        
+        //public override bool IsEnterable()
+        //{
+        //    return true;
+        //}
 
         public override void OnTileEntered()
         {

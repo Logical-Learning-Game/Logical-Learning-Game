@@ -7,10 +7,10 @@ namespace Unity.Game.MapSystem
     public class EmptyTile : Tile
     {
 
-        public override bool IsEnterable()
-        {
-            return true;
-        }
+        //public override bool IsEnterable()
+        //{
+        //    return true;
+        //}
 
         public override void OnTileEntered()
         {

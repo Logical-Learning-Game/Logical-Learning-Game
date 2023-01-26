@@ -9,12 +9,13 @@ namespace Unity.Game.MapSystem
     {
         [SerializeField] private bool isOpened = false;
         [SerializeField] private GateTile gatePair;
-        public override bool IsEnterable()
-        {
-            // if gate is opened
-            // if Opposite Site of gatePair can be entered, return true
-            return true;
-        }
+        
+        //public override bool IsEnterable()
+        //{
+        //    // if gate is opened
+        //    // if Opposite Site of gatePair can be entered, return true
+        //    return true;
+        //}
 
         public override void OnTileEntered()
         {

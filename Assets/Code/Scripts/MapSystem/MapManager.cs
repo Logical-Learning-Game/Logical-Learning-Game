@@ -19,11 +19,14 @@ namespace Unity.Game.MapSystem
         [SerializeField] private GameObject GoalTile;
         [SerializeField] private GameObject DoorTile;
         [SerializeField] private GameObject ConditionTile;
+        [SerializeField] private GameObject DoorPrefab;
+
+
         public static MapManager Instance { get; private set; }
 
         public GameObject[,] TileObjects;
 
-        public Dictionary<GameObject, int[,]> DoorObjects;
+        public List<GameObject> DoorList;
         // Start is called before the first frame update
         void Awake()
         {
@@ -62,7 +65,6 @@ namespace Unity.Game.MapSystem
         {
             uint[,] MapArray = gameMap.MapData;
             TileObjects = new GameObject[gameMap.Width, gameMap.Height];
-            DoorObjects = new Dictionary<GameObject, int[,]>();
             for (int i = 0; i < gameMap.Width; i++)
             {
                 for (int j = 0; j < gameMap.Height; j++)
@@ -110,7 +112,10 @@ namespace Unity.Game.MapSystem
                         default:
                             break;
                     }
-                    InitDoor(i, j, shifted);
+                    //if (Application.isPlaying)
+                    //{
+                    //    InitDoor(i, j, shifted);
+                    //}
 
                 }
             }
@@ -119,7 +124,7 @@ namespace Unity.Game.MapSystem
 
             if (Application.isPlaying)
             {
-                CreateDoors();
+                CreateDoors(gameMap);
                 MapViewManager.Instance.GetMapCenter(gameMap.Width, gameMap.Height);
             }
         }
@@ -129,9 +134,48 @@ namespace Unity.Game.MapSystem
                 DestroyImmediate(this.transform.GetChild(0).gameObject);
         }
 
-        void InitDoor(int tileI, int tileJ, uint remainder)
-        {
+        //void InitDoor(int tileI, int tileJ, uint remainder)
+        //{
 
+        //    Dictionary<int, Tuple<int, int>> dict = new Dictionary<int, Tuple<int, int>>()
+        //    {
+        //        { 0, Tuple.Create(0, 1) },
+        //        { 1, Tuple.Create(1, 0) },
+        //        { 2, Tuple.Create(0, -1) },
+        //        { 3, Tuple.Create(-1, 0) },
+        //    };
+        //    // i is x ,j is z
+        //    //shift through item data
+        //    remainder >>= 8;
+        //    if (remainder == 0) return;
+        //    int directionCounter = 0;
+
+        //    while (remainder != 0)
+        //    {
+        //        Debug.Log(directionCounter + ":(" + tileI + "," + tileJ + ") :" + remainder);
+        //        if ((remainder & 0b1) == 1)
+        //        {
+        //            Debug.Log("Found Door At (" + tileI + "," + tileJ + ") to " + "(" + (tileI + dict[directionCounter].Item1) + ", " + (tileJ + dict[directionCounter].Item2) + ")");
+
+        //            //Debug.Log("Door Type is"+((remainder>>1)&0b11));
+
+        //            //Debug.Log("Door Status is" + ((remainder >> 3) & 0b1));
+
+        //            Debug.Log(new Vector3((tileI + dict[directionCounter].Item1 / 2f) * MapConfig.TILE_SCALE, 1.8f, (tileJ + dict[directionCounter].Item2 / 2f) * MapConfig.TILE_SCALE));
+
+        //            GameObject door = Instantiate(DoorPrefab, new Vector3((tileI + dict[directionCounter].Item1 / 2f) * MapConfig.TILE_SCALE, 1.8f, (tileJ + dict[directionCounter].Item2 / 2f) * MapConfig.TILE_SCALE), Quaternion.identity);
+        //            door.transform.rotation = Quaternion.Euler(0, dict[directionCounter].Item2 * 90f, 0);
+        //        }
+        //        directionCounter++;
+        //        remainder >>= 4;
+        //    }
+        //    // this function is not complete
+
+        //}
+
+        void CreateDoors(Map gameMap)
+        {
+            DoorList = new List<GameObject>();
             Dictionary<int, Tuple<int, int>> dict = new Dictionary<int, Tuple<int, int>>()
             {
                 { 0, Tuple.Create(0, 1) },
@@ -139,32 +183,52 @@ namespace Unity.Game.MapSystem
                 { 2, Tuple.Create(0, -1) },
                 { 3, Tuple.Create(-1, 0) },
             };
-            // i is x ,j is z
-            //shift through item data
-            remainder >>= 4;
-            if (remainder == 0) return;
-            int directionCounter = 0;
 
-            while (remainder != 0)
+            uint[,] MapArray = gameMap.MapData;
+            for (int i = 0; i < gameMap.Width; i++)
             {
-
-                if ((remainder & 0b1) == 1)
+                for (int j = 0; j < gameMap.Height; j++)
                 {
-                    Debug.Log("Found Door At (" + tileI + "," + tileJ + ") to " +"("+ (tileI + dict[directionCounter].Item1) + ", " + (tileJ + dict[directionCounter].Item2) + ")");
-                    
-                    Debug.Log("Door Type is"+((remainder>>1)&0b11));
-                   
+                    uint remainder = MapArray[i, j];
+                    remainder >>= 12;
+                    if (remainder == 0) continue;
+                    int directionCounter = 0;
+                    while (remainder != 0)
+                    {
+                        if ((remainder & 0b1) == 1)
+                        {
+                            Tuple<int, int> fromPos = Tuple.Create(i, j);
+                            Tuple<int, int> toPos = Tuple.Create(i + dict[directionCounter].Item1, j + dict[directionCounter].Item2);
+                            Tile fromTile = GetMapTile(fromPos);
+                            Tile toTile = GetMapTile(toPos);
+                            if (fromTile != null && toTile != null && fromTile.GetDoorOnTile(dict[directionCounter]) == null)
+                            {
+                                GameObject door = Instantiate(DoorPrefab, new Vector3((i + dict[directionCounter].Item1 / 2f) * MapConfig.TILE_SCALE, 1.8f, (j + dict[directionCounter].Item2 / 2f) * MapConfig.TILE_SCALE), Quaternion.identity);
+                                door.transform.rotation = Quaternion.Euler(0, dict[directionCounter].Item2 * 90f, 0);
+                                door.transform.SetParent(transform);
+                                fromTile.AddDoorOnTile(dict[directionCounter], door);
+                                toTile.AddDoorOnTile(Tuple.Create(dict[directionCounter].Item1 * -1, dict[directionCounter].Item2 * -1), door);
+                            }
+                        }
+                        directionCounter++;
+                        remainder >>= 4;
+                    }
                 }
-                directionCounter++;
-                remainder >>= 4;
             }
-            // this function is not complete
-
         }
 
-        void CreateDoors()
+        public Tile GetMapTile(Tuple<int, int> pos)
         {
-
+            if (pos.Item1 < 0 || pos.Item1 >= TileObjects.GetLength(0) || pos.Item2 < 0 || pos.Item2 >= TileObjects.GetLength(1))
+            {
+                //Debug.Log("Out of range");
+                return null;
+            }
+            else
+            {
+                //Debug.Log("Tile: " + MapManager.Instance.TileObjects[pos[0], pos[1]].name);
+                return TileObjects[pos.Item1, pos.Item2].GetComponent<Tile>();
+            }
         }
     }
 }

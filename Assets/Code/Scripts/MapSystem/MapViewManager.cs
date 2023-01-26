@@ -76,7 +76,7 @@ namespace Unity.Game.MapSystem
             MapCameraObj.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = maxView;
 
             BirdEyeCameraObj.GetComponent<CinemachineVirtualCamera>().Follow = MapCenterObj.transform;
-            MapCameraObj.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = maxView;
+            BirdEyeCameraObj.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = maxView;
         }
 
         private void SetIsMapRotating(bool isMapRotating)

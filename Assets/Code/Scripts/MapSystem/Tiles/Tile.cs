@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,9 @@ namespace Unity.Game.MapSystem
 {
     public class Tile : MonoBehaviour
     {
-        GameObject ItemObject;
+        [SerializeField] GameObject ItemObject;
+        Dictionary<Tuple<int, int>, GameObject> DoorOnTile = new Dictionary<Tuple<int, int>, GameObject>() { };
+
         // Start is called before the first frame update
         void Awake()
         {
@@ -18,25 +21,52 @@ namespace Unity.Game.MapSystem
         {
 
         }
-        
-        public virtual bool IsEnterable()
+
+        public virtual bool IsEnterable(Tuple<int, int> comingDirection)
         {
-            return false;
+
+            if (GetDoorOnTile(comingDirection) != null)
+            {
+                Door door = GetDoorOnTile(comingDirection).GetComponent<Door>();
+                if (door.IsOpened())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public virtual void OnTileEntered()
         {
-            Debug.Log("Character Entered Tile"+gameObject.name);
+            Debug.Log("Character Entered Tile" + gameObject.name);
         }
 
         public void SetItemObject(GameObject itemObject)
         {
             ItemObject = itemObject;
         }
-        
+
         public GameObject GetItemObject()
         {
             return ItemObject;
+        }
+
+        public void AddDoorOnTile(Tuple<int, int> doorPos, GameObject door)
+        {
+            Debug.Log("AddDoorOnTile->" + doorPos + ":" + door.name);
+            DoorOnTile.Add(doorPos, door);
+        }
+
+        public GameObject GetDoorOnTile(Tuple<int, int> direction)
+        {
+            return DoorOnTile.TryGetValue(direction, out GameObject door) ? door : null;
         }
     }
 }
