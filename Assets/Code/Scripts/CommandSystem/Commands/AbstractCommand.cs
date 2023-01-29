@@ -7,8 +7,11 @@ using UnityEngine.UI.Extensions;
 
 namespace Unity.Game.Command
 {
+
     public abstract class AbstractCommand : MonoBehaviour
     {
+        public CommandType type;
+
         public static HashSet<System.Type> UnlinkableTypes = new HashSet<System.Type>() {
             typeof(LinkerCommand),
             typeof(StartCommand)
@@ -20,7 +23,7 @@ namespace Unity.Game.Command
         protected virtual void Awake()
         {
             status = gameObject.AddComponent<CommandStatus>();
- 
+
             //Debug.Log("AbstractCommand Awake");
 
         }
@@ -109,6 +112,11 @@ namespace Unity.Game.Command
             }
 
             return AllNextCommands;
+        }
+
+        public void SetCommandType(CommandType type)
+        {
+            this.type = type;
         }
     }
 }

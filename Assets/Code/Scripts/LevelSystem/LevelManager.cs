@@ -5,6 +5,7 @@ using UnityEngine;
 using Unity.Game.MapSystem;
 using Unity.Game.ItemSystem;
 using Unity.Game.Conditions;
+using Unity.Game.RuleSystem;
 using GlobalConfig;
 
 namespace Unity.Game.Level
@@ -204,6 +205,15 @@ namespace Unity.Game.Level
             gameMap = map;
         }
 
+        public List<Rule> GetRule()
+        {
+            List<Rule> result = new List<Rule>();
+            foreach (Rule rule in gameMap.MapRules)
+            {
+                result.Add((Rule)rule.Clone());
+            }
+            return result;
+        }
 
         public void SetLastSign(ConditionSign sign)
         {

@@ -9,6 +9,8 @@ using Unity.Game.MapSystem;
 
 namespace Unity.Game.Command
 {
+    public enum CommandType { START, FORWARD, LEFT, RIGHT, BACK, CONDITION_A, CONDITION_B, CONDITION_C, CONDITION_D, CONDITION_E }
+    public enum EdgeType { NORMAL, CONDITIONAL }
     public class CommandManager : MonoBehaviour
     {
         public static CommandManager Instance { get; private set; }

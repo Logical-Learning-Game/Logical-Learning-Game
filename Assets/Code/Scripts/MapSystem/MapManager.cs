@@ -33,7 +33,6 @@ namespace Unity.Game.MapSystem
             if (Instance == null)
             {
                 Instance = this;
-
             }
             else
             {
