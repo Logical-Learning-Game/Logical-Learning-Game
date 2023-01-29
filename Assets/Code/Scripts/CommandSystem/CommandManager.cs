@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using GlobalConfig;
-using Unity.Game.Map;
+using Unity.Game.MapSystem;
 
 namespace Unity.Game.Command
 {

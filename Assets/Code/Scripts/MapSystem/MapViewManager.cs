@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using GlobalConfig;
 
-namespace Unity.Game.Map
+namespace Unity.Game.MapSystem
 {
     public class MapViewManager : MonoBehaviour
     {
@@ -76,7 +76,7 @@ namespace Unity.Game.Map
             MapCameraObj.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = maxView;
 
             BirdEyeCameraObj.GetComponent<CinemachineVirtualCamera>().Follow = MapCenterObj.transform;
-            MapCameraObj.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = maxView;
+            BirdEyeCameraObj.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = maxView;
         }
 
         private void SetIsMapRotating(bool isMapRotating)

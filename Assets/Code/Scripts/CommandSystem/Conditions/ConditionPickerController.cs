@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Game.Command;
-using Unity.Game.Map;
+using Unity.Game.Level;
+using Unity.Game.MapSystem;
 using UnityEngine.UI.Extensions;
 
 namespace Unity.Game.Conditions
@@ -39,7 +40,7 @@ namespace Unity.Game.Conditions
 
         void Start()
         {
-            CreateAvailableCondition();
+           
         }
 
         // Update is called once per frame
@@ -115,9 +116,9 @@ namespace Unity.Game.Conditions
             ConditionPicker.SetActive(isPickerOpen);
         }
 
-        public void CreateAvailableCondition()
+        public void InitConditionPicker()
         {
-            uniqueConditions = GetUniqueConditions();
+            uniqueConditions = LevelManager.Instance.gameMap.GetUniqueConditions();
             foreach (ConditionSign condition in uniqueConditions)
             {
                 ConditionChoice choice = Instantiate(ConditionChoiceGameObj, ConditionPicker.transform).GetComponent<ConditionChoice>();
@@ -126,35 +127,35 @@ namespace Unity.Game.Conditions
             }
         }
 
-        public HashSet<ConditionSign> GetUniqueConditions()
-        {
-            TileType[,] TileArray = MapManager.Instance.gameMap.TileArray;
-            HashSet<ConditionSign> uniqueConditions = new HashSet<ConditionSign>();
-            foreach (TileType tile in TileArray)
-            {
-                if (tile == TileType.CONDITION_A)
-                {
-                    uniqueConditions.Add(ConditionSign.A);
-                }
-                else if (tile == TileType.CONDITION_B)
-                {
-                    uniqueConditions.Add(ConditionSign.B);
-                }
-                else if (tile == TileType.CONDITION_C)
-                {
-                    uniqueConditions.Add(ConditionSign.C);
-                }
-                else if (tile == TileType.CONDITION_D)
-                {
-                    uniqueConditions.Add(ConditionSign.D);
-                }
-                else if (tile == TileType.CONDITION_E)
-                {
-                    uniqueConditions.Add(ConditionSign.E);
-                }
-            }
-            return uniqueConditions;
-        }
+        //public HashSet<ConditionSign> GetUniqueConditions()
+        //{
+        //    TileType[,] TileArray = LevelManager.Instance.GetMap().TileArray;
+        //    HashSet<ConditionSign> uniqueConditions = new HashSet<ConditionSign>();
+        //    foreach (TileType tile in TileArray)
+        //    {
+        //        if (tile == TileType.CONDITION_A)
+        //        {
+        //            uniqueConditions.Add(ConditionSign.A);
+        //        }
+        //        else if (tile == TileType.CONDITION_B)
+        //        {
+        //            uniqueConditions.Add(ConditionSign.B);
+        //        }
+        //        else if (tile == TileType.CONDITION_C)
+        //        {
+        //            uniqueConditions.Add(ConditionSign.C);
+        //        }
+        //        else if (tile == TileType.CONDITION_D)
+        //        {
+        //            uniqueConditions.Add(ConditionSign.D);
+        //        }
+        //        else if (tile == TileType.CONDITION_E)
+        //        {
+        //            uniqueConditions.Add(ConditionSign.E);
+        //        }
+        //    }
+        //    return uniqueConditions;
+        //}
     }
 
 }

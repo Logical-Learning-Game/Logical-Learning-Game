@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Game.Conditions;
 
-namespace Unity.Game.Map
+namespace Unity.Game.MapSystem
 {
     public class DoorTile : Tile
     {
         [SerializeField] private bool isOpened = false;
         [SerializeField] private DoorTile doorPair;
-        public override bool IsEnterable()
-        {
-            // if door is locked and player is stepped on opposite door, return false
+        //public override bool IsEnterable()
+        //{
+        //    // if door is locked and player is stepped on opposite door, return false
             
-            // need implementation later
-            return true;
-        }
+        //    // need implementation later
+        //    return true;
+        //}
 
         public override void OnTileEntered()
         {
