@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Game.Conditions;
+using Unity.Game.RuleSystem;
 
 namespace Unity.Game.MapSystem
 {
@@ -15,7 +16,27 @@ namespace Unity.Game.MapSystem
             { 256,0,48,200704,768 },
             { 7,16,0,0,0 }
         };
-        
+
+        public List<Rule> MapRules = new List<Rule>()
+        {
+            new NormalClearRule(),
+            new CommandLimitRule(),
+            new ActionLimitRule()
+        };
+
+        public int StarRequirement = 0;
+
+        public string MapName = "0-1";
+
+        public List<int> LeastSolvableCommand = new List<int>()
+        {
+            1,2,3
+        };
+
+        public List<int> LeastSolvableAction = new List<int>()
+        {
+            6,9,12
+        };
         public int Width { get { return MapData.GetLength(0); } }
         public int Height { get { return MapData.GetLength(1); } }
 
