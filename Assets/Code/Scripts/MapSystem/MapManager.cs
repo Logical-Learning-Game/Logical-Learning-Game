@@ -43,7 +43,11 @@ namespace Unity.Game.MapSystem
 
         void Start()
         {
-
+            if (!Application.isPlaying)
+            {
+                Map map = new Map();
+                CreateMap(map);
+            }
 
         }
 
@@ -111,10 +115,7 @@ namespace Unity.Game.MapSystem
                         default:
                             break;
                     }
-                    //if (Application.isPlaying)
-                    //{
-                    //    InitDoor(i, j, shifted);
-                    //}
+      
 
                 }
             }
@@ -220,6 +221,7 @@ namespace Unity.Game.MapSystem
                                     default:
                                         break;
                                 }
+                                DoorList.Add(door);
                                 door.GetComponent<Door>().SetIsOpened(((remainder >> 3) & 0b1) == 1);
                                 door.transform.rotation = Quaternion.Euler(0, dict[directionCounter].Item2 * 90f, 0);
                                 door.transform.SetParent(transform);
