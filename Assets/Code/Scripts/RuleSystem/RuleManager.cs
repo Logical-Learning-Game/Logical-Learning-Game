@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using Unity.Game.Level;
-
+using TMPro;
 
 
 namespace Unity.Game.RuleSystem
@@ -13,8 +13,13 @@ namespace Unity.Game.RuleSystem
 
         public static RuleManager Instance { get; private set; }
 
-        public List<Rule> Rules;
+        private List<Rule> Rules;
+        [SerializeField] private List<GameObject> RuleObjects;
+        [SerializeField] private Sprite RuleComplete;
+        [SerializeField] private Sprite RuleIncomplete;
 
+        [SerializeField] private bool[] RuleStatus;
+        [SerializeField] private int[] RuleCurrentValue;
         private void Awake()
         {
             if (Instance == null)
@@ -35,6 +40,10 @@ namespace Unity.Game.RuleSystem
         public void InitRule()
         {
             Rules = LevelManager.Instance.GetRule();
+            for (int i = 0; i < Rules.Count; i++)
+            {
+                RuleObjects[i].GetComponentInChildren<TMP_Text>().text = Rules[i].GetDescription();
+            }
         }
 
     }

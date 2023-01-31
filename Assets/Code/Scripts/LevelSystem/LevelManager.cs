@@ -50,6 +50,7 @@ namespace Unity.Game.Level
             MapManager.Instance.InitMap();
             ItemManager.Instance.InitItems();
             ConditionPickerController.Instance.InitConditionPicker();
+            RuleManager.Instance.InitRule();
             InitPlayer();
         }
 
@@ -210,6 +211,7 @@ namespace Unity.Game.Level
             List<Rule> result = new List<Rule>();
             foreach (Rule rule in gameMap.MapRules)
             {
+                //Debug.Log("Found Rule" + rule.GetDescription());
                 result.Add((Rule)rule.Clone());
             }
             return result;

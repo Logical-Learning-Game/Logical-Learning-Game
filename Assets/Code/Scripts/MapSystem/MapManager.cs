@@ -208,15 +208,19 @@ namespace Unity.Game.MapSystem
                                 {
                                     case 0b00:
                                         door.GetComponent<Door>().SetDoorKey(ItemType.NONE);
+                                        door.GetComponent<Door>().SetDoorGlyph("");
                                         break;
                                     case 0b01:
                                         door.GetComponent<Door>().SetDoorKey(ItemType.KEY_A);
+                                        door.GetComponent<Door>().SetDoorGlyph("F");
                                         break;
                                     case 0b10:
                                         door.GetComponent<Door>().SetDoorKey(ItemType.KEY_B);
+                                        door.GetComponent<Door>().SetDoorGlyph("H");
                                         break;
                                     case 0b11:
                                         door.GetComponent<Door>().SetDoorKey(ItemType.KEY_C);
+                                        door.GetComponent<Door>().SetDoorGlyph("O");
                                         break;
                                     default:
                                         break;
