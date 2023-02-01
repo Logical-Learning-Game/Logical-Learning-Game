@@ -19,9 +19,12 @@ namespace Unity.Game.MapSystem
 
         public List<Rule> MapRules = new List<Rule>()
         {
-            new NormalClearRule(),
-            new CommandLimitRule(),
-            new ActionLimitRule()
+            new LevelClearRule(),
+            new ActionLimitRule(value:16,isMore:true),
+            new CommandLimitRule(value:7,isMore:false)
+            //new NormalClearRule(),
+            //new CommandLimitRule(),
+            //new ActionLimitRule()
         };
 
         public int StarRequirement = 0;

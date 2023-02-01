@@ -15,13 +15,14 @@ namespace Unity.Game.Level
     {
         public static LevelManager Instance { get; private set; }
 
-
         // level stats
         public Map gameMap;
 
         // player stats
         public List<ItemType> ItemList;
         public ConditionSign lastSign = ConditionSign.EMPTY;
+        
+        [SerializeField] private GameObject LevelIndicator;
 
         // Start is called before the first frame update
         void Awake()
@@ -48,6 +49,7 @@ namespace Unity.Game.Level
             lastSign = ConditionSign.EMPTY;
             SetMap(map);
             MapManager.Instance.InitMap();
+            LevelIndicator.GetComponent<TMPro.TMP_Text>().text = map.MapName;
             ItemManager.Instance.InitItems();
             ConditionPickerController.Instance.InitConditionPicker();
             RuleManager.Instance.InitRule();
@@ -212,7 +214,7 @@ namespace Unity.Game.Level
             foreach (Rule rule in gameMap.MapRules)
             {
                 //Debug.Log("Found Rule" + rule.GetDescription());
-                result.Add((Rule)rule.Clone());
+                result.Add(rule);
             }
             return result;
         }

@@ -120,8 +120,6 @@ namespace Unity.Game.MapSystem
                 }
             }
 
-
-
             if (Application.isPlaying)
             {
                 CreateDoors(gameMap);

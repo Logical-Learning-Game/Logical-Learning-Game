@@ -32,7 +32,7 @@ namespace Unity.Game.Action
             ActionBarManager.Instance.AddToContent(action);
             yield return action.Execute();
             // Action Execute Completed
-            
+
         }
 
 
