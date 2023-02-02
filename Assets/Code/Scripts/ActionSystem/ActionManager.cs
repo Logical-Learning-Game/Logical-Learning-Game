@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace Unity.Game.Action
+namespace Unity.Game.ActionSystem
 {
     public class ActionManager : MonoBehaviour
     {

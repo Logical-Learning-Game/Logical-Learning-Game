@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Unity.Game.Action;
+using Unity.Game.ActionSystem;
 using Unity.Game.Conditions;
 using Unity.Game.Level;
 
@@ -48,7 +48,7 @@ namespace Unity.Game.Command
 
         public override IEnumerator AddAction()
         {
-            yield return ActionManager.Instance.AddAction(new Action.ConditionAction(commandCondition));
+            yield return ActionManager.Instance.AddAction(new ConditionAction(commandCondition));
         }
 
         protected override void Awake()
@@ -93,6 +93,12 @@ namespace Unity.Game.Command
             linkerCommand.GetComponent<LinkerCommand>().SetConditionSign(commandCondition.sign);
 
             //linkerCommand.transform.Find("CommandSign").GetComponent<Image>().color = commandCondition.sign == ConditionName.MockTrue ? Color.green : Color.red;
+        }
+
+        public override void Delete()
+        {
+            base.Delete();
+            linkerCommand.Delete();
         }
     }
     

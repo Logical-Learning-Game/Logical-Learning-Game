@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using Unity.Game.Level;
+using UnityEngine.UI;
 using TMPro;
 
 
@@ -20,8 +21,7 @@ namespace Unity.Game.RuleSystem
 
         [SerializeField] private bool[] RuleStatus;
         
-        // there will be better implementation
-        [SerializeField] private int[] RuleCurrentValue;
+        public StateValue CurrentValue;
         
         private void Awake()
         {
@@ -48,17 +48,21 @@ namespace Unity.Game.RuleSystem
                 RuleObjects[i].GetComponentInChildren<TMP_Text>().text = Rules[i].GetDescription();
             }
             RuleStatus = new bool[3] { false, false, false };
+            CurrentValue = new StateValue();
+            CurrentValue.UpdateCommandValue();
+            CurrentValue.UpdateActionValue();
             //RuleCurrentValue = new int[3] { -1, -1, -1 };
         }
 
         public void OnPlanCheck()
         {
+            CurrentValue.UpdateCommandValue();
             for (int i = 0; i < Rules.Count; i++)
             {
                 if (Rules[i] is OnPlanRule)
                 {
                     bool result = Rules[i].CheckRule();
-                    RuleObjects[i].GetComponentInChildren<SpriteRenderer>().sprite = result ? RuleComplete : RuleIncomplete;
+                    RuleObjects[i].GetComponentInChildren<Image>().sprite = result ? RuleComplete : RuleIncomplete;
                     RuleStatus[i] = result;
                 }
             }
@@ -66,12 +70,13 @@ namespace Unity.Game.RuleSystem
 
         public void OnPlayCheck()
         {
+            CurrentValue.UpdateActionValue();
             for (int i = 0; i < Rules.Count; i++)
             {
                 if (Rules[i] is OnPlayRule)
                 {
                     bool result = Rules[i].CheckRule();
-                    RuleObjects[i].GetComponentInChildren<SpriteRenderer>().sprite = result ? RuleComplete : RuleIncomplete;
+                    RuleObjects[i].GetComponentInChildren<Image>().sprite = result ? RuleComplete : RuleIncomplete;
                     RuleStatus[i] = result;
                 }
             }
@@ -84,7 +89,7 @@ namespace Unity.Game.RuleSystem
                 if (Rules[i] is OnClearRule)
                 {
                     bool result = Rules[i].CheckRule();
-                    RuleObjects[i].GetComponentInChildren<SpriteRenderer>().sprite = result ? RuleComplete : RuleIncomplete;
+                    RuleObjects[i].GetComponentInChildren<Image>().sprite = result ? RuleComplete : RuleIncomplete;
                     RuleStatus[i] = result;
                 }
             }

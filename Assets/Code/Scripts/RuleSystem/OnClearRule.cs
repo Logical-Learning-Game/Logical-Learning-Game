@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Game.Level;
 using GlobalConfig;
 using System;
 
@@ -28,13 +29,12 @@ namespace Unity.Game.RuleSystem
 
         public override string GetDescription()
         {
-            Debug.Log("hey there, onclearrule is getting description");
             return "Reach the <color=#F5C500><b>GOAL</b></color>";
         }
 
         public override bool CheckRule()
         {
-            return base.CheckRule();
+            return LevelManager.Instance.GetIsPlayerReachGoal();
         }
     }
 

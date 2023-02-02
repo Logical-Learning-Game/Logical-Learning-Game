@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using System;
-using Unity.Game.Action;
+using Unity.Game.ActionSystem;
 
 namespace Unity.Game.RuleSystem
 {
