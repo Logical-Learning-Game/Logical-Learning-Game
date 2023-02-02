@@ -4,6 +4,7 @@ using UnityEngine;
 using GlobalConfig;
 using System;
 using Unity.Game.ActionSystem;
+using Unity.Game;
 
 namespace Unity.Game.RuleSystem
 {
@@ -33,29 +34,40 @@ namespace Unity.Game.RuleSystem
             return GetLimitTypeString() + (GetIsMore() ? " is not less than " : " is not more than ") + "<color=#F55135><b>" + GetValue() + "</b></color>";
         }
 
-        public override bool CheckRule()
+        public override bool CheckRule(StateValue currentState)
         {
-            return base.CheckRule();
+            int currentValue = limitType switch
+            {
+                LimitType.ALL => currentState.ActionCount,
+                LimitType.FORWARD => currentState.ForwardActionCount,
+                LimitType.LEFT => currentState.LeftActionCount,
+                LimitType.RIGHT => currentState.RightActionCount,
+                LimitType.BACK => currentState.BackActionCount,
+                LimitType.CONDITION => currentState.ConditionActionCount,
+                _ => 0,
+            };
+            if (GetIsMore())
+            {
+                return currentValue >= GetValue();
+            }
+            else
+            {
+                return currentValue <= GetValue();
+            }
         }
 
         public string GetLimitTypeString()
         {
-            switch (limitType)
+            return limitType switch
             {
-                case LimitType.ALL:
-                    return "Commands";
-                case LimitType.FORWARD:
-                    return "Forward command(s)";
-                case LimitType.LEFT:
-                    return "Left Forward command(s)";
-                case LimitType.RIGHT:
-                    return "Right Forward command(s)";
-                case LimitType.BACK:
-                    return "Back command(s)";
-                case LimitType.CONDITION:
-                    return "Condition command(s)";
-                default: return "[ ]";
-            }
+                LimitType.ALL => "Command(s)",
+                LimitType.FORWARD => "Forward command(s)",
+                LimitType.LEFT => "Left Forward command(s)",
+                LimitType.RIGHT => "Right Forward command(s)",
+                LimitType.BACK => "Back command(s)",
+                LimitType.CONDITION => "Condition command(s)",
+                _ => "[ ]",
+            };
         }
     }
 

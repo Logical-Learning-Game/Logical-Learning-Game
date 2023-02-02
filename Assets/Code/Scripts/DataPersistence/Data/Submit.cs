@@ -40,14 +40,14 @@ namespace Unity.Game.SaveSystem
         DateTime submitDate;
         List<CommandPattern> commandPatterns;
         List<CommandEdge> commandEdge;
-        int commandCount;
-        int actionCount;
         bool isFinited;
         bool isCompleted;
         List<Rule> Rules;
+        bool[] ruleStatus;
         Medal commandMedal;
         Medal actionMedal;
-        
+        StateValue stateValue;
+
     }
 
 }

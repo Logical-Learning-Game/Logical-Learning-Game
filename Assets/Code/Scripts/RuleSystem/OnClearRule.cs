@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Game.Level;
 using GlobalConfig;
 using System;
+using Unity.Game;
 
 namespace Unity.Game.RuleSystem
 {
@@ -32,7 +33,7 @@ namespace Unity.Game.RuleSystem
             return "Reach the <color=#F5C500><b>GOAL</b></color>";
         }
 
-        public override bool CheckRule()
+        public override bool CheckRule(StateValue currentState)
         {
             return LevelManager.Instance.GetIsPlayerReachGoal();
         }

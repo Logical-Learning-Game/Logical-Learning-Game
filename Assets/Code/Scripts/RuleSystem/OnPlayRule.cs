@@ -4,6 +4,7 @@ using UnityEngine;
 using GlobalConfig;
 using System;
 using Unity.Game.ActionSystem;
+using Unity.Game;
 
 namespace Unity.Game.RuleSystem
 {
@@ -50,29 +51,40 @@ namespace Unity.Game.RuleSystem
             return GetLimitTypeString() + (GetIsMore()?" is not less than ":" is not more than ")+ "<color=#F55135><b>"+GetValue()+"</b></color>";
         }
 
-        public override bool CheckRule()
+        public override bool CheckRule(StateValue currentState)
         {
-            return base.CheckRule();
+            int currentValue = limitType switch
+            {
+                LimitType.ALL => currentState.ActionCount,
+                LimitType.FORWARD => currentState.ForwardActionCount,
+                LimitType.LEFT => currentState.LeftActionCount,
+                LimitType.RIGHT => currentState.RightActionCount,
+                LimitType.BACK => currentState.BackActionCount,
+                LimitType.CONDITION => currentState.ConditionActionCount,
+                _ => 0,
+            };
+            if (GetIsMore())
+            {
+                return currentValue >= GetValue();
+            }
+            else
+            {
+                return currentValue <= GetValue();
+            }
         }
 
         public string GetLimitTypeString()
         {
-            switch (limitType)
+            return limitType switch
             {
-                case LimitType.ALL:
-                    return "Actions";
-                case LimitType.FORWARD:
-                    return "Forward action(s)";
-                case LimitType.LEFT:
-                    return "Left Forward action(s)";
-                case LimitType.RIGHT:
-                    return "Right Forward action(s)";
-                case LimitType.BACK:
-                    return "Back action(s)";
-                case LimitType.CONDITION:
-                    return "Condition action(s)";
-                default: return "[ ]";
-            }
+                LimitType.ALL => "Actions",
+                LimitType.FORWARD => "Forward action(s)",
+                LimitType.LEFT => "Left Forward action(s)",
+                LimitType.RIGHT => "Right Forward action(s)",
+                LimitType.BACK => "Back action(s)",
+                LimitType.CONDITION => "Condition action(s)",
+                _ => "[ ]",
+            };
         }
     }
 
@@ -88,9 +100,9 @@ namespace Unity.Game.RuleSystem
             return "[Do it Later]";
         }
 
-        public override bool CheckRule()
+        public override bool CheckRule(StateValue currentState)
         {
-            return base.CheckRule();
+            return base.CheckRule(currentState);
         }
     }
 

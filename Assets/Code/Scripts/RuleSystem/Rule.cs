@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using System;
+using Unity.Game;
 
 namespace Unity.Game.RuleSystem
 {
@@ -19,22 +20,13 @@ namespace Unity.Game.RuleSystem
             this.id = id;
             this.theme = theme;
         }
-        //public virtual object Clone()
-        //{
-        //    return new Rule(id, theme);
-        //}
-        
-        //public Rule GetRule()
-        //{
-        //    return (Rule)Clone();
-        //}
         
         public virtual string GetDescription()
         {
             return "Base Class Description";
         }
-
-        public virtual bool CheckRule()
+        
+        public virtual bool CheckRule(StateValue currentState)
         {
             return false;
         }

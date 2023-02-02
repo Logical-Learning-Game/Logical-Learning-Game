@@ -79,7 +79,6 @@ namespace Unity.Game.Command
 
         public void OnUpdateCommandBar()
         {
-            RuleManager.Instance.CurrentValue.UpdateCommandValue();
             RuleManager.Instance.OnPlanCheck();
             CheckRemainingCommand();
             foreach (CommandInitiator commandInitiator in commandInitiators)
