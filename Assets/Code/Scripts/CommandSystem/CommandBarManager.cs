@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Unity.Game.RuleSystem;
 
 
 namespace Unity.Game.Command
@@ -78,6 +79,7 @@ namespace Unity.Game.Command
 
         public void OnUpdateCommandBar()
         {
+            RuleManager.Instance.OnPlanCheck();
             CheckRemainingCommand();
             foreach (CommandInitiator commandInitiator in commandInitiators)
             {

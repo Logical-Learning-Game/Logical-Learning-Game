@@ -7,6 +7,7 @@ using Unity.Game.RuleSystem;
 
 namespace Unity.Game.SaveSystem
 {
+    public enum Medal { NONE, BRONZE, SILVER, GOLD }
     public class CommandPattern
     {
         CommandType type;
@@ -20,11 +21,11 @@ namespace Unity.Game.SaveSystem
     }
     public class CommandEdge
     {
- 
+
         CommandPattern commandStart;
         CommandPattern commandEnd;
         EdgeType edgeType;
-        public CommandEdge(CommandPattern start,CommandPattern end,EdgeType type)
+        public CommandEdge(CommandPattern start, CommandPattern end, EdgeType type)
         {
             commandStart = start;
             commandEnd = end;
@@ -39,12 +40,14 @@ namespace Unity.Game.SaveSystem
         DateTime submitDate;
         List<CommandPattern> commandPatterns;
         List<CommandEdge> commandEdge;
-        int commandCount;
-        int actionCount;
         bool isFinited;
         bool isCompleted;
         List<Rule> Rules;
-        
+        bool[] ruleStatus;
+        Medal commandMedal;
+        Medal actionMedal;
+        StateValue stateValue;
+
     }
 
 }

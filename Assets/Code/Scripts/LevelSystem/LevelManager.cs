@@ -15,13 +15,15 @@ namespace Unity.Game.Level
     {
         public static LevelManager Instance { get; private set; }
 
-
         // level stats
         public Map gameMap;
+        public bool isPlayerReachGoal = false;
 
         // player stats
         public List<ItemType> ItemList;
         public ConditionSign lastSign = ConditionSign.EMPTY;
+        
+        [SerializeField] private GameObject LevelIndicator;
 
         // Start is called before the first frame update
         void Awake()
@@ -46,10 +48,13 @@ namespace Unity.Game.Level
         {
             ItemList = new List<ItemType>();
             lastSign = ConditionSign.EMPTY;
+            isPlayerReachGoal = false;
             SetMap(map);
+            LevelIndicator.GetComponent<TMPro.TMP_Text>().text = map.MapName;
             MapManager.Instance.InitMap();
             ItemManager.Instance.InitItems();
             ConditionPickerController.Instance.InitConditionPicker();
+            RuleManager.Instance.InitRule();
             InitPlayer();
         }
 
@@ -146,20 +151,22 @@ namespace Unity.Game.Level
                 // if can enter, move the player 
                 if (moveToTile.IsEnterable(movingIntoDirection) == true)
                 {
-                    //Debug.Log("Tile is Enterable");
-                    //Debug.Log("Player from (" + string.Join(",", GetPos()) + ") Move Into: " + moveToTile.name + " at (" + tilePos[0] + "," + tilePos[1] + ")");
                     yield return Player.Instance.MoveTo(Direction);
                     moveToTile.OnTileEntered();
+                    RuleManager.Instance.OnPlayCheck();
+                    if (moveToTile is GoalTile)
+                    {
+                        RuleManager.Instance.OnClearCheck();
+                    }
+                   
                 }
                 else // if cannot, return the player action
                 {
-                    //Debug.Log("Tile is not Enterable");
                     yield return Player.Instance.OnCannotMoveTo(Direction);
                 }
             }
             else // no tile reference, return the player action
             {
-                //Debug.Log("Can't Move Into null Tile (" + tilePos.Item1 + "," + tilePos.Item2 + ")");
                 yield return Player.Instance.OnCannotMoveTo(Direction);
             }
         }
@@ -167,7 +174,6 @@ namespace Unity.Game.Level
         public Tuple<int, int> GetPos(Vector3 pos = new Vector3())
         {
             Tuple<int, int> result = Tuple.Create(Mathf.RoundToInt(Player.Instance.posX + pos.x), Mathf.RoundToInt(Player.Instance.posZ + pos.z));
-            //Debug.Log("PosX: "+ Player.Instance.posX +"+"+ Mathf.RoundToInt(pos.x) + "= "+ Mathf.RoundToInt(Player.Instance.posX + pos.x) + "\nposZ: " + Player.Instance.posZ + "+" + Mathf.RoundToInt(pos.z) + "= " + Mathf.RoundToInt(Player.Instance.posZ + pos.z));
             return result;
         }
 
@@ -210,7 +216,7 @@ namespace Unity.Game.Level
             List<Rule> result = new List<Rule>();
             foreach (Rule rule in gameMap.MapRules)
             {
-                result.Add((Rule)rule.Clone());
+                result.Add(rule);
             }
             return result;
         }
@@ -233,6 +239,16 @@ namespace Unity.Game.Level
         {
             ItemList.Remove(item);
 
+        }
+
+        public void SetIsPlayerReachGoal()
+        {
+            isPlayerReachGoal = true;
+        }
+
+        public bool GetIsPlayerReachGoal()
+        {
+            return isPlayerReachGoal;
         }
 
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace Unity.Game.Action
+namespace Unity.Game.ActionSystem
 {
     public class ActionBarManager : MonoBehaviour
     {

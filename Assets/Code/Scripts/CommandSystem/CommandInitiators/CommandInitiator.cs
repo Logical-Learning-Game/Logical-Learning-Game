@@ -24,17 +24,13 @@ namespace Unity.Game.Command
                 {
                     GameObject commandObject = CommandInitiate(eventData);
                     CommandManager.Instance.AddCommand(commandObject);
-                    //CommandManager.Instance.SetSelectedCommand(commandObject);
                     CommandBarManager.Instance.OnUpdateCommandBar();
+                    
                 }
             }
 
         }
 
-        //public GameObject Initiate(GameObject commandObject)
-        //{
-
-        //};
         public GameObject CommandInitiate(PointerEventData eventData)
         {
             GameObject commandObject = Instantiate(commandPrefab, eventData.position, Quaternion.identity);

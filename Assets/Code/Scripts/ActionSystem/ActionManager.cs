@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace Unity.Game.Action
+namespace Unity.Game.ActionSystem
 {
     public class ActionManager : MonoBehaviour
     {
@@ -32,7 +32,7 @@ namespace Unity.Game.Action
             ActionBarManager.Instance.AddToContent(action);
             yield return action.Execute();
             // Action Execute Completed
-            
+
         }
 
 

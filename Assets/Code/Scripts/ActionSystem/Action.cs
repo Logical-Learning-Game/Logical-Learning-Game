@@ -5,7 +5,7 @@ using TMPro;
 using Unity.Game.Conditions;
 using Unity.Game.Level;
 
-namespace Unity.Game.Action
+namespace Unity.Game.ActionSystem
 {
     public class Action
     {

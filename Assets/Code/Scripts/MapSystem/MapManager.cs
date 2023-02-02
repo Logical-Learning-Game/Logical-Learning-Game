@@ -43,7 +43,11 @@ namespace Unity.Game.MapSystem
 
         void Start()
         {
-
+            if (!Application.isPlaying)
+            {
+                Map map = new Map();
+                CreateMap(map);
+            }
 
         }
 
@@ -111,15 +115,10 @@ namespace Unity.Game.MapSystem
                         default:
                             break;
                     }
-                    //if (Application.isPlaying)
-                    //{
-                    //    InitDoor(i, j, shifted);
-                    //}
+      
 
                 }
             }
-
-
 
             if (Application.isPlaying)
             {
@@ -207,19 +206,24 @@ namespace Unity.Game.MapSystem
                                 {
                                     case 0b00:
                                         door.GetComponent<Door>().SetDoorKey(ItemType.NONE);
+                                        door.GetComponent<Door>().SetDoorGlyph("");
                                         break;
                                     case 0b01:
                                         door.GetComponent<Door>().SetDoorKey(ItemType.KEY_A);
+                                        door.GetComponent<Door>().SetDoorGlyph("F");
                                         break;
                                     case 0b10:
                                         door.GetComponent<Door>().SetDoorKey(ItemType.KEY_B);
+                                        door.GetComponent<Door>().SetDoorGlyph("H");
                                         break;
                                     case 0b11:
                                         door.GetComponent<Door>().SetDoorKey(ItemType.KEY_C);
+                                        door.GetComponent<Door>().SetDoorGlyph("O");
                                         break;
                                     default:
                                         break;
                                 }
+                                DoorList.Add(door);
                                 door.GetComponent<Door>().SetIsOpened(((remainder >> 3) & 0b1) == 1);
                                 door.transform.rotation = Quaternion.Euler(0, dict[directionCounter].Item2 * 90f, 0);
                                 door.transform.SetParent(transform);
@@ -247,5 +251,6 @@ namespace Unity.Game.MapSystem
                 return TileObjects[pos.Item1, pos.Item2].GetComponent<Tile>();
             }
         }
+
     }
 }

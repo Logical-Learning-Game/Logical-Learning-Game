@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Game.Conditions;
 using Unity.Game.ItemSystem;
+using TMPro;
 
 namespace Unity.Game.MapSystem
 {
@@ -58,6 +59,14 @@ namespace Unity.Game.MapSystem
         public void SetIsOpened(bool isOpened)
         {
             this.isOpened = isOpened;
+        }
+
+        public void SetDoorGlyph(string glyph)
+        {
+            foreach (TMP_Text doorText in GetComponentsInChildren<TMP_Text>())
+            {
+                doorText.text = glyph;
+            }
         }
     }
 }
