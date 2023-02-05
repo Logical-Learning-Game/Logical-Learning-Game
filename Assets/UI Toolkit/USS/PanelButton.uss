@@ -1,0 +1,66 @@
+.PanelButton {
+    margin-top: 6px;
+    height: 100px;
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    width: 200px;
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 32px;
+    color: rgba(97, 63, 53, 255);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    margin-bottom: 6px;
+    background-image: url('project://database/Assets/Art/Textures/UI/CommandPanel.png?fileID=2800000&guid=d7ee3d73a5dd88b439d563fcc659ad28&type=3#CommandPanel');
+    -unity-background-image-tint-color: rgba(255, 255, 255, 255);
+}
+
+.PanelButton:hover {
+    margin-top: 6px;
+    height: 100px;
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.99);
+    font-size: 35px;
+    color: rgb(97, 63, 53);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    margin-bottom: 6px;
+    background-image: url('project://database/Assets/Art/Textures/UI/CommandPanel.png?fileID=2800000&guid=d7ee3d73a5dd88b439d563fcc659ad28&type=3#CommandPanel');
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+.PanelButton:active {
+    margin-top: 6px;
+    height: 100px;
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.99);
+    font-size: 35px;
+    color: rgb(97, 63, 53);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    margin-bottom: 6px;
+    background-image: url('project://database/Assets/Art/Textures/UI/CommandPanel.png?fileID=2800000&guid=d7ee3d73a5dd88b439d563fcc659ad28&type=3#CommandPanel');
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+}

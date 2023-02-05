@@ -11,6 +11,7 @@ namespace Unity.Game.RuleSystem
     public enum RuleTheme { NORMAL, CONDITIONAL, LOOP }
 
     public enum LimitType { ALL,FORWARD,LEFT,RIGHT,BACK,CONDITION}
+    [System.Serializable]
     public class Rule /*: ICloneable*/
     {
         string id;
