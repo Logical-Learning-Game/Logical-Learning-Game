@@ -14,7 +14,7 @@ namespace Unity.Game.SaveSystem
         
         [SerializeField] string m_SaveFilename = "savegame.dat";
         GameDataManager gameDataManager;
-        //public static event Action<GameData> GameDataLoaded;
+        public static event Action<GameData> GameDataLoaded;
 
         private void Awake()
         {
@@ -43,12 +43,12 @@ namespace Unity.Game.SaveSystem
             {
                 gameDataManager.GameData.LoadJson(jsonString);
             }
-            
+
             // notify other game objects 
-            //if (gameDataManager.GameData != null)
-            //{
-            //    GameDataLoaded?.Invoke(gameDataManager.GameData);
-            //}
+            if (gameDataManager.GameData != null)
+            {
+                GameDataLoaded?.Invoke(gameDataManager.GameData);
+            }
         }
 
         public void SaveGame()

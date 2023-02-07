@@ -11,20 +11,30 @@ namespace Unity.Game.SaveSystem
         public string userId;
         public SerializableDictionary<Submit, bool> SubmitHistory;
         public SerializableDictionary<string, Submit> SubmitBest;
-      
+
+        public float musicVolume;
+        public float sfxVolume;
 
         public GameData(string userId)
         {
             this.userId = userId;
             SubmitHistory = new SerializableDictionary<Submit, bool>();
             SubmitBest = new SerializableDictionary<string, Submit>();
+
+            // settings
+            this.musicVolume = 80f;
+            this.sfxVolume = 80f;
         }
 
         public GameData()
         {
             SubmitHistory = new SerializableDictionary<Submit, bool>();
             SubmitBest = new SerializableDictionary<string, Submit>();
-            
+
+            // settings
+            this.musicVolume = 80f;
+            this.sfxVolume = 80f;
+
         }
 
         public string ToJson()

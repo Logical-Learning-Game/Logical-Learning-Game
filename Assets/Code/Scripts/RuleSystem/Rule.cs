@@ -14,8 +14,8 @@ namespace Unity.Game.RuleSystem
     [System.Serializable]
     public class Rule /*: ICloneable*/
     {
-        string id;
-        RuleTheme theme;
+        [SerializeField] string id;
+        [SerializeField] RuleTheme theme;
         public Rule(string id = "", RuleTheme theme = RuleTheme.NORMAL)
         {
             this.id = id;

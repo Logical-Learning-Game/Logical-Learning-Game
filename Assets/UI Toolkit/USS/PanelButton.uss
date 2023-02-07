@@ -6,7 +6,7 @@
     width: 200px;
     background-color: rgba(255, 255, 255, 0);
     font-size: 32px;
-    color: rgba(97, 63, 53, 255);
+    color: rgb(97, 63, 53);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
@@ -17,7 +17,11 @@
     border-bottom-width: 0;
     margin-bottom: 6px;
     background-image: url('project://database/Assets/Art/Textures/UI/CommandPanel.png?fileID=2800000&guid=d7ee3d73a5dd88b439d563fcc659ad28&type=3#CommandPanel');
-    -unity-background-image-tint-color: rgba(255, 255, 255, 255);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-slice-left: 144;
+    -unity-slice-top: 144;
+    -unity-slice-right: 144;
+    -unity-slice-bottom: 144;
 }
 
 .PanelButton:hover {

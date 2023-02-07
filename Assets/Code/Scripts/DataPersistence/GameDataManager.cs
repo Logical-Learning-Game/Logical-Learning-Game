@@ -29,9 +29,9 @@ namespace Unity.Game.SaveSystem
 
             // flag that GameData is loaded the first time
             isGameDataInitialized = true;
-            Submit submit = new Submit("test", "testmap", "testsession", new List<CommandPattern>(), new List<CommandEdge>(), true, true, new List<RuleSystem.Rule>(), new bool[] { true, true, true }, Medal.NONE, Medal.NONE, new StateValue());
+            //Submit submit = new Submit("test", "testmap", "testsession", new List<CommandPattern>(), new List<CommandEdge>(), true, true, new List<RuleSystem.Rule>(), new bool[] { true, true, true }, Medal.NONE, Medal.NONE, new StateValue());
             
-            AddSubmit(submit);
+            //AddSubmit(submit);
         }
 
         void AddSubmit(Submit submit)
