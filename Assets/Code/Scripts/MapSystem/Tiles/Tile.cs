@@ -60,7 +60,7 @@ namespace Unity.Game.MapSystem
 
         public void AddDoorOnTile(Tuple<int, int> doorPos, GameObject door)
         {
-            Debug.Log("AddDoorOnTile->" + doorPos + ":" + door.name);
+            //Debug.Log("AddDoorOnTile->" + doorPos + ":" + door.name);
             DoorOnTile.Add(doorPos, door);
         }
 

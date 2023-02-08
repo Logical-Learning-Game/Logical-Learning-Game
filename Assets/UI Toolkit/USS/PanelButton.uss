@@ -30,7 +30,6 @@
     -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
     -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
     width: 200px;
-    background-color: rgba(0, 0, 0, 0.99);
     font-size: 35px;
     color: rgb(97, 63, 53);
     border-top-left-radius: 0;
@@ -52,7 +51,6 @@
     -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
     -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
     width: 200px;
-    background-color: rgba(0, 0, 0, 0.99);
     font-size: 35px;
     color: rgb(97, 63, 53);
     border-top-left-radius: 0;

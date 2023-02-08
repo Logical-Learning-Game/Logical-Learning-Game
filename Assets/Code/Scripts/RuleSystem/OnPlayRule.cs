@@ -53,23 +53,19 @@ namespace Unity.Game.RuleSystem
 
         public override bool CheckRule(StateValue currentState)
         {
-            int currentValue = limitType switch
+            switch (limitType)
             {
-                LimitType.ALL => currentState.ActionCount,
-                LimitType.FORWARD => currentState.ForwardActionCount,
-                LimitType.LEFT => currentState.LeftActionCount,
-                LimitType.RIGHT => currentState.RightActionCount,
-                LimitType.BACK => currentState.BackActionCount,
-                LimitType.CONDITION => currentState.ConditionActionCount,
-                _ => 0,
-            };
-            if (GetIsMore())
-            {
-                return currentValue >= GetValue();
-            }
-            else
-            {
-                return currentValue <= GetValue();
+                case LimitType.ALL:
+                    return GetIsMore() ? (currentState.ActionCount >= GetValue()) : (currentState.ActionCount <= GetValue());
+                case LimitType.FORWARD:
+                    return GetIsMore() ? (currentState.ForwardActionCount >= GetValue()) : (currentState.ForwardActionCount <= GetValue());
+                case LimitType.LEFT:
+                    return GetIsMore() ? (currentState.LeftActionCount >= GetValue()) : (currentState.LeftActionCount <= GetValue());
+                case LimitType.RIGHT:
+                    return GetIsMore() ? (currentState.RightActionCount >= GetValue()) : (currentState.RightActionCount <= GetValue());
+                case LimitType.CONDITION:
+                    return GetIsMore() ? (currentState.ConditionActionCount >= GetValue()) : (currentState.ConditionActionCount <= GetValue());
+                default: return false;
             }
         }
 

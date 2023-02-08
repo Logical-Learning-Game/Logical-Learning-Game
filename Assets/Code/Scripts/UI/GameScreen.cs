@@ -25,18 +25,50 @@ namespace Unity.Game.UI
         [SerializeField] string WinScreenName = "GameWinScreen";
 
         [Header("Blur")]
-        [SerializeField] Volume m_Volume;
+        [SerializeField] Volume Volume;
+        
+        [SerializeField] GameObject DefaultInGameScreen;
+        [SerializeField] PanelScreen PanelScreen;
+        [SerializeField] VisualElement rootElement;
+        [SerializeField] Button OutsidePanel;
 
-        GameObject DefaultInGameScreen;
-
-        void Start()
-        {
-
-        }
 
         void OnEnable()
         {
+            SetVisualElements();
+            RegisterButtonCallbacks();
+
+            if (Volume == null)
+                Volume = FindObjectOfType<Volume>();
+
             GameScreenController.GameWon += OnGameWon;
+        }
+
+        void OnDisable()
+        {
+            GameScreenController.GameWon -= OnGameWon;
+        }
+
+        void SetVisualElements()
+        {
+            PanelScreen = GetComponent<PanelScreen>();
+            rootElement = PanelScreen.GameScreen.rootVisualElement;
+            OutsidePanel = PanelScreen.GameScreen.rootVisualElement.Q<Button>("OutsidePanel");
+            ShowVisualElement(rootElement, false);
+        }
+
+        void RegisterButtonCallbacks()
+        {
+            //rootElement.AddManipulator(new Clickable(evt => OnCloseJournalMenu()));
+            OutsidePanel?.RegisterCallback<ClickEvent>(OnCloseJournalMenu);
+        }
+
+        void ShowVisualElement(VisualElement visualElement, bool state)
+        {
+            if (visualElement == null)
+                return;
+
+            visualElement.style.display = (state) ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
         void OnGameWon()
@@ -54,6 +86,34 @@ namespace Unity.Game.UI
 
             //AudioManager.PlayVictorySound();
             //ShowVisualElement(m_WinScreen, true);
+        }
+
+        public void OnOpenJournalMenu()
+        {
+            GamePaused?.Invoke(.5f);
+            BlurBackground(true);
+            ShowVisualElement(rootElement, true);
+            DefaultInGameScreen.transform.localScale = Vector3.zero;
+        }
+
+        void OnCloseJournalMenu(ClickEvent evt)
+        {
+            GameResumed?.Invoke();
+            BlurBackground(false);
+            ShowVisualElement(rootElement, false);
+            DefaultInGameScreen.transform.localScale = Vector3.one;
+        }
+
+        void BlurBackground(bool state)
+        {
+            if (Volume == null)
+                return;
+
+            DepthOfField blurDOF;
+            if (Volume.profile.TryGet(out blurDOF))
+            {
+                blurDOF.active = state;
+            }
         }
     }
 }

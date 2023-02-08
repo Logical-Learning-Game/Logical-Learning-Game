@@ -27,12 +27,22 @@ namespace Unity.Game.UI
         {
             LevelManager.GameWon += OnGameWon;
             SaveManager.GameDataLoaded += OnGameDataLoaded;
+
+            GameScreen.GameRestarted += OnGameRestarted;
+            GameScreen.GamePaused += OnGamePaused;
+            GameScreen.GameResumed += OnGameResumed;
+            GameScreen.GameQuit += OnGameQuit;
         }
 
         void OnDisable()
         {
             LevelManager.GameWon -= OnGameWon;
             SaveManager.GameDataLoaded -= OnGameDataLoaded;
+
+            GameScreen.GameRestarted -= OnGameRestarted;
+            GameScreen.GamePaused -= OnGamePaused;
+            GameScreen.GameResumed -= OnGameResumed;
+            GameScreen.GameQuit -= OnGameQuit;
         }
 
         IEnumerator PauseGameTime(float delay = 2f)
