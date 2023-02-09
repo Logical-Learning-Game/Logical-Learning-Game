@@ -29,7 +29,7 @@ namespace Unity.Game.Level
         // Start is called before the first frame update
         void Awake()
         {
-            Debug.Log("LevelManager Awake");
+            //Debug.Log("LevelManager Awake");
             if (Instance == null)
             {
                 Instance = this;

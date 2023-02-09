@@ -7,17 +7,32 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using GlobalConfig;
 using Unity.Game.MapSystem;
+using Unity.Game.UI;
+using UnityEngine.UIElements;
+using UnityEditor;
 
 namespace Unity.Game.SaveSystem
 {
     public class MapDataManager : MonoBehaviour
     {
 
-        Dictionary<string, List<Map>> MapLists = new Dictionary<string, List<Map>>();
-        Dictionary<string, List<GameObject>> MapInstanceLists = new Dictionary<string, List<GameObject>>();
+        //Dictionary<string, List<Map>> MapLists = new Dictionary<string, List<Map>>();
+        Dictionary<string, List<Map>> MapLists = new Dictionary<string, List<Map>>()
+        {
+            {"a",new List<Map>(){
+                new Map(), new Map(), new Map()
+            } },
+            {"b",new List<Map>()
+            {
+                new Map(), new Map()
+            } }
+        };
+        DropdownField dropdownField;
+        ListView entryView;
+
         private void Awake()
         {
-
+            
         }
 
         private void Start()
@@ -25,45 +40,75 @@ namespace Unity.Game.SaveSystem
 
         }
 
+        private void OnEnable()
+        {
+            PanelScreen.OpenLevelPanel += OnOpenLevelPanel;
+        }
+
+        private void OnDisable()
+        {
+            PanelScreen.OpenLevelPanel -= OnOpenLevelPanel;
+        }
+
         public void UpdateMapData()
         {
             // mockup for sync map data with network
         }
-        
+
         public void LoadMapFromFile()
         {
             // read map from file
         }
+
         
-        public List<GameObject> GetMapDisplayList(string worldSelector)
+
+        public void GenerateMapEntry(string worldSelector)
         {
-            MapInstanceLists.TryGetValue(worldSelector, out List<GameObject> MapInstances);
-            if(MapInstances is null)
-            {
-                MapLists.TryGetValue(worldSelector, out List<Map> MapData);
-                MapInstances = new List<GameObject>();
-                foreach(Map map in MapData)
-                {
-                    MapInstances.Add(GetMapDisplay(map));
-                }
-                MapInstanceLists.TryAdd(worldSelector, MapInstances);
-            }
+            Debug.Log("GenerateMapEntry Trigger");
+            entryView = GetComponent<PanelScreen>().LevelPanel.Q<ListView>("LevelListView");
+            List<Map> displayList = MapLists[worldSelector];
+
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/MapEntryTemplate.uxml");
             
-            return MapInstances;
+            Func<VisualElement> makeItem = () => visualTree.Instantiate();
+            Action<VisualElement, int> bindItem = (e, i) =>
+            {
+                e.Q<Label>("MapName").text = displayList[i].MapName;
+            };
+
+            entryView.makeItem = makeItem;
+            entryView.bindItem = bindItem;
+            entryView.itemsSource = displayList;
+            entryView.selectionType = SelectionType.None;
         }
-        
-        public List<string> GetWorldInstance()
+
+        public void CreateDropDownMenu()
+        {
+            dropdownField = GetComponent<PanelScreen>().LevelPanel.Q<DropdownField>("WorldSelector");
+            dropdownField.RegisterValueChangedCallback(x => GenerateMapEntry(x.newValue));
+            dropdownField.choices = GetWorldEntries();
+            dropdownField.value = dropdownField.choices[0];
+        }
+
+        public void OnOpenLevelPanel()
+        {
+            if(MapLists == null)
+            {
+                LoadMapFromFile();
+            }
+            if(dropdownField == null)
+            {
+                CreateDropDownMenu();
+            }
+            GenerateMapEntry(dropdownField.value);
+        }
+
+        public List<string> GetWorldEntries()
         {
             return MapLists.Keys.ToList();
         }
 
-        public GameObject GetMapDisplay(Map map)
-        {
-            GameObject MapDisplay = Instantiate(new GameObject());
-            // assign map value to mapDisplay
 
-            return MapDisplay;
-        }
 
     }
 }

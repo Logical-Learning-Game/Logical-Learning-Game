@@ -44,7 +44,7 @@ namespace Unity.Game.Command
         {
             if (Instance == null)
             {
-                Debug.Log("CMDBarMGR Awake");
+                //Debug.Log("CMDBarMGR Awake");
                 Instance = this;
                 layoutGroup = GetComponentInChildren<HorizontalLayoutGroup>();
                 commandInitiators = new List<CommandInitiator>()

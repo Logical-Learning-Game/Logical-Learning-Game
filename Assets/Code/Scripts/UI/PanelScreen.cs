@@ -11,11 +11,16 @@ namespace Unity.Game.UI
 {
     public class PanelScreen : MonoBehaviour
     {
-        public UIDocument GameScreen;
-        VisualElement LevelPanel;
-        VisualElement StatPanel;
-        VisualElement SettingPanel;
-        VisualElement HistoryPanel;
+        public static event Action OpenLevelPanel;
+        public static event Action OpenStatPanel;
+        public static event Action OpenSettingPanel;
+        public static event Action OpenHistoryPanel;
+
+        public UIDocument UIDocument;
+        public VisualElement LevelPanel;
+        public VisualElement StatPanel;
+        public VisualElement SettingPanel;
+        public VisualElement HistoryPanel;
 
         Button LevelButton;
         Button StatButton;
@@ -33,22 +38,24 @@ namespace Unity.Game.UI
         {
             SetVisualElements();
             RegisterButtonCallbacks();
+
+            GameScreen.OpenPanel += OnOpenPanel;
         }
 
         void OnDisable()
         {
-
+            GameScreen.OpenPanel -= OnOpenPanel;
         }
 
         void SetVisualElements()
         {
-            GameScreen = GetComponent<UIDocument>();
-            VisualElement rootElement = GameScreen.rootVisualElement;
+            UIDocument = GetComponent<UIDocument>();
+            VisualElement rootElement = UIDocument.rootVisualElement;
 
-            LevelPanel = GameScreen.rootVisualElement.Q("LevelPanel");
-            StatPanel = GameScreen.rootVisualElement.Q("StatPanel");
-            SettingPanel = GameScreen.rootVisualElement.Q("SettingPanel");
-            HistoryPanel = GameScreen.rootVisualElement.Q("HistoryPanel");
+            LevelPanel = UIDocument.rootVisualElement.Q("LevelPanel");
+            StatPanel = UIDocument.rootVisualElement.Q("StatPanel");
+            SettingPanel = UIDocument.rootVisualElement.Q("SettingPanel");
+            HistoryPanel = UIDocument.rootVisualElement.Q("HistoryPanel");
 
             LevelButton = rootElement.Q<Button>(LevelButtonName);
             StatButton = rootElement.Q<Button>(StatButtonName);
@@ -78,7 +85,7 @@ namespace Unity.Game.UI
             if (visualElement == null)
                 return;
 
-            Debug.Log("SwitchPanel");
+            //Debug.Log("SwitchPanel");
             ShowVisualElement(LevelPanel, false);
             ShowVisualElement(StatPanel, false);
             ShowVisualElement(SettingPanel, false);
@@ -90,19 +97,27 @@ namespace Unity.Game.UI
         void ShowLevelPanel(ClickEvent evt)
         {
             SwitchPanel(LevelPanel);
+            OpenLevelPanel?.Invoke();
         }
         void ShowStatPanel(ClickEvent evt)
         {
             SwitchPanel(StatPanel);
+            OpenStatPanel?.Invoke();
         }
         void ShowSettingPanel(ClickEvent evt)
         {
             SwitchPanel(SettingPanel);
+            OpenSettingPanel?.Invoke();
         }
         void ShowHistoryPanel(ClickEvent evt)
         {
             SwitchPanel(HistoryPanel);
+            OpenHistoryPanel?.Invoke();
         }
 
+        void OnOpenPanel()
+        {
+            ShowLevelPanel(new ClickEvent());
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace Unity.Game.UI
         public static event Action GameResumed;
         public static event Action GameQuit;
         public static event Action GameRestarted;
+        public static event Action OpenPanel;
         public static event Action<float> MusicVolumeChanged;
         public static event Action<float> SfxVolumeChanged;
 
@@ -52,8 +53,8 @@ namespace Unity.Game.UI
         void SetVisualElements()
         {
             PanelScreen = GetComponent<PanelScreen>();
-            rootElement = PanelScreen.GameScreen.rootVisualElement;
-            OutsidePanel = PanelScreen.GameScreen.rootVisualElement.Q<Button>("OutsidePanel");
+            rootElement = PanelScreen.UIDocument.rootVisualElement;
+            OutsidePanel = PanelScreen.UIDocument.rootVisualElement.Q<Button>("OutsidePanel");
             ShowVisualElement(rootElement, false);
         }
 
@@ -91,8 +92,10 @@ namespace Unity.Game.UI
         public void OnOpenJournalMenu()
         {
             GamePaused?.Invoke(.5f);
+            OpenPanel?.Invoke();
             BlurBackground(true);
             ShowVisualElement(rootElement, true);
+            //PanelScreen.ShowLevelPanel(new ClickEvent());
             DefaultInGameScreen.transform.localScale = Vector3.zero;
         }
 
