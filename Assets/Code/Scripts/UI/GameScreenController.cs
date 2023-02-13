@@ -77,7 +77,9 @@ namespace Unity.Game.UI
             if (Application.isPlaying)
 
 #endif
+                Debug.Log("LoadSceneAsync is triggered");
                 SceneManager.LoadSceneAsync(GameSceneName);
+                
         }
 
 

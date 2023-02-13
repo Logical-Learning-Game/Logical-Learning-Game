@@ -17,7 +17,7 @@ namespace Unity.Game.Level
         public static event Action GameWon;
 
         // level stats
-        public Map gameMap;
+        public static Map gameMap;
         public bool isPlayerReachGoal = false;
 
         // player stats
@@ -41,17 +41,26 @@ namespace Unity.Game.Level
         }
         void Start()
         {
-            Map map = new Map();
-            InitLevel(map);
+            //Map map = new Map();
+            //InitLevel();
+            Debug.Log("current map "+gameMap?.MapName);
+            try
+            {
+                InitLevel();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
         }
 
-        void InitLevel(Map map)
+        public void InitLevel()
         {
             ItemList = new List<ItemType>();
             lastSign = ConditionSign.EMPTY;
             isPlayerReachGoal = false;
-            SetMap(map);
-            LevelIndicator.GetComponent<TMPro.TMP_Text>().text = map.MapName;
+            SetMap(gameMap);
+            LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
             MapManager.Instance.InitMap();
             ItemManager.Instance.InitItems();
             ConditionPickerController.Instance.InitConditionPicker();
@@ -76,7 +85,7 @@ namespace Unity.Game.Level
                 // reset movement
                 if (Input.GetKeyDown(KeyCode.R))
                 {
-                    InitLevel(gameMap);
+                    InitLevel();
                 }
 
                 // movement test 

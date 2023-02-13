@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System;
 using System.Linq;
+using Unity.Game.SaveSystem;
 
 namespace Unity.Game.UI
 {
@@ -43,11 +44,13 @@ namespace Unity.Game.UI
                 Volume = FindObjectOfType<Volume>();
 
             GameScreenController.GameWon += OnGameWon;
+            MapEntryManager.SelectMap += OnSelectMap;
         }
 
         void OnDisable()
         {
             GameScreenController.GameWon -= OnGameWon;
+            MapEntryManager.SelectMap -= OnSelectMap;
         }
 
         void SetVisualElements()
@@ -105,6 +108,12 @@ namespace Unity.Game.UI
             BlurBackground(false);
             ShowVisualElement(rootElement, false);
             DefaultInGameScreen.transform.localScale = Vector3.one;
+        }
+
+        void OnSelectMap()
+        {
+            Debug.Log("OnSelectMap Invoked");
+            GameRestarted?.Invoke();
         }
 
         void BlurBackground(bool state)

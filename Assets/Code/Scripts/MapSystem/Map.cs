@@ -34,7 +34,7 @@ namespace Unity.Game.MapSystem
         public int LeastSolvableCommand;
 
         public int LeastSolvableAction;
-
+        
         public Map(uint[,] mapData, List<Rule> mapRules, int starRequirement, string mapName, string mapId, int leastSolvableCommand, int leastSolvableAction)
         {
             MapData = mapData;
@@ -63,6 +63,28 @@ namespace Unity.Game.MapSystem
         };
             StarRequirement = 0;
             MapName = "0-1";
+            MapId = "TestMap-01";
+            LeastSolvableCommand = 10;
+            LeastSolvableAction = 0;
+        }
+
+        public Map(string MapName)
+        {
+            MapData = new uint[,]
+        {
+            { 32,0,48,0,256 },
+            { 16,16,0,0,512 },
+            { 256,0,48,200704,768 },
+            { 7,16,0,0,0 }
+        };
+            MapRules = new List<Rule>()
+        {
+            new LevelClearRule(),
+            new ActionLimitRule(value:16,isMore:true),
+            new CommandLimitRule(value:7,isMore:false)
+        };
+            StarRequirement = 0;
+            this.MapName = MapName;
             MapId = "TestMap-01";
             LeastSolvableCommand = 10;
             LeastSolvableAction = 0;
