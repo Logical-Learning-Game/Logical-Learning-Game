@@ -11,10 +11,11 @@ namespace Unity.Game.RuleSystem
     public enum RuleTheme { NORMAL, CONDITIONAL, LOOP }
 
     public enum LimitType { ALL,FORWARD,LEFT,RIGHT,BACK,CONDITION}
+    [System.Serializable]
     public class Rule /*: ICloneable*/
     {
-        string id;
-        RuleTheme theme;
+        [SerializeField] string id;
+        [SerializeField] RuleTheme theme;
         public Rule(string id = "", RuleTheme theme = RuleTheme.NORMAL)
         {
             this.id = id;

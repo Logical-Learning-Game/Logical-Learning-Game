@@ -19,7 +19,6 @@ namespace Unity.Game.ActionSystem
         {
             if (Instance == null)
             {
-                Debug.Log("actionManager Initialized");
                 Instance = this;
                 //actionSequence = GameObject.Find("ActionSequence").GetComponent<TMP_Text>();
                 scrollRect = GetComponent<ScrollRect>();

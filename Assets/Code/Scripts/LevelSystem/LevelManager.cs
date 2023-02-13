@@ -14,9 +14,10 @@ namespace Unity.Game.Level
     public class LevelManager : MonoBehaviour
     {
         public static LevelManager Instance { get; private set; }
+        public static event Action GameWon;
 
         // level stats
-        public Map gameMap;
+        public static Map gameMap;
         public bool isPlayerReachGoal = false;
 
         // player stats
@@ -28,7 +29,7 @@ namespace Unity.Game.Level
         // Start is called before the first frame update
         void Awake()
         {
-            Debug.Log("LevelManager Awake");
+            //Debug.Log("LevelManager Awake");
             if (Instance == null)
             {
                 Instance = this;
@@ -40,17 +41,26 @@ namespace Unity.Game.Level
         }
         void Start()
         {
-            Map map = new Map();
-            InitLevel(map);
+            //Map map = new Map();
+            //InitLevel();
+            Debug.Log("current map "+gameMap?.MapName);
+            try
+            {
+                InitLevel();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
         }
 
-        void InitLevel(Map map)
+        public void InitLevel()
         {
             ItemList = new List<ItemType>();
             lastSign = ConditionSign.EMPTY;
             isPlayerReachGoal = false;
-            SetMap(map);
-            LevelIndicator.GetComponent<TMPro.TMP_Text>().text = map.MapName;
+            SetMap(gameMap);
+            LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
             MapManager.Instance.InitMap();
             ItemManager.Instance.InitItems();
             ConditionPickerController.Instance.InitConditionPicker();
@@ -60,7 +70,7 @@ namespace Unity.Game.Level
 
         void InitPlayer()
         {
-            (int[] playerPosition, int[] playerRotation) = gameMap.GetPlayerInit();
+            (int[] playerPosition, int[] playerRotation) = GetPlayerInitValue(gameMap);
             SetPlayerPosition(playerPosition[0], playerPosition[1]);
             SetPlayerRotation(playerRotation[0], playerRotation[1]);
         }
@@ -75,8 +85,7 @@ namespace Unity.Game.Level
                 // reset movement
                 if (Input.GetKeyDown(KeyCode.R))
                 {
-                    SetPlayerPosition(3, 0);
-                    SetPlayerRotation(1, 1);
+                    InitLevel();
                 }
 
                 // movement test 
@@ -244,11 +253,64 @@ namespace Unity.Game.Level
         public void SetIsPlayerReachGoal()
         {
             isPlayerReachGoal = true;
+            GameWon?.Invoke();
         }
 
         public bool GetIsPlayerReachGoal()
         {
             return isPlayerReachGoal;
+        }
+
+        public (int[], int[]) GetPlayerInitValue(Map map)
+        {
+            uint[,] MapData = map.MapData;
+            int[] playerPosition = new int[2] { 0, 0 };
+            int[] playerRotation = new int[2] { 0, 0 };
+            for (int i = 0; i < MapData.GetLength(0); i++)
+            {
+                for (int j = 0; j < MapData.GetLength(1); j++)
+                {
+                    if ((MapData[i, j] & 0b1) == 1)
+                    {
+                        playerPosition = new int[2] { i, j };
+                        playerRotation = new int[2] { (int)(MapData[i, j] >> 2) & 0b1, (int)(MapData[i, j] >> 1) & 0b1 };
+
+                        return (playerPosition, playerRotation);
+                    }
+                }
+            }
+            return (playerPosition, playerRotation);
+        }
+
+        public HashSet<ConditionSign> GetUniqueConditions()
+        {
+            uint[,] MapData = gameMap.MapData;
+            HashSet<ConditionSign> uniqueConditions = new HashSet<ConditionSign>();
+            foreach (uint data in MapData)
+            {
+                uint tile = data >> 4 & 0b1111;
+                if (tile == 0b0011)
+                {
+                    uniqueConditions.Add(ConditionSign.A);
+                }
+                else if (tile == 0b0100)
+                {
+                    uniqueConditions.Add(ConditionSign.B);
+                }
+                else if (tile == 0b0101)
+                {
+                    uniqueConditions.Add(ConditionSign.C);
+                }
+                else if (tile == 0b0110)
+                {
+                    uniqueConditions.Add(ConditionSign.D);
+                }
+                else if (tile == 0b0111)
+                {
+                    uniqueConditions.Add(ConditionSign.E);
+                }
+            }
+            return uniqueConditions;
         }
 
     }

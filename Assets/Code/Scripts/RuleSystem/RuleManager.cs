@@ -20,9 +20,9 @@ namespace Unity.Game.RuleSystem
         [SerializeField] private Sprite RuleIncomplete;
 
         [SerializeField] private bool[] RuleStatus;
-        
+
         public StateValue CurrentStateValue;
-        
+
         private void Awake()
         {
             if (Instance == null)
@@ -49,15 +49,27 @@ namespace Unity.Game.RuleSystem
             }
             RuleStatus = new bool[3] { false, false, false };
             CurrentStateValue = new StateValue();
-            CurrentStateValue.UpdateCommandValue();
-            CurrentStateValue.UpdateActionValue();
+            InitCheck();
         }
 
+        public void InitCheck()
+        {
+            CurrentStateValue.UpdateCommandValue();
+            CurrentStateValue.UpdateActionValue();
+            for (int i = 0; i < Rules.Count; i++)
+            {
+                bool result = Rules[i].CheckRule(CurrentStateValue);
+                RuleObjects[i].GetComponentInChildren<Image>().sprite = result ? RuleComplete : RuleIncomplete;
+                RuleStatus[i] = result;
+            }
+        }
         public void OnPlanCheck()
         {
             CurrentStateValue.UpdateCommandValue();
+            
             for (int i = 0; i < Rules.Count; i++)
             {
+                
                 if (Rules[i] is OnPlanRule)
                 {
                     bool result = Rules[i].CheckRule(CurrentStateValue);

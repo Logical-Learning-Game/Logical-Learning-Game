@@ -14,7 +14,7 @@ namespace Unity.Game.ActionSystem
         {
             if (Instance == null)
             {
-                Debug.Log("actionManager Initialized");
+                //Debug.Log("actionManager Initialized");
                 Instance = this;
                 actionList = new List<Action>();
             }

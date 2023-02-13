@@ -43,12 +43,13 @@ namespace Unity.Game.MapSystem
 
         void Start()
         {
+#if UNITY_EDITOR
             if (!Application.isPlaying)
             {
                 Map map = new Map();
                 CreateMap(map);
             }
-
+#endif
         }
 
         public void InitMap()
@@ -119,12 +120,13 @@ namespace Unity.Game.MapSystem
 
                 }
             }
-
+#if UNITY_EDITOR
             if (Application.isPlaying)
             {
                 CreateDoors(gameMap);
                 MapViewManager.Instance.GetMapCenter(gameMap.Width, gameMap.Height);
             }
+#endif
         }
         void DestroyMap()
         {
