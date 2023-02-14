@@ -53,7 +53,7 @@ namespace Unity.Game.UI
             VisualElement rootElement = UIDocument.rootVisualElement;
 
             LevelPanel = UIDocument.rootVisualElement.Q("LevelPanel");
-            StatPanel = UIDocument.rootVisualElement.Q("StatPanel");
+            StatPanel = UIDocument.rootVisualElement.Q("StatsPanel");
             SettingPanel = UIDocument.rootVisualElement.Q("SettingPanel");
             HistoryPanel = UIDocument.rootVisualElement.Q("HistoryPanel");
 

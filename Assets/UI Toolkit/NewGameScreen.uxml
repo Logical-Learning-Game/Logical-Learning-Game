@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/USS/MainMenu.uss?fileID=7433441132597879392&amp;guid=436df52149836c24898f2e5436577c2c&amp;type=3#MainMenu" />
+    <ui:VisualElement name="NewGameScreen" class="default-screen" style="width: 100%; height: 100%; flex-grow: 1; flex-shrink: 0;">
+        <ui:VisualElement name="NewGameContainer" class="default-container" style="align-items: center; justify-content: center; width: 1024px; height: 768px; flex-shrink: 0; flex-grow: 0; background-image: url(&apos;project://database/Assets/Art/Textures/UI/CommandPanel.png?fileID=2800000&amp;guid=d7ee3d73a5dd88b439d563fcc659ad28&amp;type=3#CommandPanel&apos;);">
+            <ui:Label text="Choose You New Game Method" display-tooltip-when-elided="true" class="default-text" />
+            <ui:VisualElement name="MethodContainer" style="flex-direction: row; width: 800px; height: 680px; justify-content: center;">
+                <ui:VisualElement name="GuestMethod" style="flex-shrink: 0; width: 360px; justify-content: center; align-items: center;">
+                    <ui:VisualElement name="GuestIcon" style="background-color: rgba(154, 121, 131, 255); width: 200px; height: 200px;" />
+                    <ui:Label text="Guest" display-tooltip-when-elided="true" class="default-text" />
+                    <ui:Label text="   Store your progress in&#10;local storage only" display-tooltip-when-elided="true" class="default-text" style="font-size: 28px;" />
+                    <ui:Button text="New Game" display-tooltip-when-elided="true" name="LocalNewGame" class="PrimaryButton" style="width: 250px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="width: 5px; background-color: rgba(97, 63, 53, 255); margin-left: auto; margin-right: auto;" />
+                <ui:VisualElement name="GoogleMethod" style="flex-shrink: 0; width: 360px; justify-content: center; align-items: center;">
+                    <ui:VisualElement name="GuestIcon" style="background-color: rgb(154, 121, 131); width: 200px; height: 200px;" />
+                    <ui:Label text="Google Sign-in" display-tooltip-when-elided="true" class="default-text" />
+                    <ui:Label text="   Store your progress in&#10;local storage and Server" display-tooltip-when-elided="true" class="default-text" style="font-size: 28px;" />
+                    <ui:Button text="Log In" display-tooltip-when-elided="true" name="LocalNewGame" class="PrimaryButton" style="width: 250px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="DetectSaveModal" class="default-container" style="display: none;">
+            <ui:Button text="Continue" display-tooltip-when-elided="true" name="ContinueButton" class="PrimaryButton" style="position: absolute; width: 280px; right: 40px; bottom: 40px;" />
+            <ui:Button text="Cancel" display-tooltip-when-elided="true" name="CancelButton" class="SecondaryButton" style="position: absolute; width: 200px; right: 340px; bottom: 40px;" />
+            <ui:Label text="Detect local save data in your local storage&#10;If you are trying to new game, the progress &#10;will be lost. Continue?" display-tooltip-when-elided="true" name="ModalLabel" class="default-text" style="flex-wrap: nowrap;" />
+            <ui:VisualElement name="SaveDataStats" style="background-color: rgb(255, 201, 201); height: 280px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -66,3 +66,9 @@
     -unity-background-image-tint-color: rgb(255, 255, 255);
     -unity-font-style: bold;
 }
+
+.default-panel {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+}

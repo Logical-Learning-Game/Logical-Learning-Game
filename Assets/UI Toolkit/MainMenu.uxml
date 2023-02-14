@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="IntroScreen" src="project://database/Assets/UI%20Toolkit/IntroScreen.uxml?fileID=9197481963319205126&amp;guid=c9a4f767e9848e54f96c112b0a569ce9&amp;type=3#IntroScreen" />
+    <ui:Template name="NewGameScreen" src="project://database/Assets/UI%20Toolkit/NewGameScreen.uxml?fileID=9197481963319205126&amp;guid=b370a526bee01044897db2d9fac70c77&amp;type=3#NewGameScreen" />
+    <ui:Template name="MapSelectMenu" src="project://database/Assets/UI%20Toolkit/MapSelectMenu.uxml?fileID=9197481963319205126&amp;guid=951df0d8696ea61429e1baaf646c60c2&amp;type=3#MapSelectMenu" />
+    <ui:Template name="GoogleSyncScreen" src="project://database/Assets/UI%20Toolkit/GoogleSyncScreen.uxml?fileID=9197481963319205126&amp;guid=eda0a53ef09bd4c4f97336b5b1b05fec&amp;type=3#GoogleSyncScreen" />
+    <ui:VisualElement name="MainMenuContainer" style="flex-grow: 1; flex-shrink: 0; width: 100%; height: 100%;">
+        <ui:Instance template="IntroScreen" name="IntroScreen" style="flex-shrink: 0; height: 100%; width: 100%;" />
+        <ui:Instance template="NewGameScreen" name="NewGameScreen" style="flex-shrink: 0; width: 100%; height: 100%; display: flex;" />
+        <ui:Instance template="GoogleSyncScreen" name="GoogleSyncScreen" />
+        <ui:Instance template="MapSelectMenu" name="JourneyPanelScreen" style="display: none; flex-shrink: 0;" />
+    </ui:VisualElement>
+</ui:UXML>
