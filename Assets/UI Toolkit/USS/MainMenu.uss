@@ -177,5 +177,50 @@
     padding-right: 80px;
     padding-top: 80px;
     padding-bottom: 80px;
-    display: flex;
+}
+
+.back-button {
+    width: 65px;
+    background-image: url('project://database/Assets/Art/Textures/UI/Command/LeftForwardArrow.png?fileID=2800000&guid=8bb4c6ee9df7d5e49847637d19b25253&type=3#LeftForwardArrow');
+    height: 50px;
+    -unity-background-image-tint-color: rgb(97, 63, 53);
+    background-color: rgba(188, 188, 188, 0);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.back-button:hover {
+    width: 80px;
+    background-image: url('project://database/Assets/Art/Textures/UI/Command/LeftForwardArrow.png?fileID=2800000&guid=8bb4c6ee9df7d5e49847637d19b25253&type=3#LeftForwardArrow');
+    height: 60px;
+    -unity-background-image-tint-color: rgb(97, 63, 53);
+    background-color: rgba(188, 188, 188, 0);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }

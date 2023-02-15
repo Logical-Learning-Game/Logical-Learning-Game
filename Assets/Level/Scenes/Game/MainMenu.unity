@@ -123,68 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &23146409
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 23146410}
-  m_Layer: 0
-  m_Name: HomeScreen
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &23146410
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23146409}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 89046993}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &34275992
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 34275993}
-  m_Layer: 0
-  m_Name: IntroScreenController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &34275993
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 34275992}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 636585729}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &89046992
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,8 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 89046993}
   - component: {fileID: 89046996}
-  - component: {fileID: 89047000}
-  - component: {fileID: 89046999}
+  - component: {fileID: 89046997}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -217,11 +154,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 334303224}
-  - {fileID: 23146410}
+  - {fileID: 1541580293}
   - {fileID: 1520760784}
   - {fileID: 1236263099}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &89046996
 MonoBehaviour:
@@ -240,7 +177,7 @@ MonoBehaviour:
   sourceAsset: {fileID: 9197481963319205126, guid: a1e07bb94c285e341aea77b807620599,
     type: 3}
   m_SortingOrder: 0
---- !u!114 &89046999
+--- !u!114 &89046997
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,25 +186,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 89046992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0370e74a23c8d034a92cce05e0b54690, type: 3}
+  m_Script: {fileID: 11500000, guid: 694c22113dae5c24cbf0ffb8a2f61d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenuSceneName: MainMenu
-  GameSceneName: GameMode
---- !u!114 &89047000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 89046992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ee79dc06e0b9894fa06c52800ef953e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Volume: {fileID: 0}
-  PanelScreen: {fileID: 0}
+  introScreen: {fileID: 334303225}
+  newGameScreen: {fileID: 1541580294}
+  googleSyncScreen: {fileID: 1520760785}
+  panelScreen: {fileID: 1236263100}
 --- !u!1 &161260844
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +345,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 51.774, y: 50.432, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
@@ -498,6 +423,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 334303224}
+  - component: {fileID: 334303225}
   m_Layer: 0
   m_Name: IntroScreen
   m_TagString: Untagged
@@ -520,6 +446,21 @@ Transform:
   m_Father: {fileID: 89046993}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &334303225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334303223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7617fd9427f394baa902acfbc3dc5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScreenName: IntroScreen
+  m_MainMenuUIManager: {fileID: 89046997}
+  m_Document: {fileID: 89046996}
 --- !u!1 &452713169
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,42 +490,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &636585728
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 636585729}
-  m_Layer: 0
-  m_Name: UIControllers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &636585729
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 636585728}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 34275993}
-  - {fileID: 728451443}
-  - {fileID: 1342338611}
-  - {fileID: 1477842687}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &648394793
 GameObject:
@@ -615,38 +521,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &728451442
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 728451443}
-  m_Layer: 0
-  m_Name: HomeScreenController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &728451443
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728451442}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 636585729}
-  m_RootOrder: 1
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
@@ -695,7 +570,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1203599699
 GameObject:
@@ -726,7 +601,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1236263098
 GameObject:
@@ -737,8 +612,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1236263099}
+  - component: {fileID: 1236263100}
+  - component: {fileID: 1236263101}
   m_Layer: 0
-  m_Name: MenuScreen
+  m_Name: PanelScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -759,37 +636,35 @@ Transform:
   m_Father: {fileID: 89046993}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1342338610
-GameObject:
+--- !u!114 &1236263100
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1342338611}
-  m_Layer: 0
-  m_Name: GoogleSignInScreenController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1342338611
-Transform:
+  m_GameObject: {fileID: 1236263098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f87e20ff6cb264c95e9a0a3a09949c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScreenName: PanelScreen
+  m_MainMenuUIManager: {fileID: 89046997}
+  m_Document: {fileID: 89046996}
+--- !u!114 &1236263101
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1342338610}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 636585729}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 1236263098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e827d1909d572ed44a6b9b1cf2f18af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RuleComplete: {fileID: 21300000, guid: 7c2cdabd79cef2f45897e87a65fa4cdc, type: 3}
+  RuleIncomplete: {fileID: 21300000, guid: d317166b1be42e441840ff5e78899665, type: 3}
 --- !u!1 &1453731811
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,68 +792,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1477842686
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1477842687}
-  - component: {fileID: 1477842689}
-  - component: {fileID: 1477842688}
-  m_Layer: 0
-  m_Name: MenuScreenController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1477842687
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1477842686}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 636585729}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1477842688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1477842686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76fd6b2b3144b6b459b414da0befd300, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RuleComplete: {fileID: 21300000, guid: 7c2cdabd79cef2f45897e87a65fa4cdc, type: 3}
-  RuleIncomplete: {fileID: 21300000, guid: d317166b1be42e441840ff5e78899665, type: 3}
---- !u!114 &1477842689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1477842686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 425f1bdeba935964884aa1e04755075b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UIDocument: {fileID: 89046996}
 --- !u!1 &1520760783
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,8 +803,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1520760784}
+  - component: {fileID: 1520760785}
   m_Layer: 0
-  m_Name: GoogleSignInScreen
+  m_Name: GoogleSyncScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1010,6 +826,68 @@ Transform:
   m_Father: {fileID: 89046993}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1520760785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520760783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d88fa909e14034fb06c593d9cc9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScreenName: GoogleSyncScreen
+  m_MainMenuUIManager: {fileID: 89046997}
+  m_Document: {fileID: 89046996}
+--- !u!1 &1541580292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1541580293}
+  - component: {fileID: 1541580294}
+  m_Layer: 0
+  m_Name: NewGameScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1541580293
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541580292}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 89046993}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1541580294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541580292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2423a8a61a4ff3b45ab96b79d25a4a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScreenName: NewGameScreen
+  m_MainMenuUIManager: {fileID: 89046997}
+  m_Document: {fileID: 89046996}
 --- !u!1 &1836982895
 GameObject:
   m_ObjectHideFlags: 0
