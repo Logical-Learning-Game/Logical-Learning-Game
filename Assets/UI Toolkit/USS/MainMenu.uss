@@ -1,3 +1,10 @@
+.default-text {
+    color: rgb(97, 63, 53);
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    font-size: 36px;
+}
+
 .PrimaryButton {
     margin-left: 20px;
     margin-right: 20px;
@@ -19,13 +26,10 @@
     -unity-background-image-tint-color: rgb(255, 255, 255);
     background-color: rgba(0, 0, 0, 0);
     color: rgb(255, 255, 255);
-}
-
-.default-text {
-    color: rgb(97, 63, 53);
-    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
-    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
-    font-size: 36px;
+    -unity-slice-left: 40;
+    -unity-slice-top: 40;
+    -unity-slice-right: 40;
+    -unity-slice-bottom: 40;
 }
 
 .PrimaryButton:hover {
@@ -49,6 +53,10 @@
     -unity-background-image-tint-color: rgb(207, 207, 207);
     background-color: rgba(0, 0, 0, 0);
     color: rgb(255, 255, 255);
+    -unity-slice-left: 40;
+    -unity-slice-top: 40;
+    -unity-slice-right: 40;
+    -unity-slice-bottom: 40;
 }
 
 .PrimaryButton:active {
@@ -72,6 +80,10 @@
     -unity-background-image-tint-color: rgb(207, 207, 207);
     background-color: rgba(0, 0, 0, 0);
     color: rgb(255, 255, 255);
+    -unity-slice-left: 40;
+    -unity-slice-top: 40;
+    -unity-slice-right: 40;
+    -unity-slice-bottom: 40;
 }
 
 .default-runetext {

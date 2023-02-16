@@ -1,5 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Template name="MapSelectMenu" src="project://database/Assets/UI%20Toolkit/PanelScreen.uxml?fileID=9197481963319205126&amp;guid=951df0d8696ea61429e1baaf646c60c2&amp;type=3#PanelScreen" />
+    <ui:Template name="VictoryScreen" src="project://database/Assets/UI%20Toolkit/VictoryScreen.uxml?fileID=9197481963319205126&amp;guid=c2e5922b06542914da6183cf71fef363&amp;type=3#VictoryScreen" />
     <Style src="project://database/Assets/UI%20Toolkit/USS/MainMenu.uss?fileID=7433441132597879392&amp;guid=436df52149836c24898f2e5436577c2c&amp;type=3#MainMenu" />
     <ui:Instance template="MapSelectMenu" name="PanelScreen" class="default-screen" style="display: none; flex-shrink: 0; width: 100%; height: 100%;" />
+    <ui:Instance template="VictoryScreen" name="VictoryScreen" style="width: 100%; height: 100%; display: none;" />
 </ui:UXML>
