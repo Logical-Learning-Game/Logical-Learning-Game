@@ -36,11 +36,14 @@ namespace Unity.Game.UI
         {
 
             GameScreen.OpenPanel += OnOpenPanel;
+            MainMenuUIManager.OpenPanel += OnOpenPanel;
         }
 
         void OnDisable()
         {
             GameScreen.OpenPanel -= OnOpenPanel;
+            MainMenuUIManager.OpenPanel -= OnOpenPanel;
+
         }
 
         protected override void SetVisualElements()

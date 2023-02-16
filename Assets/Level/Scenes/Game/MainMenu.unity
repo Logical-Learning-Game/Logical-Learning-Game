@@ -193,6 +193,8 @@ MonoBehaviour:
   newGameScreen: {fileID: 1541580294}
   googleSyncScreen: {fileID: 1520760785}
   panelScreen: {fileID: 1236263100}
+  MainMenuSceneName: MainMenu
+  GameSceneName: GameMode
 --- !u!1 &161260844
 GameObject:
   m_ObjectHideFlags: 0

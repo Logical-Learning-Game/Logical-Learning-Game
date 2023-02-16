@@ -55,6 +55,7 @@ namespace Unity.Game.UI
         private void OnEnable()
         {
             PanelScreen.OpenLevelPanel += OnOpenLevelPanel;
+
             mapEntryList = new List<Map>();
         }
 
@@ -175,6 +176,9 @@ namespace Unity.Game.UI
         void LoadLevelMap(Map map)
         {
             //Debug.Log("loadlevelmap is trigger");
+            if (LevelManager.Instance == null) {
+                gameObject.AddComponent<LevelManager>();
+            }
             LevelManager.Instance.SetMap(map);
             SelectMap?.Invoke();
         }

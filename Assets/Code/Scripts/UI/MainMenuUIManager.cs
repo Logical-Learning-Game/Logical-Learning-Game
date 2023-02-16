@@ -20,6 +20,13 @@ namespace Unity.Game.UI
         [SerializeField] GoogleSyncScreen googleSyncScreen;
         [SerializeField] PanelScreen panelScreen;
 
+        [Header("Scenes")]
+        [SerializeField] string MainMenuSceneName = "MainMenu";
+        [SerializeField] string GameSceneName = "GameMode";
+
+        public static event Action OpenPanel;
+
+
         //[Header("Full-screen overlays")]
         //[Tooltip("Full-screen overlays block other controls until dismissed.")]
         //[SerializeField] MenuScreen m_InventoryScreen;
@@ -39,13 +46,27 @@ namespace Unity.Game.UI
             IntroScreen.NewGameClick += ShowNewGameScreen;
             IntroScreen.ContinueClick += ShowPanelScreen;
 
+            NewGameScreen.BackClick += ShowIntroScreen;
+            NewGameScreen.GoogleNewGameClick += ShowGoogleSyncScreen;
+            NewGameScreen.LocalNewGameClick += ShowPanelScreen;
 
+            GoogleSyncScreen.CancelSyncClick += ShowNewGameScreen;
+
+            MapEntryManager.SelectMap += LoadGameScene;
         }
 
         private void OnDisable()
         {
             IntroScreen.NewGameClick -= ShowNewGameScreen;
             IntroScreen.ContinueClick -= ShowPanelScreen;
+
+            NewGameScreen.BackClick -= ShowIntroScreen;
+            NewGameScreen.GoogleNewGameClick -= ShowGoogleSyncScreen;
+            NewGameScreen.LocalNewGameClick -= ShowPanelScreen;
+
+            GoogleSyncScreen.CancelSyncClick -= ShowNewGameScreen;
+
+            MapEntryManager.SelectMap -= LoadGameScene;
         }
 
         void Start()
@@ -106,7 +127,18 @@ namespace Unity.Game.UI
 
         public void ShowPanelScreen()
         {
+            OpenPanel?.Invoke();
             ShowModalScreen(panelScreen);
+        }
+
+        public void LoadGameScene()
+        {
+            Time.timeScale = 1f;
+#if UNITY_EDITOR
+            if (Application.isPlaying)
+
+#endif
+                SceneManager.LoadSceneAsync(GameSceneName);
         }
     }
 }

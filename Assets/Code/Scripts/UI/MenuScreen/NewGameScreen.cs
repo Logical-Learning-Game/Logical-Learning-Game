@@ -45,9 +45,9 @@ namespace Unity.Game.UI
             GoogleNewGameButton = m_Root.Q<Button>(GoogleNewGameButtonName);
             BackButton = m_Root.Q<Button>(BackButtonName);
 
-            DetectSaveModal = m_Root.Q<VisualElement>("DetectSaveModal");
-            CancelNewGameButton = m_Root.Q<Button>("CancelNewGameButton");
-            ConfirmNewGameButton = m_Root.Q<Button>("ConfirmNewGameButton");
+            DetectSaveModal = m_Screen.Q<VisualElement>("DetectSaveModal");
+            CancelNewGameButton = m_Screen.Q<Button>("CancelNewGameButton");
+            ConfirmNewGameButton = m_Screen.Q<Button>("ConfirmNewGameButton");
             
             ShowVisualElement(m_Screen, false);
         }
@@ -66,6 +66,8 @@ namespace Unity.Game.UI
         {
             // if player have local save, show modal
             // else, go to local new game
+            Debug.Log("click local newgame");
+            Debug.Log(DetectSaveModal.name);
             if (true)
             {
                 ShowVisualElement(DetectSaveModal,true);
