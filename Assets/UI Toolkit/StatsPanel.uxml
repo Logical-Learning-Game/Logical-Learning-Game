@@ -1,0 +1,65 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/USS/MainMenu.uss?fileID=7433441132597879392&amp;guid=436df52149836c24898f2e5436577c2c&amp;type=3#MainMenu" />
+    <ui:VisualElement name="StatPanel" style="align-items: center; flex-grow: 1; flex-shrink: 1; background-color: rgba(0, 0, 0, 0); margin-left: 0; justify-content: flex-start; flex-direction: column; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; background-image: url(&apos;project://database/Assets/Art/Textures/UI/CommandPanel.png?fileID=2800000&amp;guid=d7ee3d73a5dd88b439d563fcc659ad28&amp;type=3#CommandPanel&apos;); color: rgb(255, 255, 255); -unity-background-image-tint-color: rgb(255, 255, 255); -unity-text-outline-color: rgb(255, 255, 255); display: flex; position: relative; top: auto;">
+        <ui:Label text="Stats" display-tooltip-when-elided="true" style="position: absolute; font-size: 40px; -unity-font-style: bold; -unity-font-definition: url(&apos;project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&amp;guid=8798cd5c5cb20e54d95a66a294701877&amp;type=2#Prompt-Regular SDF&apos;); -unity-font: url(&apos;project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&amp;guid=343e2a82379c7064794241e513fe0448&amp;type=3#Prompt-Regular&apos;); color: rgb(96, 63, 52); left: 100px; top: 50px; background-image: none; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(255, 255, 255); text-shadow: 0 0 0 rgb(255, 255, 255);" />
+        <ui:VisualElement name="TopSection" style="align-items: flex-start; width: 952px; height: 147px; flex-grow: 0; flex-direction: row; justify-content: flex-end; -unity-text-align: upper-center;" />
+        <ui:VisualElement name="StatSection" style="flex-grow: 0; width: 848px; height: 590px; padding-left: 20px; padding-right: 20px; padding-top: 20px; padding-bottom: 20px;">
+            <ui:VisualElement name="StarSummary" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Stars Gathered: " display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold;" />
+                <ui:VisualElement name="Value" style="flex-direction: row; margin-right: 50px;">
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumValue" class="default-text" />
+                    <ui:Label text="of" display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold;" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumMax" class="default-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="NormalStarSummary" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Normal Type Star(s): " display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold; font-size: 30px;" />
+                <ui:VisualElement name="Value" style="flex-direction: row; margin-right: 50px;">
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumValue" class="default-text" style="font-size: 30px;" />
+                    <ui:Label text="of" display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold; font-size: 30px;" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumMax" class="default-text" style="font-size: 30px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="ConditionStarSummary" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Condition Type Star(s):" display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold; font-size: 30px;" />
+                <ui:VisualElement name="Value" style="flex-direction: row; margin-right: 50px;">
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumValue" class="default-text" style="font-size: 30px;" />
+                    <ui:Label text="of" display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold; font-size: 30px;" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumMax" class="default-text" style="font-size: 30px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="LoopStarSummary" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Loop Type Star(s):" display-tooltip-when-elided="true" name="Label" class="default-text" style="-unity-font-style: bold; font-size: 30px;" />
+                <ui:VisualElement name="Value" style="flex-direction: row; margin-right: 50px;">
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumValue" class="default-text" style="font-size: 30px;" />
+                    <ui:Label text="of" display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold; font-size: 30px;" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumMax" class="default-text" style="font-size: 30px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="MedalSummary" style="flex-direction: row; justify-content: space-between; margin-top: 15px;">
+                <ui:Label text="Medals Gathered: " display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold;" />
+                <ui:VisualElement name="Value" style="flex-direction: row; margin-right: 50px;">
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumValue" class="default-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="GoldMedalSummary" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Gold Medal(s):" display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold; font-size: 30px;" />
+                <ui:VisualElement name="Value" style="flex-direction: row; margin-right: 50px;">
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumValue" class="default-text" style="font-size: 30px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="SilverMedalSummary" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Silver Medal(s):" display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold; font-size: 30px;" />
+                <ui:VisualElement name="Value" style="flex-direction: row; margin-right: 50px;">
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumValue" class="default-text" style="font-size: 30px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="BronzeMedalSummary" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Bronze Medal(s):" display-tooltip-when-elided="true" class="default-text" style="-unity-font-style: bold; font-size: 30px;" />
+                <ui:VisualElement name="Value" style="flex-direction: row; margin-right: 50px;">
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="StarSumValue" class="default-text" style="font-size: 30px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
