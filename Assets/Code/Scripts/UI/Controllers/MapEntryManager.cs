@@ -21,7 +21,7 @@ namespace Unity.Game.UI
         public static event Action UpdateMap;
         public static event Action LoadMap;
 
-        Dictionary<string, List<Map>> MapLists;
+        public static Dictionary<string, List<Map>> MapLists;
         //Dictionary<string, List<Map>> MapLists = new Dictionary<string, List<Map>>()
         //{
         //    {"a",new List<Map>(){

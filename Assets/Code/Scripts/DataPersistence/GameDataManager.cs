@@ -9,13 +9,15 @@ using Unity.Game.MapSystem;
 
 namespace Unity.Game.SaveSystem
 {
-    public class GameDataManager: MonoBehaviour
+    public class GameDataManager : MonoBehaviour
     {
         SaveManager saveManager;
 
-        bool isGameDataInitialized;
+        [SerializeField] bool isGameDataInitialized;
         [SerializeField] GameData gameData;
         public GameData GameData { set => gameData = value; get => gameData; }
+
+
 
         private void Awake()
         {
@@ -29,9 +31,7 @@ namespace Unity.Game.SaveSystem
 
             // flag that GameData is loaded the first time
             isGameDataInitialized = true;
-            //Submit submit = new Submit("test", "testmap", "testsession", new List<CommandPattern>(), new List<CommandEdge>(), true, true, new List<RuleSystem.Rule>(), new bool[] { true, true, true }, Medal.NONE, Medal.NONE, new StateValue());
-            
-            //AddSubmit(submit);
+
         }
 
         void AddSubmit(Submit submit)
@@ -44,7 +44,7 @@ namespace Unity.Game.SaveSystem
             //if this submit is new high score
             //gameData.SubmitBest.TryAdd(submit.mapId, submit);
 
-            
+
             saveManager.SaveGame();
         }
 

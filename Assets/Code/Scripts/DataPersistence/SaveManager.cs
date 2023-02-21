@@ -64,7 +64,7 @@ namespace Unity.Game.SaveSystem
 
         public GameData NewGame()
         {
-            return new GameData();
+            return new GameData("test_01");
         }
     }
 }

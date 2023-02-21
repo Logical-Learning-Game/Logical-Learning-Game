@@ -18,9 +18,11 @@ namespace Unity.Game.SaveSystem
 
         public GameData(string userId)
         {
-            UserId = userId;
-            SessionHistories = new SerializableDictionary<GameSession, bool>();
-            SubmitBest = new SerializableDictionary<long, Submit>();
+
+            Debug.Log("this game data userId is: " + userId);
+            this.userId = userId;
+            SubmitHistory = new SerializableDictionary<Submit, bool>();
+            SubmitBest = new SerializableDictionary<string, Submit>();
 
             // settings
             this.musicVolume = 80f;

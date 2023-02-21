@@ -2,24 +2,18 @@
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.Game.SaveSystem;
 
 namespace Unity.Game.UI
 {
     public class IntroScreenController : MonoBehaviour
     {
         // events
+        public static event Action HideContinueButton;
         //public static event Action<LevelSO> ShowLevelInfo;
         //public static event Action<List<ChatSO>> ShowChats;
         //public static event Action MainMenuExited;
 
-        //[Header("Level Data")]
-        //[SerializeField] LevelSO m_LevelData;
-
-        //[Header("Chat Data")]
-        //[SerializeField] string m_ChatResourcePath = "GameData/Chat";
-
-        //// chat messages to display
-        //[SerializeField] List<ChatSO> m_ChatData;
 
         void Awake()
         {
@@ -28,7 +22,7 @@ namespace Unity.Game.UI
 
         void OnEnable()
         {
-            //HomeScreen.PlayButtonClicked += OnPlayGameLevel;
+            SaveManager.GameDataLoaded += OnGameDataLoaded;
         }
 
         void OnDisable()
@@ -38,22 +32,17 @@ namespace Unity.Game.UI
 
         void Start()
         {
-            //ShowLevelInfo?.Invoke(m_LevelData);
-            //ShowChats?.Invoke(m_ChatData);
+
         }
 
-        // scene-management methods
-        public void OnPlayGameLevel()
+        void OnGameDataLoaded(GameData gameData)
         {
-//            if (m_LevelData == null)
-//                return;
-
-//            MainMenuExited?.Invoke();
-
-//#if UNITY_EDITOR
-//            if (Application.isPlaying)
-//#endif
-//                SceneManager.LoadSceneAsync(m_LevelData.sceneName);
+            // if loaded gamedata is new game, the screen will hide continue button
+            if (gameData.userId == "")
+            {
+                HideContinueButton?.Invoke();
+            }
         }
+
     }
 }
