@@ -13,7 +13,7 @@ namespace Unity.Game.RuleSystem
     {
         uint value;
         bool isMore;
-        public OnPlanRule(string id = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false) : base(id, theme)
+        public OnPlanRule(long id = 0, string name = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false) : base(id, name, theme)
         {
             this.value = value;
             this.isMore = isMore;
@@ -37,7 +37,7 @@ namespace Unity.Game.RuleSystem
     public class CommandLimitRule : OnPlanRule
     {
         LimitType limitType;
-        public CommandLimitRule(string id = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false, LimitType limitType = LimitType.ALL) : base(id, theme, value, isMore) => this.limitType = limitType;
+        public CommandLimitRule(long id = 0, string name = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false, LimitType limitType = LimitType.ALL) : base(id, name, theme, value, isMore) => this.limitType = limitType;
 
         public override string GetDescription()
         {

@@ -15,6 +15,8 @@ namespace Unity.Game.Level
     {
         public static LevelManager Instance { get; private set; }
         public static event Action GameWon;
+        public static event Action<Map> OnMapEnter;
+        public static event Action OnMapExit;
 
         // level stats
         public static Map gameMap;

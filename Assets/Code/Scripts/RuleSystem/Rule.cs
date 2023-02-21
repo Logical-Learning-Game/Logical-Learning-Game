@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using System;
-using Unity.Game;
 
 namespace Unity.Game.RuleSystem
 {
-
     public enum RuleTheme { NORMAL, CONDITIONAL, LOOP }
 
     public enum LimitType { ALL,FORWARD,LEFT,RIGHT,BACK,CONDITION}
-    [System.Serializable]
-    public class Rule /*: ICloneable*/
+
+
+    [Serializable]
+    public class Rule
     {
-        [SerializeField] string id;
-        [SerializeField] RuleTheme theme;
-        public Rule(string id = "", RuleTheme theme = RuleTheme.NORMAL)
+        public long Id { get; }
+        public string RuleName { get; }
+        public RuleTheme Theme { get; }
+
+        public Rule(long id = 0, string name = "rule-default", RuleTheme theme = RuleTheme.NORMAL)
         {
-            this.id = id;
-            this.theme = theme;
+            Id = id;
+            RuleName = name;
+            Theme = theme;
         }
         
         public virtual string GetDescription()
@@ -31,16 +34,5 @@ namespace Unity.Game.RuleSystem
         {
             return false;
         }
-
-        public string GetId()
-        {
-            return id;
-        }
-        public RuleTheme GetTheme()
-        {
-            return theme;
-        }
     }
-
-
 }

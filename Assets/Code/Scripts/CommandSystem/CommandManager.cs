@@ -2,13 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using GlobalConfig;
 using Unity.Game.MapSystem;
+using Unity.Game.SaveSystem;
+using Unity.Game.RuleSystem;
+using Unity.Game.Level;
 
 namespace Unity.Game.Command
 {
+    public struct SubmitContext
+    {
+        public List<GameObject> Commands { get; set; }
+        public Medal CommandMedal { get; set; }
+        public Medal ActionMedal { get; set; }
+        public StateValue StateValue { get; set; }
+        public List<Rule> Rules { get; set; }
+        public bool[] RuleStatus { get; set; }
+        public bool IsFinited { get; set; }
+        public bool IsCompleted { get; set; }
+    }
+
     public enum CommandType { START, FORWARD, LEFT, RIGHT, BACK, CONDITION_A, CONDITION_B, CONDITION_C, CONDITION_D, CONDITION_E }
     public enum EdgeType { NORMAL, CONDITIONAL }
     public class CommandManager : MonoBehaviour
@@ -16,6 +29,7 @@ namespace Unity.Game.Command
         public static CommandManager Instance { get; private set; }
 
         public static List<CommandState> savedCommandStates;
+        public static event Action<SubmitContext> OnCommandSubmit;
 
         public List<GameObject> commands;
 
@@ -130,9 +144,8 @@ namespace Unity.Game.Command
                     Debug.Log("Invalid Command, Please Check");
                 }
             }
-
-
         }
+
         public void ClearCommands() {
 
             if (!isExecuting)
@@ -266,6 +279,7 @@ namespace Unity.Game.Command
             {
                 SetStopOnNextAction(false);
                 SetIsExecuting(false);
+                OnSubmitFinish();
                 return;
             }
             
@@ -280,15 +294,34 @@ namespace Unity.Game.Command
                 else
                 {
                     SetIsExecuting(false);
+                    OnSubmitFinish();
                     Debug.Log("All Commands Executed");
                 }
             }
             else
             {
                 SetIsExecuting(false);
+                OnSubmitFinish();
                 Debug.Log("Max Step Exceed");
             }
 
+        }
+
+        private void OnSubmitFinish()
+        {
+            var submitContext = new SubmitContext
+            {
+                Commands = commands,
+                CommandMedal = Medal.BRONZE,
+                ActionMedal = Medal.SILVER,
+                StateValue = RuleManager.Instance.CurrentStateValue,
+                Rules = LevelManager.Instance.GetRule(),
+                RuleStatus = RuleManager.Instance.RuleStatus,
+                IsFinited = false,
+                IsCompleted = true
+            };
+
+            OnCommandSubmit?.Invoke(submitContext);
         }
 
         public void SetIsExecuting(bool isExecuting)

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Unity.Game.Command;
 
 namespace Unity.Game.SaveSystem
@@ -33,22 +32,21 @@ namespace Unity.Game.SaveSystem
     [Serializable]
     public class Submit
     {
-        public int ActionStep { get; set; }
-        public int NumberOfCommand { get; set; }
         public bool IsFinited { get; set; }
         public bool IsCompleted { get; set; }
         public Medal CommandMedal { get; set; }
         public Medal ActionMedal { get; set; }
         public SerializableDateTime SubmitDatetime { get; set; }
         public StateValue StateValue { get; set; }
-        public List<CommandPattern> CommandPatterns { get; }
-        public List<CommandEdge> CommandEdges { get; }
-        public List<RuleHistory> RuleHistories { get; }
+        public List<CommandNode> CommandNodes { get; set; }
+        public List<CommandEdge> CommandEdges { get; set; }
+        public List<RuleHistory> RuleHistories { get; set; }
         
+        public Submit() { }
 
-        public Submit(List<CommandPattern> commandPatterns, List<CommandEdge> commandEdge, bool isFinited, bool isCompleted, List<RuleHistory> ruleHistories, Medal commandMedal, Medal actionMedal, StateValue stateValue)
+        public Submit(List<CommandNode> commandPatterns, List<CommandEdge> commandEdge, bool isFinited, bool isCompleted, List<RuleHistory> ruleHistories, Medal commandMedal, Medal actionMedal, StateValue stateValue)
         {
-            CommandPatterns = commandPatterns;
+            CommandNodes = commandPatterns;
             CommandEdges = commandEdge;
             IsFinited = isFinited;
             IsCompleted = isCompleted;
@@ -75,14 +73,14 @@ namespace Unity.Game.SaveSystem
 
 
     [Serializable]
-    public class CommandPattern
+    public class CommandNode
     {
         public int Index { get; set; }
         public CommandType Type { get; set; }
         public float X { get; set; }
         public float Y { get; set; }
 
-        public CommandPattern(CommandType type, float x, float y)
+        public CommandNode(CommandType type, float x, float y)
         {
             Type = type;
             X = x;
