@@ -227,12 +227,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGameDataInitialized: 0
   gameData:
-    userId: 
-    SubmitHistory:
+    UserId: 
+    SessionHistories:
       keys: []
       values: 
     SubmitBest:
-      keys: []
+      keys: 
       values: []
     musicVolume: 80
     sfxVolume: 80
