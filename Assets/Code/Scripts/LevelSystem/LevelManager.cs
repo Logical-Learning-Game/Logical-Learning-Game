@@ -7,6 +7,7 @@ using Unity.Game.ItemSystem;
 using Unity.Game.Conditions;
 using Unity.Game.RuleSystem;
 using GlobalConfig;
+using UnityEngine.SceneManagement;
 
 namespace Unity.Game.Level
 {
@@ -25,7 +26,7 @@ namespace Unity.Game.Level
         // player stats
         public List<ItemType> ItemList;
         public ConditionSign lastSign = ConditionSign.EMPTY;
-        
+
         [SerializeField] private GameObject LevelIndicator;
 
         // Start is called before the first frame update
@@ -45,14 +46,10 @@ namespace Unity.Game.Level
         {
             //Map map = new Map();
             //InitLevel();
-            Debug.Log("current map "+gameMap?.MapName);
-            try
+            Debug.Log("start invoked");
+            if (gameMap != null && SceneManager.GetActiveScene().name == "GameMode")
             {
                 InitLevel();
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
             }
         }
 
@@ -61,13 +58,12 @@ namespace Unity.Game.Level
             ItemList = new List<ItemType>();
             lastSign = ConditionSign.EMPTY;
             isPlayerReachGoal = false;
-            SetMap(gameMap);
-            LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
             MapManager.Instance.InitMap();
             ItemManager.Instance.InitItems();
             ConditionPickerController.Instance.InitConditionPicker();
             RuleManager.Instance.InitRule();
             InitPlayer();
+            LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
         }
 
         void InitPlayer()
@@ -156,7 +152,8 @@ namespace Unity.Game.Level
             {
                 // check if tile has a unlockable door
                 Door tileDoor = moveToTile.GetDoorOnTile(movingIntoDirection)?.GetComponent<Door>();
-                if (tileDoor != null) {
+                if (tileDoor != null)
+                {
                     yield return tileDoor.TryOpenDoor(ItemList);
                 }
                 // if can enter, move the player 
@@ -169,7 +166,7 @@ namespace Unity.Game.Level
                     {
                         RuleManager.Instance.OnClearCheck();
                     }
-                   
+
                 }
                 else // if cannot, return the player action
                 {

@@ -1,0 +1,43 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/USS/MainMenu.uss?fileID=7433441132597879392&amp;guid=436df52149836c24898f2e5436577c2c&amp;type=3#MainMenu" />
+    <ui:VisualElement name="SettingPanel" style="align-items: center; flex-grow: 1; flex-shrink: 1; background-color: rgba(0, 0, 0, 0); margin-left: 0; justify-content: flex-start; flex-direction: column; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; background-image: url(&apos;project://database/Assets/Art/Textures/UI/CommandPanel.png?fileID=2800000&amp;guid=d7ee3d73a5dd88b439d563fcc659ad28&amp;type=3#CommandPanel&apos;); color: rgb(255, 255, 255); -unity-background-image-tint-color: rgb(255, 255, 255); -unity-text-outline-color: rgb(255, 255, 255); display: flex; position: relative; top: auto;">
+        <ui:Label text="Setting" display-tooltip-when-elided="true" style="position: absolute; font-size: 40px; -unity-font-style: bold; -unity-font-definition: url(&apos;project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&amp;guid=8798cd5c5cb20e54d95a66a294701877&amp;type=2#Prompt-Regular SDF&apos;); -unity-font: url(&apos;project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&amp;guid=343e2a82379c7064794241e513fe0448&amp;type=3#Prompt-Regular&apos;); color: rgb(96, 63, 52); left: 100px; top: 50px; background-image: none; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(255, 255, 255); text-shadow: 0 0 0 rgb(255, 255, 255);" />
+        <ui:VisualElement style="align-items: flex-start; width: 952px; height: 147px; flex-grow: 0; flex-direction: row; justify-content: flex-end; -unity-text-align: upper-center;" />
+        <ui:VisualElement name="SettingSection" style="flex-grow: 0; width: 800px; height: 550px; flex-direction: row; justify-content: space-between; flex-shrink: 0;">
+            <ui:VisualElement name="LeftSection" style="width: 360px; align-items: center;">
+                <ui:VisualElement name="AccountSection" style="width: 100%; height: 300px; align-items: center;">
+                    <ui:Label text="Account" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 30px; -unity-text-align: upper-center; -unity-font-style: bold;" />
+                    <ui:VisualElement name="UserId" style="flex-direction: row; width: 100%; justify-content: space-between;">
+                        <ui:Label text="User Id:" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 26px; -unity-text-align: upper-center; -unity-font-style: bold;" />
+                        <ui:Label text="__USER_ID__" display-tooltip-when-elided="true" name="UserIdValue" class="default-text" style="align-items: center; justify-content: center; font-size: 26px; -unity-text-align: upper-center; -unity-font-style: normal; margin-right: auto; margin-left: auto;" />
+                    </ui:VisualElement>
+                    <ui:Button text="Sign-in (      )" display-tooltip-when-elided="true" name="GoogleLinkButton" class="PrimaryButton" style="width: 300px; height: 70px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; position: absolute; bottom: 40px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Line" style="width: 5px; background-color: rgb(97, 63, 53); margin-left: auto; margin-right: auto;" />
+            <ui:VisualElement name="RightSection" style="width: 360px; align-items: center;">
+                <ui:VisualElement name="GameButtonContainer" style="position: absolute; bottom: 40px;">
+                    <ui:Button text="Restart Level" display-tooltip-when-elided="true" name="RestartButton" class="PrimaryButton" style="width: 300px; height: 70px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;" />
+                    <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" class="PrimaryButton" style="width: 300px; height: 70px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AccountSection" style="width: 100%; align-items: center; justify-content: space-between;">
+                    <ui:Label text="Game" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 30px; -unity-text-align: upper-center; -unity-font-style: bold;" />
+                    <ui:VisualElement name="VolumeSetting">
+                        <ui:VisualElement name="SFXVolume" style="flex-direction: row; width: 100%; justify-content: space-between; bottom: 20px;">
+                            <ui:Label text="SFX&#10;Volume" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 26px; -unity-text-align: upper-center; -unity-font-style: bold;" />
+                            <ui:VisualElement name="SFXDragArea" style="cursor: url(&apos;center&apos;); flex-basis: auto; flex-shrink: 0; width: 250px;">
+                                <ui:Slider high-value="100" name="SFXSlider" value="50" class="settings-slider" style="top: 30%; width: 100%; left: 5%; margin-left: 20px; margin-right: 0; margin-top: 0; margin-bottom: 0; cursor: url(&apos;center&apos;); background-image: none;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="BGMVolume" style="flex-direction: row; width: 100%; justify-content: space-between;">
+                            <ui:Label text="BGM &#10;Volume" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 26px; -unity-text-align: upper-center; -unity-font-style: bold;" />
+                            <ui:VisualElement name="BGMDragArea" style="cursor: url(&apos;center&apos;); flex-basis: auto; flex-shrink: 0; width: 250px;">
+                                <ui:Slider high-value="100" name="BGMSlider" value="50" class="settings-slider" style="top: 30%; width: 100%; left: 5%; margin-left: 20px; margin-right: 0; margin-top: 0; margin-bottom: 0; cursor: url(&apos;center&apos;); background-image: none;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
