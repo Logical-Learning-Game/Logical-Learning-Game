@@ -17,6 +17,7 @@ namespace Unity.Game.SaveSystem
 
         public GameData(string userId)
         {
+            Debug.Log("this game data userId is: " + userId);
             this.userId = userId;
             SubmitHistory = new SerializableDictionary<Submit, bool>();
             SubmitBest = new SerializableDictionary<string, Submit>();
