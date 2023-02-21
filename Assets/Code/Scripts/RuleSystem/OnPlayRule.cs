@@ -13,7 +13,7 @@ namespace Unity.Game.RuleSystem
     {
         uint value;
         bool isMore;
-        public OnPlayRule(string id = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false) : base(id, theme)
+        public OnPlayRule(long id = 0, string name = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false) : base(id, name, theme)
         {
             this.value = value;
             this.isMore = isMore;
@@ -44,7 +44,7 @@ namespace Unity.Game.RuleSystem
     {
         LimitType limitType;
 
-        public ActionLimitRule(string id = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false, LimitType limitType = LimitType.ALL) : base(id, theme, value, isMore) => this.limitType = limitType;
+        public ActionLimitRule(long id = 0, string name = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false, LimitType limitType = LimitType.ALL) : base(id, name, theme, value, isMore) => this.limitType = limitType;
 
         public override string GetDescription()
         {
@@ -86,7 +86,7 @@ namespace Unity.Game.RuleSystem
 
     public class ItemCollectorRule : OnPlayRule
     {
-        public ItemCollectorRule(string id = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false) : base(id, theme, value, isMore)
+        public ItemCollectorRule(long id, string name = "test-onclear", RuleTheme theme = RuleTheme.NORMAL, uint value = 0, bool isMore = false) : base(id, name, theme, value, isMore)
         {
 
         }

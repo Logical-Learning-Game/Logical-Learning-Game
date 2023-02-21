@@ -37,17 +37,9 @@ namespace Unity.Game.SaveSystem
         void AddSubmit(Submit submit)
         {
             // implement add submit to List
-            // if have the internet
-            if (true)
-            {
-                Debug.Log("Adding Submit");
-                // send submit to internet
-                gameData.SubmitHistory.Add(submit, true);
-            }
-            else
-            {
-                gameData.SubmitHistory.Add(submit, false);
-            }
+            Debug.Log("Adding Submit to current game session");
+            SessionManager.CurrentGameSession.SubmitHistories.Add(submit);
+            
 
             //if this submit is new high score
             //gameData.SubmitBest.TryAdd(submit.mapId, submit);
