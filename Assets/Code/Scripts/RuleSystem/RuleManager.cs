@@ -11,7 +11,6 @@ namespace Unity.Game.RuleSystem
 {
     class RuleManager : MonoBehaviour
     {
-
         public static RuleManager Instance { get; private set; }
 
         private List<Rule> Rules;
@@ -19,7 +18,7 @@ namespace Unity.Game.RuleSystem
         [SerializeField] private Sprite RuleComplete;
         [SerializeField] private Sprite RuleIncomplete;
 
-        [SerializeField] private bool[] RuleStatus;
+        [SerializeField] public bool[] RuleStatus;
 
         public StateValue CurrentStateValue;
 

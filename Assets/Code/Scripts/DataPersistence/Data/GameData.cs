@@ -1,25 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Unity.Game.SaveSystem
 {
-    [System.Serializable]
+    [Serializable]
     public class GameData
     {
         // separate best submit from submit history
-        public string userId;
-        public SerializableDictionary<Submit, bool> SubmitHistory;
-        public SerializableDictionary<string, Submit> SubmitBest;
+        public string UserId { get; }
+        public SerializableDictionary<GameSession, bool> SessionHistories;
+        public SerializableDictionary<long, Submit> SubmitBest;
 
         public float musicVolume;
         public float sfxVolume;
 
         public GameData(string userId)
         {
-            this.userId = userId;
-            SubmitHistory = new SerializableDictionary<Submit, bool>();
-            SubmitBest = new SerializableDictionary<string, Submit>();
+            UserId = userId;
+            SessionHistories = new SerializableDictionary<GameSession, bool>();
+            SubmitBest = new SerializableDictionary<long, Submit>();
 
             // settings
             this.musicVolume = 80f;
@@ -28,8 +29,8 @@ namespace Unity.Game.SaveSystem
 
         public GameData()
         {
-            SubmitHistory = new SerializableDictionary<Submit, bool>();
-            SubmitBest = new SerializableDictionary<string, Submit>();
+            SessionHistories = new SerializableDictionary<GameSession, bool>();
+            SubmitBest = new SerializableDictionary<long, Submit>();
 
             // settings
             this.musicVolume = 80f;

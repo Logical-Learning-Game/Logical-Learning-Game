@@ -11,7 +11,7 @@ namespace Unity.Game.RuleSystem
 
     public class OnClearRule : Rule
     {
-        public OnClearRule(string id = "test-onclear", RuleTheme theme = RuleTheme.NORMAL) : base(id, theme)
+        public OnClearRule(long id = 0, string name = "test-onclear", RuleTheme theme = RuleTheme.NORMAL) : base(id, name, theme)
         {
 
         }
@@ -23,7 +23,7 @@ namespace Unity.Game.RuleSystem
 
     public class LevelClearRule : OnClearRule
     {
-        public LevelClearRule(string id = "test-levelclear", RuleTheme theme = RuleTheme.NORMAL) : base(id, theme)
+        public LevelClearRule(long id = 0, string name = "test-levelclear", RuleTheme theme = RuleTheme.NORMAL) : base(id, name, theme)
         {
 
         }

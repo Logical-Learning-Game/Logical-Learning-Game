@@ -1,73 +1,105 @@
-using System.Collections;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Unity.Game.Command;
-using Unity.Game.RuleSystem;
 
 namespace Unity.Game.SaveSystem
 {
-    [System.Serializable]
-    public enum Medal { NONE, BRONZE, SILVER, GOLD }
-    [System.Serializable]
-    public class CommandPattern
-    {
-        CommandType type;
-        float[] position;
+    [Serializable]
+    public enum Medal 
+    { 
+        NONE, 
+        BRONZE, 
+        SILVER, 
+        GOLD 
+    }
 
-        public CommandPattern(CommandType type, float[] position)
-        {
-            this.type = type;
-            this.position = position;
-        }
-    }
-    [System.Serializable]
-    public class CommandEdge
+    [Serializable]
+    public class GameSession
     {
-        
-        [SerializeField] CommandPattern commandStart;
-        [SerializeField] CommandPattern commandEnd;
-        EdgeType edgeType;
-        public CommandEdge(CommandPattern start, CommandPattern end, EdgeType type)
+        public long MapId { get; set; }
+        public SerializableDateTime StartDatetime { get; set; }
+        public SerializableDateTime? EndDatetime { get; set;}
+        public List<Submit> SubmitHistories { get; }
+
+        public GameSession(long mapId)
         {
-            commandStart = start;
-            commandEnd = end;
-            edgeType = type;
+            MapId = mapId;
+            StartDatetime = new SerializableDateTime(DateTime.Now);
+            SubmitHistories = new List<Submit>();
         }
     }
-    [System.Serializable]
+
+    [Serializable]
     public class Submit
     {
-        public string userId;
-        public string mapId;
-        public string sessionId;
-        public SerializableDateTime submitDate;
-        public List<CommandPattern> commandPatterns;
-        public List<CommandEdge> commandEdge;
-        public bool isFinited;
-        public bool isCompleted;
-        public List<Rule> Rules;
-        public bool[] ruleStatus;
-        public Medal commandMedal;
-        public Medal actionMedal;
-        public StateValue stateValue;
+        public bool IsFinited { get; set; }
+        public bool IsCompleted { get; set; }
+        public Medal CommandMedal { get; set; }
+        public Medal ActionMedal { get; set; }
+        public SerializableDateTime SubmitDatetime { get; set; }
+        public StateValue StateValue { get; set; }
+        public List<CommandNode> CommandNodes { get; set; }
+        public List<CommandEdge> CommandEdges { get; set; }
+        public List<RuleHistory> RuleHistories { get; set; }
+        
+        public Submit() { }
 
-        public Submit(string userId, string mapId, string sessionId,  List<CommandPattern> commandPatterns, List<CommandEdge> commandEdge, bool isFinited, bool isCompleted, List<Rule> rules, bool[] ruleStatus, Medal commandMedal, Medal actionMedal, StateValue stateValue)
+        public Submit(List<CommandNode> commandPatterns, List<CommandEdge> commandEdge, bool isFinited, bool isCompleted, List<RuleHistory> ruleHistories, Medal commandMedal, Medal actionMedal, StateValue stateValue)
         {
-            this.userId = userId;
-            this.mapId = mapId;
-            this.sessionId = sessionId;
-            this.commandPatterns = commandPatterns;
-            this.commandEdge = commandEdge;
-            this.isFinited = isFinited;
-            this.isCompleted = isCompleted;
-            Rules = rules;
-            this.ruleStatus = ruleStatus;
-            this.commandMedal = commandMedal;
-            this.actionMedal = actionMedal;
-            this.stateValue = stateValue;
-            this.submitDate = new SerializableDateTime(DateTime.Now);
+            CommandNodes = commandPatterns;
+            CommandEdges = commandEdge;
+            IsFinited = isFinited;
+            IsCompleted = isCompleted;
+            RuleHistories = ruleHistories;
+            CommandMedal = commandMedal;
+            ActionMedal = actionMedal;
+            StateValue = stateValue;
+            SubmitDatetime = new SerializableDateTime(DateTime.Now);
         }
     }
 
+    [Serializable]
+    public class RuleHistory
+    {
+        public long MapRuleId { get; set; }
+        public bool IsPass { get; set; }
+
+        public RuleHistory(long mapRuleId, bool isPass)
+        {
+            MapRuleId = mapRuleId;
+            IsPass = isPass;
+        }
+    }
+
+
+    [Serializable]
+    public class CommandNode
+    {
+        public int Index { get; set; }
+        public CommandType Type { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+
+        public CommandNode(CommandType type, float x, float y)
+        {
+            Type = type;
+            X = x;
+            Y = y;
+        }
+    }
+
+
+    [Serializable]
+    public class CommandEdge
+    {
+        public int SourceCommandIndex { get; set; }
+        public int DestinationCommandIndex { get; set; }
+        EdgeType Type { get; set; }
+        public CommandEdge(int sourceCommandIndex, int destinationCommandIndex, EdgeType type)
+        {
+            SourceCommandIndex = sourceCommandIndex;
+            DestinationCommandIndex = destinationCommandIndex;
+            Type = type;
+        }
+    }
 }
