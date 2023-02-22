@@ -227,15 +227,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGameDataInitialized: 0
   gameData:
-    userId: 
-    SubmitHistory:
+    UserId: 
+    SessionHistories:
       keys: []
       values: 
     SubmitBest:
-      keys: []
+      keys: 
       values: []
-    musicVolume: 80
-    sfxVolume: 80
 --- !u!114 &161260846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,6 +818,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1520760784}
   - component: {fileID: 1520760785}
+  - component: {fileID: 1520760786}
   m_Layer: 0
   m_Name: GoogleSyncScreen
   m_TagString: Untagged
@@ -857,6 +856,27 @@ MonoBehaviour:
   m_ScreenName: GoogleSyncScreen
   m_MainMenuUIManager: {fileID: 89046997}
   m_Document: {fileID: 89046996}
+--- !u!114 &1520760786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520760783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b5c805aaa53734c938c5c3a3d2bd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData:
+    UserId: 
+    SessionHistories:
+      keys: []
+      values: 
+    SubmitBest:
+      keys: 
+      values: []
+  currentUserId: 
 --- !u!1 &1541580292
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +887,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1541580293}
   - component: {fileID: 1541580294}
+  - component: {fileID: 1541580295}
   m_Layer: 0
   m_Name: NewGameScreen
   m_TagString: Untagged
@@ -904,6 +925,18 @@ MonoBehaviour:
   m_ScreenName: NewGameScreen
   m_MainMenuUIManager: {fileID: 89046997}
   m_Document: {fileID: 89046996}
+--- !u!114 &1541580295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541580292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67b14ead473056145a86770602e07b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1836982895
 GameObject:
   m_ObjectHideFlags: 0

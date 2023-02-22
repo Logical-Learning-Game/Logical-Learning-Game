@@ -11,11 +11,6 @@ namespace Unity.Game.UI
         public static event Action ConfirmSyncClick;
         public static event Action DenySyncClick;
 
-        //public VisualElement LevelPanel;
-        //public VisualElement StatPanel;
-        //public VisualElement SettingPanel;
-        //public VisualElement HistoryPanel;
-
         Button CancelSyncButton;
         
         VisualElement DetectSaveModal;
@@ -31,23 +26,23 @@ namespace Unity.Game.UI
         void OnEnable()
         {
 
-            //GameScreen.OpenPanel += OnOpenPanel;
+            GoogleSyncScreenController.ShowDetectSaveModal += OnLocalSaveExisted;
         }
 
         void OnDisable()
         {
-            //GameScreen.OpenPanel -= OnOpenPanel;
+            GoogleSyncScreenController.ShowDetectSaveModal -= OnLocalSaveExisted;
         }
 
         protected override void SetVisualElements()
         {
             base.SetVisualElements();
 
-            CancelSyncButton = m_Root.Q<Button>(CancelSyncButtonName);
+            CancelSyncButton = m_Screen.Q<Button>(CancelSyncButtonName);
 
-            DetectSaveModal = m_Root.Q<VisualElement>("DetectSaveModal");
-            ConfirmSyncButton = m_Root.Q<Button>(ConfirmSyncButtonName);
-            DenySyncButton = m_Root.Q<Button>(DenySyncButtonName);
+            DetectSaveModal = m_Screen.Q<VisualElement>("DetectSaveModal");
+            ConfirmSyncButton = m_Screen.Q<Button>(ConfirmSyncButtonName);
+            DenySyncButton = m_Screen.Q<Button>(DenySyncButtonName);
             
             ShowVisualElement(m_Screen, false);
         }
@@ -72,7 +67,11 @@ namespace Unity.Game.UI
         void ClickDenySync(ClickEvent evt)
         {
             DenySyncClick?.Invoke();
-            Application.Quit();
+        }
+
+        void OnLocalSaveExisted()
+        {
+            ShowVisualElement(DetectSaveModal, true);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Unity.Game.SaveSystem
 
 		public static bool LoadFromFile(string fileName, out string result)
 		{
-			Debug.Log(Application.persistentDataPath);
+			//Debug.Log(Application.persistentDataPath);
 			var fullPath = Path.Combine(Application.persistentDataPath, fileName);
 			if (!File.Exists(fullPath))
 			{

@@ -116,12 +116,12 @@ namespace Unity.Game.UI
             if (gameData == null)
                 return;
 
-            SettingsData = gameData;
+            //SettingsData = gameData;
 
-            SettingsData.musicVolume = gameData.musicVolume;
-            SettingsData.sfxVolume = gameData.sfxVolume;
+            //SettingsData.musicVolume = gameData.musicVolume;
+            //SettingsData.sfxVolume = gameData.sfxVolume;
 
-            SettingsUpdated?.Invoke(gameData);
+            //SettingsUpdated?.Invoke(gameData);
 
         }
 
