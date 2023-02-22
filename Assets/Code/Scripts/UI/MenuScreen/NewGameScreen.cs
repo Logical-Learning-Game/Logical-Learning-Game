@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System;
 
+
 namespace Unity.Game.UI
 {
     public class NewGameScreen : MenuScreen
@@ -10,7 +11,7 @@ namespace Unity.Game.UI
         public static event Action LocalNewGameClick;
         public static event Action GoogleNewGameClick;
         public static event Action BackClick;
-        
+        public static event Action LocalNewGameConfirm;
 
         Button LocalNewGameButton;
         Button GoogleNewGameButton;
@@ -28,22 +29,22 @@ namespace Unity.Game.UI
 
         void OnEnable()
         {
-
-            //GameScreen.OpenPanel += OnOpenPanel;
+            NewGameScreenController.ShowDetectSaveModal += OnLocalSaveExisted;
         }
 
         void OnDisable()
         {
-            //GameScreen.OpenPanel -= OnOpenPanel;
+            NewGameScreenController.ShowDetectSaveModal -= OnLocalSaveExisted;
+
         }
 
         protected override void SetVisualElements()
         {
             base.SetVisualElements();
             
-            LocalNewGameButton = m_Root.Q<Button>(LocalNewGameButtonName);
-            GoogleNewGameButton = m_Root.Q<Button>(GoogleNewGameButtonName);
-            BackButton = m_Root.Q<Button>(BackButtonName);
+            LocalNewGameButton = m_Screen.Q<Button>(LocalNewGameButtonName);
+            GoogleNewGameButton = m_Screen.Q<Button>(GoogleNewGameButtonName);
+            BackButton = m_Screen.Q<Button>(BackButtonName);
 
             DetectSaveModal = m_Screen.Q<VisualElement>("DetectSaveModal");
             CancelNewGameButton = m_Screen.Q<Button>("CancelNewGameButton");
@@ -62,20 +63,11 @@ namespace Unity.Game.UI
             ConfirmNewGameButton?.RegisterCallback<ClickEvent>(ClickConfirmNewGame);
         }
 
+ 
+
         void ClickLocalNewGame(ClickEvent evt)
         {
-            // if player have local save, show modal
-            // else, go to local new game
-            Debug.Log("click local newgame");
-            Debug.Log(DetectSaveModal.name);
-            if (true)
-            {
-                ShowVisualElement(DetectSaveModal,true);
-            }
-            else
-            {
-                LocalNewGameClick?.Invoke();
-            }
+            LocalNewGameClick?.Invoke();
             
         }
 
@@ -97,8 +89,13 @@ namespace Unity.Game.UI
 
         void ClickConfirmNewGame(ClickEvent evt)
         {
+            LocalNewGameConfirm?.Invoke();
             ShowVisualElement(DetectSaveModal, false);
-            LocalNewGameClick?.Invoke();
+        }
+
+        void OnLocalSaveExisted()
+        {
+            ShowVisualElement(DetectSaveModal, true);
         }
     }
 }

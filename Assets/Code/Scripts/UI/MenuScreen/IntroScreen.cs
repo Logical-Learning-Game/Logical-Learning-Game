@@ -27,12 +27,13 @@ namespace Unity.Game.UI
 
         void OnEnable()
         {
-
+            IntroScreenController.HideContinueButton += HideContinueButton;
             //GameScreen.OpenPanel += OnOpenPanel;
         }
 
         void OnDisable()
         {
+            IntroScreenController.HideContinueButton -= HideContinueButton;
             //GameScreen.OpenPanel -= OnOpenPanel;
         }
 
@@ -75,6 +76,11 @@ namespace Unity.Game.UI
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
             Application.Quit();
+        }
+
+        void HideContinueButton()
+        {
+            ShowVisualElement(ContinueButton, false);
         }
     }
 }

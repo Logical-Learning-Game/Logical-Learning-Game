@@ -12,6 +12,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using Unity.Game.Level;
+using Unity.Game.SaveSystem;
 
 namespace Unity.Game.UI
 {
@@ -21,7 +22,7 @@ namespace Unity.Game.UI
         public static event Action UpdateMap;
         public static event Action LoadMap;
 
-        Dictionary<string, List<Map>> MapLists;
+        public static Dictionary<string, List<Map>> MapLists;
         //Dictionary<string, List<Map>> MapLists = new Dictionary<string, List<Map>>()
         //{
         //    {"a",new List<Map>(){
@@ -35,6 +36,8 @@ namespace Unity.Game.UI
         //        new Map("c-1")
         //    } }
         //};
+
+        GameData gameData;
         DropdownField dropdownField;
         ListView entryView;
 
@@ -55,6 +58,7 @@ namespace Unity.Game.UI
         private void OnEnable()
         {
             PanelScreen.OpenLevelPanel += OnOpenLevelPanel;
+            SaveManager.GameDataLoaded += OnGameDataLoaded;
 
             mapEntryList = new List<Map>();
         }
@@ -62,6 +66,7 @@ namespace Unity.Game.UI
         private void OnDisable()
         {
             PanelScreen.OpenLevelPanel -= OnOpenLevelPanel;
+            SaveManager.GameDataLoaded -= OnGameDataLoaded;
         }
 
         public void UpdateMapData()
@@ -87,7 +92,10 @@ namespace Unity.Game.UI
         };
         }
 
-
+        public void OnGameDataLoaded(GameData gameData)
+        {
+            this.gameData = gameData;
+        }
 
         public void GenerateMapEntry(string worldSelector)
         {
@@ -136,7 +144,7 @@ namespace Unity.Game.UI
             entryView.itemsSource = mapEntryList;
             entryView.bindItem = bindItem;
 
-            entryView.onItemsChosen += Debug.Log;
+            //entryView.onItemsChosen += Debug.Log;
         }
 
         void CreateDropDownMenu()
