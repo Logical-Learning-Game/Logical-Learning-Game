@@ -2,24 +2,17 @@
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.Game.SaveSystem;
 
 namespace Unity.Game.UI
 {
     public class GoogleSyncScreenController : MonoBehaviour
     {
-        // events
-        //public static event Action<LevelSO> ShowLevelInfo;
-        //public static event Action<List<ChatSO>> ShowChats;
-        //public static event Action MainMenuExited;
+        public static event Action ShowDetectSaveModal;
+        public static event Action<string,bool> GoogleNewGame;
 
-        //[Header("Level Data")]
-        //[SerializeField] LevelSO m_LevelData;
-
-        //[Header("Chat Data")]
-        //[SerializeField] string m_ChatResourcePath = "GameData/Chat";
-
-        //// chat messages to display
-        //[SerializeField] List<ChatSO> m_ChatData;
+        [SerializeField] GameData gameData;
+        [SerializeField] string currentUserId;
 
         void Awake()
         {
@@ -28,12 +21,20 @@ namespace Unity.Game.UI
 
         void OnEnable()
         {
-            //HomeScreen.PlayButtonClicked += OnPlayGameLevel;
+            SaveManager.GameDataLoaded += OnGameDataLoaded;
+
+            NewGameScreenController.GoogleNewGame += OnGoogleSignIn;
+            GoogleSyncScreen.DenySyncClick += OnDenySync;
+            GoogleSyncScreen.ConfirmSyncClick += OnConfirmSync;
         }
 
         void OnDisable()
         {
-            //HomeScreen.PlayButtonClicked -= OnPlayGameLevel;
+            SaveManager.GameDataLoaded -= OnGameDataLoaded;
+
+            NewGameScreenController.GoogleNewGame -= OnGoogleSignIn;
+            GoogleSyncScreen.DenySyncClick -= OnDenySync;
+            GoogleSyncScreen.ConfirmSyncClick -= OnConfirmSync;
         }
 
         void Start()
@@ -42,18 +43,39 @@ namespace Unity.Game.UI
             //ShowChats?.Invoke(m_ChatData);
         }
 
-        // scene-management methods
-        public void OnPlayGameLevel()
+        void OnGameDataLoaded(GameData gameData)
         {
-            //            if (m_LevelData == null)
-            //                return;
+            this.gameData = gameData;
+        }
 
-            //            MainMenuExited?.Invoke();
+        // scene-management methods
+        public void OnGoogleSignIn()
+        {
+            // TODO for PAT (Google SignIn Method)
 
-            //#if UNITY_EDITOR
-            //            if (Application.isPlaying)
-            //#endif
-            //                SceneManager.LoadSceneAsync(m_LevelData.sceneName);
+            string UserId = "__Google__";
+
+            currentUserId = UserId;
+            //when signin completed invoke with its userId
+            if(gameData.UserId == "")
+            {
+                GoogleNewGame?.Invoke(currentUserId,false);
+            }
+            else
+            {
+                ShowDetectSaveModal?.Invoke();
+            }
+            
+        }
+
+        public void OnDenySync()
+        {
+            GoogleNewGame?.Invoke(currentUserId, false);
+        }
+
+        public void OnConfirmSync()
+        {
+            GoogleNewGame?.Invoke(currentUserId, true);
         }
     }
 }

@@ -13,21 +13,8 @@ namespace Unity.Game.SaveSystem
         public SerializableDictionary<GameSession, bool> SessionHistories;
         public SerializableDictionary<long, Submit> SubmitBest;
 
-        public float musicVolume;
-        public float sfxVolume;
-
-        public GameData(string userId)
-        {
-
-            Debug.Log("this game data userId is: " + userId);
-            UserId = userId;
-            SessionHistories = new SerializableDictionary<GameSession, bool>();
-            SubmitBest = new SerializableDictionary<long, Submit>();
-
-            // settings
-            this.musicVolume = 80f;
-            this.sfxVolume = 80f;
-        }
+        //public float musicVolume;
+        //public float sfxVolume;
 
         public GameData()
         {
@@ -35,8 +22,8 @@ namespace Unity.Game.SaveSystem
             SubmitBest = new SerializableDictionary<long, Submit>();
 
             // settings
-            this.musicVolume = 80f;
-            this.sfxVolume = 80f;
+            //this.musicVolume = 80f;
+            //this.sfxVolume = 80f;
 
         }
 
