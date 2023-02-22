@@ -10,13 +10,11 @@ namespace Unity.Game.MapSystem
     public class Map
     {
 
-        public uint[,] MapData = new uint[,]
-        {
-            { 32,0,48,0,256 },
-            { 16,16,0,0,512 },
-            { 256,0,48,200704,768 },
-            { 7,16,0,0,0 }
-        };
+        public uint[] MapData = new uint[]
+        {32,0,48,0,256,16,16,0,0,512,256,0,48,200704,768,7,16,0,0,0 };
+
+        public int Width;
+        public int Height;
 
         public List<Rule> MapRules = new List<Rule>()
         {
@@ -34,8 +32,8 @@ namespace Unity.Game.MapSystem
         public int LeastSolvableCommand;
 
         public int LeastSolvableAction;
-        
-        public Map(uint[,] mapData, List<Rule> mapRules, int starRequirement, string mapName, long mapId, int leastSolvableCommand, int leastSolvableAction)
+
+        public Map(uint[] mapData, List<Rule> mapRules, int starRequirement, string mapName, long mapId, int leastSolvableCommand, int leastSolvableAction, int width, int height)
         {
             MapData = mapData;
             MapRules = mapRules;
@@ -44,17 +42,15 @@ namespace Unity.Game.MapSystem
             Id = mapId;
             LeastSolvableCommand = leastSolvableCommand;
             LeastSolvableAction = leastSolvableAction;
+            Width = width;
+            Height = height;
         }
         // default constructor for debugging
         public Map()
         {
-            MapData = new uint[,]
-        {
-            { 32,0,48,0,256 },
-            { 16,16,0,0,512 },
-            { 256,0,48,200704,768 },
-            { 7,16,0,0,0 }
-        };
+            MapData = new uint[]
+        {32,0,48,0,256,16,16,0,0,512,256,0,48,200704,768,7,16,0,0,0 };
+
             MapRules = new List<Rule>()
         {
             new LevelClearRule(),
@@ -66,17 +62,15 @@ namespace Unity.Game.MapSystem
             Id = 1;
             LeastSolvableCommand = 10;
             LeastSolvableAction = 0;
+            Width = 5;
+            Height = 4;
         }
 
         public Map(string mapName)
         {
-            MapData = new uint[,]
-        {
-            { 32,0,48,0,256 },
-            { 16,16,0,0,512 },
-            { 256,0,48,200704,768 },
-            { 7,16,0,0,0 }
-        };
+            MapData = new uint[]
+        {32,0,48,0,256,16,16,0,0,512,256,0,48,200704,768,7,16,0,0,0 };
+
             MapRules = new List<Rule>()
         {
             new LevelClearRule(),
@@ -88,11 +82,9 @@ namespace Unity.Game.MapSystem
             Id = 2;
             LeastSolvableCommand = 10;
             LeastSolvableAction = 0;
+            Width = 5;
+            Height = 4;
         }
-
-        public int Width { get { return MapData.GetLength(0); } }
-        public int Height { get { return MapData.GetLength(1); } }
-
     }
 }
 

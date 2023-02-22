@@ -23,6 +23,8 @@ namespace Unity.Game.UI
         public static event Action LoadMap;
 
         public static Dictionary<string, List<Map>> MapLists;
+
+        public Map map;
         //Dictionary<string, List<Map>> MapLists = new Dictionary<string, List<Map>>()
         //{
         //    {"a",new List<Map>(){
@@ -90,11 +92,13 @@ namespace Unity.Game.UI
                 new Map("c-1")
             } }
         };
+            map = MapLists["a"][0];
         }
 
         public void OnGameDataLoaded(GameData gameData)
         {
             this.gameData = gameData;
+            
         }
 
         public void GenerateMapEntry(string worldSelector)
