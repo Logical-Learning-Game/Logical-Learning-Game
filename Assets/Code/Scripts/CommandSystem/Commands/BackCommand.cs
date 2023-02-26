@@ -8,6 +8,13 @@ namespace Unity.Game.Command
 {
     public class BackCommand : BaseMoveCommand
     {
+        protected override void Awake()
+        {
+            base.Awake();
+
+            SetCommandType(CommandType.BACK);
+        }
+
         public override IEnumerator AddAction()
         {
             yield return ActionManager.Instance.AddAction(new BackAction());

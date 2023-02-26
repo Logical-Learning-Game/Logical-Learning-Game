@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.Game.Command;
 using Unity.Game.ActionSystem;
+using System;
 
 namespace Unity.Game
 {
-    [System.Serializable]
-    public class StateValue
+    [Serializable]
+    public class StateValue : ICloneable
     {
         public int CommandCount;
         public int ForwardCommandCount;
@@ -81,7 +80,7 @@ namespace Unity.Game
             int backActionCount = 0;
             int conditionActionCount = 0;
 
-            foreach (Action action in ActionManager.Instance.actionList)
+            foreach (ActionSystem.Action action in ActionManager.Instance.actionList)
             {
                 if (action is ForwardAction)
                 {
@@ -114,6 +113,25 @@ namespace Unity.Game
             BackActionCount = backActionCount;
             ConditionActionCount = conditionActionCount;
             ActionCount = startActionCount + forwardActionCount + leftActionCount + rightActionCount + backActionCount + conditionActionCount;
+        }
+
+        public object Clone()
+        {
+            return new StateValue
+            {
+                CommandCount = CommandCount,
+                ForwardCommandCount = ForwardCommandCount,
+                LeftCommandCount = LeftCommandCount,
+                RightCommandCount = RightCommandCount,
+                BackCommandCount = BackCommandCount,
+                ConditionCommandCount = ConditionCommandCount,
+                ActionCount = ActionCount,
+                ForwardActionCount = ForwardActionCount,
+                LeftActionCount = LeftActionCount,
+                RightActionCount = RightActionCount,
+                BackActionCount = BackActionCount,
+                ConditionActionCount = ConditionActionCount,
+            };
         }
     }
 

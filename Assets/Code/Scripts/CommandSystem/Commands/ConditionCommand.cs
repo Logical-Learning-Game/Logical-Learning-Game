@@ -16,7 +16,7 @@ namespace Unity.Game.Command
 
 
         [SerializeField]
-        private AbstractCommand linkerCommand;
+        public AbstractCommand linkerCommand;
 
         public override IEnumerator Execute()
         {
@@ -55,7 +55,6 @@ namespace Unity.Game.Command
         {
             linkerCommand = GetComponentInChildren<LinkerCommand>();
             base.Awake();
-            
         }
 
         public override void OnVerify()
@@ -86,6 +85,26 @@ namespace Unity.Game.Command
             Debug.Log("Setting Condition to: " + condition.ToString());
             commandCondition.SetConditionSign(condition);
             OnSetCondition();
+
+            switch (condition)
+            {
+                case ConditionSign.A:
+                    SetCommandType(CommandType.CONDITIONAL_A);
+                    break;
+                case ConditionSign.B:
+                    SetCommandType(CommandType.CONDITIONAL_B);
+                    break;
+                case ConditionSign.C:
+                    SetCommandType(CommandType.CONDITIONAL_C);
+                    break;
+                case ConditionSign.D:
+                    SetCommandType(CommandType.CONDITIONAL_D);
+                    break;
+                case ConditionSign.E:
+                    SetCommandType(CommandType.CONDITIONAL_E);
+                    break;
+            }
+            
         }
 
         private void OnSetCondition()
