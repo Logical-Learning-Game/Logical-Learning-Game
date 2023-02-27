@@ -58,7 +58,7 @@ namespace Unity.Game.SaveSystem
             CurrentGameSession = null;
 
             // Try send data to backend
-            var apiClient = new PlayerStatisticAPIClient();
+            var apiClient = new APIClient();
 
             // first check if client can connect to backend service
             bool haveConnectionToServer = await apiClient.ConnectionCheck();
@@ -78,7 +78,7 @@ namespace Unity.Game.SaveSystem
                     continue;
                 }
 
-                GameSessionHistoryRequestDto dto = new StatisticApiDtoMapper().ToDto(gameSession);
+                GameSessionHistoryRequestDTO dto = new GameSessionDTOMapper().ToDto(gameSession);
 
                 // mock playerId data for testing!!!
                 try

@@ -6,7 +6,7 @@ using Unity.Game.Command;
 
 namespace Unity.Game.SaveSystem
 {
-    public class GameSessionHistoryRequestDto
+    public class GameSessionHistoryRequestDTO
     {
         [JsonProperty("map_id")]
         public long MapId { get; set; }
@@ -20,10 +20,10 @@ namespace Unity.Game.SaveSystem
         public DateTime EndDatetime { get; set; }
 
         [JsonProperty("submit_histories")]
-        public List<SubmitHistoryRequestDto> SubmitHistories { get; set; }
+        public List<SubmitHistoryDTO> SubmitHistories { get; set; }
     }
 
-    public class SubmitHistoryRequestDto
+    public class SubmitHistoryDTO
     {
         [JsonProperty("is_finited")]
         public bool IsFinited { get; set; }
@@ -44,19 +44,19 @@ namespace Unity.Game.SaveSystem
         public DateTime SubmitDatetime { get; set; }
 
         [JsonProperty("state_value")]
-        public StateValueRequestDto StateValue { get; set; }
+        public StateValueDTO StateValue { get; set; }
 
         [JsonProperty("command_nodes")]
-        public List<CommandNodeRequestDto> CommandNodes { get; set; }
+        public List<CommandNodeDTO> CommandNodes { get; set; }
 
         [JsonProperty("command_edges")]
-        public List<CommandEdgeRequestDto> CommandEdges { get; set; }
+        public List<CommandEdgeDTO> CommandEdges { get; set; }
 
         [JsonProperty("rules")]
-        public List<RuleHistoryRequestDto> RuleHistories { get; set; }
+        public List<RuleHistoryRequestDTO> RuleHistories { get; set; }
     }
 
-    public class StateValueRequestDto
+    public class StateValueDTO
     {
         [JsonProperty("command_count")]
         public int CommandCount { get; set; }
@@ -95,7 +95,7 @@ namespace Unity.Game.SaveSystem
         public int ConditionActionCount { get; set; }
     }
 
-    public class RuleHistoryRequestDto
+    public class RuleHistoryRequestDTO
     {
         [JsonProperty("map_rule_id")]
         public long MapRuleId { get; set; }
@@ -104,7 +104,7 @@ namespace Unity.Game.SaveSystem
         public bool IsPass { get; set; }
     }
 
-    public class CommandNodeRequestDto
+    public class CommandNodeDTO
     {
         [JsonProperty("node_index")]
         public int NodeIndex { get; set; }
@@ -114,10 +114,10 @@ namespace Unity.Game.SaveSystem
         public CommandType Type { get; set; }
 
         [JsonProperty("in_game_position")]
-        public Vector2FloatDto InGamePosition { get; set; }
+        public Vector2FloatDTO InGamePosition { get; set; }
     }
 
-    public class CommandEdgeRequestDto
+    public class CommandEdgeDTO
     {
         [JsonProperty("source_node_index")]
         public int SourceNodeIndex { get; set; }
@@ -130,7 +130,7 @@ namespace Unity.Game.SaveSystem
         public EdgeType Type { get; set; }
     }
 
-    public class Vector2FloatDto
+    public class Vector2FloatDTO
     {
         [JsonProperty("x")]
         public float X { get; set; }

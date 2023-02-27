@@ -2,28 +2,28 @@
 
 namespace Unity.Game.SaveSystem
 {
-    public class StatisticApiDtoMapper
+    public class GameSessionDTOMapper
     {
-        public GameSessionHistoryRequestDto ToDto(GameSession gameSession)
+        public GameSessionHistoryRequestDTO ToDto(GameSession gameSession)
         {
-            var gameSessionRequestHistoryDTO = new GameSessionHistoryRequestDto
+            var gameSessionRequestHistoryDTO = new GameSessionHistoryRequestDTO
             {
                 MapId = 1,
                 StartDatetime = gameSession.StartDatetime.DateTime,
                 EndDatetime = gameSession.EndDatetime.DateTime,
-                SubmitHistories = new List<SubmitHistoryRequestDto>()
+                SubmitHistories = new List<SubmitHistoryDTO>()
             };
 
             foreach (SubmitHistory submitHistory in gameSession.SubmitHistories)
             {
-                var submitHistoryDTO = new SubmitHistoryRequestDto
+                var submitHistoryDTO = new SubmitHistoryDTO
                 {
                     IsFinited = submitHistory.IsFinited,
                     IsCompleted = submitHistory.IsCompleted,
                     CommandMedal = submitHistory.CommandMedal,
                     ActionMedal = submitHistory.ActionMedal,
                     SubmitDatetime = submitHistory.SubmitDatetime.DateTime,
-                    StateValue = new StateValueRequestDto
+                    StateValue = new StateValueDTO
                     {
                         CommandCount = submitHistory.StateValue.CommandCount,
                         ForwardCommandCount = submitHistory.StateValue.ForwardCommandCount,
@@ -38,16 +38,16 @@ namespace Unity.Game.SaveSystem
                         LeftActionCount = submitHistory.StateValue.LeftActionCount,
                         ConditionActionCount = submitHistory.StateValue.ConditionActionCount,
                     },
-                    RuleHistories = new List<RuleHistoryRequestDto>(),
-                    CommandNodes = new List<CommandNodeRequestDto>(),
-                    CommandEdges = new List<CommandEdgeRequestDto>(),
+                    RuleHistories = new List<RuleHistoryRequestDTO>(),
+                    CommandNodes = new List<CommandNodeDTO>(),
+                    CommandEdges = new List<CommandEdgeDTO>(),
                 };
 
                 // mock map rule id!!!
                 long mockMapRuleId = 1;
                 foreach (RuleHistory ruleHistory in submitHistory.RuleHistories)
                 {
-                    var ruleHistoryDTO = new RuleHistoryRequestDto
+                    var ruleHistoryDTO = new RuleHistoryRequestDTO
                     {
                         MapRuleId = mockMapRuleId,
                         IsPass = ruleHistory.IsPass,
@@ -60,11 +60,11 @@ namespace Unity.Game.SaveSystem
 
                 foreach (CommandNode commandNode in submitHistory.CommandNodes)
                 {
-                    var commandNodeDTO = new CommandNodeRequestDto
+                    var commandNodeDTO = new CommandNodeDTO
                     {
                         NodeIndex = commandNode.Index,
                         Type = commandNode.Type,
-                        InGamePosition = new Vector2FloatDto
+                        InGamePosition = new Vector2FloatDTO
                         {
                             X = commandNode.X,
                             Y = commandNode.Y,
@@ -76,7 +76,7 @@ namespace Unity.Game.SaveSystem
 
                 foreach (CommandEdge commandEdge in submitHistory.CommandEdges)
                 {
-                    var commandEdgeDTO = new CommandEdgeRequestDto
+                    var commandEdgeDTO = new CommandEdgeDTO
                     {
                         SourceNodeIndex = commandEdge.SourceCommandIndex,
                         DestinationNodeIndex = commandEdge.DestinationCommandIndex,

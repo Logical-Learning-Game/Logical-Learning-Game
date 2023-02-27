@@ -3,10 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using System;
+using System.Runtime.Serialization;
 
 namespace Unity.Game.RuleSystem
 {
-    public enum RuleTheme { NORMAL, CONDITIONAL, LOOP }
+    public enum RuleTheme 
+    {
+        [EnumMember(Value = "normal")]
+        NORMAL,
+        [EnumMember(Value = "conditional")]
+        CONDITIONAL,
+        [EnumMember(Value = "loop")]
+        LOOP 
+    }
+
+    public enum RuleName
+    {
+        [EnumMember(Value = "action_limit_rule")]
+        ACTION_LIMIT_RULE,
+        [EnumMember(Value = "command_limit_rule")]
+        COMMAND_LIMIT_RULE,
+        [EnumMember(Value = "item_collector_rule")]
+        ITEM_COLLECTOR_RULE,
+        [EnumMember(Value = "level_clear_rule")]
+        LEVEL_CLEAR_RULE
+    }
 
     public enum LimitType { ALL,FORWARD,LEFT,RIGHT,BACK,CONDITION}
 
