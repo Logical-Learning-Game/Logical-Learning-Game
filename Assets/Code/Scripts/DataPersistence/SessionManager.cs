@@ -49,19 +49,27 @@ namespace Unity.Game.SaveSystem
 
         private async void EndSession()
         {
+            if (CurrentGameSession == null)
+            {
+                return;
+            }
+
             CurrentGameSession.EndDatetime = new SerializableDateTime(DateTime.UtcNow);
+            CurrentGameSession = null;
 
             // Try send data to backend
-            // first check if client can connect to backend service
             var apiClient = new PlayerStatisticAPIClient();
 
-            if (false)
+            // first check if client can connect to backend service
+            bool haveConnectionToServer = await apiClient.ConnectionCheck();
+            if (!haveConnectionToServer)
             {
                 return;
             }
         
-            SerializableDictionary<GameSession, bool> gameSessions = gameDataManager.GameData.SessionHistories;
-            foreach (KeyValuePair<GameSession, bool> entry in gameSessions)
+            SerializableDictionary<GameSession, bool> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
+            var sendSuccessGameSession = new List<GameSession>();
+            foreach (KeyValuePair<GameSession, bool> entry in gameSessionWithSendStatus)
             {
                 GameSession gameSession = entry.Key;
                 bool isAlreadySend = entry.Value;
@@ -73,16 +81,30 @@ namespace Unity.Game.SaveSystem
                 GameSessionHistoryRequestDto dto = new StatisticApiDtoMapper().ToDto(gameSession);
 
                 // mock playerId data for testing!!!
-                HttpResponseMessage response = await apiClient.SendSessionHistoryData("abcdefg", dto);
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    Debug.Log($"Send success: {response.StatusCode}");
-                    gameSessions[entry.Key] = true;
+                    HttpResponseMessage response = await apiClient.SendSessionHistoryData("abcdefg", dto);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        sendSuccessGameSession.Add(gameSession);
+                    }
+                    else
+                    {
+                        Debug.LogErrorFormat("Response status code is not success: {}", response.StatusCode);
+                        break;
+                    }
                 }
-                else
+                catch (HttpRequestException ex)
                 {
-                    Debug.Log($"Send fail: {response.StatusCode}");
+                    Debug.LogErrorFormat("An error occurred while sending session history to api server: {}", ex);
+                    break;
                 }
+            }
+
+            // mark already send game session status to true
+            foreach (GameSession gameSession in sendSuccessGameSession)
+            {
+                gameSessionWithSendStatus[gameSession] = true;
             }
         }
 
