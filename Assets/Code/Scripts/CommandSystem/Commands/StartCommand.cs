@@ -8,6 +8,13 @@ namespace Unity.Game.Command
 
     public class StartCommand : AbstractCommand
     {
+        protected override void Awake()
+        {
+            base.Awake();
+
+            SetCommandType(CommandType.START);
+        }
+
         public override IEnumerator Execute()
         {
             // Reset ActionManager

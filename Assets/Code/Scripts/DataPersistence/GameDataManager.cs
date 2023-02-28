@@ -50,7 +50,7 @@ namespace Unity.Game.SaveSystem
 
         }
 
-        void AddSubmit(Submit submit)
+        void AddSubmit(SubmitHistory submit)
         {
             // implement add submit to List
             Debug.Log("Adding Submit to current game session");

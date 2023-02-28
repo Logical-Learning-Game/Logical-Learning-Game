@@ -64,6 +64,8 @@ namespace Unity.Game.Level
             RuleManager.Instance.InitRule();
             InitPlayer();
             LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
+
+            OnMapEnter?.Invoke(gameMap);
         }
 
         void InitPlayer()
@@ -253,6 +255,13 @@ namespace Unity.Game.Level
         {
             isPlayerReachGoal = true;
             GameWon?.Invoke();
+        }
+
+        // TODO -- test method
+        public void TestMapExit()
+        {
+            // test
+            OnMapExit?.Invoke();
         }
 
         public bool GetIsPlayerReachGoal()
