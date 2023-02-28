@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using GlobalConfig;
 using Unity.Game.MapSystem;
+using UnityEngine.SceneManagement;
+
 
 namespace Unity.Game.SaveSystem
 {
@@ -26,15 +28,22 @@ namespace Unity.Game.SaveSystem
            
         }
 
-        void OnApplicationQuit()
+        private void OnDestroy()
         {
             SaveGame();
         }
 
+        //void OnApplicationQuit()
+        //{
+        //    SaveGame();
+        //}
+
+        
+
         public void LoadGame()
         {
             // load saved data from FileDataHandler
-            
+
             if (gameDataManager.GameData == null)
             {
                 gameDataManager.GameData = NewGame();

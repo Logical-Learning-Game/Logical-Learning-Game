@@ -9,23 +9,12 @@ namespace Unity.Game.SaveSystem
     public class GameData
     {
         // separate best submit from submit history
-        public string UserId { get; }
+        public string UserId;
         public SerializableDictionary<GameSession, bool> SessionHistories;
         public SerializableDictionary<long, SubmitHistory> SubmitBest;
 
-        public float musicVolume;
-        public float sfxVolume;
-
-        public GameData(string userId)
-        {
-            UserId = userId;
-            SessionHistories = new SerializableDictionary<GameSession, bool>();
-            SubmitBest = new SerializableDictionary<long, SubmitHistory>();
-
-            // settings
-            this.musicVolume = 80f;
-            this.sfxVolume = 80f;
-        }
+        //public float musicVolume;
+        //public float sfxVolume;
 
         public GameData()
         {
@@ -33,8 +22,8 @@ namespace Unity.Game.SaveSystem
             SubmitBest = new SerializableDictionary<long, SubmitHistory>();
 
             // settings
-            this.musicVolume = 80f;
-            this.sfxVolume = 80f;
+            //this.musicVolume = 80f;
+            //this.sfxVolume = 80f;
 
         }
 

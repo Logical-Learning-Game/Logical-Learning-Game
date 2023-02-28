@@ -2,24 +2,18 @@
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.Game.SaveSystem;
 
 namespace Unity.Game.UI
 {
     public class NewGameScreenController : MonoBehaviour
     {
-        // events
-        //public static event Action<LevelSO> ShowLevelInfo;
-        //public static event Action<List<ChatSO>> ShowChats;
-        //public static event Action MainMenuExited;
+        public static event Action ShowDetectSaveModal;
+        public static event Action<string> LocalNewGame;
+        public static event Action GoogleNewGame;
 
-        //[Header("Level Data")]
-        //[SerializeField] LevelSO m_LevelData;
 
-        //[Header("Chat Data")]
-        //[SerializeField] string m_ChatResourcePath = "GameData/Chat";
-
-        //// chat messages to display
-        //[SerializeField] List<ChatSO> m_ChatData;
+        GameData gameData;
 
         void Awake()
         {
@@ -28,12 +22,22 @@ namespace Unity.Game.UI
 
         void OnEnable()
         {
-            //HomeScreen.PlayButtonClicked += OnPlayGameLevel;
+            NewGameScreen.LocalNewGameClick += OnLocalNewGameClick;
+            NewGameScreen.GoogleNewGameClick += OnGoogleNewGameClick;
+
+            NewGameScreen.LocalNewGameConfirm += NewGameAsGuest;
+
+            SaveManager.GameDataLoaded += OnGameDataLoaded;
         }
 
         void OnDisable()
         {
-            //HomeScreen.PlayButtonClicked -= OnPlayGameLevel;
+            NewGameScreen.LocalNewGameClick -= OnLocalNewGameClick;
+            NewGameScreen.GoogleNewGameClick -= OnGoogleNewGameClick;
+
+            NewGameScreen.LocalNewGameConfirm -= NewGameAsGuest;
+
+            SaveManager.GameDataLoaded -= OnGameDataLoaded;
         }
 
         void Start()
@@ -42,18 +46,34 @@ namespace Unity.Game.UI
             //ShowChats?.Invoke(m_ChatData);
         }
 
-        // scene-management methods
-        public void OnPlayGameLevel()
+        void OnGameDataLoaded(GameData gameData)
         {
-            //            if (m_LevelData == null)
-            //                return;
-
-            //            MainMenuExited?.Invoke();
-
-            //#if UNITY_EDITOR
-            //            if (Application.isPlaying)
-            //#endif
-            //                SceneManager.LoadSceneAsync(m_LevelData.sceneName);
+            this.gameData = gameData;
         }
+
+        public void OnLocalNewGameClick()
+        {
+
+            if (gameData.UserId == "")
+            {
+                NewGameAsGuest();
+            }
+            else
+            {
+                ShowDetectSaveModal?.Invoke();
+            }
+
+        }
+
+        public void OnGoogleNewGameClick()
+        {
+            GoogleNewGame?.Invoke();
+        }
+
+        public void NewGameAsGuest()
+        {
+            LocalNewGame?.Invoke("__guest__");
+        }
+
     }
 }

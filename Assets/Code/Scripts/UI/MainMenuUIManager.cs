@@ -48,11 +48,13 @@ namespace Unity.Game.UI
 
             NewGameScreen.BackClick += ShowIntroScreen;
             NewGameScreen.GoogleNewGameClick += ShowGoogleSyncScreen;
-            NewGameScreen.LocalNewGameClick += ShowPanelScreen;
+            //NewGameScreen.LocalNewGameClick += ShowPanelScreen;
 
             GoogleSyncScreen.CancelSyncClick += ShowNewGameScreen;
 
             MapEntryManager.SelectMap += LoadGameScene;
+
+            GameDataManager.NewGameCompleted += ShowPanelScreen;
         }
 
         private void OnDisable()
@@ -62,11 +64,14 @@ namespace Unity.Game.UI
 
             NewGameScreen.BackClick -= ShowIntroScreen;
             NewGameScreen.GoogleNewGameClick -= ShowGoogleSyncScreen;
-            NewGameScreen.LocalNewGameClick -= ShowPanelScreen;
+            //NewGameScreen.LocalNewGameClick -= ShowPanelScreen;
 
             GoogleSyncScreen.CancelSyncClick -= ShowNewGameScreen;
 
             MapEntryManager.SelectMap -= LoadGameScene;
+
+            GameDataManager.NewGameCompleted -= ShowPanelScreen;
+
         }
 
         void Start()
