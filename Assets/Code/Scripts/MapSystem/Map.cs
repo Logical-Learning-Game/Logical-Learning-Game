@@ -1,11 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Unity.Game.Conditions;
 using Unity.Game.RuleSystem;
 
 namespace Unity.Game.MapSystem
 {
+    public enum Difficulty
+    {
+        [EnumMember(Value = "easy")]
+        EASY,
+        [EnumMember(Value = "medium")]
+        MEDIUM,
+        [EnumMember(Value = "hard")]
+        HARD
+    }
+
     public enum TileType { EMPTY, OBSTACLE, GOAL, DOOR, CONDITION_A, CONDITION_B, CONDITION_C, CONDITION_D, CONDITION_E }
+
     [System.Serializable]
     public class Map
     {
