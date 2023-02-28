@@ -2,24 +2,25 @@
 using Unity.Game.Command;
 using Unity.Game.ActionSystem;
 using System;
+using Newtonsoft.Json;
 
 namespace Unity.Game
 {
     [Serializable]
     public class StateValue : ICloneable
     {
-        public int CommandCount;
-        public int ForwardCommandCount;
-        public int LeftCommandCount;
-        public int RightCommandCount;
-        public int BackCommandCount;
-        public int ConditionCommandCount;
-        public int ActionCount;
-        public int ForwardActionCount;
-        public int LeftActionCount;
-        public int RightActionCount;
-        public int BackActionCount;
-        public int ConditionActionCount;
+        [JsonProperty("command_count")] public int CommandCount;
+        [JsonProperty("forward_command_count")] public int ForwardCommandCount;
+        [JsonProperty("left_command_count")] public int LeftCommandCount;
+        [JsonProperty("right_command_count")] public int RightCommandCount;
+        [JsonProperty("back_command_count")] public int BackCommandCount;
+        [JsonProperty("condition_command_count")] public int ConditionCommandCount;
+        [JsonProperty("action_count")] public int ActionCount;
+        [JsonProperty("forward_action_count")] public int ForwardActionCount;
+        [JsonProperty("left_action_count")] public int LeftActionCount;
+        [JsonProperty("right_action_count")] public int RightActionCount;
+        [JsonProperty("back_action_count")] public int BackActionCount;
+        [JsonProperty("condition_action_count")] public int ConditionActionCount;
 
         public StateValue()
         {

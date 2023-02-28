@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [System.Serializable]
+[JsonObject(MemberSerialization.OptIn)]
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
     [SerializeField]
+    [JsonProperty("keys")]
     private List<TKey> keys = new List<TKey>();
 
     [SerializeField]
+    [JsonProperty("values")]
     private List<TValue> values = new List<TValue>();
 
     public void OnBeforeSerialize()

@@ -8,14 +8,14 @@ using System.Runtime.Serialization;
 
 namespace Unity.Game.RuleSystem
 {
-    public enum RuleTheme 
+    public enum RuleTheme
     {
         [EnumMember(Value = "normal")]
         NORMAL,
         [EnumMember(Value = "conditional")]
         CONDITIONAL,
         [EnumMember(Value = "loop")]
-        LOOP 
+        LOOP
     }
 
     public enum RuleName
@@ -30,16 +30,16 @@ namespace Unity.Game.RuleSystem
         LEVEL_CLEAR_RULE
     }
 
-    public enum LimitType { ALL,FORWARD,LEFT,RIGHT,BACK,CONDITION}
+    public enum LimitType { ALL, FORWARD, LEFT, RIGHT, BACK, CONDITION }
 
 
     [Serializable]
     public class Rule
     {
 
-        [JsonProperty("map_rule_id")] public long Id { get; }
-        [JsonProperty("rule_name")] public string RuleName { get; }
-        [JsonProperty("rule_theme")] public RuleTheme Theme { get; }
+        public long Id { get; }
+        public string RuleName { get; }
+        public RuleTheme Theme { get; }
 
         public Rule(long id = 0, string name = "rule-default", RuleTheme theme = RuleTheme.NORMAL)
         {
@@ -47,12 +47,12 @@ namespace Unity.Game.RuleSystem
             RuleName = name;
             Theme = theme;
         }
-        
+
         public virtual string GetDescription()
         {
             return "Base Class Description";
         }
-        
+
         public virtual bool CheckRule(StateValue currentState)
         {
             return false;

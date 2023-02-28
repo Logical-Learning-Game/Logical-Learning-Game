@@ -224,9 +224,9 @@ namespace Unity.Game.Level
         public List<Rule> GetRule()
         {
             List<Rule> result = new List<Rule>();
-            foreach (Rule rule in gameMap.MapRules)
+            foreach (IRule rule in gameMap.MapRules)
             {
-                result.Add(rule);
+                result.Add(rule.GetRule());
             }
             return result;
         }

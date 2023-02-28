@@ -28,7 +28,7 @@ namespace Unity.Game.SaveSystem
             }
             catch (HttpRequestException ex)
             {
-                Debug.LogErrorFormat("An error occurred while calling the server status check api: {}", ex);
+                Debug.LogErrorFormat("An error occurred while calling the server status check api: {0}", ex);
                 return false;
             }
         }

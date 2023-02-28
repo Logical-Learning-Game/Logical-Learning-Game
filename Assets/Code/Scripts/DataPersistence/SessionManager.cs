@@ -66,7 +66,7 @@ namespace Unity.Game.SaveSystem
             {
                 return;
             }
-        
+
             SerializableDictionary<GameSession, bool> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
             var sendSuccessGameSession = new List<GameSession>();
             foreach (KeyValuePair<GameSession, bool> entry in gameSessionWithSendStatus)
@@ -90,13 +90,13 @@ namespace Unity.Game.SaveSystem
                     }
                     else
                     {
-                        Debug.LogErrorFormat("Response status code is not success: {}", response.StatusCode);
+                        Debug.LogErrorFormat("Response status code is not success: {0}", response.StatusCode);
                         break;
                     }
                 }
                 catch (HttpRequestException ex)
                 {
-                    Debug.LogErrorFormat("An error occurred while sending session history to api server: {}", ex);
+                    Debug.LogErrorFormat("An error occurred while sending session history to api server: {0}", ex);
                     break;
                 }
             }

@@ -24,10 +24,10 @@ namespace Unity.Game.MapSystem
     {
         [JsonProperty("tile")] public uint[] MapData;
 
-        [JsonProperty("map_width")] public int Width;
-        [JsonProperty("map_height")] public int Height;
+        [JsonProperty("width")] public int Width;
+        [JsonProperty("height")] public int Height;
 
-        [JsonProperty("rules")] public List<Rule> MapRules;
+        [JsonProperty("rules")] public List<IRule> MapRules;
 
         [JsonProperty("star_requirement")] public int StarRequirement;
 
