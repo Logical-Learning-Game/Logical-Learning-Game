@@ -43,13 +43,13 @@ namespace Unity.Game.MapSystem
 
         void Start()
         {
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                Map map = new Map();
-                CreateMap(map);
-            }
-#endif
+//#if UNITY_EDITOR
+//            if (!Application.isPlaying)
+//            {
+//                Map map = new Map();
+//                CreateMap(map);
+//            }
+//#endif
         }
 
         public void InitMap()

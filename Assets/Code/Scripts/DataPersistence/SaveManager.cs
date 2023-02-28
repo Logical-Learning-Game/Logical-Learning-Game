@@ -50,7 +50,7 @@ namespace Unity.Game.SaveSystem
             }
             else if (FileManager.LoadFromFile(m_SaveFilename, out var jsonString))
             {
-                gameDataManager.GameData.LoadJson(jsonString);
+                gameDataManager.GameData = GameData.LoadJson(jsonString);
             }
 
             // notify other game objects 

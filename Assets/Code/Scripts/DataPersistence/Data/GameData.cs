@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Newtonsoft.Json;
 
 namespace Unity.Game.SaveSystem
 {
@@ -29,12 +30,14 @@ namespace Unity.Game.SaveSystem
 
         public string ToJson()
         {
-            return JsonUtility.ToJson(this);
+            //return JsonUtility.ToJson(this);
+            return JsonConvert.SerializeObject(this);
         }
 
-        public void LoadJson(string jsonFilepath)
+        public static GameData LoadJson(string jsonString)
         {
-            JsonUtility.FromJsonOverwrite(jsonFilepath, this);
+            //JsonUtility.FromJsonOverwrite(jsonFilepath, this);
+            return JsonConvert.DeserializeObject<GameData>(jsonString);
         }
 
     }

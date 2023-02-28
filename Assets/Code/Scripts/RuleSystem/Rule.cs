@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using System;
+using Newtonsoft.Json;
 
 namespace Unity.Game.RuleSystem
 {
@@ -14,9 +15,10 @@ namespace Unity.Game.RuleSystem
     [Serializable]
     public class Rule
     {
-        public long Id { get; }
-        public string RuleName { get; }
-        public RuleTheme Theme { get; }
+
+        [JsonProperty("map_rule_id")] public long Id { get; }
+        [JsonProperty("rule_name")] public string RuleName { get; }
+        [JsonProperty("rule_theme")] public RuleTheme Theme { get; }
 
         public Rule(long id = 0, string name = "rule-default", RuleTheme theme = RuleTheme.NORMAL)
         {

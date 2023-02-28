@@ -5,6 +5,7 @@ using Unity.Game.Level;
 using GlobalConfig;
 using System;
 using Unity.Game;
+using Newtonsoft.Json;
 
 namespace Unity.Game.RuleSystem
 {
