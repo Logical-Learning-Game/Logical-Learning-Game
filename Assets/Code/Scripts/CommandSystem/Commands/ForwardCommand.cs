@@ -7,7 +7,12 @@ namespace Unity.Game.Command
 {
     public class ForwardCommand : BaseMoveCommand
     {
+        protected override void Awake()
+        {
+            base.Awake();
 
+            SetCommandType(CommandType.FORWARD);
+        }
 
         public override IEnumerator AddAction()
         {

@@ -8,6 +8,12 @@ namespace Unity.Game.Command
 {
     public class RightForwardCommand : BaseMoveCommand
     {
+        protected override void Awake()
+        {
+            base.Awake();
+
+            SetCommandType(CommandType.RIGHT);
+        }
 
         public override IEnumerator AddAction()
         {

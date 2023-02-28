@@ -7,6 +7,8 @@ using Unity.Game.MapSystem;
 using Unity.Game.SaveSystem;
 using Unity.Game.RuleSystem;
 using Unity.Game.Level;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace Unity.Game.Command
 {
@@ -22,8 +24,38 @@ namespace Unity.Game.Command
         public bool IsCompleted { get; set; }
     }
 
-    public enum CommandType { START, FORWARD, LEFT, RIGHT, BACK, CONDITION_A, CONDITION_B, CONDITION_C, CONDITION_D, CONDITION_E }
-    public enum EdgeType { NORMAL, CONDITIONAL }
+    public enum CommandType 
+    {
+        [EnumMember(Value = "start")]
+        START,
+        [EnumMember(Value = "forward")]
+        FORWARD,
+        [EnumMember(Value = "left")]
+        LEFT,
+        [EnumMember(Value = "right")]
+        RIGHT,
+        [EnumMember(Value = "back")]
+        BACK,
+        [EnumMember(Value = "conditional_a")]
+        CONDITIONAL_A,
+        [EnumMember(Value = "conditional_b")]
+        CONDITIONAL_B,
+        [EnumMember(Value = "conditional_c")]
+        CONDITIONAL_C,
+        [EnumMember(Value = "conditional_d")]
+        CONDITIONAL_D,
+        [EnumMember(Value = "conditional_e")]
+        CONDITIONAL_E 
+    }
+
+    public enum EdgeType 
+    {
+        [EnumMember(Value = "main_branch")]
+        MAIN,
+        [EnumMember(Value = "conditional_branch")]
+        CONDITIONAL 
+    }
+
     public class CommandManager : MonoBehaviour
     {
         public static CommandManager Instance { get; private set; }
@@ -314,7 +346,7 @@ namespace Unity.Game.Command
                 Commands = commands,
                 CommandMedal = Medal.BRONZE,
                 ActionMedal = Medal.SILVER,
-                StateValue = RuleManager.Instance.CurrentStateValue,
+                StateValue = (StateValue)RuleManager.Instance.CurrentStateValue.Clone(),
                 Rules = LevelManager.Instance.GetRule(),
                 RuleStatus = RuleManager.Instance.RuleStatus,
                 IsFinited = false,
@@ -322,6 +354,11 @@ namespace Unity.Game.Command
             };
 
             OnCommandSubmit?.Invoke(submitContext);
+            
+            if (LevelManager.Instance.GetIsPlayerReachGoal())
+            {
+                LevelManager.Instance.TestMapExit();
+            }
         }
 
         public void SetIsExecuting(bool isExecuting)
