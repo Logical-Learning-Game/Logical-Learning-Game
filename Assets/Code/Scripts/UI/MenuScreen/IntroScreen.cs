@@ -27,13 +27,13 @@ namespace Unity.Game.UI
 
         void OnEnable()
         {
-            IntroScreenController.HideContinueButton += HideContinueButton;
+            IntroScreenController.DisplayContinueButton += DisplayContinueButton;
             //GameScreen.OpenPanel += OnOpenPanel;
         }
 
         void OnDisable()
         {
-            IntroScreenController.HideContinueButton -= HideContinueButton;
+            IntroScreenController.DisplayContinueButton -= DisplayContinueButton;
             //GameScreen.OpenPanel -= OnOpenPanel;
         }
 
@@ -46,6 +46,7 @@ namespace Unity.Game.UI
             QuitGameButton = m_Root.Q<Button>(QuitGameButtonName);
 
             ShowVisualElement(m_Screen, true);
+            ShowVisualElement(ContinueButton, false);
         }
 
         protected override void RegisterButtonCallbacks()
@@ -78,9 +79,9 @@ namespace Unity.Game.UI
             Application.Quit();
         }
 
-        void HideContinueButton()
+        void DisplayContinueButton()
         {
-            ShowVisualElement(ContinueButton, false);
+            ShowVisualElement(ContinueButton, true);
         }
     }
 }

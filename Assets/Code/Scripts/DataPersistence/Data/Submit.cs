@@ -25,14 +25,17 @@ namespace Unity.Game.SaveSystem
     {
 
         [JsonProperty("map_id")] public long MapId;
-        [JsonProperty("start_date_time")] public SerializableDateTime StartDatetime;
-        [JsonProperty("end_date_time")] public SerializableDateTime? EndDatetime;
+        //[JsonProperty("start_date_time")] public SerializableDateTime StartDatetime;
+        //[JsonProperty("end_date_time")] public SerializableDateTime? EndDatetime;
+        [JsonProperty("start_date_time")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime StartDatetime;
+        [JsonProperty("end_date_time")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime EndDatetime;
         [JsonProperty("submit_histories")] public List<SubmitHistory> SubmitHistories;
 
         public GameSession(long mapId)
         {
             MapId = mapId;
-            StartDatetime = new SerializableDateTime(DateTime.UtcNow);
+            //StartDatetime = new SerializableDateTime(DateTime.UtcNow);
+            StartDatetime = DateTime.UtcNow;
             SubmitHistories = new List<SubmitHistory>();
         }
 
@@ -53,14 +56,7 @@ namespace Unity.Game.SaveSystem
                 return false;
             }
 
-            if (this.EndDatetime != null && other.EndDatetime != null)
-            {
-                if (!this.EndDatetime.Equals(other.EndDatetime))
-                {
-                    return false;
-                }
-            }
-            else if (this.EndDatetime != other.EndDatetime)
+            if (!this.EndDatetime.Equals(other.EndDatetime))
             {
                 return false;
             }
@@ -89,7 +85,9 @@ namespace Unity.Game.SaveSystem
         [JsonProperty("is_completed")] public bool IsCompleted;
         [JsonProperty("command_medal")][JsonConverter(typeof(StringEnumConverter))] public Medal CommandMedal;
         [JsonProperty("action_medal")][JsonConverter(typeof(StringEnumConverter))] public Medal ActionMedal;
-        [JsonProperty("submit_datetime")] public SerializableDateTime SubmitDatetime;
+        //[JsonProperty("submit_datetime")] public SerializableDateTime SubmitDatetime;
+        [JsonProperty("submit_datetime")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime SubmitDatetime;
+
         [JsonProperty("state_values")] public StateValue StateValue;
         [JsonProperty("command_nodes")] public List<CommandNode> CommandNodes;
         [JsonProperty("command_edges")] public List<CommandEdge> CommandEdges;
@@ -107,7 +105,8 @@ namespace Unity.Game.SaveSystem
             CommandMedal = commandMedal;
             ActionMedal = actionMedal;
             StateValue = stateValue;
-            SubmitDatetime = new SerializableDateTime(DateTime.Now);
+            //SubmitDatetime = new SerializableDateTime(DateTime.Now);
+            SubmitDatetime = DateTime.Now;
         }
     }
 

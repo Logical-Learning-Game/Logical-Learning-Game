@@ -51,7 +51,7 @@ namespace Unity.Game.SaveSystem
             }
             else if (FileManager.LoadFromFile(m_SaveFilename, out var jsonString))
             {
-                Debug.Log("loadData from file");
+                Debug.Log("loadData from file:"+jsonString);
                 gameDataManager.GameData = GameData.LoadJson(jsonString);
             }
             // notify other game objects 

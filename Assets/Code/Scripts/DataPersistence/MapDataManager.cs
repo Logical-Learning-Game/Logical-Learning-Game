@@ -45,7 +45,7 @@ namespace Unity.Game.SaveSystem
 
             if (FileManager.LoadFromFile(m_MapFilename, out var jsonString))
             {
-                Debug.Log("Load String From Files: "+jsonString);
+                //Debug.Log("Load String From Files: "+jsonString);
                 WorldDatas = LoadJson(jsonString);
                 // notify other game objects 
             }

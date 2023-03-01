@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Unity.Game.SaveSystem
 {
@@ -11,14 +12,18 @@ namespace Unity.Game.SaveSystem
     {
         // separate best submit from submit history
         [JsonProperty("user_id")] public string UserId;
-        [JsonProperty("session_histories")] public SerializableDictionary<GameSession, bool> SessionHistories;
-        [JsonProperty("submit_best")] public SerializableDictionary<long, SubmitHistory> SubmitBest;
+        //[JsonProperty("session_histories")] public SerializableDictionary<GameSession, bool> SessionHistories;
+        //[JsonProperty("submit_best")] public SerializableDictionary<long, SubmitHistory> SubmitBest;
+        //[JsonProperty("session_histories")] public Dictionary<GameSession, bool> SessionHistories;
+        [JsonProperty("session_histories")] public List<SessionStatus> SessionHistories;
+        [JsonProperty("submit_best")] public Dictionary<long, SubmitHistory> SubmitBest;
 
         public GameData()
         {
-            SessionHistories = new SerializableDictionary<GameSession, bool>();
-            SubmitBest = new SerializableDictionary<long, SubmitHistory>();
-
+            //SessionHistories = new SerializableDictionary<GameSession, bool>();
+            //SubmitBest = new SerializableDictionary<long, SubmitHistory>();
+            SessionHistories = new List<SessionStatus>();
+            SubmitBest = new Dictionary<long, SubmitHistory>();
         }
 
         public string ToJson()
@@ -29,8 +34,18 @@ namespace Unity.Game.SaveSystem
 
         public static GameData LoadJson(string jsonString)
         {
-            //JsonUtility.FromJsonOverwrite(jsonFilepath, this);
-            return JsonConvert.DeserializeObject<GameData>(jsonString);
+
+            try
+            {
+                var gameData = JsonConvert.DeserializeObject<GameData>(jsonString);
+
+                return gameData;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load game data: {e.Message}");
+                return null;
+            }
         }
 
     }
