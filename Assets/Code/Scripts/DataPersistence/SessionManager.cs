@@ -15,7 +15,12 @@ namespace Unity.Game.SaveSystem
         [SerializeField]
         private GameDataManager gameDataManager;
 
+        [SerializeField]
+        private SaveManager SaveManager;
+
         public static GameSession CurrentGameSession;
+
+        public static event Action<SubmitHistory> OnCommandSubmit;
 
         private void Start()
         {
@@ -43,12 +48,14 @@ namespace Unity.Game.SaveSystem
 
         private void StartSession(Map map)
         {
+            Debug.Log("Session is created");
             CurrentGameSession = new GameSession(map.Id);
             gameDataManager.GameData.SessionHistories.Add(new SessionStatus(CurrentGameSession, false));
         }
 
         private async void EndSession()
         {
+            SaveManager.SaveGame();
             if (CurrentGameSession == null)
             {
                 return;
@@ -140,6 +147,7 @@ namespace Unity.Game.SaveSystem
             }
 
             CurrentGameSession.SubmitHistories.Add(submit);
+            OnCommandSubmit?.Invoke(submit);
         }
 
         private static void GameObjectCommandsToNodeAndEdgeFormat(List<GameObject> commands, out List<CommandNode> commandNodes, out List<CommandEdge> commandEdges)

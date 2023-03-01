@@ -6,6 +6,9 @@ using Unity.Game.MapSystem;
 using Unity.Game.ItemSystem;
 using Unity.Game.Conditions;
 using Unity.Game.RuleSystem;
+using Unity.Game.Command;
+using Unity.Game.SaveSystem;
+using Unity.Game.UI;
 using GlobalConfig;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +18,7 @@ namespace Unity.Game.Level
     public class LevelManager : MonoBehaviour
     {
         public static LevelManager Instance { get; private set; }
-        public static event Action GameWon;
+        public static event Action<SubmitHistory> GameWon;
         public static event Action<Map> OnMapEnter;
         public static event Action OnMapExit;
 
@@ -28,6 +31,21 @@ namespace Unity.Game.Level
         public ConditionSign lastSign = ConditionSign.EMPTY;
 
         [SerializeField] private GameObject LevelIndicator;
+
+
+        private void OnEnable()
+        {
+            SessionManager.OnCommandSubmit += OnCommandSubmit;
+            CommandManager.OnCommandUpdate += InitLevel;
+            GameScreenController.SameMapRestart += InitLevel;
+        }
+
+        private void OnDisable()
+        {
+            SessionManager.OnCommandSubmit -= OnCommandSubmit;
+            CommandManager.OnCommandUpdate -= InitLevel;
+            GameScreenController.SameMapRestart -= InitLevel;
+        }
 
         // Start is called before the first frame update
         void Awake()
@@ -44,15 +62,21 @@ namespace Unity.Game.Level
         }
         void Start()
         {
-            //Map map = new Map();
-            //InitLevel();
+
             Debug.Log("start invoked");
             if (gameMap != null && SceneManager.GetActiveScene().name == "GameMode")
             {
+                OnMapEnter?.Invoke(gameMap);
                 InitLevel();
             }
         }
+        private void OnDestroy()
+        {
+            Debug.Log("OnMapExited Invoked");
 
+            OnMapExit?.Invoke();
+            
+        }
         public void InitLevel()
         {
             ItemList = new List<ItemType>();
@@ -64,8 +88,6 @@ namespace Unity.Game.Level
             RuleManager.Instance.InitRule();
             InitPlayer();
             LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
-
-            OnMapEnter?.Invoke(gameMap);
         }
 
         void InitPlayer()
@@ -106,32 +128,6 @@ namespace Unity.Game.Level
                     PlayerMove(Player.Instance.Back());
                 }
 
-                // tile from direction test
-                //if (Input.GetKeyDown(KeyCode.I))
-                //{
-                //    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Front()));
-                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                //}
-                //if (Input.GetKeyDown(KeyCode.J))
-                //{
-                //    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Left()));
-                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                //}
-                //if (Input.GetKeyDown(KeyCode.L))
-                //{
-                //    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Right()));
-                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                //}
-                //if (Input.GetKeyDown(KeyCode.K))
-                //{
-                //    (Tile tile, int[] pos) = GetMapTile(GetPos(Player.Instance.Back()));
-                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                //}
-                //if (Input.GetKeyDown(KeyCode.M))
-                //{
-                //    (Tile tile, int[] pos) = GetMapTile(GetPos());
-                //    Debug.Log(tile.name + "at (" + pos[0] + "," + pos[1] + ")");
-                //}
             }
 
         }
@@ -248,20 +244,11 @@ namespace Unity.Game.Level
         public void RemoveItem(ItemType item)
         {
             ItemList.Remove(item);
-
         }
 
         public void SetIsPlayerReachGoal()
         {
             isPlayerReachGoal = true;
-            GameWon?.Invoke();
-        }
-
-        // TODO -- test method
-        public void TestMapExit()
-        {
-            // test
-            OnMapExit?.Invoke();
         }
 
         public bool GetIsPlayerReachGoal()
@@ -289,7 +276,6 @@ namespace Unity.Game.Level
             }
             return (playerPosition, playerRotation);
         }
-
         public HashSet<ConditionSign> GetUniqueConditions()
         {
             uint[] MapData = gameMap.MapData;
@@ -320,6 +306,12 @@ namespace Unity.Game.Level
             }
             return uniqueConditions;
         }
-
+        public void OnCommandSubmit(SubmitHistory submit)
+        {
+            if (GetIsPlayerReachGoal())
+            {
+                GameWon?.Invoke(submit);
+            }
+        }
     }
 }

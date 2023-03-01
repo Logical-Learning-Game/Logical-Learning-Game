@@ -62,6 +62,7 @@ namespace Unity.Game.Command
 
         public static List<CommandState> savedCommandStates;
         public static event Action<SubmitContext> OnCommandSubmit;
+        public static event Action OnCommandUpdate;
 
         public List<GameObject> commands;
 
@@ -72,7 +73,7 @@ namespace Unity.Game.Command
 
         public bool isExecuting = false;
         private bool stopOnNextAction = false;
-        private bool isFreezing = false;
+        //private bool isFreezing = false;
 
 
         // Start is called before the first frame update
@@ -143,7 +144,7 @@ namespace Unity.Game.Command
             if (!CommandState.IsSameWithLastState(state, savedCommandStates))
             {
                 savedCommandStates.Add(state);
-                Debug.Log("Saved");
+                //Debug.Log("Saved");
             }
 
         }
@@ -160,6 +161,7 @@ namespace Unity.Game.Command
         public void ExecuteCommands()
         {
             //need more implementation
+            OnCommandUpdate?.Invoke();
             if (!isExecuting)
             {
                 if (VerifyCommand())
@@ -182,6 +184,7 @@ namespace Unity.Game.Command
 
             if (!isExecuting)
             {
+                OnCommandUpdate?.Invoke();
                 foreach (GameObject command in commands)
                 {
                     command.GetComponent<AbstractCommand>().Delete();
@@ -245,7 +248,7 @@ namespace Unity.Game.Command
         public bool VerifyCommand()
         {
             // need more implementation
-            Debug.Log("Verifying");
+            //Debug.Log("Verifying");
 
             // Set All Command Status to Status.Error First
             foreach (AbstractCommand commandOnBoard in GetComponentsInChildren<AbstractCommand>())
@@ -257,7 +260,7 @@ namespace Unity.Game.Command
             GameObject startCommandObj = GameObject.FindGameObjectWithTag("StartCommand");
             if (startCommandObj == null)
             {
-                Debug.Log("No Start Command");
+                //Debug.Log("No Start Command");
                 return false;
             }
 
@@ -293,7 +296,7 @@ namespace Unity.Game.Command
                 }
             }
 
-            Debug.Log("Verifying Completed");
+            //Debug.Log("Verifying Completed");
             return true;
         }
 
@@ -354,11 +357,6 @@ namespace Unity.Game.Command
             };
 
             OnCommandSubmit?.Invoke(submitContext);
-            
-            if (LevelManager.Instance.GetIsPlayerReachGoal())
-            {
-                LevelManager.Instance.TestMapExit();
-            }
         }
 
         public void SetIsExecuting(bool isExecuting)

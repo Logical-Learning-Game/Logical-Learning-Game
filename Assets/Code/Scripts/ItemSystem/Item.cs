@@ -23,10 +23,10 @@ namespace Unity.Game.ItemSystem
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Test Coliding");
+            //Debug.Log("Test Coliding");
             if (other.gameObject.CompareTag("Player"))
             {
-                Debug.Log("Found Player Tag");
+                //Debug.Log("Found Player Tag");
                 OnPickUp();
             }
         }

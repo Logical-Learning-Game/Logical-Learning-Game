@@ -91,7 +91,7 @@ namespace Unity.Game.Command
         {
             //check if drop command outside command panel
 
-            Debug.Log(eventData.pointerEnter.name);
+            //Debug.Log(eventData.pointerEnter.name);
             if (isDraggable)
             {
                 CommandManager.Instance.VerifyCommand();

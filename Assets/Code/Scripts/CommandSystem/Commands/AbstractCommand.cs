@@ -35,11 +35,11 @@ namespace Unity.Game.Command
 
         public virtual IEnumerator Execute()
         {
-            Debug.Log("Command Executing");
+            //Debug.Log("Command Executing");
             status.SetStatus(CommandStatus.Status.Executing);
 
             yield return AddAction();
-            Debug.Log("Executing Complete");
+            //Debug.Log("Executing Complete");
             status.SetStatus(CommandStatus.Status.Success);
             CommandManager.Instance.OnExecute(this);
         }

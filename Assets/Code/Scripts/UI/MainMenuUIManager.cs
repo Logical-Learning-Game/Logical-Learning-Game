@@ -136,7 +136,7 @@ namespace Unity.Game.UI
             ShowModalScreen(panelScreen);
         }
 
-        public void LoadGameScene()
+        public void LoadGameScene(bool isSameMap)
         {
             Time.timeScale = 1f;
 #if UNITY_EDITOR

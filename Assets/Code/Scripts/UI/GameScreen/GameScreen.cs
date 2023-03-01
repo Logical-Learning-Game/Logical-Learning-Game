@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System;
+using Unity.Game.Command;
 using System.Linq;
 using Unity.Game.SaveSystem;
 
@@ -16,21 +17,18 @@ namespace Unity.Game.UI
         public static event Action<float> GamePaused;
         public static event Action GameResumed;
         public static event Action GameQuit;
-        public static event Action GameRestarted;
+        public static event Action<bool> GameRestarted;
         public static event Action OpenPanel;
         public static event Action<float> MusicVolumeChanged;
         public static event Action<float> SfxVolumeChanged;
-
-        [Header("Menu Screen elements")]
-        [Tooltip("String IDs to query Visual Elements")]
-        [SerializeField] string PauseScreenName = "PauseScreen";
-        [SerializeField] string WinScreenName = "GameWinScreen";
 
         [Header("Blur")]
         [SerializeField] Volume Volume;
         
         [SerializeField] GameObject DefaultInGameScreen;
         [SerializeField] PanelScreen PanelScreen;
+        [SerializeField] VictoryScreen VictoryScreen;
+        
         [SerializeField] Button OutsidePanel;
 
 
@@ -44,12 +42,16 @@ namespace Unity.Game.UI
 
             GameScreenController.GameWon += OnGameWon;
             MapEntryManager.SelectMap += OnSelectMap;
+            VictoryScreen.RestartClick += OnPlayerRestarted;
+            //GameScreenController.SameMapRestart += OnPlayerRestarted;
         }
 
         void OnDisable()
         {
             GameScreenController.GameWon -= OnGameWon;
             MapEntryManager.SelectMap -= OnSelectMap;
+            VictoryScreen.RestartClick -= OnPlayerRestarted;
+            //GameScreenController.SameMapRestart -= OnPlayerRestarted;
         }
 
         void SetVisualElements()
@@ -60,16 +62,17 @@ namespace Unity.Game.UI
 
         void RegisterButtonCallbacks()
         {
-            //rootElement.AddManipulator(new Clickable(evt => OnCloseJournalMenu()));
-            OutsidePanel?.RegisterCallback<ClickEvent>(OnCloseJournalMenu);
+            //rootElement.AddManipulator(new Clickable(evt => OnOpenGameScreen()));
+            OutsidePanel?.RegisterCallback<ClickEvent>(OnOpenGameScreen);
         }
 
-        void OnGameWon()
+        void OnGameWon(SubmitHistory submit)
         {
-            StartCoroutine(GameWonRoutine());
+            OutsidePanel = null;
+            StartCoroutine(GameWonRoutine(submit));
         }
 
-        IEnumerator GameWonRoutine()
+        IEnumerator GameWonRoutine(SubmitHistory submit)
         {
             yield return new WaitForSeconds(1);
 
@@ -79,6 +82,10 @@ namespace Unity.Game.UI
 
             //AudioManager.PlayVictorySound();
             //ShowVisualElement(m_WinScreen, true);
+            VictoryScreen.SetSubmitData(submit);
+            VictoryScreen.ShowScreen();
+            BlurBackground(true);
+            DefaultInGameScreen.transform.localScale = Vector3.zero;
         }
 
         public void OnOpenJournalMenu()
@@ -87,20 +94,29 @@ namespace Unity.Game.UI
             OpenPanel?.Invoke();
             BlurBackground(true);
             PanelScreen.ShowScreen();
+            VictoryScreen.HideScreen();
             DefaultInGameScreen.transform.localScale = Vector3.zero;
         }
 
-        void OnCloseJournalMenu(ClickEvent evt)
+        void OnOpenGameScreen(ClickEvent evt)
         {
             GameResumed?.Invoke();
             BlurBackground(false);
             PanelScreen.HideScreen();
+            VictoryScreen.HideScreen();
             DefaultInGameScreen.transform.localScale = Vector3.one;
         }
 
-        void OnSelectMap()
+        void OnSelectMap(bool isSameMap)
         {
-            GameRestarted?.Invoke();
+            GameRestarted?.Invoke(isSameMap);
+            OnOpenGameScreen(null);
+        }
+
+        void OnPlayerRestarted()
+        {
+            OnSelectMap(true);
+            OnOpenGameScreen(null);
         }
 
         void BlurBackground(bool state)

@@ -20,7 +20,7 @@ namespace Unity.Game.UI
     {
         [SerializeField] MapDataManager mapDataManager;
 
-        public static event Action SelectMap;
+        public static event Action<bool> SelectMap;
         public static event Action UpdateMap;
         public static event Action LoadMap;
 
@@ -177,12 +177,17 @@ namespace Unity.Game.UI
 
         void LoadLevelMap(Map map)
         {
+            bool isSameMap = false;
             //Debug.Log("loadlevelmap is trigger");
             if (LevelManager.Instance == null) {
                 gameObject.AddComponent<LevelManager>();
             }
+            if(LevelManager.Instance.GetMap() != null)
+            {
+                isSameMap = (map.Id == LevelManager.Instance.GetMap().Id);
+            }
             LevelManager.Instance.SetMap(map);
-            SelectMap?.Invoke();
+            SelectMap?.Invoke(isSameMap);
         }
 
         public static void FixListViewScrollingBug(ListView listView)

@@ -58,19 +58,19 @@ namespace Unity.Game.UI
 
         void ClickNewGame(ClickEvent evt)
         {
-            Debug.Log("ClickNewGame");
+            //Debug.Log("ClickNewGame");
             NewGameClick?.Invoke();
         }
 
         void ClickContinue(ClickEvent evt)
         {
-            Debug.Log("ClickContinue");
+            //Debug.Log("ClickContinue");
             ContinueClick?.Invoke();
         }
 
         void ClickQuitGame(ClickEvent evt)
         {
-            Debug.Log("ClickQuitGame");
+            //Debug.Log("ClickQuitGame");
             QuitGameClick?.Invoke();
 
 #if UNITY_EDITOR
