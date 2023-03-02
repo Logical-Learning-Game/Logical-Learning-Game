@@ -9,8 +9,10 @@ namespace Unity.Game.SaveSystem
             var gameSessionRequestHistoryDTO = new GameSessionHistoryRequestDTO
             {
                 MapId = 1,
-                StartDatetime = gameSession.StartDatetime.DateTime,
-                EndDatetime = gameSession.EndDatetime.DateTime,
+                //StartDatetime = gameSession.StartDatetime.DateTime,
+                //EndDatetime = gameSession.EndDatetime.DateTime,
+                StartDatetime = gameSession.StartDatetime,
+                EndDatetime = gameSession.EndDatetime ,
                 SubmitHistories = new List<SubmitHistoryDTO>()
             };
 
@@ -22,7 +24,8 @@ namespace Unity.Game.SaveSystem
                     IsCompleted = submitHistory.IsCompleted,
                     CommandMedal = submitHistory.CommandMedal,
                     ActionMedal = submitHistory.ActionMedal,
-                    SubmitDatetime = submitHistory.SubmitDatetime.DateTime,
+                    //SubmitDatetime = submitHistory.SubmitDatetime.DateTime,
+                    SubmitDatetime = submitHistory.SubmitDatetime,
                     StateValue = new StateValueDTO
                     {
                         CommandCount = submitHistory.StateValue.CommandCount,

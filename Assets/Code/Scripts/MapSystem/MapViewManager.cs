@@ -72,7 +72,15 @@ namespace Unity.Game.MapSystem
             BoxCollider mapCollider = MapCenterObj.AddComponent<BoxCollider>();
             mapCollider.size = new Vector3(mapWidth, 0, mapHeight);
 
-            maxView = (mapWidth / 0.63f) / ((mapWidth / 0.63f) / (mapHeight / 0.73f)) / 2;
+            if (mapWidth > mapHeight)
+            {
+                maxView = (mapWidth / 0.63f) / ((mapWidth / 0.63f) / (mapWidth / 0.73f)) / 2;
+            }
+            else
+            {
+                maxView = (mapHeight / 0.63f) / ((mapHeight / 0.63f) / (mapHeight / 0.73f)) / 2;
+            }
+            
             MapCameraObj.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = maxView;
 
             BirdEyeCameraObj.GetComponent<CinemachineVirtualCamera>().Follow = MapCenterObj.transform;

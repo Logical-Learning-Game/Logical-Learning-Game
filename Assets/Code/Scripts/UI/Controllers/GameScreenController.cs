@@ -5,16 +5,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Game.SaveSystem;
 using Unity.Game.Level;
+using Unity.Game.Command;
 
 
 namespace Unity.Game.UI
 {
     public class GameScreenController : MonoBehaviour
     {
-        public static event Action GameWon;
-
-        public static event Action<GameData> SettingsUpdated;
-        public static event Action SettingsLoad;
+        public static event Action<SubmitHistory> GameWon;
+        public static event Action SameMapRestart;
+        //public static event Action<GameData> SettingsUpdated;
+        //public static event Action SettingsLoad;
 
         [Header("Scenes")]
         [SerializeField] string MainMenuSceneName = "MainMenu";
@@ -32,6 +33,8 @@ namespace Unity.Game.UI
             GameScreen.GamePaused += OnGamePaused;
             GameScreen.GameResumed += OnGameResumed;
             GameScreen.GameQuit += OnGameQuit;
+
+           
         }
 
         void OnDisable()
@@ -69,41 +72,48 @@ namespace Unity.Game.UI
                 SceneManager.LoadSceneAsync(MainMenuSceneName);
         }
 
-        void RestartLevel()
+        void RestartLevel(bool isSameMap)
         {
             Time.timeScale = 1f;
 #if UNITY_EDITOR
             if (Application.isPlaying)
-
 #endif
-                SceneManager.LoadSceneAsync(GameSceneName);
+                if (!isSameMap)
+                {
+                    SceneManager.LoadSceneAsync(GameSceneName);
+                }
+                else
+                {
+                    SameMapRestart?.Invoke();
+                }
+
 
         }
 
 
-        void OnGameWon()
+        void OnGameWon(SubmitHistory submit)
         {
-            GameWon?.Invoke();
+            GameWon?.Invoke(submit);
         }
 
         void OnGamePaused(float delay)
         {
-            SettingsLoad?.Invoke();
+            //SettingsLoad?.Invoke();
             StopAllCoroutines();
             StartCoroutine(PauseGameTime(delay));
         }
 
         void OnGameResumed()
         {
-            SettingsUpdated?.Invoke(SettingsData);
+            //SettingsUpdated?.Invoke(SettingsData);
             StopAllCoroutines();
             Time.timeScale = 1f;
         }
 
-        void OnGameRestarted()
+        void OnGameRestarted(bool isSameMap)
         {
             Debug.Log("OnGameRestarted invoked");
-            RestartLevel();
+            RestartLevel(isSameMap);
         }
 
         void OnGameQuit()

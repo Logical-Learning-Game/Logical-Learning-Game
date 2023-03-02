@@ -54,7 +54,7 @@ namespace Unity.Game.UI
         public void OnLocalNewGameClick()
         {
 
-            if (gameData.UserId == "")
+            if (gameData?.UserId == "")
             {
                 NewGameAsGuest();
             }

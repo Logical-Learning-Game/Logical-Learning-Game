@@ -27,13 +27,13 @@ namespace Unity.Game.UI
 
         void OnEnable()
         {
-            IntroScreenController.HideContinueButton += HideContinueButton;
+            IntroScreenController.DisplayContinueButton += DisplayContinueButton;
             //GameScreen.OpenPanel += OnOpenPanel;
         }
 
         void OnDisable()
         {
-            IntroScreenController.HideContinueButton -= HideContinueButton;
+            IntroScreenController.DisplayContinueButton -= DisplayContinueButton;
             //GameScreen.OpenPanel -= OnOpenPanel;
         }
 
@@ -46,6 +46,7 @@ namespace Unity.Game.UI
             QuitGameButton = m_Root.Q<Button>(QuitGameButtonName);
 
             ShowVisualElement(m_Screen, true);
+            ShowVisualElement(ContinueButton, false);
         }
 
         protected override void RegisterButtonCallbacks()
@@ -57,20 +58,23 @@ namespace Unity.Game.UI
 
         void ClickNewGame(ClickEvent evt)
         {
-            Debug.Log("ClickNewGame");
+            //Debug.Log("ClickNewGame");
             NewGameClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void ClickContinue(ClickEvent evt)
         {
-            Debug.Log("ClickContinue");
+            //Debug.Log("ClickContinue");
             ContinueClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void ClickQuitGame(ClickEvent evt)
         {
-            Debug.Log("ClickQuitGame");
+            //Debug.Log("ClickQuitGame");
             QuitGameClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -78,9 +82,9 @@ namespace Unity.Game.UI
             Application.Quit();
         }
 
-        void HideContinueButton()
+        void DisplayContinueButton()
         {
-            ShowVisualElement(ContinueButton, false);
+            ShowVisualElement(ContinueButton, true);
         }
     }
 }

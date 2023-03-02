@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Unity.Game.SaveSystem
 {
@@ -9,32 +11,41 @@ namespace Unity.Game.SaveSystem
     public class GameData
     {
         // separate best submit from submit history
-        public string UserId;
-        public SerializableDictionary<GameSession, bool> SessionHistories;
-        public SerializableDictionary<long, SubmitHistory> SubmitBest;
-
-        //public float musicVolume;
-        //public float sfxVolume;
+        [JsonProperty("user_id")] public string UserId;
+        //[JsonProperty("session_histories")] public SerializableDictionary<GameSession, bool> SessionHistories;
+        //[JsonProperty("submit_best")] public SerializableDictionary<long, SubmitHistory> SubmitBest;
+        //[JsonProperty("session_histories")] public Dictionary<GameSession, bool> SessionHistories;
+        [JsonProperty("session_histories")] public List<SessionStatus> SessionHistories;
+        [JsonProperty("submit_best")] public Dictionary<long, SubmitHistory> SubmitBest;
 
         public GameData()
         {
-            SessionHistories = new SerializableDictionary<GameSession, bool>();
-            SubmitBest = new SerializableDictionary<long, SubmitHistory>();
-
-            // settings
-            //this.musicVolume = 80f;
-            //this.sfxVolume = 80f;
-
+            //SessionHistories = new SerializableDictionary<GameSession, bool>();
+            //SubmitBest = new SerializableDictionary<long, SubmitHistory>();
+            SessionHistories = new List<SessionStatus>();
+            SubmitBest = new Dictionary<long, SubmitHistory>();
         }
 
         public string ToJson()
         {
-            return JsonUtility.ToJson(this);
+            //return JsonUtility.ToJson(this);
+            return JsonConvert.SerializeObject(this);
         }
 
-        public void LoadJson(string jsonFilepath)
+        public static GameData LoadJson(string jsonString)
         {
-            JsonUtility.FromJsonOverwrite(jsonFilepath, this);
+
+            try
+            {
+                var gameData = JsonConvert.DeserializeObject<GameData>(jsonString);
+
+                return gameData;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load game data: {e.Message}");
+                return null;
+            }
         }
 
     }

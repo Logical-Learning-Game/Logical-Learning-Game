@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 
 
+
 namespace Unity.Game.RuleSystem
 {
     class RuleManager : MonoBehaviour

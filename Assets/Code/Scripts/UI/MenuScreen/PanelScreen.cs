@@ -96,26 +96,31 @@ namespace Unity.Game.UI
         {
             SwitchPanel(LevelPanel);
             OpenLevelPanel?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
+
         }
         void ShowStatPanel(ClickEvent evt)
         {
             SwitchPanel(StatPanel);
             OpenStatPanel?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
         void ShowSettingPanel(ClickEvent evt)
         {
             SwitchPanel(SettingPanel);
             OpenSettingPanel?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
         void ShowHistoryPanel(ClickEvent evt)
         {
             SwitchPanel(HistoryPanel);
             OpenHistoryPanel?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void OnOpenPanel()
         {
-            ShowLevelPanel(new ClickEvent());
+            ShowLevelPanel(null);
         }
     }
 }

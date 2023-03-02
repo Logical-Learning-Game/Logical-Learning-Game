@@ -118,6 +118,7 @@ namespace Unity.Game.Conditions
 
         public void InitConditionPicker()
         {
+            conditionList = new List<ConditionChoice>();
             uniqueConditions = LevelManager.Instance.GetUniqueConditions();
             foreach (ConditionSign condition in uniqueConditions)
             {

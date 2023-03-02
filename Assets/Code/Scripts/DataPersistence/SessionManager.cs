@@ -15,7 +15,12 @@ namespace Unity.Game.SaveSystem
         [SerializeField]
         private GameDataManager gameDataManager;
 
-        public static GameSession CurrentGameSession { get; set; }
+        [SerializeField]
+        private SaveManager SaveManager;
+
+        public static GameSession CurrentGameSession;
+
+        public static event Action<SubmitHistory> OnCommandSubmit;
 
         private void Start()
         {
@@ -43,18 +48,21 @@ namespace Unity.Game.SaveSystem
 
         private void StartSession(Map map)
         {
+            Debug.Log("Session is created");
             CurrentGameSession = new GameSession(map.Id);
-            gameDataManager.GameData.SessionHistories.Add(CurrentGameSession, false);
+            gameDataManager.GameData.SessionHistories.Add(new SessionStatus(CurrentGameSession, false));
         }
 
         private async void EndSession()
         {
+            SaveManager.SaveGame();
             if (CurrentGameSession == null)
             {
                 return;
             }
 
-            CurrentGameSession.EndDatetime = new SerializableDateTime(DateTime.UtcNow);
+            //CurrentGameSession.EndDatetime = new SerializableDateTime(DateTime.UtcNow);
+            CurrentGameSession.EndDatetime = DateTime.UtcNow;
             CurrentGameSession = null;
 
             // Try send data to backend
@@ -66,13 +74,16 @@ namespace Unity.Game.SaveSystem
             {
                 return;
             }
-        
-            SerializableDictionary<GameSession, bool> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
-            var sendSuccessGameSession = new List<GameSession>();
-            foreach (KeyValuePair<GameSession, bool> entry in gameSessionWithSendStatus)
+
+            //SerializableDictionary<GameSession, bool> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
+            //Dictionary<GameSession, bool> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
+            List<SessionStatus> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
+
+            //var sendSuccessGameSession = new List<GameSession>();
+            foreach (SessionStatus entry in gameSessionWithSendStatus)
             {
-                GameSession gameSession = entry.Key;
-                bool isAlreadySend = entry.Value;
+                GameSession gameSession = entry.Session;
+                bool isAlreadySend = entry.Status;
                 if (isAlreadySend)
                 {
                     continue;
@@ -86,26 +97,27 @@ namespace Unity.Game.SaveSystem
                     HttpResponseMessage response = await apiClient.SendSessionHistoryData("abcdefg", dto);
                     if (response.IsSuccessStatusCode)
                     {
-                        sendSuccessGameSession.Add(gameSession);
+                        entry.Status = true;
+                        //sendSuccessGameSession.Add(gameSession);
                     }
                     else
                     {
-                        Debug.LogErrorFormat("Response status code is not success: {}", response.StatusCode);
+                        Debug.LogErrorFormat("Response status code is not success: {0}", response.StatusCode);
                         break;
                     }
                 }
                 catch (HttpRequestException ex)
                 {
-                    Debug.LogErrorFormat("An error occurred while sending session history to api server: {}", ex);
+                    Debug.LogErrorFormat("An error occurred while sending session history to api server: {0}", ex);
                     break;
                 }
             }
 
             // mark already send game session status to true
-            foreach (GameSession gameSession in sendSuccessGameSession)
-            {
-                gameSessionWithSendStatus[gameSession] = true;
-            }
+            //foreach (GameSession gameSession in sendSuccessGameSession)
+            //{
+            //    gameSessionWithSendStatus[gameSession] = true;
+            //}
         }
 
         private void SaveCommand(SubmitContext context)
@@ -124,7 +136,8 @@ namespace Unity.Game.SaveSystem
                 ActionMedal = context.ActionMedal,
                 StateValue = context.StateValue,
                 RuleHistories = new List<RuleHistory>(),
-                SubmitDatetime = new SerializableDateTime(DateTime.UtcNow),
+                //SubmitDatetime = new SerializableDateTime(DateTime.UtcNow),
+                SubmitDatetime = DateTime.UtcNow,
             };
 
             for (int i = 0; i < context.Rules.Count; i++)
@@ -134,6 +147,7 @@ namespace Unity.Game.SaveSystem
             }
 
             CurrentGameSession.SubmitHistories.Add(submit);
+            OnCommandSubmit?.Invoke(submit);
         }
 
         private static void GameObjectCommandsToNodeAndEdgeFormat(List<GameObject> commands, out List<CommandNode> commandNodes, out List<CommandEdge> commandEdges)
@@ -162,10 +176,10 @@ namespace Unity.Game.SaveSystem
                 CommandNode node = commandNodes[i];
                 AbstractCommand abstractCommand = abstractCommands[i];
 
-                if (node.Type is CommandType.CONDITIONAL_A or 
-                    CommandType.CONDITIONAL_B or 
-                    CommandType.CONDITIONAL_C or 
-                    CommandType.CONDITIONAL_D or 
+                if (node.Type is CommandType.CONDITIONAL_A or
+                    CommandType.CONDITIONAL_B or
+                    CommandType.CONDITIONAL_C or
+                    CommandType.CONDITIONAL_D or
                     CommandType.CONDITIONAL_E)
                 {
                     var conditionCommand = abstractCommand as ConditionCommand;
@@ -174,7 +188,7 @@ namespace Unity.Game.SaveSystem
                     destinationNodeIndex = invertedIndexLookup[conditionCommand.linkerCommand.nextCommand];
                     commandEdges.Add(new CommandEdge(sourceNodeIndex, destinationNodeIndex, EdgeType.CONDITIONAL));
                 }
-                
+
                 if (abstractCommand.nextCommand != null)
                 {
                     destinationNodeIndex = invertedIndexLookup[abstractCommand.nextCommand];

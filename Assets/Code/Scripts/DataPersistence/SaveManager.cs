@@ -38,7 +38,7 @@ namespace Unity.Game.SaveSystem
         //    SaveGame();
         //}
 
-        
+
 
         public void LoadGame()
         {
@@ -46,13 +46,14 @@ namespace Unity.Game.SaveSystem
 
             if (gameDataManager.GameData == null)
             {
+                Debug.Log("gameData is null");
                 gameDataManager.GameData = NewGame();
             }
             else if (FileManager.LoadFromFile(m_SaveFilename, out var jsonString))
             {
-                gameDataManager.GameData.LoadJson(jsonString);
+                Debug.Log("loadData from file:"+jsonString);
+                gameDataManager.GameData = GameData.LoadJson(jsonString);
             }
-
             // notify other game objects 
             if (gameDataManager.GameData != null)
             {

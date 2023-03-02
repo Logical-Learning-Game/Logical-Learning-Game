@@ -7,7 +7,7 @@ namespace Unity.Game.Command
     public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         [SerializeField]
-        private float _dragSpeed = 0.1f;
+        private float _dragSpeed = 1f;
 
         [SerializeField]
         private RectTransform draggingObjectRectTransform;
@@ -91,7 +91,7 @@ namespace Unity.Game.Command
         {
             //check if drop command outside command panel
 
-            Debug.Log(eventData.pointerEnter.name);
+            //Debug.Log(eventData.pointerEnter.name);
             if (isDraggable)
             {
                 CommandManager.Instance.VerifyCommand();

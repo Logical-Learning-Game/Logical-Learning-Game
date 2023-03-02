@@ -68,29 +68,33 @@ namespace Unity.Game.UI
         void ClickLocalNewGame(ClickEvent evt)
         {
             LocalNewGameClick?.Invoke();
-            
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void ClickGoogleNewGame(ClickEvent evt)
         {
             GoogleNewGameClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void ClickBack(ClickEvent evt)
         {
             BackClick?.Invoke();
-           
+            AudioManager.PlayDefaultWarningSound();
         }
 
         void ClickCancelNewGame(ClickEvent evt)
         {
             ShowVisualElement(DetectSaveModal, false);
+            AudioManager.PlayDefaultWarningSound();
+
         }
 
         void ClickConfirmNewGame(ClickEvent evt)
         {
             LocalNewGameConfirm?.Invoke();
             ShowVisualElement(DetectSaveModal, false);
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void OnLocalSaveExisted()

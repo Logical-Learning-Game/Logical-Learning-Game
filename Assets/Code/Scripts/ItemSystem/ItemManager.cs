@@ -52,13 +52,13 @@ namespace Unity.Game.ItemSystem
         
         void SpawnItemsInMap(Map gameMap)
         {
-            uint[,] MapArray = gameMap.MapData;
+            uint[] MapArray = gameMap.MapData;
 
-            for (int i = 0; i < gameMap.Width; i++)
+            for (int i = 0; i < gameMap.Height; i++)
             {
-                for (int j = 0; j < gameMap.Height; j++)
+                for (int j = 0; j < gameMap.Width; j++)
                 {
-                    uint shifted = MapArray[i, j] >> 8;
+                    uint shifted = MapArray[i*gameMap.Width + j] >> 8;
                     GameObject ItemObject;
                     switch (shifted & 0b1111)
                     {

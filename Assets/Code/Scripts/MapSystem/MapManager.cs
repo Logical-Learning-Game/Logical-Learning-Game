@@ -43,13 +43,13 @@ namespace Unity.Game.MapSystem
 
         void Start()
         {
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                Map map = new Map();
-                CreateMap(map);
-            }
-#endif
+//#if UNITY_EDITOR
+//            if (!Application.isPlaying)
+//            {
+//                Map map = new Map();
+//                CreateMap(map);
+//            }
+//#endif
         }
 
         public void InitMap()
@@ -67,13 +67,13 @@ namespace Unity.Game.MapSystem
 
         void CreateMap(Map gameMap)
         {
-            uint[,] MapArray = gameMap.MapData;
-            TileObjects = new GameObject[gameMap.Width, gameMap.Height];
-            for (int i = 0; i < gameMap.Width; i++)
+            uint[] MapArray = gameMap.MapData;
+            TileObjects = new GameObject[gameMap.Height, gameMap.Width];
+            for (int i = 0; i < gameMap.Height; i++)
             {
-                for (int j = 0; j < gameMap.Height; j++)
+                for (int j = 0; j < gameMap.Width; j++)
                 {
-                    uint shifted = MapArray[i, j] >> 4;
+                    uint shifted = MapArray[i * gameMap.Width + j] >> 4;
                     switch (shifted & 0b1111)
                     {
                         case 0b0000: // empty
@@ -116,7 +116,7 @@ namespace Unity.Game.MapSystem
                         default:
                             break;
                     }
-      
+
 
                 }
             }
@@ -124,7 +124,7 @@ namespace Unity.Game.MapSystem
             if (Application.isPlaying)
             {
                 CreateDoors(gameMap);
-                MapViewManager.Instance.GetMapCenter(gameMap.Width, gameMap.Height);
+                MapViewManager.Instance.GetMapCenter(gameMap.Height, gameMap.Width);
             }
 #endif
         }
@@ -184,12 +184,12 @@ namespace Unity.Game.MapSystem
                 { 3, Tuple.Create(-1, 0) },
             };
 
-            uint[,] MapArray = gameMap.MapData;
-            for (int i = 0; i < gameMap.Width; i++)
+            uint[] MapArray = gameMap.MapData;
+            for (int i = 0; i < gameMap.Height; i++)
             {
-                for (int j = 0; j < gameMap.Height; j++)
+                for (int j = 0; j < gameMap.Width; j++)
                 {
-                    uint remainder = MapArray[i, j];
+                    uint remainder = MapArray[i*gameMap.Width + j];
                     remainder >>= 12;
                     if (remainder == 0) continue;
                     int directionCounter = 0;

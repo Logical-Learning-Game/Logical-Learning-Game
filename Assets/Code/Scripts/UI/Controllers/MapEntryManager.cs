@@ -18,26 +18,20 @@ namespace Unity.Game.UI
 {
     public class MapEntryManager : MonoBehaviour
     {
-        public static event Action SelectMap;
+        [SerializeField] MapDataManager mapDataManager;
+
+        public static event Action<bool> SelectMap;
         public static event Action UpdateMap;
         public static event Action LoadMap;
 
-        public static Dictionary<string, List<Map>> MapLists;
-        //Dictionary<string, List<Map>> MapLists = new Dictionary<string, List<Map>>()
-        //{
-        //    {"a",new List<Map>(){
-        //        new Map("a-1"), new Map("a-2"), new Map("a-3")
-        //    } },
-        //    {"b",new List<Map>()
-        //    {
-        //        new Map("b-1"), new Map("b-2")
-        //    } },
-        //    {"c",new List<Map>(){
-        //        new Map("c-1")
-        //    } }
-        //};
+        //public static Dictionary<string, List<Map>> MapLists;
+
+        public List<WorldData> WorldDatas; 
+
+        public Map testdisplaymap;
 
         GameData gameData;
+
         DropdownField dropdownField;
         ListView entryView;
 
@@ -60,6 +54,8 @@ namespace Unity.Game.UI
             PanelScreen.OpenLevelPanel += OnOpenLevelPanel;
             SaveManager.GameDataLoaded += OnGameDataLoaded;
 
+            //MapDataManager.WorldDataLoaded += OnWorldDataLoaded;
+
             mapEntryList = new List<Map>();
         }
 
@@ -67,6 +63,8 @@ namespace Unity.Game.UI
         {
             PanelScreen.OpenLevelPanel -= OnOpenLevelPanel;
             SaveManager.GameDataLoaded -= OnGameDataLoaded;
+
+            //MapDataManager.WorldDataLoaded -= OnWorldDataLoaded;
         }
 
         public void UpdateMapData()
@@ -76,31 +74,26 @@ namespace Unity.Game.UI
 
         public void LoadMapFromFile()
         {
-            // read map from file
-            MapLists = new Dictionary<string, List<Map>>()
-        {
-            {"a",new List<Map>(){
-                new Map("a-1"), new Map("a-2"), new Map("a-3")
-            } },
-            {"b",new List<Map>()
-            {
-                new Map("b-1"), new Map("b-2")
-            } },
-            {"c",new List<Map>(){
-                new Map("c-1")
-            } }
-        };
+            WorldDatas = mapDataManager.OnLoadMap();
         }
+
+        //public void OnWorldDataLoaded(List<WorldData> worldDatas)
+        //{
+        //    WorldDatas = worldDatas;
+        //}
 
         public void OnGameDataLoaded(GameData gameData)
         {
             this.gameData = gameData;
+            
         }
 
         public void GenerateMapEntry(string worldSelector)
         {
+            if (worldSelector == "__NONE__") return;
             mapEntryList.Clear();
-            foreach (var map in MapLists[worldSelector])
+            WorldData selectedWorld = WorldDatas.FirstOrDefault(w => w.WorldName == worldSelector);
+            foreach (var map in selectedWorld.MapLists)
             {
                 mapEntryList.Add(map);
             }
@@ -159,7 +152,7 @@ namespace Unity.Game.UI
 
         public void OnOpenLevelPanel()
         {
-            if (MapLists == null)
+            if (WorldDatas.Count == 0)
             {
                 LoadMapFromFile();
             }
@@ -172,23 +165,29 @@ namespace Unity.Game.UI
 
         public List<string> GetWorldEntries()
         {
-            return MapLists.Keys.ToList();
+            if (WorldDatas == null || WorldDatas.Count == 0) return new List<string>() {"__NONE__" };
+            return WorldDatas.Select(w => w.WorldName).ToList();
         }
 
         void OnClickMapEntry(ClickEvent evt,Map map)
         {
-            Debug.Log(map.MapName);
+            //Debug.Log(map.MapName);
             LoadLevelMap(map);
         }
 
         void LoadLevelMap(Map map)
         {
+            bool isSameMap = false;
             //Debug.Log("loadlevelmap is trigger");
             if (LevelManager.Instance == null) {
                 gameObject.AddComponent<LevelManager>();
             }
+            if(LevelManager.Instance.GetMap() != null)
+            {
+                isSameMap = (map.Id == LevelManager.Instance.GetMap().Id);
+            }
             LevelManager.Instance.SetMap(map);
-            SelectMap?.Invoke();
+            SelectMap?.Invoke(isSameMap);
         }
 
         public static void FixListViewScrollingBug(ListView listView)

@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
 using System;
+using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
 namespace Unity.Game.RuleSystem
 {
-    public enum RuleTheme 
+    public enum RuleTheme
     {
         [EnumMember(Value = "normal")]
         NORMAL,
         [EnumMember(Value = "conditional")]
         CONDITIONAL,
         [EnumMember(Value = "loop")]
-        LOOP 
+        LOOP
     }
 
     public enum RuleName
@@ -29,12 +30,13 @@ namespace Unity.Game.RuleSystem
         LEVEL_CLEAR_RULE
     }
 
-    public enum LimitType { ALL,FORWARD,LEFT,RIGHT,BACK,CONDITION}
+    public enum LimitType { ALL, FORWARD, LEFT, RIGHT, BACK, CONDITION }
 
 
     [Serializable]
     public class Rule
     {
+
         public long Id { get; }
         public string RuleName { get; }
         public RuleTheme Theme { get; }
@@ -45,12 +47,12 @@ namespace Unity.Game.RuleSystem
             RuleName = name;
             Theme = theme;
         }
-        
+
         public virtual string GetDescription()
         {
             return "Base Class Description";
         }
-        
+
         public virtual bool CheckRule(StateValue currentState)
         {
             return false;
