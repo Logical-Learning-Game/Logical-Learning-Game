@@ -24,11 +24,14 @@ namespace Unity.Game.UI
 
         [Header("Blur")]
         [SerializeField] Volume Volume;
-        
+
         [SerializeField] GameObject DefaultInGameScreen;
-        [SerializeField] PanelScreen PanelScreen;
-        [SerializeField] VictoryScreen VictoryScreen;
-        
+
+        List<MenuScreen> allModalScreens = new List<MenuScreen>();
+        [SerializeField] PanelScreen panelScreen;
+        [SerializeField] VictoryScreen victoryScreen;
+        [SerializeField] LoadingScreen loadingScreen;
+
         [SerializeField] Button OutsidePanel;
 
 
@@ -36,6 +39,7 @@ namespace Unity.Game.UI
         {
             SetVisualElements();
             RegisterButtonCallbacks();
+            SetupModalScreens();
 
             if (Volume == null)
                 Volume = FindObjectOfType<Volume>();
@@ -43,6 +47,7 @@ namespace Unity.Game.UI
             GameScreenController.GameWon += OnGameWon;
             MapEntryManager.SelectMap += OnSelectMap;
             VictoryScreen.RestartClick += OnPlayerRestarted;
+            VictoryScreen.SelectMapClick += OnOpenJournalMenu;
             //GameScreenController.SameMapRestart += OnPlayerRestarted;
         }
 
@@ -51,12 +56,13 @@ namespace Unity.Game.UI
             GameScreenController.GameWon -= OnGameWon;
             MapEntryManager.SelectMap -= OnSelectMap;
             VictoryScreen.RestartClick -= OnPlayerRestarted;
+            VictoryScreen.SelectMapClick -= OnOpenJournalMenu;
             //GameScreenController.SameMapRestart -= OnPlayerRestarted;
         }
 
         void SetVisualElements()
         {
-            OutsidePanel = PanelScreen.GetOutsidePanel();
+            OutsidePanel = panelScreen.GetOutsidePanel();
             OutsidePanel.style.backgroundColor = new Color(0, 0, 0, 0.3f);
         }
 
@@ -66,14 +72,46 @@ namespace Unity.Game.UI
             OutsidePanel?.RegisterCallback<ClickEvent>(OnOpenGameScreen);
         }
 
+        void SetupModalScreens()
+        {
+            if (victoryScreen != null)
+                allModalScreens.Add(victoryScreen);
+
+            if (panelScreen != null)
+                allModalScreens.Add(panelScreen);
+
+            if (loadingScreen != null)
+                allModalScreens.Add(loadingScreen);
+
+        }
+
+        void ShowModalScreen(MenuScreen modalScreen)
+        {
+            foreach (MenuScreen m in allModalScreens)
+            {
+                if (m == modalScreen)
+                {
+
+                    m?.ShowScreen();
+                }
+                else
+                {
+
+                    m?.HideScreen();
+                }
+            }
+        }
+
         void OnGameWon(SubmitHistory submit)
         {
             OutsidePanel = null;
+            AudioManager.PlayVictorySound();
             StartCoroutine(GameWonRoutine(submit));
         }
 
         IEnumerator GameWonRoutine(SubmitHistory submit)
         {
+            victoryScreen.SetSubmitData(submit);
             yield return new WaitForSeconds(1);
 
             //// hide the UI
@@ -82,35 +120,54 @@ namespace Unity.Game.UI
 
             //AudioManager.PlayVictorySound();
             //ShowVisualElement(m_WinScreen, true);
-            VictoryScreen.SetSubmitData(submit);
-            VictoryScreen.ShowScreen();
-            BlurBackground(true);
+
+            ShowModalScreen(victoryScreen);
+            HideGameScreen();
+        }
+
+        void ShowGameScreen()
+        {
+            DefaultInGameScreen.transform.localScale = Vector3.one;
+            BlurBackground(false);
+            foreach (MenuScreen m in allModalScreens)
+            {
+                m?.HideScreen();
+            }
+        }
+
+        void HideGameScreen()
+        {
             DefaultInGameScreen.transform.localScale = Vector3.zero;
+            BlurBackground(true);
         }
 
         public void OnOpenJournalMenu()
         {
             GamePaused?.Invoke(.5f);
             OpenPanel?.Invoke();
-            BlurBackground(true);
-            PanelScreen.ShowScreen();
-            VictoryScreen.HideScreen();
-            DefaultInGameScreen.transform.localScale = Vector3.zero;
+
+            ShowModalScreen(panelScreen);
+            HideGameScreen();
         }
 
         void OnOpenGameScreen(ClickEvent evt)
         {
             GameResumed?.Invoke();
-            BlurBackground(false);
-            PanelScreen.HideScreen();
-            VictoryScreen.HideScreen();
-            DefaultInGameScreen.transform.localScale = Vector3.one;
+            ShowGameScreen();
         }
 
         void OnSelectMap(bool isSameMap)
         {
+            AudioManager.PlayLevelStartSound();
             GameRestarted?.Invoke(isSameMap);
-            OnOpenGameScreen(null);
+            if (isSameMap)
+            {
+                ShowGameScreen();
+            }
+            else
+            {
+                ShowModalScreen(loadingScreen);
+            }
         }
 
         void OnPlayerRestarted()

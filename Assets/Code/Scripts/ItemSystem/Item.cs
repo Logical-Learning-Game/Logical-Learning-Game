@@ -19,6 +19,7 @@ namespace Unity.Game.ItemSystem
             //decide between force open door or require key to open door
             LevelManager.Instance.AddItem(this.itemType);
             ItemManager.Instance.RemoveItemFromMap(this);
+            AudioManager.PlayPickItemSound();
         }
 
         private void OnTriggerEnter(Collider other)

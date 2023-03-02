@@ -60,18 +60,21 @@ namespace Unity.Game.UI
         {
             //Debug.Log("ClickNewGame");
             NewGameClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void ClickContinue(ClickEvent evt)
         {
             //Debug.Log("ClickContinue");
             ContinueClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void ClickQuitGame(ClickEvent evt)
         {
             //Debug.Log("ClickQuitGame");
             QuitGameClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

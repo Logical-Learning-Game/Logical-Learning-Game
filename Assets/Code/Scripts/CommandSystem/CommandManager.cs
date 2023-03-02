@@ -172,6 +172,7 @@ namespace Unity.Game.Command
                     GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
                     startCommand.GetComponent<AbstractCommand>().StartExecute();
                     StartCoroutine(MapViewManager.Instance.ViewPlayerMove());
+                    AudioManager.PlayCommandStartSound();
                 }
                 else
                 {

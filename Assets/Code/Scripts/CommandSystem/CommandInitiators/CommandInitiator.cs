@@ -25,7 +25,7 @@ namespace Unity.Game.Command
                     GameObject commandObject = CommandInitiate(eventData);
                     CommandManager.Instance.AddCommand(commandObject);
                     CommandBarManager.Instance.OnUpdateCommandBar();
-                    
+                    AudioManager.PlayCommandPickSound();
                 }
             }
 

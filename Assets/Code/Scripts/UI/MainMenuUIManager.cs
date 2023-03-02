@@ -19,6 +19,7 @@ namespace Unity.Game.UI
         [SerializeField] NewGameScreen newGameScreen;
         [SerializeField] GoogleSyncScreen googleSyncScreen;
         [SerializeField] PanelScreen panelScreen;
+        [SerializeField] LoadingScreen loadingScreen;
 
         [Header("Scenes")]
         [SerializeField] string MainMenuSceneName = "MainMenu";
@@ -92,6 +93,11 @@ namespace Unity.Game.UI
 
             if(panelScreen != null)
                 allModalScreens.Add(panelScreen);
+
+            if(loadingScreen != null)
+            {
+                allModalScreens.Add(loadingScreen);
+            }
         }
 
         // shows one screen at a time
@@ -138,11 +144,13 @@ namespace Unity.Game.UI
 
         public void LoadGameScene(bool isSameMap)
         {
+            AudioManager.PlayLevelStartSound();
             Time.timeScale = 1f;
 #if UNITY_EDITOR
             if (Application.isPlaying)
 
 #endif
+                ShowModalScreen(loadingScreen);
                 SceneManager.LoadSceneAsync(GameSceneName);
         }
     }

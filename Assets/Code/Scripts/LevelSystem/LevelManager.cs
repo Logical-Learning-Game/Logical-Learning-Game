@@ -86,6 +86,7 @@ namespace Unity.Game.Level
             ItemManager.Instance.InitItems();
             ConditionPickerController.Instance.InitConditionPicker();
             RuleManager.Instance.InitRule();
+            ActionSystem.ActionManager.Instance.ClearAction();
             InitPlayer();
             LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
         }
@@ -135,6 +136,7 @@ namespace Unity.Game.Level
         public void PlayerMove(Vector3 direction)
         {
             StartCoroutine(OnPlayerMove(direction));
+           
         }
 
         public IEnumerator OnPlayerMove(Vector3 Direction)
@@ -157,6 +159,7 @@ namespace Unity.Game.Level
                 // if can enter, move the player 
                 if (moveToTile.IsEnterable(movingIntoDirection) == true)
                 {
+                    AudioManager.PlayCharacterStepSound();
                     yield return Player.Instance.MoveTo(Direction);
                     moveToTile.OnTileEntered();
                     RuleManager.Instance.OnPlayCheck();

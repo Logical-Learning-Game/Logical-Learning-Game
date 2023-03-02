@@ -57,16 +57,19 @@ namespace Unity.Game.UI
         void ClickCancelSync(ClickEvent evt)
         {
             CancelSyncClick?.Invoke();
+            AudioManager.PlayDefaultWarningSound();
         }
 
         void ClickConfirmSync(ClickEvent evt)
         {
             ConfirmSyncClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void ClickDenySync(ClickEvent evt)
         {
             DenySyncClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
         }
 
         void OnLocalSaveExisted()
