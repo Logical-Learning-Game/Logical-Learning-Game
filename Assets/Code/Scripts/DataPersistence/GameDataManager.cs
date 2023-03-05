@@ -20,8 +20,6 @@ namespace Unity.Game.SaveSystem
         [SerializeField] GameData gameData;
         public GameData GameData { set => gameData = value; get => gameData; }
 
-
-
         private void Awake()
         {
             saveManager = GetComponent<SaveManager>();

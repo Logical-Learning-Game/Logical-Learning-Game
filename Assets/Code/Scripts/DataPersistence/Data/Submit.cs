@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using Unity.Game.Command;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Unity.Game.RuleSystem;
 
 namespace Unity.Game.SaveSystem
 {
@@ -88,10 +89,10 @@ namespace Unity.Game.SaveSystem
         //[JsonProperty("submit_datetime")] public SerializableDateTime SubmitDatetime;
         [JsonProperty("submit_datetime")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime SubmitDatetime;
 
-        [JsonProperty("state_values")] public StateValue StateValue;
+        [JsonProperty("state_value")] public StateValue StateValue;
         [JsonProperty("command_nodes")] public List<CommandNode> CommandNodes;
         [JsonProperty("command_edges")] public List<CommandEdge> CommandEdges;
-        [JsonProperty("rule_histories")] public List<RuleHistory> RuleHistories;
+        [JsonProperty("rules")] public List<RuleHistory> RuleHistories;
 
         public SubmitHistory() { }
 
@@ -115,11 +116,13 @@ namespace Unity.Game.SaveSystem
     {
         [JsonProperty("map_rule_id")] public long MapRuleId;
         [JsonProperty("is_pass")] public bool IsPass;
+        [JsonProperty("theme")][JsonConverter(typeof(StringEnumConverter))] public RuleTheme Theme;
 
-        public RuleHistory(long mapRuleId, bool isPass)
+        public RuleHistory(long mapRuleId, bool isPass , RuleTheme theme)
         {
             MapRuleId = mapRuleId;
             IsPass = isPass;
+            Theme = theme;
         }
     }
 

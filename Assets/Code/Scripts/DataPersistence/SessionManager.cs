@@ -142,7 +142,7 @@ namespace Unity.Game.SaveSystem
 
             for (int i = 0; i < context.Rules.Count; i++)
             {
-                var ruleHistory = new RuleHistory(context.Rules[i].Id, context.RuleStatus[i]);
+                var ruleHistory = new RuleHistory(context.Rules[i].Id, context.RuleStatus[i], context.Rules[i].Theme);
                 submit.RuleHistories.Add(ruleHistory);
             }
 

@@ -7,6 +7,7 @@ using UnityEngine.Rendering.Universal;
 using System;
 using System.Linq;
 
+
 namespace Unity.Game.UI
 {
     public class PanelScreen : MenuScreen
@@ -37,13 +38,14 @@ namespace Unity.Game.UI
 
             GameScreen.OpenPanel += OnOpenPanel;
             MainMenuUIManager.OpenPanel += OnOpenPanel;
+            UserStatManager.UpdateUserStat += DisplayUserStat;
         }
 
         void OnDisable()
         {
             GameScreen.OpenPanel -= OnOpenPanel;
             MainMenuUIManager.OpenPanel -= OnOpenPanel;
-
+            UserStatManager.UpdateUserStat -= DisplayUserStat;
         }
 
         protected override void SetVisualElements()
@@ -75,7 +77,7 @@ namespace Unity.Game.UI
 
         public Button GetOutsidePanel()
         {
-            return m_Root.Q<Button>("OutsidePanel"); 
+            return m_Root.Q<Button>("OutsidePanel");
         }
 
         void SwitchPanel(VisualElement visualElement)
@@ -122,5 +124,31 @@ namespace Unity.Game.UI
         {
             ShowLevelPanel(null);
         }
+
+        public void DisplayUserStat(List<int> displayValue)
+        {
+            Debug.Log(string.Join(",",displayValue));
+            //displayValue Order based on UserStatManager Declaration
+            StatPanel.Q("StarSummary").Q<Label>("StarSumValue").text = (displayValue[3] + displayValue[4] + displayValue[5]).ToString();
+            StatPanel.Q("StarSummary").Q<Label>("StarSumMax").text = (displayValue[0] + displayValue[1] + displayValue[2]).ToString();
+
+            StatPanel.Q("NormalStarSummary").Q<Label>("StarSumMax").text = (displayValue[0]).ToString();
+            StatPanel.Q("NormalStarSummary").Q<Label>("StarSumValue").text = (displayValue[3]).ToString();
+
+            StatPanel.Q("ConditionStarSummary").Q<Label>("StarSumMax").text = (displayValue[1]).ToString();
+            StatPanel.Q("ConditionStarSummary").Q<Label>("StarSumValue").text = (displayValue[4]).ToString();
+
+            StatPanel.Q("LoopStarSummary").Q<Label>("StarSumMax").text = (displayValue[2]).ToString();
+            StatPanel.Q("LoopStarSummary").Q<Label>("StarSumValue").text = (displayValue[5]).ToString();
+
+            StatPanel.Q("MedalSummary").Q<Label>("StarSumValue").text = (displayValue[6] + displayValue[7] + displayValue[8]).ToString();
+
+            StatPanel.Q("GoldMedalSummary").Q<Label>("StarSumValue").text = (displayValue[6]).ToString();
+            StatPanel.Q("SilverMedalSummary").Q<Label>("StarSumValue").text = (displayValue[7]).ToString();
+            StatPanel.Q("BronzeMedalSummary").Q<Label>("StarSumValue").text = (displayValue[8]).ToString();
+
+        }
+
+
     }
 }

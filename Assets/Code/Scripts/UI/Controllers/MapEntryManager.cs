@@ -28,7 +28,7 @@ namespace Unity.Game.UI
 
         public List<WorldData> WorldDatas; 
 
-        public Map testdisplaymap;
+        //public Map testdisplaymap;
 
         GameData gameData;
 
@@ -54,7 +54,7 @@ namespace Unity.Game.UI
             PanelScreen.OpenLevelPanel += OnOpenLevelPanel;
             SaveManager.GameDataLoaded += OnGameDataLoaded;
 
-            //MapDataManager.WorldDataLoaded += OnWorldDataLoaded;
+            MapDataManager.WorldDataLoaded += OnWorldDataLoaded;
 
             mapEntryList = new List<Map>();
         }
@@ -64,7 +64,7 @@ namespace Unity.Game.UI
             PanelScreen.OpenLevelPanel -= OnOpenLevelPanel;
             SaveManager.GameDataLoaded -= OnGameDataLoaded;
 
-            //MapDataManager.WorldDataLoaded -= OnWorldDataLoaded;
+            MapDataManager.WorldDataLoaded -= OnWorldDataLoaded;
         }
 
         public void UpdateMapData()
@@ -77,10 +77,10 @@ namespace Unity.Game.UI
             WorldDatas = mapDataManager.OnLoadMap();
         }
 
-        //public void OnWorldDataLoaded(List<WorldData> worldDatas)
-        //{
-        //    WorldDatas = worldDatas;
-        //}
+        public void OnWorldDataLoaded(List<WorldData> worldDatas)
+        {
+            WorldDatas = worldDatas;
+        }
 
         public void OnGameDataLoaded(GameData gameData)
         {
@@ -129,15 +129,34 @@ namespace Unity.Game.UI
             Action<VisualElement, int> bindItem = (e, i) =>
             {
                 e.Q<Label>("MapName").text = mapEntryList[i].MapName;
+
+                //starRequirement
                 e.Q<Label>("RequirementValue").text = mapEntryList[i].StarRequirement.ToString();
+
+                // Accessing PlayerData
+                SubmitHistory mapBestSubmit;
+                if (gameData.SubmitBest.TryGetValue(mapEntryList[i].Id,out mapBestSubmit))
+                {
+                    if (mapBestSubmit.IsCompleted)
+                    {
+                        e.Q($"RuleStar{1}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[0].IsPass ? RuleComplete : RuleIncomplete);
+                        e.Q($"RuleStar{2}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[1].IsPass ? RuleComplete : RuleIncomplete);
+                        e.Q($"RuleStar{3}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[2].IsPass ? RuleComplete : RuleIncomplete);
+                    }
+                    else
+                    {
+                        e.Q($"RuleStar{1}").style.backgroundImage = new StyleBackground(RuleIncomplete);
+                        e.Q($"RuleStar{2}").style.backgroundImage = new StyleBackground(RuleIncomplete);
+                        e.Q($"RuleStar{3}").style.backgroundImage = new StyleBackground(RuleIncomplete);
+                    }
+                    e.Q<Label>("BestPlayDate").text = mapBestSubmit.SubmitDatetime.ToString("g");
+                }
                 e.Q<UnityEngine.UIElements.Button>("MapEntryButton").RegisterCallback<ClickEvent>(e => OnClickMapEntry(e, mapEntryList[i]));
             };
 
             entryView.makeItem = makeItem;
             entryView.itemsSource = mapEntryList;
             entryView.bindItem = bindItem;
-
-            //entryView.onItemsChosen += Debug.Log;
         }
 
         void CreateDropDownMenu()
