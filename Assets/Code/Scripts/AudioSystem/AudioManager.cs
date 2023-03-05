@@ -12,7 +12,7 @@ namespace Unity.Game
         public static string SfxGroup = "SFX";
 
         // parameter suffix
-        const string k_Parameter = "Volume";
+        //const string k_Parameter = "Volume";
 
         [SerializeField] AudioMixer m_MainAudioMixer;
 
@@ -44,6 +44,11 @@ namespace Unity.Game
         //[SerializeField] AudioClip m_DefeatSound;
         //[SerializeField] AudioClip m_PotionSound;
 
+        private void Start()
+        {
+            SetVolume(MusicGroup, PlayerPrefs.GetFloat("music",.5f));
+            SetVolume(SfxGroup, PlayerPrefs.GetFloat("sfx", .5f));
+        }
         void OnEnable()
         {
             //SettingsScreen.SettingsUpdated += OnSettingsUpdated;

@@ -11,7 +11,7 @@ namespace Unity.Game.SaveSystem
     public class GameData
     {
         // separate best submit from submit history
-        [JsonProperty("user_id")] public string UserId;
+        [JsonProperty("player_id")] public string UserId;
         [JsonProperty("session_histories")] public List<SessionStatus> SessionHistories;
         [JsonProperty("top_submits")] public Dictionary<long, SubmitHistory> SubmitBest;
 

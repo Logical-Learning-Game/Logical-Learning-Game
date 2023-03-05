@@ -741,6 +741,7 @@ GameObject:
   - component: {fileID: 1236263100}
   - component: {fileID: 1236263101}
   - component: {fileID: 1236263102}
+  - component: {fileID: 1236263103}
   m_Layer: 0
   m_Name: PanelScreen
   m_TagString: Untagged
@@ -808,6 +809,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapDataManager: {fileID: 872253281}
   WorldDatas: []
+--- !u!114 &1236263103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236263098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c09ec174e31294284d4694f62c47d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1453731811
 GameObject:
   m_ObjectHideFlags: 0

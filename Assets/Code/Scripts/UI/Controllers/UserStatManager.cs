@@ -21,24 +21,11 @@ namespace Unity.Game.UI
     {
         [SerializeField] MapDataManager mapDataManager;
 
-        public static event Action<List<int>> UpdateUserStat;
-        //public static event Action UpdateMap;
-        //public static event Action LoadMap;
-
-        //public static Dictionary<string, List<Map>> MapLists;
+        //public static event Action<List<int>> UpdateUserStat;
 
         public List<WorldData> WorldDatas;
 
-        //public Map testdisplaymap;
-
         GameData gameData;
-
-        //DropdownField dropdownField;
-        //ListView entryView;
-
-        //List<Map> mapEntryList;
-        //[SerializeField] private Sprite RuleComplete;
-        //[SerializeField] private Sprite RuleIncomplete;
 
         private void Awake()
         {
@@ -91,7 +78,7 @@ namespace Unity.Game.UI
                 LoadMapFromFile();
             }
 
-            UpdateUserStat?.Invoke(CalculateUserStat(gameData, WorldDatas));
+            UpdateUserStat(CalculateUserStat(gameData, WorldDatas));
 
         }
 
@@ -187,6 +174,27 @@ namespace Unity.Game.UI
             return result;
         }
 
+        void UpdateUserStat(List<int> displayValue)
+        {
+            //    displayValue Order based on UserStatManager Declaration
+            VisualElement StatPanel = GetComponent<PanelScreen>().StatPanel;
+            StatPanel.Q("StarSummary").Q<Label>("StarSumValue").text = (displayValue[3] + displayValue[4] + displayValue[5]).ToString();
+            StatPanel.Q("StarSummary").Q<Label>("StarSumMax").text = (displayValue[0] + displayValue[1] + displayValue[2]).ToString();
 
+            StatPanel.Q("NormalStarSummary").Q<Label>("StarSumMax").text = (displayValue[0]).ToString();
+            StatPanel.Q("NormalStarSummary").Q<Label>("StarSumValue").text = (displayValue[3]).ToString();
+
+            StatPanel.Q("ConditionStarSummary").Q<Label>("StarSumMax").text = (displayValue[1]).ToString();
+            StatPanel.Q("ConditionStarSummary").Q<Label>("StarSumValue").text = (displayValue[4]).ToString();
+
+            StatPanel.Q("LoopStarSummary").Q<Label>("StarSumMax").text = (displayValue[2]).ToString();
+            StatPanel.Q("LoopStarSummary").Q<Label>("StarSumValue").text = (displayValue[5]).ToString();
+
+            StatPanel.Q("MedalSummary").Q<Label>("StarSumValue").text = (displayValue[6] + displayValue[7] + displayValue[8]).ToString();
+
+            StatPanel.Q("GoldMedalSummary").Q<Label>("StarSumValue").text = (displayValue[6]).ToString();
+            StatPanel.Q("SilverMedalSummary").Q<Label>("StarSumValue").text = (displayValue[7]).ToString();
+            StatPanel.Q("BronzeMedalSummary").Q<Label>("StarSumValue").text = (displayValue[8]).ToString();
+        }
     }
 }
