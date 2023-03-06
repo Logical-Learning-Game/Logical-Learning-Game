@@ -55,13 +55,12 @@ namespace Unity.Game.SaveSystem
 
         private async void EndSession()
         {
-            SaveManager.SaveGame();
             if (CurrentGameSession == null)
             {
+                SaveManager.SaveGame();
                 return;
             }
 
-            //CurrentGameSession.EndDatetime = new SerializableDateTime(DateTime.UtcNow);
             CurrentGameSession.EndDatetime = DateTime.UtcNow;
             CurrentGameSession = null;
 
@@ -75,11 +74,9 @@ namespace Unity.Game.SaveSystem
                 return;
             }
 
-            //SerializableDictionary<GameSession, bool> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
-            //Dictionary<GameSession, bool> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
+            // send session history to server
             List<SessionStatus> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
 
-            //var sendSuccessGameSession = new List<GameSession>();
             foreach (SessionStatus entry in gameSessionWithSendStatus)
             {
                 GameSession gameSession = entry.Session;
@@ -89,35 +86,46 @@ namespace Unity.Game.SaveSystem
                     continue;
                 }
 
-                GameSessionHistoryRequestDTO dto = new GameSessionDTOMapper().ToDto(gameSession);
+                GameSessionHistoryRequest dto = new GameSessionDTOMapper().ToDTO(gameSession);
 
                 // mock playerId data for testing!!!
                 try
                 {
-                    HttpResponseMessage response = await apiClient.SendSessionHistoryData("abcdefg", dto);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        entry.Status = true;
-                        //sendSuccessGameSession.Add(gameSession);
-                    }
-                    else
-                    {
-                        Debug.LogErrorFormat("Response status code is not success: {0}", response.StatusCode);
-                        break;
-                    }
+                    await apiClient.SendSessionHistoryData("abcdefg", dto);
+                    entry.Status = true;
+                }
+                catch (APIException ex)
+                {
+                    Debug.LogErrorFormat("Receive a non successful status code from server while sending session history: {0}", ex.Content);
+                    break;
                 }
                 catch (HttpRequestException ex)
                 {
-                    Debug.LogErrorFormat("An error occurred while sending session history to api server: {0}", ex);
+                    Debug.LogErrorFormat("An error occurred while making http request to create session history endpoint: {0}", ex);
                     break;
                 }
             }
 
-            // mark already send game session status to true
-            //foreach (GameSession gameSession in sendSuccessGameSession)
-            //{
-            //    gameSessionWithSendStatus[gameSession] = true;
-            //}
+            // send submit best to server
+            Dictionary<long, SubmitHistory> submitBest = gameDataManager.GameData.SubmitBest;
+            var topSubmitHistoryRequests = new List<TopSubmitHistoryRequest>();
+            var submitHistoryDTOMapper = new SubmitHistoryDTOMapper();
+
+            foreach (KeyValuePair<long, SubmitHistory> entry in submitBest)
+            {
+                long mapId = entry.Key;
+                SubmitHistory submitHistory = entry.Value;
+
+                var topSubmitHistoryRequest = new TopSubmitHistoryRequest
+                {
+                    MapId = mapId,
+                    TopSubmitHistory = submitHistoryDTOMapper.ToDTO(submitHistory)
+                };
+
+                topSubmitHistoryRequests.Add(topSubmitHistoryRequest);
+            }
+
+            SaveManager.SaveGame();
         }
 
         private void SaveCommand(SubmitContext context)
@@ -136,7 +144,6 @@ namespace Unity.Game.SaveSystem
                 ActionMedal = context.ActionMedal,
                 StateValue = context.StateValue,
                 RuleHistories = new List<RuleHistory>(),
-                //SubmitDatetime = new SerializableDateTime(DateTime.UtcNow),
                 SubmitDatetime = DateTime.UtcNow,
             };
 

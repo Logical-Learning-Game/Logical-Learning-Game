@@ -7,7 +7,8 @@ using UnityEngine.UI;
 using GlobalConfig;
 using Unity.Game.MapSystem;
 using UnityEngine.SceneManagement;
-
+using System.Threading;
+using System.Globalization;
 
 namespace Unity.Game.SaveSystem
 {
@@ -25,7 +26,7 @@ namespace Unity.Game.SaveSystem
 
         private void Start()
         {
-           
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         }
 
         private void OnDestroy()

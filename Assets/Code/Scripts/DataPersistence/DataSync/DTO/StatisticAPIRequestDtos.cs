@@ -6,7 +6,7 @@ using Unity.Game.Command;
 
 namespace Unity.Game.SaveSystem
 {
-    public class GameSessionHistoryRequestDTO
+    public class GameSessionHistoryRequest
     {
         [JsonProperty("map_id")]
         public long MapId { get; set; }
@@ -137,5 +137,14 @@ namespace Unity.Game.SaveSystem
 
         [JsonProperty("y")]
         public float Y { get; set; }
+    }
+
+    public class TopSubmitHistoryRequest
+    {
+        [JsonProperty("map_id")]
+        public long MapId { get; set; }
+
+        [JsonProperty("top_submit_history")]
+        public SubmitHistoryDTO TopSubmitHistory { get; set; }
     }
 }
