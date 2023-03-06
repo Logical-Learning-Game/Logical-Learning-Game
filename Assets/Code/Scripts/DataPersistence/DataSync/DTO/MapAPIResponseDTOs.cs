@@ -6,7 +6,7 @@ using Unity.Game.RuleSystem;
 
 namespace Unity.Game.SaveSystem
 {
-    public class WorldResponseDTO
+    public class WorldResponse
     {
         [JsonProperty("world_id")]
         public long WorldId { get; set; }
@@ -15,10 +15,10 @@ namespace Unity.Game.SaveSystem
         public string WorldName { get; set; }
 
         [JsonProperty("maps")]
-        public List<MapResponseDTO> Maps { get; set; }
+        public List<MapResponse> Maps { get; set; }
     }
 
-    public class MapResponseDTO
+    public class MapResponse
     {
         [JsonProperty("map_id")]
         public long MapId { get; set; }
@@ -64,7 +64,7 @@ namespace Unity.Game.SaveSystem
         public int LeastSolvableActionBronze { get; set; }
 
         [JsonProperty("rules")]
-        public List<RuleResponseDTO> Rules { get; set; }
+        public List<RuleResponse> Rules { get; set; }
 
         [JsonProperty("is_pass")]
         public bool IsPass { get; set; }
@@ -73,7 +73,7 @@ namespace Unity.Game.SaveSystem
         public SubmitHistoryDTO TopSubmitHistory { get; set; }
     }
 
-    public class RuleResponseDTO
+    public class RuleResponse
     {
         [JsonProperty("map_rule_id")]
         public long MapRuleId { get; set; }

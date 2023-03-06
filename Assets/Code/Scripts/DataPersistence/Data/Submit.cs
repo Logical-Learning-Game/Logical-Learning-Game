@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using Unity.Game.Command;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Unity.Game.RuleSystem;
 
 namespace Unity.Game.SaveSystem
 {
@@ -25,10 +26,8 @@ namespace Unity.Game.SaveSystem
     {
 
         [JsonProperty("map_id")] public long MapId;
-        //[JsonProperty("start_date_time")] public SerializableDateTime StartDatetime;
-        //[JsonProperty("end_date_time")] public SerializableDateTime? EndDatetime;
-        [JsonProperty("start_date_time")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime StartDatetime;
-        [JsonProperty("end_date_time")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime EndDatetime;
+        [JsonProperty("start_datetime")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime StartDatetime;
+        [JsonProperty("end_datetime")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime EndDatetime;
         [JsonProperty("submit_histories")] public List<SubmitHistory> SubmitHistories;
 
         public GameSession(long mapId)
@@ -85,7 +84,6 @@ namespace Unity.Game.SaveSystem
         [JsonProperty("is_completed")] public bool IsCompleted;
         [JsonProperty("command_medal")][JsonConverter(typeof(StringEnumConverter))] public Medal CommandMedal;
         [JsonProperty("action_medal")][JsonConverter(typeof(StringEnumConverter))] public Medal ActionMedal;
-        //[JsonProperty("submit_datetime")] public SerializableDateTime SubmitDatetime;
         [JsonProperty("submit_datetime")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime SubmitDatetime;
 
         [JsonProperty("state_values")] public StateValue StateValue;
@@ -105,8 +103,7 @@ namespace Unity.Game.SaveSystem
             CommandMedal = commandMedal;
             ActionMedal = actionMedal;
             StateValue = stateValue;
-            //SubmitDatetime = new SerializableDateTime(DateTime.Now);
-            SubmitDatetime = DateTime.Now;
+            SubmitDatetime = DateTime.UtcNow;
         }
     }
 
@@ -114,11 +111,13 @@ namespace Unity.Game.SaveSystem
     public class RuleHistory
     {
         [JsonProperty("map_rule_id")] public long MapRuleId;
+        [JsonProperty("theme")][JsonConverter(typeof(StringEnumConverter))] public RuleTheme Theme;
         [JsonProperty("is_pass")] public bool IsPass;
 
-        public RuleHistory(long mapRuleId, bool isPass)
+        public RuleHistory(long mapRuleId, RuleTheme theme, bool isPass)
         {
             MapRuleId = mapRuleId;
+            Theme = theme;
             IsPass = isPass;
         }
     }
