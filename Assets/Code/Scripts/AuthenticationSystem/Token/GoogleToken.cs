@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using GoogleAPI;
 
 namespace Authentication.Token
 {
@@ -9,5 +10,11 @@ namespace Authentication.Token
 
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }
+
+        public GoogleJWTClaim GetJWTClaim()
+        {
+            string rawJsonClaim = Utility.ReadJwtClaim(IdToken);
+            return JsonConvert.DeserializeObject<GoogleJWTClaim>(rawJsonClaim);
+        }
     }
 }

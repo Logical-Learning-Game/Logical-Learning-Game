@@ -106,15 +106,18 @@ namespace Unity.Game.SaveSystem
 
     public class CommandNodeDTO
     {
-        [JsonProperty("node_index")]
+        [JsonProperty("index")]
         public int NodeIndex { get; set; }
 
         [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public CommandType Type { get; set; }
 
-        [JsonProperty("in_game_position")]
-        public Vector2FloatDTO InGamePosition { get; set; }
+        [JsonProperty("x")]
+        public float X { get; set; }
+
+        [JsonProperty("y")]
+        public float Y { get; set; }
     }
 
     public class CommandEdgeDTO
@@ -128,15 +131,6 @@ namespace Unity.Game.SaveSystem
         [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public EdgeType Type { get; set; }
-    }
-
-    public class Vector2FloatDTO
-    {
-        [JsonProperty("x")]
-        public float X { get; set; }
-
-        [JsonProperty("y")]
-        public float Y { get; set; }
     }
 
     public class TopSubmitHistoryRequest

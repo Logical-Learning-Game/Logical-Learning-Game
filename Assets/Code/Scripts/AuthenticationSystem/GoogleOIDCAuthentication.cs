@@ -6,19 +6,21 @@ using System.Text;
 using System;
 using System.Threading.Tasks;
 using System.IO;
+using Authentication.Token;
+using Newtonsoft.Json;
 
 namespace Authentication
 {
-    public class GoogleOIDCAuthentication : AbstractOIDCAuthentication
+    public class GoogleOIDCAuthentication
     {
-        private readonly GoogleOIDMetadata _googleOIDMetadata;
+        private readonly GoogleOIDMetadata googleOIDMetadata;
 
         public GoogleOIDCAuthentication(GoogleOIDMetadata googleOIDMetadata)
         {
-            _googleOIDMetadata = googleOIDMetadata;
+            this.googleOIDMetadata = googleOIDMetadata;
         }
 
-        protected override async Task<string> GetTokenString()
+        public async Task<GoogleToken> GetToken()
         {
             // Generate State and PKCE value
             string state = Utility.RandomBase64URL(32);
@@ -34,7 +36,7 @@ namespace Authentication
 
             // Creates the OAuth 2.0 authorization request.
             string authorizationRequest = string.Format("{0}?response_type=code&scope=openid email%20profile&redirect_uri={1}&client_id={2}&state={3}",
-                    _googleOIDMetadata.AuthorizationEndpoint,
+                    googleOIDMetadata.AuthorizationEndpoint,
                     Uri.EscapeDataString(redirectURI),
                     GoogleOIDConfig.CLIENT_ID,
                     state
@@ -44,10 +46,7 @@ namespace Authentication
             System.Diagnostics.Process.Start(authorizationRequest);
 
             // Waits for the OAuth authorization response.
-            var context = await httpListener.GetContextAsync();
-
-            // Brings this app back to the foreground.
-
+            var context = httpListener.GetContext();
 
             // Sends an HTTP response to the browser.
             var response = context.Response;
@@ -86,7 +85,8 @@ namespace Authentication
             // extracts the code
             string authCode = context.Request.QueryString.Get("code");
 
-            return await CodeExchange(authCode, redirectURI);
+            string googleTokenString = await CodeExchange(authCode, redirectURI);
+            return JsonConvert.DeserializeObject<GoogleToken>(googleTokenString);
         }
 
         private async Task<string> CodeExchange(string authCode, string redirectURI)
@@ -100,7 +100,7 @@ namespace Authentication
             );
 
 
-            var tokenRequest = WebRequest.CreateHttp(_googleOIDMetadata.TokenEndpoint);
+            var tokenRequest = WebRequest.CreateHttp(googleOIDMetadata.TokenEndpoint);
             tokenRequest.Method = "POST";
             tokenRequest.ContentType = "application/x-www-form-urlencoded";
             tokenRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
@@ -141,6 +141,5 @@ namespace Authentication
             }
             return null;
         }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Repository.GoogleAPI
+namespace GoogleAPI
 {
     public class GoogleJWTClaim
     {
