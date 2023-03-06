@@ -54,6 +54,14 @@ namespace Unity.Game.UI
             NewGameButton?.RegisterCallback<ClickEvent>(ClickNewGame);
             ContinueButton?.RegisterCallback<ClickEvent>(ClickContinue);
             QuitGameButton?.RegisterCallback<ClickEvent>(ClickQuitGame);
+            NewGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            ContinueButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            QuitGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+        }
+
+        void MouseOverButton(MouseOverEvent evt)
+        {
+            AudioManager.PlayDefaultHoverSound();
         }
 
         void ClickNewGame(ClickEvent evt)
