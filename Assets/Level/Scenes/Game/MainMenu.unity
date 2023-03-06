@@ -517,7 +517,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MainAudioMixer: {fileID: 24100000, guid: d8e1ffc6a7bbbe84ba689c7bde70c99c, type: 2}
-  DefaultButtonSound: {fileID: 8300000, guid: d0e84355bc44d694e82988c6397156fe, type: 3}
+  DefaultButtonSound: {fileID: 8300000, guid: eb7f6e65e71d897468a4b16d152813fa, type: 3}
+  DefaultHoverSound: {fileID: 8300000, guid: d0e84355bc44d694e82988c6397156fe, type: 3}
   DefaultWarningSound: {fileID: 8300000, guid: 24311b8dfae8efc459baafdcf5752ab4, type: 3}
   VictorySound: {fileID: 8300000, guid: bf0cdb581f98e4542bb93262f20efe87, type: 3}
   LevelStartSound: {fileID: 8300000, guid: 80dd709cf179fb148884742c7ec00cec, type: 3}
@@ -740,6 +741,8 @@ GameObject:
   - component: {fileID: 1236263099}
   - component: {fileID: 1236263100}
   - component: {fileID: 1236263101}
+  - component: {fileID: 1236263102}
+  - component: {fileID: 1236263103}
   m_Layer: 0
   m_Name: PanelScreen
   m_TagString: Untagged
@@ -791,23 +794,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapDataManager: {fileID: 872253281}
   WorldDatas: []
-  testdisplaymap:
-    MapData: 2000000000000000300000000000000000010000100000001000000000000000000000000002000000010000000000003000000000100300000300000700000010000000000000000000000000000000
-    Width: 5
-    Height: 4
-    MapRules: []
-    StarRequirement: 0
-    MapName: 0-1
-    Id: 1
-    LeastSolvableCommandGold: 0
-    LeastSolvableCommandSilver: 0
-    LeastSolvableCommandBronze: 0
-    LeastSolvableActionGold: 0
-    LeastSolvableActionSilver: 0
-    LeastSolvableActionBronze: 0
-    MapImagePath: 
+  isMapLoading: 0
   RuleComplete: {fileID: 21300000, guid: 7c2cdabd79cef2f45897e87a65fa4cdc, type: 3}
   RuleIncomplete: {fileID: 21300000, guid: d317166b1be42e441840ff5e78899665, type: 3}
+--- !u!114 &1236263102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236263098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488d844d6e4289649a9f2c8b2cb964f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapDataManager: {fileID: 872253281}
+  WorldDatas: []
+--- !u!114 &1236263103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236263098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c09ec174e31294284d4694f62c47d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1453731811
 GameObject:
   m_ObjectHideFlags: 0

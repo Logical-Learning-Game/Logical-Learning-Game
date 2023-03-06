@@ -12,7 +12,6 @@ namespace Unity.Game.UI
         public static event Action<string> LocalNewGame;
         public static event Action GoogleNewGame;
 
-
         GameData gameData;
 
         void Awake()

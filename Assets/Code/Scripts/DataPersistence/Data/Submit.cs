@@ -86,10 +86,10 @@ namespace Unity.Game.SaveSystem
         [JsonProperty("action_medal")][JsonConverter(typeof(StringEnumConverter))] public Medal ActionMedal;
         [JsonProperty("submit_datetime")][JsonConverter(typeof(IsoDateTimeConverter))] public DateTime SubmitDatetime;
 
-        [JsonProperty("state_values")] public StateValue StateValue;
+        [JsonProperty("state_value")] public StateValue StateValue;
         [JsonProperty("command_nodes")] public List<CommandNode> CommandNodes;
         [JsonProperty("command_edges")] public List<CommandEdge> CommandEdges;
-        [JsonProperty("rule_histories")] public List<RuleHistory> RuleHistories;
+        [JsonProperty("rules")] public List<RuleHistory> RuleHistories;
 
         public SubmitHistory() { }
 
@@ -113,12 +113,15 @@ namespace Unity.Game.SaveSystem
         [JsonProperty("map_rule_id")] public long MapRuleId;
         [JsonProperty("theme")][JsonConverter(typeof(StringEnumConverter))] public RuleTheme Theme;
         [JsonProperty("is_pass")] public bool IsPass;
+        [JsonProperty("theme")][JsonConverter(typeof(StringEnumConverter))] public RuleTheme Theme;
 
-        public RuleHistory(long mapRuleId, RuleTheme theme, bool isPass)
+        public RuleHistory(long mapRuleId, bool isPass , RuleTheme theme)
+
         {
             MapRuleId = mapRuleId;
             Theme = theme;
             IsPass = isPass;
+            Theme = theme;
         }
     }
 
