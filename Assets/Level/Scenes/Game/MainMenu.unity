@@ -517,7 +517,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MainAudioMixer: {fileID: 24100000, guid: d8e1ffc6a7bbbe84ba689c7bde70c99c, type: 2}
-  DefaultButtonSound: {fileID: 8300000, guid: d0e84355bc44d694e82988c6397156fe, type: 3}
+  DefaultButtonSound: {fileID: 8300000, guid: eb7f6e65e71d897468a4b16d152813fa, type: 3}
+  DefaultHoverSound: {fileID: 8300000, guid: d0e84355bc44d694e82988c6397156fe, type: 3}
   DefaultWarningSound: {fileID: 8300000, guid: 24311b8dfae8efc459baafdcf5752ab4, type: 3}
   VictorySound: {fileID: 8300000, guid: bf0cdb581f98e4542bb93262f20efe87, type: 3}
   LevelStartSound: {fileID: 8300000, guid: 80dd709cf179fb148884742c7ec00cec, type: 3}
@@ -793,6 +794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapDataManager: {fileID: 872253281}
   WorldDatas: []
+  isMapLoading: 0
   RuleComplete: {fileID: 21300000, guid: 7c2cdabd79cef2f45897e87a65fa4cdc, type: 3}
   RuleIncomplete: {fileID: 21300000, guid: d317166b1be42e441840ff5e78899665, type: 3}
 --- !u!114 &1236263102

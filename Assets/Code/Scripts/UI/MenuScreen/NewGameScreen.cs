@@ -61,9 +61,19 @@ namespace Unity.Game.UI
 
             CancelNewGameButton?.RegisterCallback<ClickEvent>(ClickCancelNewGame);
             ConfirmNewGameButton?.RegisterCallback<ClickEvent>(ClickConfirmNewGame);
+
+            LocalNewGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            GoogleNewGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            BackButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+
+            CancelNewGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            ConfirmNewGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
         }
 
- 
+        void MouseOverButton(MouseOverEvent evt)
+        {
+            AudioManager.PlayDefaultHoverSound();
+        }
 
         void ClickLocalNewGame(ClickEvent evt)
         {

@@ -166,7 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55bfca51f349ce44b706b8acc8e8d58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
 --- !u!114 &8829738438923631630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +180,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineDrawerPrefab: {fileID: 6721130139934616546, guid: 12e92d77784dd9542b2aa9ad12ff50e6,
     type: 3}
-  lineDrawerObject: {fileID: 0}
   ResolutionRatio: 42.5
   isLinking: 0
   isLinkable: 1
@@ -203,6 +201,7 @@ MonoBehaviour:
   isDraggable: 1
   isDragging: 0
   dragPosition: {x: 0, y: 0}
+  draggingOffset: {x: 0, y: 0}
 --- !u!222 &5048550160489058914
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -52,8 +52,17 @@ namespace Unity.Game.UI
             CancelSyncButton?.RegisterCallback<ClickEvent>(ClickCancelSync);
             ConfirmSyncButton?.RegisterCallback<ClickEvent>(ClickConfirmSync);
             DenySyncButton?.RegisterCallback<ClickEvent>(ClickDenySync);
+
+            CancelSyncButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            ConfirmSyncButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            DenySyncButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
         }
 
+
+        void MouseOverButton(MouseOverEvent evt)
+        {
+            AudioManager.PlayDefaultHoverSound();
+        }
         void ClickCancelSync(ClickEvent evt)
         {
             CancelSyncClick?.Invoke();

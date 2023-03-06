@@ -20,6 +20,8 @@ namespace Unity.Game
         [Header("UI Sounds")]
         [Tooltip("General button click.")]
         [SerializeField] AudioClip DefaultButtonSound;
+        [Tooltip("General button click.")]
+        [SerializeField] AudioClip DefaultHoverSound;
         //[Tooltip("General button click.")]
         //[SerializeField] AudioClip m_AltButtonSound;
         //[Tooltip("General shop purchase clip.")]
@@ -162,14 +164,14 @@ namespace Unity.Game
             PlayOneSFX(audioManager.DefaultButtonSound, Vector3.zero);
         }
 
-        //public static void PlayAltButtonSound()
-        //{
-        //    AudioManager audioManager = FindObjectOfType<AudioManager>();
-        //    if (audioManager == null)
-        //        return;
+        public static void PlayDefaultHoverSound()
+        {
+            AudioManager audioManager = FindObjectOfType<AudioManager>();
+            if (audioManager == null)
+                return;
 
-        //    PlayOneSFX(audioManager.m_AltButtonSound, Vector3.zero);
-        //}
+            PlayOneSFX(audioManager.DefaultHoverSound, Vector3.zero);
+        }
 
         //public static void PlayDefaultTransactionSound()
         //{

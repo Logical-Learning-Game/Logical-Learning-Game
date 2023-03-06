@@ -73,6 +73,7 @@ namespace Unity.Game.SaveSystem
         void SyncGameData(string UserId, bool isSync)
         {
             // if is sync is true, it is necessary to send all history first
+            // TODO for Pat
             if (isSync)
             {
                 Debug.Log("Going Sync");

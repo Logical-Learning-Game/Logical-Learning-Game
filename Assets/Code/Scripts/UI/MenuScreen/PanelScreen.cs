@@ -73,6 +73,16 @@ namespace Unity.Game.UI
             StatButton?.RegisterCallback<ClickEvent>(ShowStatPanel);
             SettingButton?.RegisterCallback<ClickEvent>(ShowSettingPanel);
             HistoryButton?.RegisterCallback<ClickEvent>(ShowHistoryPanel);
+
+            LevelButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            StatButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            SettingButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            HistoryButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+        }
+
+        void MouseOverButton(MouseOverEvent evt)
+        {
+            AudioManager.PlayDefaultHoverSound();
         }
 
         public Button GetOutsidePanel()

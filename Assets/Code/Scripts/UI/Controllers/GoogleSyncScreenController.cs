@@ -2,6 +2,7 @@
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System;
+using System.Collections;
 using Unity.Game.SaveSystem;
 
 namespace Unity.Game.UI
@@ -53,19 +54,24 @@ namespace Unity.Game.UI
         {
             // TODO for PAT (Google SignIn Method)
 
-            string UserId = "__Google__";
+            currentUserId = "";
+            bool isAccountExisted = true;
 
-            currentUserId = UserId;
-            //when signin completed invoke with its userId
-            if(gameData.UserId == "")
+            OnSignInComplete(currentUserId, isAccountExisted);
+            
+        }
+        public void OnSignInComplete(string newUserId,bool isAccountExisted)
+        {
+            if (gameData == null || gameData?.UserId == "")
             {
-                GoogleNewGame?.Invoke(currentUserId,false);
+                GoogleNewGame?.Invoke(newUserId, false);
+                return;
             }
             else
             {
                 ShowDetectSaveModal?.Invoke();
             }
-            
+
         }
 
         public void OnDenySync()

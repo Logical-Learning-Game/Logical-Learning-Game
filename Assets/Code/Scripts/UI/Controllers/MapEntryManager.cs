@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using GlobalConfig;
 using Unity.Game.MapSystem;
 using Unity.Game.UI;
@@ -13,6 +12,7 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using Unity.Game.Level;
 using Unity.Game.SaveSystem;
+using System.Threading.Tasks;
 
 namespace Unity.Game.UI
 {
@@ -26,9 +26,14 @@ namespace Unity.Game.UI
 
         //public static Dictionary<string, List<Map>> MapLists;
 
-        public List<WorldData> WorldDatas; 
+        public List<WorldData> WorldDatas;
 
+        public bool isMapLoading;
         //public Map testdisplaymap;
+        Coroutine RotateCoroutine;
+        Quaternion originalRotation;
+
+        Button MapUpdateButton;
 
         GameData gameData;
 
@@ -41,7 +46,8 @@ namespace Unity.Game.UI
 
         private void Awake()
         {
-
+            SetVisualElements();
+            RegisterButtonCallbacks();
         }
 
         private void Start()
@@ -49,6 +55,21 @@ namespace Unity.Game.UI
 
         }
 
+        void SetVisualElements()
+        {
+            VisualElement LevelPanel = GetComponent<PanelScreen>().LevelPanel;
+            MapUpdateButton = LevelPanel.Q<Button>("MapUpdateButton");
+        }
+        void RegisterButtonCallbacks()
+        {
+            MapUpdateButton?.RegisterCallback<ClickEvent>(UpdateMapData);
+            MapUpdateButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+        }
+
+        void MouseOverButton(MouseOverEvent evt)
+        {
+            AudioManager.PlayDefaultHoverSound();
+        }
         private void OnEnable()
         {
             PanelScreen.OpenLevelPanel += OnOpenLevelPanel;
@@ -67,9 +88,46 @@ namespace Unity.Game.UI
             MapDataManager.WorldDataLoaded -= OnWorldDataLoaded;
         }
 
-        public void UpdateMapData()
+        async public void UpdateMapData(ClickEvent evt)
         {
-            // mockup for sync map data with network
+            isMapLoading = true;
+            SetButtonLoading(isMapLoading);
+
+            await GetMapData(2000);
+
+            isMapLoading = false;
+            SetButtonLoading(isMapLoading);
+        }
+        async Task GetMapData(int millisecondsDelay)
+        {
+            await Task.Delay(millisecondsDelay);
+        }
+
+        void SetButtonLoading(bool isLoading)
+        {
+            VisualElement icon = MapUpdateButton.contentContainer.Q<VisualElement>("RotateIcon");
+
+            if (isLoading)
+            {
+                RotateCoroutine = StartCoroutine(RotateIcon(icon));
+                MapUpdateButton.SetEnabled(false);
+                originalRotation = icon.transform.rotation;
+            }
+            else
+            {
+                MapUpdateButton.SetEnabled(true);
+                StopCoroutine(RotateCoroutine);
+                icon.transform.rotation = originalRotation;
+            }
+        }
+
+        IEnumerator RotateIcon(VisualElement loadingSpinner)
+        {
+            while (true)
+            {
+                loadingSpinner.transform.rotation = Quaternion.Euler(0, 0, loadingSpinner.transform.rotation.eulerAngles.z + 10f);
+                yield return null;
+            }
         }
 
         public void LoadMapFromFile()
@@ -85,7 +143,7 @@ namespace Unity.Game.UI
         public void OnGameDataLoaded(GameData gameData)
         {
             this.gameData = gameData;
-            
+
         }
 
         public void GenerateMapEntry(string worldSelector)
@@ -135,7 +193,7 @@ namespace Unity.Game.UI
 
                 // Accessing PlayerData
                 SubmitHistory mapBestSubmit;
-                if (gameData.SubmitBest.TryGetValue(mapEntryList[i].Id,out mapBestSubmit))
+                if (gameData.SubmitBest.TryGetValue(mapEntryList[i].Id, out mapBestSubmit))
                 {
                     if (mapBestSubmit.IsCompleted)
                     {
@@ -152,6 +210,7 @@ namespace Unity.Game.UI
                     e.Q<Label>("BestPlayDate").text = mapBestSubmit.SubmitDatetime.ToString("g");
                 }
                 e.Q<UnityEngine.UIElements.Button>("MapEntryButton").RegisterCallback<ClickEvent>(e => OnClickMapEntry(e, mapEntryList[i]));
+                e.Q<UnityEngine.UIElements.Button>("MapEntryButton").RegisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
             };
 
             entryView.makeItem = makeItem;
@@ -161,7 +220,7 @@ namespace Unity.Game.UI
 
         void CreateDropDownMenu()
         {
-           
+
             dropdownField = GetComponent<PanelScreen>().LevelPanel.Q<DropdownField>("WorldSelector");
             dropdownField.RegisterValueChangedCallback(x => GenerateMapEntry(x.newValue));
             dropdownField.choices = GetWorldEntries();
@@ -184,11 +243,11 @@ namespace Unity.Game.UI
 
         public List<string> GetWorldEntries()
         {
-            if (WorldDatas == null || WorldDatas.Count == 0) return new List<string>() {"__NONE__" };
+            if (WorldDatas == null || WorldDatas.Count == 0) return new List<string>() { "__NONE__" };
             return WorldDatas.Select(w => w.WorldName).ToList();
         }
 
-        void OnClickMapEntry(ClickEvent evt,Map map)
+        void OnClickMapEntry(ClickEvent evt, Map map)
         {
             //Debug.Log(map.MapName);
             LoadLevelMap(map);
@@ -198,10 +257,11 @@ namespace Unity.Game.UI
         {
             bool isSameMap = false;
             //Debug.Log("loadlevelmap is trigger");
-            if (LevelManager.Instance == null) {
+            if (LevelManager.Instance == null)
+            {
                 gameObject.AddComponent<LevelManager>();
             }
-            if(LevelManager.Instance.GetMap() != null)
+            if (LevelManager.Instance.GetMap() != null)
             {
                 isSameMap = (map.Id == LevelManager.Instance.GetMap().Id);
             }
