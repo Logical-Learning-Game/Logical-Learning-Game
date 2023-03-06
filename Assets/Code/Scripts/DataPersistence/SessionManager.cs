@@ -61,7 +61,7 @@ namespace Unity.Game.SaveSystem
                 return;
             }
 
-            CurrentGameSession.EndDatetime = DateTime.UtcNow;
+            CurrentGameSession.EndDatetime = DateTime.Now;
             CurrentGameSession = null;
 
             // Try send data to backend
@@ -144,7 +144,7 @@ namespace Unity.Game.SaveSystem
                 ActionMedal = context.ActionMedal,
                 StateValue = context.StateValue,
                 RuleHistories = new List<RuleHistory>(),
-                SubmitDatetime = DateTime.UtcNow,
+                SubmitDatetime = DateTime.Now,
             };
 
             for (int i = 0; i < context.Rules.Count; i++)
@@ -154,6 +154,15 @@ namespace Unity.Game.SaveSystem
             }
 
             CurrentGameSession.SubmitHistories.Add(submit);
+            // compare and add submit to topsubmits
+            if(gameDataManager.GameData.SubmitBest.TryGetValue(CurrentGameSession.MapId, out SubmitHistory oldSubmit))
+            {
+                gameDataManager.GameData.SubmitBest[CurrentGameSession.MapId] = SubmitHistory.GetBestSubmit(new List<SubmitHistory>() { submit,oldSubmit });
+            }
+            else
+            {
+                gameDataManager.GameData.SubmitBest.Add(CurrentGameSession.MapId, submit);
+            }
             OnCommandSubmit?.Invoke(submit);
         }
 

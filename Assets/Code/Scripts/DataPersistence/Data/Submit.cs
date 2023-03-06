@@ -5,6 +5,7 @@ using Unity.Game.Command;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Unity.Game.RuleSystem;
+using Unity.Game.MapSystem;
 
 namespace Unity.Game.SaveSystem
 {
@@ -34,7 +35,7 @@ namespace Unity.Game.SaveSystem
         {
             MapId = mapId;
             //StartDatetime = new SerializableDateTime(DateTime.UtcNow);
-            StartDatetime = DateTime.UtcNow;
+            StartDatetime = DateTime.Now;
             SubmitHistories = new List<SubmitHistory>();
         }
 
@@ -103,7 +104,105 @@ namespace Unity.Game.SaveSystem
             CommandMedal = commandMedal;
             ActionMedal = actionMedal;
             StateValue = stateValue;
-            SubmitDatetime = DateTime.UtcNow;
+            SubmitDatetime = DateTime.Now;
+        }
+
+        public static (Medal,Medal) GetMedal(StateValue currentValue,Map map)
+        {
+            Medal commandMedal = Medal.NONE;
+            Medal actionMedal = Medal.NONE;
+
+            if (currentValue.CommandCount <= map.LeastSolvableCommandGold)
+            {
+                commandMedal = Medal.GOLD;
+            }else if (currentValue.CommandCount <= map.LeastSolvableCommandSilver)
+            {
+                commandMedal = Medal.SILVER;
+            }
+            else if (currentValue.CommandCount <= map.LeastSolvableCommandBronze)
+            {
+                commandMedal = Medal.BRONZE;
+            }
+
+            if (currentValue.ActionCount <= map.LeastSolvableActionGold)
+            {
+                actionMedal = Medal.GOLD;
+            }
+            else if (currentValue.CommandCount <= map.LeastSolvableActionSilver)
+            {
+                actionMedal = Medal.SILVER;
+            }
+            else if (currentValue.CommandCount <= map.LeastSolvableActionBronze)
+            {
+                actionMedal = Medal.BRONZE;
+            }
+
+            return (commandMedal, actionMedal);
+        }
+
+        public static SubmitHistory GetBestSubmit(List<SubmitHistory> AllSubmits)
+        {
+            if (AllSubmits == null || AllSubmits?.Count == 0) return null;
+
+            SubmitHistory bestSubmit = AllSubmits[0];
+
+            foreach (SubmitHistory submit in AllSubmits)
+            {
+                // Check if the submit is completed
+                if (submit.IsCompleted && !bestSubmit.IsCompleted)
+                {
+                    bestSubmit = submit;
+                }
+                else if (submit.IsCompleted && bestSubmit.IsCompleted)
+                {
+                    // Compare RuleHistories
+                    bool allPass = true;
+                    for (int i = 0; i < submit.RuleHistories.Count; i++)
+                    {
+                        if (!submit.RuleHistories[i].IsPass && bestSubmit.RuleHistories[i].IsPass)
+                        {
+                            allPass = false;
+                            break;
+                        }
+                        else if (!submit.RuleHistories[i].IsPass && !bestSubmit.RuleHistories[i].IsPass)
+                        {
+                            // First child is more important
+                            if (i == 0)
+                            {
+                                bestSubmit = submit;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (allPass)
+                    {
+                        // Compare CommandMedal and ActionMedal
+                        if (submit.CommandMedal > bestSubmit.CommandMedal)
+                        {
+                            bestSubmit = submit;
+                        }
+                        else if (submit.CommandMedal == bestSubmit.CommandMedal && submit.ActionMedal > bestSubmit.ActionMedal)
+                        {
+                            bestSubmit = submit;
+                        }
+                        else if (submit.CommandMedal == bestSubmit.CommandMedal && submit.ActionMedal == bestSubmit.ActionMedal)
+                        {
+                            // Compare StateValue
+                            if (submit.StateValue.CommandCount < bestSubmit.StateValue.CommandCount)
+                            {
+                                bestSubmit = submit;
+                            }
+                            else if (submit.StateValue.CommandCount == bestSubmit.StateValue.CommandCount && submit.StateValue.ActionCount < bestSubmit.StateValue.ActionCount)
+                            {
+                                bestSubmit = submit;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return bestSubmit;
         }
     }
 
@@ -113,9 +212,8 @@ namespace Unity.Game.SaveSystem
         [JsonProperty("map_rule_id")] public long MapRuleId;
         [JsonProperty("theme")][JsonConverter(typeof(StringEnumConverter))] public RuleTheme Theme;
         [JsonProperty("is_pass")] public bool IsPass;
-        [JsonProperty("theme")][JsonConverter(typeof(StringEnumConverter))] public RuleTheme Theme;
 
-        public RuleHistory(long mapRuleId, bool isPass , RuleTheme theme)
+        public RuleHistory(long mapRuleId, bool isPass, RuleTheme theme)
 
         {
             MapRuleId = mapRuleId;
