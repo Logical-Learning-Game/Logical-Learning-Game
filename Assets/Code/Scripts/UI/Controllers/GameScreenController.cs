@@ -13,6 +13,7 @@ namespace Unity.Game.UI
     public class GameScreenController : MonoBehaviour
     {
         public static event Action<SubmitHistory> GameWon;
+        //public static event Action NewMapRestart;
         public static event Action SameMapRestart;
         //public static event Action<GameData> SettingsUpdated;
         //public static event Action SettingsLoad;
@@ -80,6 +81,7 @@ namespace Unity.Game.UI
 #endif
                 if (!isSameMap)
                 {
+                    //NewMapRestart?.Invoke();
                     SceneManager.LoadSceneAsync(GameSceneName);
                 }
                 else
@@ -89,7 +91,6 @@ namespace Unity.Game.UI
 
 
         }
-
 
         void OnGameWon(SubmitHistory submit)
         {

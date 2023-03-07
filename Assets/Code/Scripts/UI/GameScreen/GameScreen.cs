@@ -104,7 +104,7 @@ namespace Unity.Game.UI
 
         void OnGameWon(SubmitHistory submit)
         {
-            OutsidePanel = null;
+            OutsidePanel.SetEnabled(false);
             AudioManager.PlayVictorySound();
             StartCoroutine(GameWonRoutine(submit));
         }
@@ -174,6 +174,7 @@ namespace Unity.Game.UI
         {
             OnSelectMap(true);
             OnOpenGameScreen(null);
+            OutsidePanel.SetEnabled(true);
         }
 
         void BlurBackground(bool state)

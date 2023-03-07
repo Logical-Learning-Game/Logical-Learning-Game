@@ -81,8 +81,8 @@ namespace Unity.Game.UI
             for (int i = 0; i < submit.RuleHistories.Count; i++)
             {
                 //Debug.Log($"iterating {i}");
-                VictoryHeader.Q($"RuleClearHead{i + 1}").style.backgroundImage = new StyleBackground(submit.RuleHistories[0].IsPass ? StarFilled : StarNotFilled);
-                VictoryContainer.Q($"RuleDescriptionContainer{i + 1}").Q("RuleIcon").style.backgroundImage = new StyleBackground(submit.RuleHistories[0].IsPass ? StarFilled : StarNotFilled);
+                VictoryHeader.Q($"RuleClearHead{i + 1}").style.backgroundImage = new StyleBackground(submit.RuleHistories[i].IsPass ? StarFilled : StarNotFilled);
+                VictoryContainer.Q($"RuleDescriptionContainer{i + 1}").Q("RuleIcon").style.backgroundImage = new StyleBackground(submit.RuleHistories[i].IsPass ? StarFilled : StarNotFilled);
                 VictoryContainer.Q($"RuleDescriptionContainer{i + 1}").Q<Label>("RuleDescription").text = LevelManager.gameMap.MapRules[i].GetRule().GetDescription();
             }
         }

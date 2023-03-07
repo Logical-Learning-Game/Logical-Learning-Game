@@ -48,24 +48,13 @@ namespace Unity.Game.SaveSystem
 
         }
 
-        void AddSubmit(SubmitHistory submit)
-        {
-            // implement add submit to List
-            Debug.Log("Adding Submit to current game session");
-            SessionManager.CurrentGameSession.SubmitHistories.Add(submit);
-
-
-            //if this submit is new high score
-            //gameData.SubmitBest.TryAdd(submit.mapId, submit);
-
-
-            saveManager.SaveGame();
-        }
-
         void NewGameWithUserId(string UserId)
         {
             gameData = saveManager.NewGame();
             gameData.UserId = UserId;
+
+            saveManager.SaveGame();
+            saveManager.InvokeGameDataLoad();
 
             NewGameCompleted?.Invoke();
         }
