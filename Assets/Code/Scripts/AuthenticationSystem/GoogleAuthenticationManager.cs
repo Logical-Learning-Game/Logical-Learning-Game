@@ -29,6 +29,7 @@ namespace Unity.Game.Authentication
 
         private void Awake()
         {
+            Debug.Log("GoogleAuthenticator is Awaked");
             instance = this;
         }
 

@@ -18,6 +18,8 @@ namespace Unity.Game.UI
 {
     public class SettingPanelManager : MonoBehaviour
     {
+        public static event Action MainMenuClick;
+        public static event Action GoogleSyncClick;
         public static event Action<float> MusicVolumeChanged;
         public static event Action<float> SfxVolumeChanged;
 
@@ -28,7 +30,7 @@ namespace Unity.Game.UI
 
         Button GoogleSyncButton;
         Button QuitGameButton;
-        Button RestartButton;
+        //Button RestartButton;
 
         GameData gameData;
 
@@ -45,14 +47,60 @@ namespace Unity.Game.UI
             MusicSlider = SettingPanel.Q<Slider>("BGMSlider");
 
             GoogleSyncButton = SettingPanel.Q<Button>("GoogleLinkButton");
-            RestartButton = SettingPanel.Q<Button>("RestartButton");
+            //RestartButton = SettingPanel.Q<Button>("RestartButton");
             QuitGameButton = SettingPanel.Q<Button>("QuitButton");
+
+            ShowVisualElement(GoogleSyncButton, false);
+            if (SceneManager.GetActiveScene().name == "MainMenu")
+            {
+                //ShowVisualElement(RestartButton, false);
+                ShowVisualElement(QuitGameButton, false);
+            }
         }
+
         void RegisterButtonCallbacks()
         {
             SFXSlider?.RegisterValueChangedCallback(ChangeSFXVolume);
             MusicSlider?.RegisterValueChangedCallback(ChangeMusicVolume);
+
+            GoogleSyncButton?.RegisterCallback<ClickEvent>(OnClickGoogleSync);
+            //RestartButton?.RegisterCallback<ClickEvent>(OnClickRestart);
+            QuitGameButton?.RegisterCallback<ClickEvent>(OnClickQuitGame);
+
+            GoogleSyncButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            //RestartButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            QuitGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
         }
+
+        void OnClickGoogleSync (ClickEvent evt)
+        {
+            GoogleSyncClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
+        }
+        //void OnClickRestart(ClickEvent evt)
+        //{
+        //    RestartClick?.Invoke(true);
+        //    AudioManager.PlayDefaultButtonSound();
+        //}
+        void OnClickQuitGame(ClickEvent evt)
+        {
+            MainMenuClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
+        }
+
+        void MouseOverButton(MouseOverEvent evt)
+        {
+            AudioManager.PlayDefaultHoverSound();
+        }
+
+        public static void ShowVisualElement(VisualElement visualElement, bool state)
+        {
+            if (visualElement == null)
+                return;
+
+            visualElement.style.display = (state) ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
         private void Start()
         {
             //MusicVolume = PlayerPrefs.GetFloat("musicvolume",50);
@@ -74,6 +122,11 @@ namespace Unity.Game.UI
         public void OnGameDataLoaded(GameData gameData)
         {
             this.gameData = gameData;
+            UpdateUserSettingPanel();
+            if (gameData.PlayerId == null || gameData.PlayerId == "__guest__")
+            {
+                ShowVisualElement(GoogleSyncButton, true);
+            }
         }
 
         public void OnOpenSettingPanel()
@@ -93,8 +146,9 @@ namespace Unity.Game.UI
 
             SettingPanel.Q<Label>("UserIdValue").text = gameData.PlayerId;
 
+            AudioManager.SetVolume(AudioManager.MusicGroup, PlayerPrefs.GetFloat("music", .5f));
+            AudioManager.SetVolume(AudioManager.SfxGroup, PlayerPrefs.GetFloat("sfx", .5f));
 
-            Debug.Log(AudioManager.GetVolume("Music"));
             MusicSlider.value = AudioManager.GetVolume("Music") * 100;
             SFXSlider.value = AudioManager.GetVolume("SFX") * 100;
 

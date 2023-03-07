@@ -31,6 +31,8 @@ namespace Unity.Game.UI
             NewGameScreenController.GoogleNewGame += OnGoogleSignIn;
             GoogleSyncScreen.DenySyncClick += OnDenySync;
             GoogleSyncScreen.ConfirmSyncClick += OnConfirmSync;
+
+            SettingPanelManager.GoogleSyncClick += OnGoogleSignIn;
         }
 
         void OnDisable()
@@ -40,6 +42,8 @@ namespace Unity.Game.UI
             NewGameScreenController.GoogleNewGame -= OnGoogleSignIn;
             GoogleSyncScreen.DenySyncClick -= OnDenySync;
             GoogleSyncScreen.ConfirmSyncClick -= OnConfirmSync;
+
+            SettingPanelManager.GoogleSyncClick -= OnGoogleSignIn;
         }
 
         void Start()
@@ -59,6 +63,10 @@ namespace Unity.Game.UI
             // google signin
             try
             {
+                if(GoogleAuthenticationManager.Instance == null)
+                {
+                    gameObject.AddComponent<GoogleAuthenticationManager>();
+                }
                 string playerId = await GoogleAuthenticationManager.Instance.GoogleSignIn();
                 Debug.Log($"PlayerId: {playerId}");
                 currentPlayerId = playerId;

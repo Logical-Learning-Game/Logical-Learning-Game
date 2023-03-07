@@ -68,6 +68,7 @@ namespace Unity.Game.SaveSystem
             if (isSync)
             {
                 Debug.Log("Going Sync");
+                gameData.PlayerId = playerId;
 
                 // send all history first
                 await SendGameData();
@@ -84,7 +85,7 @@ namespace Unity.Game.SaveSystem
                 Debug.Log($"retrieve game data: {newGameData.SubmitBest}");
                 gameData = newGameData;
 
-                gameData.PlayerId = playerId;
+                //gameData.PlayerId = playerId;
             }
             catch (APIException ex)
             {
@@ -94,7 +95,10 @@ namespace Unity.Game.SaveSystem
             {
                 Debug.LogErrorFormat("An error occurred while making http request to get game data endpoint: {0}", ex);
             }
-           
+
+            saveManager.SaveGame();
+            saveManager.InvokeGameDataLoad();
+
             NewGameCompleted?.Invoke();
         }
 

@@ -69,6 +69,12 @@ namespace Unity.Game.UI
         {
             this.gameData = gameData;
 
+            if (WorldDatas.Count == 0)
+            {
+                LoadMapFromFile();
+            }
+
+            UpdateUserStat(CalculateUserStat(gameData, WorldDatas));
         }
 
         public void OnOpenStatPanel()

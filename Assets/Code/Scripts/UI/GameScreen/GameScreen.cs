@@ -31,6 +31,7 @@ namespace Unity.Game.UI
         [SerializeField] PanelScreen panelScreen;
         [SerializeField] VictoryScreen victoryScreen;
         [SerializeField] LoadingScreen loadingScreen;
+        [SerializeField] GoogleSyncScreen googleSyncScreen;
 
         [SerializeField] Button OutsidePanel;
 
@@ -48,7 +49,12 @@ namespace Unity.Game.UI
             MapEntryManager.SelectMap += OnSelectMap;
             VictoryScreen.RestartClick += OnPlayerRestarted;
             VictoryScreen.SelectMapClick += OnOpenJournalMenu;
-            //GameScreenController.SameMapRestart += OnPlayerRestarted;
+            SettingPanelManager.MainMenuClick += OnGameQuit;
+            SettingPanelManager.GoogleSyncClick += OnClickSync;
+            GoogleSyncScreen.CancelSyncClick += OnOpenJournalMenu;
+            GameDataManager.NewGameCompleted += OnOpenJournalMenu;
+
+
         }
 
         void OnDisable()
@@ -57,7 +63,12 @@ namespace Unity.Game.UI
             MapEntryManager.SelectMap -= OnSelectMap;
             VictoryScreen.RestartClick -= OnPlayerRestarted;
             VictoryScreen.SelectMapClick -= OnOpenJournalMenu;
-            //GameScreenController.SameMapRestart -= OnPlayerRestarted;
+
+            SettingPanelManager.MainMenuClick -= OnGameQuit;
+            SettingPanelManager.GoogleSyncClick -= OnClickSync;
+            GoogleSyncScreen.CancelSyncClick -= OnOpenJournalMenu;
+            GameDataManager.NewGameCompleted -= OnOpenJournalMenu;
+
         }
 
         void SetVisualElements()
@@ -83,6 +94,8 @@ namespace Unity.Game.UI
             if (loadingScreen != null)
                 allModalScreens.Add(loadingScreen);
 
+            if (googleSyncScreen != null)
+                allModalScreens.Add(googleSyncScreen);
         }
 
         void ShowModalScreen(MenuScreen modalScreen)
@@ -107,6 +120,12 @@ namespace Unity.Game.UI
             OutsidePanel.SetEnabled(false);
             AudioManager.PlayVictorySound();
             StartCoroutine(GameWonRoutine(submit));
+        }
+
+        void OnGameQuit()
+        {
+            ShowModalScreen(loadingScreen);
+            GameQuit?.Invoke();
         }
 
         IEnumerator GameWonRoutine(SubmitHistory submit)
@@ -175,6 +194,11 @@ namespace Unity.Game.UI
             OnSelectMap(true);
             OnOpenGameScreen(null);
             OutsidePanel.SetEnabled(true);
+        }
+
+        void OnClickSync()
+        {
+            ShowModalScreen(googleSyncScreen);
         }
 
         void BlurBackground(bool state)

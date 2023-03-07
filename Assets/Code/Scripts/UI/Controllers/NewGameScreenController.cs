@@ -23,7 +23,6 @@ namespace Unity.Game.UI
         {
             NewGameScreen.LocalNewGameClick += OnLocalNewGameClick;
             NewGameScreen.GoogleNewGameClick += OnGoogleNewGameClick;
-
             NewGameScreen.LocalNewGameConfirm += NewGameAsGuest;
 
             SaveManager.GameDataLoaded += OnGameDataLoaded;
@@ -33,7 +32,6 @@ namespace Unity.Game.UI
         {
             NewGameScreen.LocalNewGameClick -= OnLocalNewGameClick;
             NewGameScreen.GoogleNewGameClick -= OnGoogleNewGameClick;
-
             NewGameScreen.LocalNewGameConfirm -= NewGameAsGuest;
 
             SaveManager.GameDataLoaded -= OnGameDataLoaded;
