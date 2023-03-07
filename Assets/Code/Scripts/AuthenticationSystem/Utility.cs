@@ -4,7 +4,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Authentication
+namespace Unity.Game.Authentication
 {
     public static class Utility
     {

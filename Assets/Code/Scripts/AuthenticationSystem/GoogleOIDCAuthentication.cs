@@ -1,4 +1,4 @@
-﻿using Authentication.OIDMetadata;
+﻿using Unity.Game.Authentication.OIDMetadata;
 using GlobalConfig;
 using UnityEngine;
 using System.Net;
@@ -6,10 +6,10 @@ using System.Text;
 using System;
 using System.Threading.Tasks;
 using System.IO;
-using Authentication.Token;
+using Unity.Game.Authentication.Token;
 using Newtonsoft.Json;
 
-namespace Authentication
+namespace Unity.Game.Authentication
 {
     public class GoogleOIDCAuthentication
     {

@@ -89,11 +89,23 @@ namespace Unity.Game.SaveSystem
             }
 
             // retrieve game data
-            GameData newGameData = await apiClient.GetGameData(playerId);
-            Debug.Log($"retrieve game data: {newGameData.SubmitBest}");
-            gameData = newGameData;
+            try
+            {
+                GameData newGameData = await apiClient.GetGameData(playerId);
+                Debug.Log($"retrieve game data: {newGameData.SubmitBest}");
+                gameData = newGameData;
 
-            gameData.PlayerId = playerId;
+                gameData.PlayerId = playerId;
+            }
+            catch (APIException ex)
+            {
+                Debug.LogErrorFormat("Receive a non successful status code from server while getting game data: {0}", ex.Content);
+            }
+            catch (HttpRequestException ex)
+            {
+                Debug.LogErrorFormat("An error occurred while making http request to get game data endpoint: {0}", ex);
+            }
+           
             NewGameCompleted?.Invoke();
         }
 
@@ -161,6 +173,19 @@ namespace Unity.Game.SaveSystem
                 };
 
                 topSubmitHistoryRequests.Add(topSubmitHistoryRequest);
+            }
+
+            try
+            {
+                await apiClient.SendTopSubmitHistory(gameData.PlayerId, topSubmitHistoryRequests);
+            }
+            catch (APIException ex)
+            {
+                Debug.LogErrorFormat("Receive a non successful status code from server while sending top submit history: {0}", ex.Content);
+            }
+            catch (HttpRequestException ex)
+            {
+                Debug.LogErrorFormat("An error occurred while making http request to update top submit history endpoint: {0}", ex);
             }
         }
     }

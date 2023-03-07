@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace GoogleAPI
+namespace Unity.Game.Authentication.GoogleAPI
 {
     public class GoogleJWTClaim
     {

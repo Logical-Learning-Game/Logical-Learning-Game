@@ -8,12 +8,14 @@ using GlobalConfig;
 using Unity.Game.MapSystem;
 using Unity.Game.UI;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace Unity.Game.SaveSystem
 {
     public class MapDataManager : MonoBehaviour
     {
-
+        [SerializeField] GameDataManager gameDataManager;
         [SerializeField] MapEntryManager mapEntryManager;
         [SerializeField] string m_MapFilename = "mapdata.dat";
 
@@ -41,17 +43,17 @@ namespace Unity.Game.SaveSystem
         public List<WorldData> OnLoadMap()
         {
             // load map data from files
-            List<WorldData> WorldDatas = new List<WorldData>();
+            List<WorldData> worldDatas = new List<WorldData>();
 
             if (FileManager.LoadFromFile(m_MapFilename, out var jsonString))
             {
                 //Debug.Log("Load String From Files: "+jsonString);
-                WorldDatas = LoadJson(jsonString);
+                worldDatas = LoadJson(jsonString);
                 // notify other game objects 
             }
             
-            WorldDataLoaded?.Invoke(WorldDatas);
-            return WorldDatas;
+            WorldDataLoaded?.Invoke(worldDatas);
+            return worldDatas;
 
         }
 
@@ -67,20 +69,28 @@ namespace Unity.Game.SaveSystem
             }
         }
 
-        public void UpdateMap()
+        public async Task UpdateMap()
         {
+            var apiClient = new APIClient();
+            bool haveConnectionToServer = await apiClient.ConnectionCheck();
+            if (!haveConnectionToServer)
+            {
+                return;
+            }
 
+            List<WorldData> worldDatas = await apiClient.GetMapData(gameDataManager.GameData.PlayerId);
+            Debug.Log($"update world data count {worldDatas.Count}");
+            WorldDataLoaded?.Invoke(worldDatas);
+            SaveMap();
         }
 
         public string ToJson(List<WorldData> worldDatas)
         {
-            //return JsonUtility.ToJson(this);
             return JsonConvert.SerializeObject(worldDatas);
         }
 
         public static List<WorldData> LoadJson(string jsonString)
         {
-            //JsonUtility.FromJsonOverwrite(jsonFilepath, this);
             return JsonConvert.DeserializeObject<List<WorldData>>(jsonString);
         }
 

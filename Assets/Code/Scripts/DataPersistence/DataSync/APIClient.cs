@@ -107,7 +107,7 @@ namespace Unity.Game.SaveSystem
 
         public async Task<List<WorldData>> GetMapData(string playerId)
         {
-            HttpResponseMessage response = await client.GetAsync($"/v1/players/{playerId}/available_maps");
+            HttpResponseMessage response = await client.GetAsync($"/v1/players/{playerId}/maps");
             string content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {

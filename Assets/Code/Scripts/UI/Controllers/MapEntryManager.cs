@@ -88,19 +88,24 @@ namespace Unity.Game.UI
             MapDataManager.WorldDataLoaded -= OnWorldDataLoaded;
         }
 
-        async public void UpdateMapData(ClickEvent evt)
+        public async void UpdateMapData(ClickEvent evt)
         {
+            var apiClient = new APIClient();
+
             isMapLoading = true;
             SetButtonLoading(isMapLoading);
 
-            await GetMapData(2000);
+            try
+            {
+                await mapDataManager.UpdateMap();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
 
             isMapLoading = false;
             SetButtonLoading(isMapLoading);
-        }
-        async Task GetMapData(int millisecondsDelay)
-        {
-            await Task.Delay(millisecondsDelay);
         }
 
         void SetButtonLoading(bool isLoading)

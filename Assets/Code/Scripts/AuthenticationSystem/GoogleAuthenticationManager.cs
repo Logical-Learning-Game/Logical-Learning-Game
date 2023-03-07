@@ -1,14 +1,13 @@
 using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
-using Authentication.OIDMetadata;
 using System.Net;
 using GlobalConfig;
 using System.IO;
 using Newtonsoft.Json;
-using Authentication;
-using Authentication.Token;
 using System.Threading.Tasks;
+using Unity.Game.Authentication.OIDMetadata;
+using Unity.Game.Authentication.Token;
 
 namespace Unity.Game.Authentication
 {

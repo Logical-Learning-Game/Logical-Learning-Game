@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using GoogleAPI;
+using Unity.Game.Authentication.GoogleAPI;
 
-namespace Authentication.Token
+namespace Unity.Game.Authentication.Token
 {
     public class GoogleToken
     {

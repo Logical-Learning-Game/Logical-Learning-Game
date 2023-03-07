@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Authentication.OIDMetadata
+namespace Unity.Game.Authentication.OIDMetadata
 {
     public class GoogleOIDMetadata
     {
