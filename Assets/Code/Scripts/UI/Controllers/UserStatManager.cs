@@ -73,6 +73,7 @@ namespace Unity.Game.UI
 
         public void OnOpenStatPanel()
         {
+            //Debug.Log("OpenStatPanel");
             if (WorldDatas.Count == 0)
             {
                 LoadMapFromFile();

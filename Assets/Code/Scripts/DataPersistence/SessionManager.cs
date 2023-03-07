@@ -7,6 +7,7 @@ using Unity.Game.Command;
 using Unity.Game.Level;
 using Unity.Game.MapSystem;
 using UnityEngine;
+using Unity.Game.UI;
 
 namespace Unity.Game.SaveSystem
 {
@@ -26,6 +27,7 @@ namespace Unity.Game.SaveSystem
         {
             LevelManager.OnMapEnter += StartSession;
             LevelManager.OnMapExit += EndSession;
+            GameScreen.GameRestarted += EndSession;
             CommandManager.OnCommandSubmit += SaveCommand;
         }
 
@@ -33,6 +35,7 @@ namespace Unity.Game.SaveSystem
         {
             LevelManager.OnMapEnter -= StartSession;
             LevelManager.OnMapExit -= EndSession;
+            GameScreen.GameRestarted -= EndSession;
             CommandManager.OnCommandSubmit -= SaveCommand;
         }
 
@@ -48,15 +51,23 @@ namespace Unity.Game.SaveSystem
             gameDataManager.GameData.SessionHistories.Add(new SessionStatus(CurrentGameSession, false));
         }
 
+        private void EndSession(bool isSameMap)
+        {
+            if (isSameMap) return;
+
+            EndSession();
+        }
+
         private async void EndSession()
         {
+            Debug.Log("Session is ending");
             if (CurrentGameSession == null)
             {
                 SaveManager.SaveGame();
                 return;
             }
 
-            CurrentGameSession.EndDatetime = DateTime.UtcNow;
+            CurrentGameSession.EndDatetime = DateTime.Now;
             CurrentGameSession = null;
 
             await gameDataManager.SendGameData();
@@ -80,7 +91,7 @@ namespace Unity.Game.SaveSystem
                 ActionMedal = context.ActionMedal,
                 StateValue = context.StateValue,
                 RuleHistories = new List<RuleHistory>(),
-                SubmitDatetime = DateTime.UtcNow,
+                SubmitDatetime = DateTime.Now,
             };
 
             for (int i = 0; i < context.Rules.Count; i++)
@@ -90,6 +101,15 @@ namespace Unity.Game.SaveSystem
             }
 
             CurrentGameSession.SubmitHistories.Add(submit);
+            // compare and add submit to topsubmits
+            if(gameDataManager.GameData.SubmitBest.TryGetValue(CurrentGameSession.MapId, out SubmitHistory oldSubmit))
+            {
+                gameDataManager.GameData.SubmitBest[CurrentGameSession.MapId] = SubmitHistory.GetBestSubmit(new List<SubmitHistory>() { submit,oldSubmit });
+            }
+            else
+            {
+                gameDataManager.GameData.SubmitBest.Add(CurrentGameSession.MapId, submit);
+            }
             OnCommandSubmit?.Invoke(submit);
         }
 

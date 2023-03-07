@@ -23,7 +23,8 @@ namespace Unity.Game.UI
 
         Slider MusicSlider;
         Slider SFXSlider;
-        
+
+        [SerializeField] VisualElement SettingPanel;
 
         Button GoogleSyncButton;
         Button QuitGameButton;
@@ -39,7 +40,7 @@ namespace Unity.Game.UI
 
         void SetVisualElements()
         {
-            VisualElement SettingPanel = GetComponent<PanelScreen>().SettingPanel;
+            SettingPanel = GetComponent<PanelScreen>().SettingPanel;
             SFXSlider = SettingPanel.Q<Slider>("SFXSlider");
             MusicSlider = SettingPanel.Q<Slider>("BGMSlider");
 
@@ -66,7 +67,7 @@ namespace Unity.Game.UI
 
         private void OnDisable()
         {
-            PanelScreen.OpenStatPanel -= OnOpenSettingPanel;
+            PanelScreen.OpenSettingPanel -= OnOpenSettingPanel;
             SaveManager.GameDataLoaded -= OnGameDataLoaded;
         }
 
@@ -77,6 +78,7 @@ namespace Unity.Game.UI
 
         public void OnOpenSettingPanel()
         {
+            Debug.Log("invoke opensettingpanel");
             UpdateUserSettingPanel();
 
             //UpdateUserStat(CalculateUserStat(gameData, WorldDatas));
@@ -84,19 +86,24 @@ namespace Unity.Game.UI
         }
         void UpdateUserSettingPanel()
         {
-            VisualElement SettingPanel = GetComponent<PanelScreen>().SettingPanel;
+            if (SettingPanel == null)
+            {
+                SettingPanel = GetComponent<PanelScreen>().SettingPanel;
+            }
+
             SettingPanel.Q<Label>("UserIdValue").text = gameData.PlayerId;
 
+
             Debug.Log(AudioManager.GetVolume("Music"));
-            MusicSlider.value = AudioManager.GetVolume("Music")*100;
-            SFXSlider.value = AudioManager.GetVolume("SFX")*100;
+            MusicSlider.value = AudioManager.GetVolume("Music") * 100;
+            SFXSlider.value = AudioManager.GetVolume("SFX") * 100;
 
         }
 
         void ChangeSFXVolume(ChangeEvent<float> evt)
         {
             PlayerPrefs.SetFloat("sfx", evt.newValue / 100);
-            AudioManager.SetVolume("SFX",evt.newValue / 100);
+            AudioManager.SetVolume("SFX", evt.newValue / 100);
         }
 
         void ChangeMusicVolume(ChangeEvent<float> evt)

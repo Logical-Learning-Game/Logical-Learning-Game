@@ -73,6 +73,7 @@ namespace Unity.Game.Command
 
         public bool isExecuting = false;
         private bool stopOnNextAction = false;
+        private bool isFinited = false;
         //private bool isFreezing = false;
 
 
@@ -169,6 +170,7 @@ namespace Unity.Game.Command
                     //SetSelectedCommand(null);
                     ResetSteps();
                     SetIsExecuting(true);
+                    isFinited = false;
                     GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
                     startCommand.GetComponent<AbstractCommand>().StartExecute();
                     StartCoroutine(MapViewManager.Instance.ViewPlayerMove());
@@ -313,6 +315,7 @@ namespace Unity.Game.Command
 
             if (stopOnNextAction == true)
             {
+                isFinited = false;
                 SetStopOnNextAction(false);
                 SetIsExecuting(false);
                 OnSubmitFinish();
@@ -329,32 +332,36 @@ namespace Unity.Game.Command
                 }
                 else
                 {
+                    isFinited = true;
                     SetIsExecuting(false);
                     OnSubmitFinish();
-                    Debug.Log("All Commands Executed");
+                    Debug.Log("All Commands Executed successfully");
                 }
             }
             else
             {
+                isFinited = false;
                 SetIsExecuting(false);
                 OnSubmitFinish();
-                Debug.Log("Max Step Exceed");
+                Debug.Log($"Max Step Exceed ({CommandConfig.COMMAND_MAX_STEP})");
             }
 
         }
 
         private void OnSubmitFinish()
         {
+            (Medal commandMedal, Medal actionMedal) = SubmitHistory.GetMedal((StateValue)RuleManager.Instance.CurrentStateValue.Clone(), LevelManager.Instance.GetMap());
+
             var submitContext = new SubmitContext
             {
                 Commands = commands,
-                CommandMedal = Medal.BRONZE,
-                ActionMedal = Medal.SILVER,
+                CommandMedal = commandMedal,
+                ActionMedal = actionMedal,
                 StateValue = (StateValue)RuleManager.Instance.CurrentStateValue.Clone(),
                 Rules = LevelManager.Instance.GetRule(),
                 RuleStatus = RuleManager.Instance.RuleStatus,
-                IsFinited = false,
-                IsCompleted = true
+                IsFinited = isFinited,
+                IsCompleted = LevelManager.Instance.GetIsPlayerReachGoal()
             };
 
             OnCommandSubmit?.Invoke(submitContext);
