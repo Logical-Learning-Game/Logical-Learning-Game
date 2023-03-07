@@ -34,7 +34,6 @@ namespace Unity.Game.SaveSystem
         public GameSession(long mapId)
         {
             MapId = mapId;
-            //StartDatetime = new SerializableDateTime(DateTime.UtcNow);
             StartDatetime = DateTime.Now;
             SubmitHistories = new List<SubmitHistory>();
         }
@@ -219,7 +218,6 @@ namespace Unity.Game.SaveSystem
             MapRuleId = mapRuleId;
             Theme = theme;
             IsPass = isPass;
-            Theme = theme;
         }
     }
 
@@ -245,9 +243,9 @@ namespace Unity.Game.SaveSystem
     [Serializable]
     public class CommandEdge
     {
-        [JsonProperty("source_index")] public int SourceCommandIndex;
-        [JsonProperty("destination_index")] public int DestinationCommandIndex;
-        [JsonProperty("edge_type")][JsonConverter(typeof(StringEnumConverter))] public EdgeType Type;
+        [JsonProperty("source_node_index")] public int SourceCommandIndex;
+        [JsonProperty("destination_node_index")] public int DestinationCommandIndex;
+        [JsonProperty("type")][JsonConverter(typeof(StringEnumConverter))] public EdgeType Type;
         public CommandEdge(int sourceCommandIndex, int destinationCommandIndex, EdgeType type)
         {
             SourceCommandIndex = sourceCommandIndex;

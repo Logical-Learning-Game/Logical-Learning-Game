@@ -38,7 +38,7 @@ namespace Unity.Game.UI
         void OnGameDataLoaded(GameData gameData)
         {
             // if loaded gamedata is new game, the screen will hide continue button
-            if (gameData.UserId != "")
+            if (gameData.PlayerId != "")
             {
                 DisplayContinueButton?.Invoke();
             }
