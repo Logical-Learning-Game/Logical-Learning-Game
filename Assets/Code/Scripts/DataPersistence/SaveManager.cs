@@ -34,6 +34,11 @@ namespace Unity.Game.SaveSystem
             SaveGame();
         }
 
+        public void InvokeGameDataLoad()
+        {
+            GameDataLoaded?.Invoke(gameDataManager.GameData);
+        }
+
         //void OnApplicationQuit()
         //{
         //    SaveGame();

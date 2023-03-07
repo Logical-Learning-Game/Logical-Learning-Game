@@ -7,6 +7,7 @@ using Unity.Game.Command;
 using Unity.Game.Level;
 using Unity.Game.MapSystem;
 using UnityEngine;
+using Unity.Game.UI;
 
 namespace Unity.Game.SaveSystem
 {
@@ -31,6 +32,7 @@ namespace Unity.Game.SaveSystem
         {
             LevelManager.OnMapEnter += StartSession;
             LevelManager.OnMapExit += EndSession;
+            GameScreen.GameRestarted += EndSession;
             CommandManager.OnCommandSubmit += SaveCommand;
         }
 
@@ -38,6 +40,7 @@ namespace Unity.Game.SaveSystem
         {
             LevelManager.OnMapEnter -= StartSession;
             LevelManager.OnMapExit -= EndSession;
+            GameScreen.GameRestarted -= EndSession;
             CommandManager.OnCommandSubmit -= SaveCommand;
         }
 
@@ -53,8 +56,16 @@ namespace Unity.Game.SaveSystem
             gameDataManager.GameData.SessionHistories.Add(new SessionStatus(CurrentGameSession, false));
         }
 
+        private void EndSession(bool isSameMap)
+        {
+            if (isSameMap) return;
+
+            EndSession();
+        }
+
         private async void EndSession()
         {
+            Debug.Log("Session is ending");
             if (CurrentGameSession == null)
             {
                 SaveManager.SaveGame();
