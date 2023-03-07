@@ -23,11 +23,6 @@ namespace Unity.Game.SaveSystem
 
         public static event Action<SubmitHistory> OnCommandSubmit;
 
-        private void Start()
-        {
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-        }
-
         private void OnEnable()
         {
             LevelManager.OnMapEnter += StartSession;
@@ -75,66 +70,7 @@ namespace Unity.Game.SaveSystem
             CurrentGameSession.EndDatetime = DateTime.Now;
             CurrentGameSession = null;
 
-            // Try send data to backend
-            var apiClient = new APIClient();
-
-            // first check if client can connect to backend service
-            bool haveConnectionToServer = await apiClient.ConnectionCheck();
-            if (!haveConnectionToServer)
-            {
-                return;
-            }
-
-            // send session history to server
-            List<SessionStatus> gameSessionWithSendStatus = gameDataManager.GameData.SessionHistories;
-
-            foreach (SessionStatus entry in gameSessionWithSendStatus)
-            {
-                GameSession gameSession = entry.Session;
-                bool isAlreadySend = entry.Status;
-                if (isAlreadySend)
-                {
-                    continue;
-                }
-
-                GameSessionHistoryRequest dto = new GameSessionDTOMapper().ToDTO(gameSession);
-
-                // mock playerId data for testing!!!
-                try
-                {
-                    await apiClient.SendSessionHistoryData("abcdefg", dto);
-                    entry.Status = true;
-                }
-                catch (APIException ex)
-                {
-                    Debug.LogErrorFormat("Receive a non successful status code from server while sending session history: {0}", ex.Content);
-                    break;
-                }
-                catch (HttpRequestException ex)
-                {
-                    Debug.LogErrorFormat("An error occurred while making http request to create session history endpoint: {0}", ex);
-                    break;
-                }
-            }
-
-            // send submit best to server
-            Dictionary<long, SubmitHistory> submitBest = gameDataManager.GameData.SubmitBest;
-            var topSubmitHistoryRequests = new List<TopSubmitHistoryRequest>();
-            var submitHistoryDTOMapper = new SubmitHistoryDTOMapper();
-
-            foreach (KeyValuePair<long, SubmitHistory> entry in submitBest)
-            {
-                long mapId = entry.Key;
-                SubmitHistory submitHistory = entry.Value;
-
-                var topSubmitHistoryRequest = new TopSubmitHistoryRequest
-                {
-                    MapId = mapId,
-                    TopSubmitHistory = submitHistoryDTOMapper.ToDTO(submitHistory)
-                };
-
-                topSubmitHistoryRequests.Add(topSubmitHistoryRequest);
-            }
+            await gameDataManager.SendGameData();
 
             SaveManager.SaveGame();
         }

@@ -91,7 +91,8 @@ namespace Unity.Game.UI
                 SettingPanel = GetComponent<PanelScreen>().SettingPanel;
             }
 
-            SettingPanel.Q<Label>("UserIdValue").text = gameData.UserId;
+            SettingPanel.Q<Label>("UserIdValue").text = gameData.PlayerId;
+
 
             Debug.Log(AudioManager.GetVolume("Music"));
             MusicSlider.value = AudioManager.GetVolume("Music") * 100;

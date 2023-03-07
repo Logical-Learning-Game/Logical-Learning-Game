@@ -1,7 +1,6 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Repository.GoogleAPI
+namespace Unity.Game.Authentication.GoogleAPI
 {
     public class GoogleUser
     {

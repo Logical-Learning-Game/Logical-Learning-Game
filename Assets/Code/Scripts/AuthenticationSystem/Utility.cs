@@ -4,7 +4,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Authentication
+namespace Unity.Game.Authentication
 {
     public static class Utility
     {
@@ -47,6 +47,25 @@ namespace Authentication
             listener.Stop();
 
             return port;
+        }
+
+        public static string ReadJwtClaim(string token)
+        {
+            string[] parts = token.Split('.');
+            if (parts.Length > 2)
+            {
+                string decode = parts[1];
+                int padLength = 4 - decode.Length % 4;
+                if (padLength < 4)
+                {
+                    decode += new string('=', padLength);
+                }
+
+                byte[] bytes = System.Convert.FromBase64String(decode);
+                string userInfo = Encoding.ASCII.GetString(bytes);
+                return userInfo;
+            }
+            return null;
         }
     }
     
