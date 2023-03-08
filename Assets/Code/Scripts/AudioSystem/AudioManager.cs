@@ -78,6 +78,7 @@ namespace Unity.Game
 
             // destroy after clip length
             Destroy(sfxInstance, clip.length);
+            DontDestroyOnLoad(sfxInstance);
         }
 
         // return an AudioMixerGroup by name

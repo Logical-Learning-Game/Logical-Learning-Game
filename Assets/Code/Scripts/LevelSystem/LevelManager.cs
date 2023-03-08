@@ -21,6 +21,7 @@ namespace Unity.Game.Level
         public static event Action<SubmitHistory> GameWon;
         public static event Action<Map> OnMapEnter;
         public static event Action OnMapExit;
+        public static event Action<ConditionSign> OnSignChanged;
 
         // level stats
         public static Map gameMap;
@@ -80,7 +81,7 @@ namespace Unity.Game.Level
         public void InitLevel()
         {
             ItemList = new List<ItemType>();
-            lastSign = ConditionSign.EMPTY;
+            SetLastSign(ConditionSign.EMPTY);
             isPlayerReachGoal = false;
             MapManager.Instance.InitMap();
             ItemManager.Instance.InitItems();
@@ -233,6 +234,7 @@ namespace Unity.Game.Level
         public void SetLastSign(ConditionSign sign)
         {
             lastSign = sign;
+            OnSignChanged?.Invoke(sign);
         }
         public ConditionSign GetLastSign()
         {
