@@ -71,6 +71,12 @@ namespace Unity.Game.SaveSystem
 
         public async Task UpdateMap()
         {
+            string playerId = gameDataManager.GameData.PlayerId;
+            if (playerId == "__guest__")
+            {
+                return;
+            }
+
             var apiClient = new APIClient();
             bool haveConnectionToServer = await apiClient.ConnectionCheck();
             if (!haveConnectionToServer)
@@ -78,7 +84,7 @@ namespace Unity.Game.SaveSystem
                 return;
             }
 
-            List<WorldData> worldDatas = await apiClient.GetMapData(gameDataManager.GameData.PlayerId);
+            List<WorldData> worldDatas = await apiClient.GetMapData(playerId);
             Debug.Log($"update world data count {worldDatas.Count}");
             WorldDataLoaded?.Invoke(worldDatas);
             SaveMap();

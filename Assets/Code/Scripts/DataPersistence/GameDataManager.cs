@@ -79,13 +79,26 @@ namespace Unity.Game.SaveSystem
             }
 
             // retrieve game data
+            await UpdateGameData(playerId);
+           
+            NewGameCompleted?.Invoke();
+        }
+
+        public async Task UpdateGameData(string playerId)
+        {
+            if (gameData.PlayerId == "__guest__")
+            {
+                Debug.LogWarning("try to update game data as guest");
+                return;
+            }
+
+            var apiClient = new APIClient();
+
             try
             {
                 GameData newGameData = await apiClient.GetGameData(playerId);
-                Debug.Log($"retrieve game data: {newGameData.SubmitBest}");
+                Debug.Log($"retrieve game data: {newGameData.SessionHistories} {newGameData.SubmitBest}");
                 gameData = newGameData;
-
-                //gameData.PlayerId = playerId;
             }
             catch (APIException ex)
             {
@@ -95,15 +108,20 @@ namespace Unity.Game.SaveSystem
             {
                 Debug.LogErrorFormat("An error occurred while making http request to get game data endpoint: {0}", ex);
             }
-
             saveManager.SaveGame();
             saveManager.InvokeGameDataLoad();
-
             NewGameCompleted?.Invoke();
+
         }
 
         public async Task SendGameData()
         {
+            if (gameData.PlayerId == "__guest__")
+            {
+                Debug.LogWarning("try to send game data as guest");
+                return;
+            }
+
             // Try send data to backend
             var apiClient = new APIClient();
 

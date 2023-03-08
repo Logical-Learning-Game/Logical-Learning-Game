@@ -46,11 +46,11 @@ namespace Unity.Game.Authentication
             System.Diagnostics.Process.Start(authorizationRequest);
 
             // Waits for the OAuth authorization response.
-            var context = httpListener.GetContext();
+            var context = await httpListener.GetContextAsync();
 
             // Sends an HTTP response to the browser.
             var response = context.Response;
-            string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://google.com'></head><body>Please return to the app.</body></html>");
+            string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://google.com'></head><body>Please return to the game.</body></html>");
             var buffer = Encoding.UTF8.GetBytes(responseString);
             response.ContentLength64 = buffer.Length;
             var responseOutput = response.OutputStream;
