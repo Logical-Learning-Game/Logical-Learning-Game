@@ -78,12 +78,12 @@ namespace Unity.Game.SaveSystem
             }
 
             // retrieve game data
-            await UpdateGameData();
+            await UpdateGameData(playerId);
            
             NewGameCompleted?.Invoke();
         }
 
-        public async Task UpdateGameData()
+        public async Task UpdateGameData(string playerId)
         {
             if (gameData.PlayerId == "__guest__")
             {
@@ -95,7 +95,7 @@ namespace Unity.Game.SaveSystem
 
             try
             {
-                GameData newGameData = await apiClient.GetGameData(gameData.PlayerId);
+                GameData newGameData = await apiClient.GetGameData(playerId);
                 Debug.Log($"retrieve game data: {newGameData.SessionHistories} {newGameData.SubmitBest}");
                 gameData = newGameData;
             }
