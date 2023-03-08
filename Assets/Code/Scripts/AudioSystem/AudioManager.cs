@@ -66,7 +66,7 @@ namespace Unity.Game
                 return;
 
             GameObject sfxInstance = new GameObject(clip.name);
-            Debug.Log($"creating {clip.name} and destory in {clip.length}");
+            //Debug.Log($"creating {clip.name} and destory in {clip.length}");
             sfxInstance.transform.position = sfxPosition;
 
             AudioSource source = sfxInstance.AddComponent<AudioSource>();

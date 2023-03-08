@@ -244,11 +244,13 @@ namespace Unity.Game.Level
         public void AddItem(ItemType item)
         {
             ItemList.Add(item);
+            ItemPanelManager.Instance.SetItemAmount(item, ItemList.FindAll(x => x == item).Count);
         }
 
         public void RemoveItem(ItemType item)
         {
             ItemList.Remove(item);
+            ItemPanelManager.Instance.SetItemAmount(item, ItemList.FindAll(x => x == item).Count);
         }
 
         public void SetIsPlayerReachGoal()

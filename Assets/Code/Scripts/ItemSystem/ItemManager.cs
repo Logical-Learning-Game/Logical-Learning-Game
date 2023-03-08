@@ -16,6 +16,8 @@ namespace Unity.Game.ItemSystem
         public static ItemManager Instance { get; private set; }
 
         public List<GameObject> ItemList;
+
+        public HashSet<ItemType> UniqueItemType;
         private void Awake()
         {
             if (Instance == null)
@@ -42,6 +44,7 @@ namespace Unity.Game.ItemSystem
             }
             Map gameMap = LevelManager.Instance.GetMap();
             SpawnItemsInMap(gameMap);
+            
         }
 
         // Update is called once per frame
@@ -52,6 +55,7 @@ namespace Unity.Game.ItemSystem
         
         void SpawnItemsInMap(Map gameMap)
         {
+            UniqueItemType = new HashSet<ItemType>();
             uint[] MapArray = gameMap.MapData;
 
             for (int i = 0; i < gameMap.Height; i++)
@@ -69,18 +73,21 @@ namespace Unity.Game.ItemSystem
                             ItemList.Add(ItemObject);
                             MapManager.Instance.TileObjects[i, j].GetComponent<Tile>().SetItemObject(ItemObject);
                             ItemObject.transform.SetParent(transform);
+                            UniqueItemType.Add(ItemType.KEY_A);
                             break;
                         case 0b0010: // Key_B
                             ItemObject = Instantiate(KeyB, new Vector3(i * MapConfig.TILE_SCALE, 2, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             ItemList.Add(ItemObject);
                             MapManager.Instance.TileObjects[i, j].GetComponent<Tile>().SetItemObject(ItemObject);
                             ItemObject.transform.SetParent(transform);
+                            UniqueItemType.Add(ItemType.KEY_B);
                             break;
                         case 0b0011: // Key_C
                             ItemObject = Instantiate(KeyC, new Vector3(i * MapConfig.TILE_SCALE, 2, j * MapConfig.TILE_SCALE), Quaternion.identity);
                             ItemList.Add(ItemObject);
                             MapManager.Instance.TileObjects[i, j].GetComponent<Tile>().SetItemObject(ItemObject);
                             ItemObject.transform.SetParent(transform);
+                            UniqueItemType.Add(ItemType.KEY_C);
                             break;
                         default:
                             break;
@@ -89,6 +96,7 @@ namespace Unity.Game.ItemSystem
 
                 }
             }
+            ItemPanelManager.Instance.InitItemPanel(UniqueItemType);
         }
 
         public void RemoveItemFromMap(Item item)

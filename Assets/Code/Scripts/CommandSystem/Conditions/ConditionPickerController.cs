@@ -133,7 +133,7 @@ namespace Unity.Game.Conditions
         {
             foreach (Transform child in ConditionPicker.transform)
             {
-                Destroy(child);
+                Destroy(child.gameObject);
             }
         }
 
