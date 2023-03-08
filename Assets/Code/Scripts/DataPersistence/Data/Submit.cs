@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using UnityEngine;
 using Unity.Game.Command;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -21,6 +22,7 @@ namespace Unity.Game.SaveSystem
         [EnumMember(Value = "gold")]
         GOLD
     }
+
 
     [Serializable]
     public class GameSession : IEquatable<GameSession>

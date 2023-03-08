@@ -19,11 +19,21 @@ namespace Unity.Game.SaveSystem
 
         [SerializeField] bool isGameDataInitialized;
         [SerializeField] GameData gameData;
+        public static GameDataManager Instance { get; private set; }
         public GameData GameData { set => gameData = value; get => gameData; }
 
         private void Awake()
         {
-            saveManager = GetComponent<SaveManager>();
+            if (Instance == null)
+            {
+                Instance = this;
+                saveManager = GetComponent<SaveManager>();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
             DontDestroyOnLoad(gameObject);
         }
 
@@ -210,6 +220,9 @@ namespace Unity.Game.SaveSystem
             {
                 Debug.LogErrorFormat("An error occurred while making http request to update top submit history endpoint: {0}", ex);
             }
+
         }
+
+       
     }
 }

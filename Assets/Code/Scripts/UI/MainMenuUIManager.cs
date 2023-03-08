@@ -35,7 +35,7 @@ namespace Unity.Game.UI
 
         List<MenuScreen> allModalScreens = new List<MenuScreen>();
         UIDocument mainMenuDocument;
-        
+
         public UIDocument MainMenuDocument => mainMenuDocument;
 
         void OnEnable()
@@ -57,6 +57,8 @@ namespace Unity.Game.UI
             MapEntryManager.SelectMap += LoadGameScene;
 
             GameDataManager.NewGameCompleted += ShowPanelScreen;
+
+            SettingPanelManager.MainMenuClick += ReloadScene;
         }
 
         private void OnDisable()
@@ -74,6 +76,7 @@ namespace Unity.Game.UI
 
             GameDataManager.NewGameCompleted -= ShowPanelScreen;
 
+            SettingPanelManager.MainMenuClick -= ReloadScene;
         }
 
         void Start()
@@ -92,10 +95,10 @@ namespace Unity.Game.UI
             if (googleSyncScreen != null)
                 allModalScreens.Add(googleSyncScreen);
 
-            if(panelScreen != null)
+            if (panelScreen != null)
                 allModalScreens.Add(panelScreen);
 
-            if(loadingScreen != null)
+            if (loadingScreen != null)
             {
                 allModalScreens.Add(loadingScreen);
             }
@@ -131,7 +134,7 @@ namespace Unity.Game.UI
         {
             ShowModalScreen(newGameScreen);
         }
-        
+
         public void ShowGoogleSyncScreen()
         {
             ShowModalScreen(googleSyncScreen);
@@ -149,10 +152,22 @@ namespace Unity.Game.UI
             Time.timeScale = 1f;
 #if UNITY_EDITOR
             if (Application.isPlaying)
-
+            {
 #endif
                 ShowModalScreen(loadingScreen);
                 SceneManager.LoadSceneAsync(GameSceneName);
+#if UNITY_EDITOR
+            }
+#endif
+
+        }
+
+        public void ReloadScene()
+        {
+#if UNITY_EDITOR
+            if (Application.isPlaying)
+#endif
+                SceneManager.LoadSceneAsync(MainMenuSceneName);
         }
     }
 }

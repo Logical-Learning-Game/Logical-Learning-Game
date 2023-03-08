@@ -19,10 +19,21 @@ namespace Unity.Game.SaveSystem
         GameDataManager gameDataManager;
         public static event Action<GameData> GameDataLoaded;
 
+        public static SaveManager Instance { get; private set; }
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+                gameDataManager = GetComponent<GameDataManager>();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
             DontDestroyOnLoad(gameObject);
-            gameDataManager = GetComponent<GameDataManager>();
+            
         }
 
         private void Start()

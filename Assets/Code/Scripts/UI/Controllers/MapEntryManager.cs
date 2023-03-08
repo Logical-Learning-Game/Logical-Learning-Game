@@ -38,6 +38,7 @@ namespace Unity.Game.UI
         GameData gameData;
 
         DropdownField dropdownField;
+        public static string LatestChoice;
         ListView entryView;
 
         List<Map> mapEntryList;
@@ -202,19 +203,26 @@ namespace Unity.Game.UI
         void SetUpListView()
         {
             entryView = GetComponent<PanelScreen>().LevelPanel.Q<ListView>("LevelListView");
+
             FixListViewScrollingBug(entryView);
             entryView.Q<ScrollView>().scrollDecelerationRate = 0.0035f;
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/MapEntryTemplate.uxml");
             Func<VisualElement> makeItem = () => visualTree.Instantiate();
             Action<VisualElement, int> bindItem = (e, i) =>
             {
+                Debug.Log($"binding {i}");
+                // set map name
                 e.Q<Label>("MapName").text = mapEntryList[i].MapName;
+
+                //setting isEnterable based on currentstar
+                bool isEnterable = gameData.GetCurrentStar() >= mapEntryList[i].StarRequirement ? true : false;
 
                 //starRequirement
                 e.Q<Label>("RequirementValue").text = mapEntryList[i].StarRequirement.ToString();
 
-                // Accessing PlayerData
+                // Accessing Player Submit Data
                 SubmitHistory mapBestSubmit;
+
                 if (gameData.SubmitBest.TryGetValue(mapEntryList[i].Id, out mapBestSubmit))
                 {
                     if (mapBestSubmit.IsCompleted)
@@ -222,17 +230,41 @@ namespace Unity.Game.UI
                         e.Q($"RuleStar{1}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[0].IsPass ? RuleComplete : RuleIncomplete);
                         e.Q($"RuleStar{2}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[1].IsPass ? RuleComplete : RuleIncomplete);
                         e.Q($"RuleStar{3}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[2].IsPass ? RuleComplete : RuleIncomplete);
+                        e.Q("CommandMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[mapBestSubmit.CommandMedal];
+                        e.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[mapBestSubmit.ActionMedal];
                     }
-                    else
-                    {
-                        e.Q($"RuleStar{1}").style.backgroundImage = new StyleBackground(RuleIncomplete);
-                        e.Q($"RuleStar{2}").style.backgroundImage = new StyleBackground(RuleIncomplete);
-                        e.Q($"RuleStar{3}").style.backgroundImage = new StyleBackground(RuleIncomplete);
-                    }
+
                     e.Q<Label>("BestPlayDate").text = mapBestSubmit.SubmitDatetime.ToString("g");
                 }
-                e.Q<UnityEngine.UIElements.Button>("MapEntryButton").RegisterCallback<ClickEvent>(e => OnClickMapEntry(e, mapEntryList[i]));
-                e.Q<UnityEngine.UIElements.Button>("MapEntryButton").RegisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
+                else
+                {
+                    e.Q($"RuleStar{1}").style.backgroundImage = new StyleBackground(RuleIncomplete);
+                    e.Q($"RuleStar{2}").style.backgroundImage = new StyleBackground(RuleIncomplete);
+                    e.Q($"RuleStar{3}").style.backgroundImage = new StyleBackground(RuleIncomplete);
+                    e.Q("CommandMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[Medal.NONE];
+                    e.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[Medal.NONE];
+                }
+                var mapEntryButton = e.Q<UnityEngine.UIElements.Button>("MapEntryButton");
+                if (mapEntryButton != null)
+                {
+                    e.Remove(mapEntryButton);
+                }
+
+                // Create new button and add it to the element hierarchy
+                mapEntryButton = new UnityEngine.UIElements.Button();
+                mapEntryButton.name = "MapEntryButton";
+                e.Add(mapEntryButton);
+
+                // Register button callbacks
+                mapEntryButton.RegisterCallback<ClickEvent>(ev => OnClickMapEntry(ev, mapEntryList[i], isEnterable));
+                mapEntryButton.RegisterCallback<MouseOverEvent>(ev => AudioManager.PlayDefaultHoverSound());
+
+                //Debug.Log("reRegisterButton");
+                //var mapEntryButton = e.Q<UnityEngine.UIElements.Button>("MapEntryButton");
+
+                //mapEntryButton.RegisterCallback<ClickEvent>(e => OnClickMapEntry(e, mapEntryList[i], isEnterable));
+                //mapEntryButton.RegisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
+
             };
 
             entryView.makeItem = makeItem;
@@ -244,9 +276,13 @@ namespace Unity.Game.UI
         {
 
             dropdownField = GetComponent<PanelScreen>().LevelPanel.Q<DropdownField>("WorldSelector");
-            dropdownField.RegisterValueChangedCallback(x => GenerateMapEntry(x.newValue));
+            dropdownField.RegisterValueChangedCallback(x =>
+            {
+                GenerateMapEntry(x.newValue);
+                LatestChoice = x.newValue;
+            });
             dropdownField.choices = GetWorldEntries();
-            dropdownField.value = dropdownField.choices[0];
+            dropdownField.value = LatestChoice ?? dropdownField.choices[0];
 
         }
 
@@ -256,10 +292,8 @@ namespace Unity.Game.UI
             {
                 LoadMapFromFile();
             }
-            if (dropdownField == null)
-            {
-                CreateDropDownMenu();
-            }
+
+            CreateDropDownMenu();
             GenerateMapEntry(dropdownField.value);
         }
 
@@ -269,10 +303,18 @@ namespace Unity.Game.UI
             return WorldDatas.Select(w => w.WorldName).ToList();
         }
 
-        void OnClickMapEntry(ClickEvent evt, Map map)
+        void OnClickMapEntry(ClickEvent evt, Map map, bool isEnterable)
         {
-            //Debug.Log(map.MapName);
-            LoadLevelMap(map);
+            Debug.Log($"{map.MapName}: can enter? : {isEnterable}");
+            if (isEnterable)
+            {
+                LoadLevelMap(map);
+            }
+            else
+            {
+                AudioManager.PlayDefaultWarningSound();
+            }
+
         }
 
         void LoadLevelMap(Map map)
@@ -297,17 +339,35 @@ namespace Unity.Game.UI
             var scroller = listView.Q<Scroller>();
             listView.RegisterCallback<WheelEvent>(@event =>
             {
-                scroller.value += @event.delta.y * 300;
+                scroller.value += @event.delta.y * 400;
                 @event.StopPropagation();
             });
 #else
-            var scroller = listView.Q<Scroller>();
-            listView.RegisterCallback<WheelEvent>(@event => {
-                scroller.value -=  @event.delta.y * 30000;
-                @event.StopPropagation();
-            });
+                    var scroller = listView.Q<Scroller>();
+                    listView.RegisterCallback<WheelEvent>(@event => {
+                        scroller.value -=  @event.delta.y * 300;
+                        @event.StopPropagation();
+                    });
 #endif
         }
+        //public static void FixListViewScrollingBug(ListView listView)
+        //{
+
+        //    var scroller = listView.Q<Scroller>();
+        //    float scrollSpeed = 2000f; // Adjust this value to control the scrolling speed
+        //    float maxScrollDelta = 100f; // Adjust this value to control the maximum amount of scrolling per frame
+
+        //    listView.RegisterCallback<WheelEvent>(@event =>
+        //    {
+        //        float delta = @event.delta.y * scrollSpeed;
+        //        float targetValue = Mathf.Clamp(scroller.value + delta, 0f, scroller.scrollableSize);
+
+        //        float scrollDelta = Mathf.Clamp(targetValue - scroller.value, -maxScrollDelta, maxScrollDelta);
+
+        //        scroller.ScrollTo(scroller.value + scrollDelta);
+        //        @event.StopPropagation();
+        //    });
+        //}
 
 
     }

@@ -4823,7 +4823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7faae5ca6d4fa0458d243574d23d36a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameDataManager: {fileID: 0}
+  GameDataManager: {fileID: 0}
   SaveManager: {fileID: 0}
 --- !u!4 &1386626207
 Transform:
