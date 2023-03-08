@@ -57,7 +57,11 @@ namespace Unity.Game.Authentication
             var googleOIDCAuth = new GoogleOIDCAuthentication(googleOIDMetadata);
             GoogleToken googleToken = await googleOIDCAuth.GetToken();
 
-            AuthenticationService.Instance.ClearSessionToken();
+            if (AuthenticationService.Instance.SessionTokenExists)
+            {
+                AuthenticationService.Instance.ClearSessionToken();
+            }
+            
             await AuthenticationService.Instance.SignInWithOpenIdConnectAsync(GoogleOIDConfig.PROVIDER_NAME, googleToken.IdToken);
 
             return AuthenticationService.Instance.PlayerId;
