@@ -46,11 +46,7 @@ namespace Unity.Game
         //[SerializeField] AudioClip m_DefeatSound;
         //[SerializeField] AudioClip m_PotionSound;
 
-        private void Start()
-        {
-            SetVolume(MusicGroup, PlayerPrefs.GetFloat("music",.5f));
-            SetVolume(SfxGroup, PlayerPrefs.GetFloat("sfx", .5f));
-        }
+  
         void OnEnable()
         {
             //SettingsScreen.SettingsUpdated += OnSettingsUpdated;
@@ -70,6 +66,7 @@ namespace Unity.Game
                 return;
 
             GameObject sfxInstance = new GameObject(clip.name);
+            //Debug.Log($"creating {clip.name} and destory in {clip.length}");
             sfxInstance.transform.position = sfxPosition;
 
             AudioSource source = sfxInstance.AddComponent<AudioSource>();
@@ -81,6 +78,7 @@ namespace Unity.Game
 
             // destroy after clip length
             Destroy(sfxInstance, clip.length);
+            DontDestroyOnLoad(sfxInstance);
         }
 
         // return an AudioMixerGroup by name

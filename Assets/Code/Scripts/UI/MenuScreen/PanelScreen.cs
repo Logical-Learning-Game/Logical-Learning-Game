@@ -108,7 +108,11 @@ namespace Unity.Game.UI
         {
             SwitchPanel(LevelPanel);
             OpenLevelPanel?.Invoke();
-            AudioManager.PlayDefaultButtonSound();
+            if(evt != null)
+            {
+                AudioManager.PlayDefaultButtonSound();
+            }
+            
 
         }
         void ShowStatPanel(ClickEvent evt)

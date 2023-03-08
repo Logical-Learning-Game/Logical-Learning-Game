@@ -119,12 +119,21 @@ namespace Unity.Game.Conditions
         public void InitConditionPicker()
         {
             conditionList = new List<ConditionChoice>();
+            ClearChildrenGameObjects();
             uniqueConditions = LevelManager.Instance.GetUniqueConditions();
             foreach (ConditionSign condition in uniqueConditions)
             {
                 ConditionChoice choice = Instantiate(ConditionChoiceGameObj, ConditionPicker.transform).GetComponent<ConditionChoice>();
                 choice.SetCondition(condition);
                 conditionList.Add(choice);
+            }
+        }
+
+        public void ClearChildrenGameObjects()
+        {
+            foreach (Transform child in ConditionPicker.transform)
+            {
+                Destroy(child.gameObject);
             }
         }
 

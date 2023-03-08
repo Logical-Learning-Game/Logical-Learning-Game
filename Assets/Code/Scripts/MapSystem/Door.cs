@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Game.Conditions;
 using Unity.Game.ItemSystem;
 using TMPro;
+using Unity.Game.Level;
 
 namespace Unity.Game.MapSystem
 {
@@ -33,19 +34,18 @@ namespace Unity.Game.MapSystem
             {
                 //open door
                 SetIsOpened(true);
-                items.Remove(doorKey);
+                LevelManager.Instance.RemoveItem(doorKey);
+                AudioManager.PlayPickItemSound();
                 //implement open door animation later
                 yield return new WaitForSeconds(0.5f);
                 gameObject.SetActive(false);
             }
             else
             {
-                //play sound
+                AudioManager.PlayPickItemSound();
                 yield return new WaitForSeconds(0.5f);
             }
         }
-
-
         public ItemType GetKeyType()
         {
             return doorKey;

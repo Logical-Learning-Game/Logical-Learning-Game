@@ -143,12 +143,29 @@ namespace Unity.Game.UI
         public void OnWorldDataLoaded(List<WorldData> worldDatas)
         {
             WorldDatas = worldDatas;
+
+            if (entryView != null)
+            {
+                entryView.Rebuild();
+            }
+            else
+            {
+                SetUpListView();
+            }
         }
 
         public void OnGameDataLoaded(GameData gameData)
         {
             this.gameData = gameData;
 
+            if (entryView != null)
+            {
+                entryView.Rebuild();
+            }
+            else
+            {
+                SetUpListView();
+            }
         }
 
         public void GenerateMapEntry(string worldSelector)

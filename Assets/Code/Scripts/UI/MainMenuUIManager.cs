@@ -52,6 +52,7 @@ namespace Unity.Game.UI
             //NewGameScreen.LocalNewGameClick += ShowPanelScreen;
 
             GoogleSyncScreen.CancelSyncClick += ShowNewGameScreen;
+            SettingPanelManager.GoogleSyncClick += ShowGoogleSyncScreen;
 
             MapEntryManager.SelectMap += LoadGameScene;
 
@@ -65,7 +66,7 @@ namespace Unity.Game.UI
 
             NewGameScreen.BackClick -= ShowIntroScreen;
             NewGameScreen.GoogleNewGameClick -= ShowGoogleSyncScreen;
-            //NewGameScreen.LocalNewGameClick -= ShowPanelScreen;
+            SettingPanelManager.GoogleSyncClick -= ShowGoogleSyncScreen;
 
             GoogleSyncScreen.CancelSyncClick -= ShowNewGameScreen;
 

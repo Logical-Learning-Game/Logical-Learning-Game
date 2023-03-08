@@ -68,6 +68,7 @@ namespace Unity.Game.SaveSystem
             if (isSync)
             {
                 Debug.Log("Going Sync");
+                gameData.PlayerId = playerId;
 
                 // send all history first
                 await SendGameData();
@@ -107,6 +108,10 @@ namespace Unity.Game.SaveSystem
             {
                 Debug.LogErrorFormat("An error occurred while making http request to get game data endpoint: {0}", ex);
             }
+            saveManager.SaveGame();
+            saveManager.InvokeGameDataLoad();
+            NewGameCompleted?.Invoke();
+
         }
 
         public async Task SendGameData()
