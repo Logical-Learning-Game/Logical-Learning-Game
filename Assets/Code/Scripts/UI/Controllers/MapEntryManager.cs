@@ -245,25 +245,9 @@ namespace Unity.Game.UI
                     e.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[Medal.NONE];
                 }
                 var mapEntryButton = e.Q<UnityEngine.UIElements.Button>("MapEntryButton");
-                if (mapEntryButton != null)
-                {
-                    e.Remove(mapEntryButton);
-                }
-
-                // Create new button and add it to the element hierarchy
-                mapEntryButton = new UnityEngine.UIElements.Button();
-                mapEntryButton.name = "MapEntryButton";
-                e.Add(mapEntryButton);
-
-                // Register button callbacks
-                mapEntryButton.RegisterCallback<ClickEvent>(ev => OnClickMapEntry(ev, mapEntryList[i], isEnterable));
-                mapEntryButton.RegisterCallback<MouseOverEvent>(ev => AudioManager.PlayDefaultHoverSound());
-
-                //Debug.Log("reRegisterButton");
-                //var mapEntryButton = e.Q<UnityEngine.UIElements.Button>("MapEntryButton");
-
-                //mapEntryButton.RegisterCallback<ClickEvent>(e => OnClickMapEntry(e, mapEntryList[i], isEnterable));
-                //mapEntryButton.RegisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
+                mapEntryButton.clickable = new Clickable(e => OnClickMapEntry(e, mapEntryList[i], isEnterable));
+                mapEntryButton.UnregisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
+                mapEntryButton.RegisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
 
             };
 
@@ -303,7 +287,7 @@ namespace Unity.Game.UI
             return WorldDatas.Select(w => w.WorldName).ToList();
         }
 
-        void OnClickMapEntry(ClickEvent evt, Map map, bool isEnterable)
+        void OnClickMapEntry(EventBase evt, Map map, bool isEnterable)
         {
             Debug.Log($"{map.MapName}: can enter? : {isEnterable}");
             if (isEnterable)

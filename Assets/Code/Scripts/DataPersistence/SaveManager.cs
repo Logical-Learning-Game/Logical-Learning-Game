@@ -43,7 +43,11 @@ namespace Unity.Game.SaveSystem
 
         private void OnDestroy()
         {
-            SaveGame();
+            if (gameDataManager != null)
+            {
+                SaveGame();
+            }
+            
         }
 
         public void InvokeGameDataLoad()
