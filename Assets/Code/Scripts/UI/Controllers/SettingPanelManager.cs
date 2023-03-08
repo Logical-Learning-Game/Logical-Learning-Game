@@ -51,11 +51,12 @@ namespace Unity.Game.UI
             QuitGameButton = SettingPanel.Q<Button>("QuitButton");
 
             ShowVisualElement(GoogleSyncButton, false);
-            if (SceneManager.GetActiveScene().name == "MainMenu")
-            {
-                //ShowVisualElement(RestartButton, false);
-                ShowVisualElement(QuitGameButton, false);
-            }
+            //if (SceneManager.GetActiveScene().name == "MainMenu")
+            //{
+            //    //ShowVisualElement(RestartButton, false);
+            //    //ShowVisualElement(QuitGameButton, false);
+            //    QuitGameButton.Q<Label>().text = "";
+            //}
         }
 
         void RegisterButtonCallbacks()
@@ -126,6 +127,10 @@ namespace Unity.Game.UI
             if (gameData.PlayerId == null || gameData.PlayerId == "__guest__")
             {
                 ShowVisualElement(GoogleSyncButton, true);
+            }
+            else
+            {
+                ShowVisualElement(GoogleSyncButton, false);
             }
         }
 

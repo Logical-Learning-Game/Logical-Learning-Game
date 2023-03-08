@@ -21,6 +21,7 @@ namespace Unity.Game.SaveSystem
 
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
             gameDataManager = GetComponent<GameDataManager>();
         }
 

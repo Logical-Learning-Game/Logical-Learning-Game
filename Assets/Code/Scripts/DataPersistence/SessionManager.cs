@@ -14,7 +14,7 @@ namespace Unity.Game.SaveSystem
     public class SessionManager : MonoBehaviour
     {
         [SerializeField]
-        private GameDataManager gameDataManager;
+        private GameDataManager GameDataManager;
 
         [SerializeField]
         private SaveManager SaveManager;
@@ -39,6 +39,15 @@ namespace Unity.Game.SaveSystem
             CommandManager.OnCommandSubmit -= SaveCommand;
         }
 
+        private void Awake()
+        {
+            if (GameDataManager == null || SaveManager == null)
+            {
+                GameObject gameDataManagerGameObject = GameObject.Find("GameDataManager");
+                GameDataManager = gameDataManagerGameObject.GetComponent<GameDataManager>();
+                SaveManager = gameDataManagerGameObject.GetComponentInParent<SaveManager>();
+            }
+        }
         private void OnApplicationQuit()
         {
             EndSession();
@@ -48,7 +57,7 @@ namespace Unity.Game.SaveSystem
         {
             Debug.Log("Session is created");
             CurrentGameSession = new GameSession(map.Id);
-            gameDataManager.GameData.SessionHistories.Add(new SessionStatus(CurrentGameSession, false));
+            
         }
 
         private void EndSession(bool isSameMap)
@@ -66,11 +75,17 @@ namespace Unity.Game.SaveSystem
                 SaveManager.SaveGame();
                 return;
             }
-
+            if(CurrentGameSession.SubmitHistories.Count == 0)
+            {
+                SaveManager.SaveGame();
+                CurrentGameSession = null;
+                return;
+            }
+            GameDataManager.GameData.SessionHistories.Add(new SessionStatus(CurrentGameSession, false));
             CurrentGameSession.EndDatetime = DateTime.Now;
             CurrentGameSession = null;
 
-            await gameDataManager.SendGameData();
+            await GameDataManager.SendGameData();
 
             SaveManager.SaveGame();
         }
@@ -102,13 +117,13 @@ namespace Unity.Game.SaveSystem
 
             CurrentGameSession.SubmitHistories.Add(submit);
             // compare and add submit to topsubmits
-            if(gameDataManager.GameData.SubmitBest.TryGetValue(CurrentGameSession.MapId, out SubmitHistory oldSubmit))
+            if(GameDataManager.GameData.SubmitBest.TryGetValue(CurrentGameSession.MapId, out SubmitHistory oldSubmit))
             {
-                gameDataManager.GameData.SubmitBest[CurrentGameSession.MapId] = SubmitHistory.GetBestSubmit(new List<SubmitHistory>() { submit,oldSubmit });
+                GameDataManager.GameData.SubmitBest[CurrentGameSession.MapId] = SubmitHistory.GetBestSubmit(new List<SubmitHistory>() { submit,oldSubmit });
             }
             else
             {
-                gameDataManager.GameData.SubmitBest.Add(CurrentGameSession.MapId, submit);
+                GameDataManager.GameData.SubmitBest.Add(CurrentGameSession.MapId, submit);
             }
             OnCommandSubmit?.Invoke(submit);
         }

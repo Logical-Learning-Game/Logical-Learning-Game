@@ -14,7 +14,7 @@ namespace Unity.Game.UI
     public class GoogleSyncScreenController : MonoBehaviour
     {
         public static event Action ShowDetectSaveModal;
-        public static event Action<string,bool> GoogleNewGame;
+        public static event Action<string, bool> GoogleNewGame;
 
         [SerializeField] GameData gameData;
         [SerializeField] string currentPlayerId;
@@ -63,7 +63,7 @@ namespace Unity.Game.UI
             // google signin
             try
             {
-                if(GoogleAuthenticationManager.Instance == null)
+                if (GoogleAuthenticationManager.Instance == null)
                 {
                     gameObject.AddComponent<GoogleAuthenticationManager>();
                 }
@@ -103,7 +103,7 @@ namespace Unity.Game.UI
 
         public void OnSignInComplete(string newUserId)
         {
-            if (gameData == null || gameData?.PlayerId == "")
+            if (gameData == null || gameData?.PlayerId == "" || (gameData.SessionHistories.Count == 0 && gameData.SubmitBest.Count == 0))
             {
                 GoogleNewGame?.Invoke(newUserId, false);
                 return;

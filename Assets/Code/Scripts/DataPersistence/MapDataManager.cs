@@ -23,6 +23,11 @@ namespace Unity.Game.SaveSystem
 
         private void Awake()
         {
+            if (gameDataManager == null)
+            {
+                GameObject gameDataManagerGameObject = GameObject.Find("GameDataManager");
+                gameDataManager = gameDataManagerGameObject.GetComponent<GameDataManager>();
+            }
         }
 
         private void Start()
