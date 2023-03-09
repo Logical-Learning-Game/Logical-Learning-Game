@@ -19,9 +19,21 @@ namespace Unity.Game.SaveSystem
         GameDataManager gameDataManager;
         public static event Action<GameData> GameDataLoaded;
 
+        public static SaveManager Instance { get; private set; }
         private void Awake()
         {
-            gameDataManager = GetComponent<GameDataManager>();
+            if (Instance == null)
+            {
+                Instance = this;
+                gameDataManager = GetComponent<GameDataManager>();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
+            DontDestroyOnLoad(gameObject);
+            
         }
 
         private void Start()
@@ -31,7 +43,11 @@ namespace Unity.Game.SaveSystem
 
         private void OnDestroy()
         {
-            SaveGame();
+            if (gameDataManager != null)
+            {
+                SaveGame();
+            }
+            
         }
 
         public void InvokeGameDataLoad()

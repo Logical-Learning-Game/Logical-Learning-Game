@@ -43,5 +43,26 @@ namespace Unity.Game.SaveSystem
             }
         }
 
+        public int GetCurrentStar()
+        {
+            int starCount = 0;
+
+            foreach (SubmitHistory submitHistory in SubmitBest.Values)
+            {
+                if (submitHistory.IsCompleted)
+                {
+                    foreach (RuleHistory ruleHistory in submitHistory.RuleHistories)
+                    {
+                        if (ruleHistory.IsPass)
+                        {
+                            starCount++;
+                        }
+                    }
+                }
+            }
+
+            return starCount;
+        }
+
     }
 }

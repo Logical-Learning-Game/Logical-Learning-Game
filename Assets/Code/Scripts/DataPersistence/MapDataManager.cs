@@ -23,6 +23,11 @@ namespace Unity.Game.SaveSystem
 
         private void Awake()
         {
+            if (gameDataManager == null)
+            {
+                GameObject gameDataManagerGameObject = GameObject.Find("GameDataManager");
+                gameDataManager = gameDataManagerGameObject.GetComponent<GameDataManager>();
+            }
         }
 
         private void Start()
@@ -86,6 +91,7 @@ namespace Unity.Game.SaveSystem
 
             List<WorldData> worldDatas = await apiClient.GetMapData(playerId);
             Debug.Log($"update world data count {worldDatas.Count}");
+            MapImageManager.DeleteAllMapImages();
             WorldDataLoaded?.Invoke(worldDatas);
             SaveMap();
         }

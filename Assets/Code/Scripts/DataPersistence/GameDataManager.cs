@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Threading;
 using System.Net;
+using UnityEngine.SceneManagement;
 
 namespace Unity.Game.SaveSystem
 {
@@ -18,15 +19,27 @@ namespace Unity.Game.SaveSystem
 
         [SerializeField] bool isGameDataInitialized;
         [SerializeField] GameData gameData;
+        public static GameDataManager Instance { get; private set; }
         public GameData GameData { set => gameData = value; get => gameData; }
 
         private void Awake()
         {
-            saveManager = GetComponent<SaveManager>();
+            if (Instance == null)
+            {
+                Instance = this;
+                saveManager = GetComponent<SaveManager>();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()
-        {
+        { 
+
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
             //if saved data exists, load saved data
@@ -40,6 +53,8 @@ namespace Unity.Game.SaveSystem
         {
             NewGameScreenController.LocalNewGame += NewGameWithUserId;
             GoogleSyncScreenController.GoogleNewGame += SyncGameData;
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnDisable()
@@ -47,6 +62,13 @@ namespace Unity.Game.SaveSystem
             NewGameScreenController.LocalNewGame -= NewGameWithUserId;
             GoogleSyncScreenController.GoogleNewGame -= SyncGameData;
 
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        }
+
+        void OnSceneLoaded(Scene scene,LoadSceneMode loadSceneMode)
+        {
+            saveManager.InvokeGameDataLoad();
         }
 
         private void NewGameWithUserId(string playerId)
@@ -65,10 +87,10 @@ namespace Unity.Game.SaveSystem
             var apiClient = new APIClient();
 
             // if is sync is true, it is necessary to send all history first
+            gameData.PlayerId = playerId;
             if (isSync)
             {
                 Debug.Log("Going Sync");
-                gameData.PlayerId = playerId;
 
                 // send all history first
                 await SendGameData();
@@ -198,6 +220,9 @@ namespace Unity.Game.SaveSystem
             {
                 Debug.LogErrorFormat("An error occurred while making http request to update top submit history endpoint: {0}", ex);
             }
+
         }
+
+       
     }
 }

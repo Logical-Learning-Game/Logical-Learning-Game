@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using GlobalConfig;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System;
@@ -77,6 +78,9 @@ namespace Unity.Game.UI
 
         public void SetSubmitData(SubmitHistory submit)
         {
+            VictoryContainer.Q("CommandMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[submit.CommandMedal];
+            VictoryContainer.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[submit.ActionMedal];
+
             //Debug.Log("Setting SubmitData");
             for (int i = 0; i < submit.RuleHistories.Count; i++)
             {
