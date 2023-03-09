@@ -788,6 +788,7 @@ GameObject:
   - component: {fileID: 1236263101}
   - component: {fileID: 1236263102}
   - component: {fileID: 1236263103}
+  - component: {fileID: 1236263104}
   m_Layer: 0
   m_Name: PanelScreen
   m_TagString: Untagged
@@ -840,8 +841,9 @@ MonoBehaviour:
   mapDataManager: {fileID: 872253281}
   WorldDatas: []
   isMapLoading: 0
-  RuleComplete: {fileID: 21300000, guid: 7c2cdabd79cef2f45897e87a65fa4cdc, type: 3}
-  RuleIncomplete: {fileID: 21300000, guid: d317166b1be42e441840ff5e78899665, type: 3}
+  RuleComplete: {fileID: 2800000, guid: 7c2cdabd79cef2f45897e87a65fa4cdc, type: 3}
+  RuleIncomplete: {fileID: 2800000, guid: d317166b1be42e441840ff5e78899665, type: 3}
+  MapImagePlaceHolder: {fileID: 2800000, guid: f03c3df25054fc24c9b354265e354e6c, type: 3}
 --- !u!114 &1236263102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,6 +870,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c09ec174e31294284d4694f62c47d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1236263104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236263098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a55d56498576e14ba2f61ea5f82f96d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapDataManager: {fileID: 872253281}
+  WorldDatas: []
+  RuleComplete: {fileID: 21300000, guid: 7c2cdabd79cef2f45897e87a65fa4cdc, type: 3}
+  RuleIncomplete: {fileID: 21300000, guid: d317166b1be42e441840ff5e78899665, type: 3}
 --- !u!1 &1453731811
 GameObject:
   m_ObjectHideFlags: 0

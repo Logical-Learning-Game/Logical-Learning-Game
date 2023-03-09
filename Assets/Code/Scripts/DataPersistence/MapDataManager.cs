@@ -91,6 +91,7 @@ namespace Unity.Game.SaveSystem
 
             List<WorldData> worldDatas = await apiClient.GetMapData(playerId);
             Debug.Log($"update world data count {worldDatas.Count}");
+            MapImageManager.DeleteAllMapImages();
             WorldDataLoaded?.Invoke(worldDatas);
             SaveMap();
         }

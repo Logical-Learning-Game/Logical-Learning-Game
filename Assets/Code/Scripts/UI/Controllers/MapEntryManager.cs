@@ -42,8 +42,9 @@ namespace Unity.Game.UI
         ListView entryView;
 
         List<Map> mapEntryList;
-        [SerializeField] private Sprite RuleComplete;
-        [SerializeField] private Sprite RuleIncomplete;
+        [SerializeField] private Texture2D RuleComplete;
+        [SerializeField] private Texture2D RuleIncomplete;
+        [SerializeField] private Texture2D MapImagePlaceHolder;
 
         private void Awake()
         {
@@ -205,14 +206,23 @@ namespace Unity.Game.UI
             entryView = GetComponent<PanelScreen>().LevelPanel.Q<ListView>("LevelListView");
 
             FixListViewScrollingBug(entryView);
-            entryView.Q<ScrollView>().scrollDecelerationRate = 0.0035f;
+            entryView.Q<ScrollView>().scrollDecelerationRate = 5f;
+            entryView.Q<ScrollView>().elasticity = 3f;
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/MapEntryTemplate.uxml");
             Func<VisualElement> makeItem = () => visualTree.Instantiate();
             Action<VisualElement, int> bindItem = (e, i) =>
             {
-                Debug.Log($"binding {i}");
                 // set map name
                 e.Q<Label>("MapName").text = mapEntryList[i].MapName;
+
+                // reset map image to placeholder first
+                e.Q<VisualElement>("MapPreviewImage").style.backgroundImage = MapImagePlaceHolder;
+                // set map image
+                string mapImageFilename = mapEntryList[i].MapImagePath;
+                StartCoroutine(MapImageManager.GetMapImage(mapEntryList[i].Id.ToString(), mapImageFilename, texture =>
+                {
+                    e.Q<VisualElement>("MapPreviewImage").style.backgroundImage = texture;
+                }));
 
                 //setting isEnterable based on currentstar
                 bool isEnterable = gameData.GetCurrentStar() >= mapEntryList[i].StarRequirement ? true : false;
@@ -227,9 +237,9 @@ namespace Unity.Game.UI
                 {
                     if (mapBestSubmit.IsCompleted)
                     {
-                        e.Q($"RuleStar{1}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[0].IsPass ? RuleComplete : RuleIncomplete);
-                        e.Q($"RuleStar{2}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[1].IsPass ? RuleComplete : RuleIncomplete);
-                        e.Q($"RuleStar{3}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[2].IsPass ? RuleComplete : RuleIncomplete);
+                        e.Q($"RuleStar{1}").style.backgroundImage = mapBestSubmit.RuleHistories[0].IsPass ? RuleComplete : RuleIncomplete;
+                        e.Q($"RuleStar{2}").style.backgroundImage = mapBestSubmit.RuleHistories[1].IsPass ? RuleComplete : RuleIncomplete;
+                        e.Q($"RuleStar{3}").style.backgroundImage = mapBestSubmit.RuleHistories[2].IsPass ? RuleComplete : RuleIncomplete;
                         e.Q("CommandMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[mapBestSubmit.CommandMedal];
                         e.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[mapBestSubmit.ActionMedal];
                     }
@@ -238,9 +248,9 @@ namespace Unity.Game.UI
                 }
                 else
                 {
-                    e.Q($"RuleStar{1}").style.backgroundImage = new StyleBackground(RuleIncomplete);
-                    e.Q($"RuleStar{2}").style.backgroundImage = new StyleBackground(RuleIncomplete);
-                    e.Q($"RuleStar{3}").style.backgroundImage = new StyleBackground(RuleIncomplete);
+                    e.Q($"RuleStar{1}").style.backgroundImage = RuleIncomplete;
+                    e.Q($"RuleStar{2}").style.backgroundImage = RuleIncomplete;
+                    e.Q($"RuleStar{3}").style.backgroundImage = RuleIncomplete;
                     e.Q("CommandMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[Medal.NONE];
                     e.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[Medal.NONE];
                 }
@@ -323,35 +333,17 @@ namespace Unity.Game.UI
             var scroller = listView.Q<Scroller>();
             listView.RegisterCallback<WheelEvent>(@event =>
             {
-                scroller.value += @event.delta.y * 400;
+                scroller.value += @event.delta.y * 1000;
                 @event.StopPropagation();
             });
 #else
                     var scroller = listView.Q<Scroller>();
                     listView.RegisterCallback<WheelEvent>(@event => {
-                        scroller.value -=  @event.delta.y * 300;
+                        scroller.value -=  @event.delta.y * 1000;
                         @event.StopPropagation();
                     });
 #endif
         }
-        //public static void FixListViewScrollingBug(ListView listView)
-        //{
-
-        //    var scroller = listView.Q<Scroller>();
-        //    float scrollSpeed = 2000f; // Adjust this value to control the scrolling speed
-        //    float maxScrollDelta = 100f; // Adjust this value to control the maximum amount of scrolling per frame
-
-        //    listView.RegisterCallback<WheelEvent>(@event =>
-        //    {
-        //        float delta = @event.delta.y * scrollSpeed;
-        //        float targetValue = Mathf.Clamp(scroller.value + delta, 0f, scroller.scrollableSize);
-
-        //        float scrollDelta = Mathf.Clamp(targetValue - scroller.value, -maxScrollDelta, maxScrollDelta);
-
-        //        scroller.ScrollTo(scroller.value + scrollDelta);
-        //        @event.StopPropagation();
-        //    });
-        //}
 
 
     }
