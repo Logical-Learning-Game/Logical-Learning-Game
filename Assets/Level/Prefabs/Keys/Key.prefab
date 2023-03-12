@@ -205,7 +205,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6592185874204002547}
   - component: {fileID: 184078831228312418}
-  - component: {fileID: 2796586392565387925}
   - component: {fileID: 3043331027111875131}
   m_Layer: 0
   m_Name: Key
@@ -247,18 +246,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 0
---- !u!114 &2796586392565387925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3596302401671248004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a91e9e7e9893ef544b7dde71f60b20e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &3043331027111875131
 SphereCollider:
   m_ObjectHideFlags: 0

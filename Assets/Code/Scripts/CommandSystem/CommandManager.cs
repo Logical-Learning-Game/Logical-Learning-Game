@@ -187,6 +187,7 @@ namespace Unity.Game.Command
 
             if (!isExecuting)
             {
+                MapManager.Instance.IsAuraInit = false;
                 OnCommandUpdate?.Invoke();
                 foreach (GameObject command in commands)
                 {

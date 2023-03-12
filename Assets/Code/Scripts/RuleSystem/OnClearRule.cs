@@ -31,7 +31,7 @@ namespace Unity.Game.RuleSystem
 
         public override string GetDescription()
         {
-            return "Reach the <color=#F5C500><b>GOAL</b></color>";
+            return "Reach the <b>GOAL</b>";
         }
 
         public override bool CheckRule(StateValue currentState)

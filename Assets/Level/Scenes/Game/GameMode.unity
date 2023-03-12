@@ -2660,7 +2660,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &626639100
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2677,9 +2677,9 @@ RectTransform:
   m_Father: {fileID: 1835374240}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 220, y: -75}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &626639101
@@ -2910,6 +2910,7 @@ MonoBehaviour:
   DoorPrefab: {fileID: 7033386308164693614, guid: 98bcfa69d391fac41b8e7ac19003f2aa,
     type: 3}
   DoorList: []
+  IsAuraInit: 0
 --- !u!114 &653972519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3831,7 +3832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1108395804
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3848,9 +3849,9 @@ RectTransform:
   m_Father: {fileID: 1835374240}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -75}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1108395805
@@ -4806,6 +4807,10 @@ MonoBehaviour:
     RightActionCount: 0
     BackActionCount: 0
     ConditionActionCount: 0
+    AllItemCount: 0
+    KeyACount: 0
+    KeyBCount: 0
+    KeyCCount: 0
 --- !u!224 &1384880412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9006930859748081991, guid: 501bd3483dd68e1448a5c0e501d0c0e5,

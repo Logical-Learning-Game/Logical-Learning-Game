@@ -27,6 +27,9 @@ namespace Unity.Game.MapSystem
         public GameObject[,] TileObjects;
 
         public List<GameObject> DoorList;
+
+        Coroutine AuraInitCoroutine;
+        public bool IsAuraInit;
         // Start is called before the first frame update
         void Awake()
         {
@@ -57,6 +60,12 @@ namespace Unity.Game.MapSystem
             Map gameMap = LevelManager.Instance.GetMap();
             DestroyMap();
             CreateMap(gameMap);
+            if(IsAuraInit == false)
+            {
+                StartInitAura();
+                IsAuraInit = true;
+            }
+            
         }
 
         // Update is called once per frame
@@ -116,7 +125,6 @@ namespace Unity.Game.MapSystem
                         default:
                             break;
                     }
-
 
                 }
             }
@@ -251,6 +259,26 @@ namespace Unity.Game.MapSystem
             {
                 //Debug.Log("Tile: " + MapManager.Instance.TileObjects[pos[0], pos[1]].name);
                 return TileObjects[pos.Item1, pos.Item2].GetComponent<Tile>();
+            }
+        }
+
+        IEnumerator InitTileAura()
+        {
+            foreach(GameObject tileObject in TileObjects)
+            {
+                Tile tile = tileObject.GetComponent<Tile>();
+                yield return new WaitForSeconds(.05f);
+                if (tile is ObstacleTile) continue;
+                tile.CreateTileAura();
+                
+            }
+        }
+
+        public void StartInitAura()
+        {
+            if(AuraInitCoroutine == null)
+            {
+                StartCoroutine(InitTileAura());
             }
         }
 

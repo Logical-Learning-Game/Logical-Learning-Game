@@ -12,7 +12,7 @@ namespace Unity.Game.ActionSystem
         public string actionName;
         public virtual IEnumerator Execute()
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.25f);
         }
         
     }

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Game.Level;
+using Unity.Game.MapSystem;
+using GlobalConfig;
 
 namespace Unity.Game.ItemSystem
 {
@@ -9,11 +11,17 @@ namespace Unity.Game.ItemSystem
     public class Item : MonoBehaviour
     {
         [SerializeField] ItemType itemType;
+        Quaternion originalRotation;
         void Start()
         {
-
+            originalRotation = Quaternion.identity;
         }
 
+        private void Update()
+        {
+            transform.Rotate(0, ItemConfig.ITEM_SPIN_SPEED, 0);
+
+        }
         public virtual void OnPickUp()
         {
             //decide between force open door or require key to open door

@@ -86,6 +86,7 @@ namespace Unity.Game.UI
                 }
                 else
                 {
+                    OnGameResumed();
                     SameMapRestart?.Invoke();
                 }
 

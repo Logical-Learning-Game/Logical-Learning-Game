@@ -76,6 +76,7 @@ namespace Unity.Game
             isMoving = true;
 
             //rotate first
+            AudioManager.PlayCharacterStepSound();
             while (Vector3.Distance(transform.forward, direction) >= 0.01f)
             {
                 Vector3 splitRotation = Vector3.RotateTowards(transform.forward, direction, PlayerConfig.PLAYER_ROTATE_SPEED * Time.deltaTime, 0.0f);
@@ -85,6 +86,7 @@ namespace Unity.Game
             transform.rotation = Quaternion.LookRotation(direction);
 
             //then move 
+            
             while (Vector3.Distance(transform.position, destination) >= 0.01f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, destination, PlayerConfig.PLAYER_MOVE_SPEED * Time.deltaTime);
@@ -110,6 +112,7 @@ namespace Unity.Game
             isMoving = true;
 
             //rotate first
+            AudioManager.PlayCharacterStepSound();
             while (Vector3.Distance(transform.forward, direction) >= 0.01f)
             {
                 Vector3 splitRotation = Vector3.RotateTowards(transform.forward, direction, PlayerConfig.PLAYER_ROTATE_SPEED * Time.deltaTime, 0.0f);
@@ -119,13 +122,14 @@ namespace Unity.Game
             transform.rotation = Quaternion.LookRotation(direction);
 
             //then move 
+            
             while (Vector3.Distance(transform.position, destination) >= 0.01f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, destination, PlayerConfig.PLAYER_MOVE_SPEED * Time.deltaTime);
                 yield return null;
             }
             transform.position = Vector3Int.RoundToInt(destination);
-
+            AudioManager.PlayDefaultWarningSound();
             yield return new WaitForSeconds(PlayerConfig.PLAYER_INVESTIGATE_TIME);
 
             //rotate back
@@ -160,15 +164,9 @@ namespace Unity.Game
         // Update is called once per frame
         void Update()
         {
-            DrawDebugRay();
+
         }
 
-        void DrawDebugRay()
-        {
-            Debug.DrawRay(transform.position, transform.forward * MapConfig.TILE_SCALE / 2, Color.red);
-            Debug.DrawRay(transform.position, Quaternion.Euler(0, -90, 0) * transform.forward * MapConfig.TILE_SCALE / 2, Color.blue);
-            Debug.DrawRay(transform.position, Quaternion.Euler(0, 90, 0) * transform.forward * MapConfig.TILE_SCALE / 2, Color.blue);
-        }
 
     }
 }

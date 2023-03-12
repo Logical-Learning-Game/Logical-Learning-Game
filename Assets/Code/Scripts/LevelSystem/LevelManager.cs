@@ -160,7 +160,6 @@ namespace Unity.Game.Level
                 // if can enter, move the player 
                 if (moveToTile.IsEnterable(movingIntoDirection) == true)
                 {
-                    AudioManager.PlayCharacterStepSound();
                     yield return Player.Instance.MoveTo(Direction);
                     moveToTile.OnTileEntered();
                     RuleManager.Instance.OnPlayCheck();
@@ -172,11 +171,13 @@ namespace Unity.Game.Level
                 }
                 else // if cannot, return the player action
                 {
+                    CommandManager.Instance.SetStopOnNextAction(true);
                     yield return Player.Instance.OnCannotMoveTo(Direction);
                 }
             }
             else // no tile reference, return the player action
             {
+                CommandManager.Instance.SetStopOnNextAction(true);
                 yield return Player.Instance.OnCannotMoveTo(Direction);
             }
         }
