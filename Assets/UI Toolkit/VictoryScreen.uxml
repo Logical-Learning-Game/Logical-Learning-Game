@@ -27,8 +27,8 @@
             <ui:VisualElement name="RuleClearHead3" style="width: 100px; height: 100px; background-image: url(&apos;project://database/Assets/Art/Textures/UI/Star_not_filled.png?fileID=2800000&amp;guid=d317166b1be42e441840ff5e78899665&amp;type=3#Star_not_filled&apos;); rotate: 30deg; -unity-background-image-tint-color: rgb(255, 248, 172);" />
         </ui:VisualElement>
         <ui:VisualElement name="VictoryFooter" style="position: absolute; width: 100%; height: 150px; -unity-slice-left: 40; -unity-slice-top: 40; -unity-slice-right: 40; -unity-slice-bottom: 40; justify-content: center; align-items: center; flex-direction: row; bottom: 20px;">
-            <ui:Button text="Restart Level" display-tooltip-when-elided="true" name="RestartButton" class="PrimaryButton" style="width: 250px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
-            <ui:Button text="Next" display-tooltip-when-elided="true" name="ShowNextMapButton" class="PrimaryButton" style="width: 250px;" />
+            <ui:Button text="Restart" display-tooltip-when-elided="true" name="RestartButton" class="PrimaryButton" style="width: 250px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+            <ui:Button text="Select Map" display-tooltip-when-elided="true" name="ShowNextMapButton" class="PrimaryButton" style="width: 250px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1481670290708353871, guid: 4fa4f4d293ea1ee4faf4262f99a756b8,
         type: 3}
+      propertyPath: SizeModule.separateAxes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481670290708353871, guid: 4fa4f4d293ea1ee4faf4262f99a756b8,
+        type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 8
       objectReference: {fileID: 0}
@@ -215,7 +220,7 @@ PrefabInstance:
     - target: {fileID: 1606270983057208885, guid: 4fa4f4d293ea1ee4faf4262f99a756b8,
         type: 3}
       propertyPath: m_Name
-      value: FX
+      value: GoalFx
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fa4f4d293ea1ee4faf4262f99a756b8, type: 3}

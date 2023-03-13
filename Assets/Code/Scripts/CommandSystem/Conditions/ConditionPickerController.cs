@@ -121,6 +121,7 @@ namespace Unity.Game.Conditions
             conditionList = new List<ConditionChoice>();
             ClearChildrenGameObjects();
             uniqueConditions = LevelManager.Instance.GetUniqueConditions();
+            CommandBarManager.Instance.DisplayConditionInitiator((uniqueConditions.Count != 0));
             foreach (ConditionSign condition in uniqueConditions)
             {
                 ConditionChoice choice = Instantiate(ConditionChoiceGameObj, ConditionPicker.transform).GetComponent<ConditionChoice>();

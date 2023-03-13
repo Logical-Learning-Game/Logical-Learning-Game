@@ -175,6 +175,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6885404397922795813, guid: 141ea54391a78da488d9e80d356c5256,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 57797a3c43663974e95f27d6a1d149f1, type: 2}
     - target: {fileID: 8442389990319206129, guid: 141ea54391a78da488d9e80d356c5256,
         type: 3}
       propertyPath: m_Name

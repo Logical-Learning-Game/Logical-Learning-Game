@@ -27,5 +27,6 @@ namespace Unity.Game.Command
         {
             yield return ActionManager.Instance.AddAction(new StartAction());
         }
+
     }
 }

@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEditor;
 
 namespace Unity.Game.Command
 {
@@ -90,14 +91,32 @@ namespace Unity.Game.Command
         public void OnEndDrag(PointerEventData eventData)
         {
             //check if drop command outside command panel
+            CommandDropzone commandPanelArea = GetComponentInParent<CommandDropzone>();
+            if (commandPanelArea != null)
+            {
+                RectTransform panelArea = commandPanelArea.GetComponent<RectTransform>();
+                RectTransform objectRect = GetComponent<RectTransform>();
+                //Debug.Log($"panelArea: {panelArea.rect},{objectRect.position}");
+
+                if (panelArea.rect.Contains(objectRect.position))
+                {
+                    //Debug.Log("Contain");
+                    // The UI GameObject is within the specific area
+                }
+                else
+                {
+                    //Debug.Log("Not Contain");
+                    // The UI GameObject is not within the specific area
+                    GetComponent<AbstractCommand>().Delete();
+                    CommandBarManager.Instance.OnUpdateCommandBar();
+                }
+            }
 
             //Debug.Log(eventData.pointerEnter.name);
             if (isDraggable)
             {
                 CommandManager.Instance.VerifyCommand();
             }
-
-
         }
 
         public void SetisDraggable(bool isDraggable)

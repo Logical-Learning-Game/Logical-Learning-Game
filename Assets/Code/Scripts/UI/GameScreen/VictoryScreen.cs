@@ -64,15 +64,24 @@ namespace Unity.Game.UI
             base.RegisterButtonCallbacks();
             RestartButton?.RegisterCallback<ClickEvent>(OnRestartClick);
             SelectMapButton?.RegisterCallback<ClickEvent>(OnSelectMapClick);
+            RestartButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            SelectMapButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+        }
+
+        void MouseOverButton(MouseOverEvent evt)
+        {
+            AudioManager.PlayDefaultHoverSound();
         }
 
         void OnRestartClick(ClickEvent evt)
         {
+            AudioManager.PlayDefaultButtonSound();
             RestartClick?.Invoke();
         }
 
         void OnSelectMapClick(ClickEvent evt)
         {
+            AudioManager.PlayDefaultButtonSound();
             SelectMapClick?.Invoke();
         }
 

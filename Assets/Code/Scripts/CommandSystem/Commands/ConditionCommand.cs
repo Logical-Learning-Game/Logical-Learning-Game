@@ -63,6 +63,8 @@ namespace Unity.Game.Command
             linkerCommand.OnVerify();
         }
 
+        
+
         public override List<AbstractCommand> GetAllNextCommands()
         {
             List<AbstractCommand> AllNextCommands = new List<AbstractCommand>() { };

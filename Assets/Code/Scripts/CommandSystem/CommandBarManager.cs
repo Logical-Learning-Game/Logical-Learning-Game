@@ -63,8 +63,6 @@ namespace Unity.Game.Command
                 Destroy(gameObject);
             }
 
-            
-
         }
 
         private float CalculateSpacing()
@@ -75,6 +73,11 @@ namespace Unity.Game.Command
         private void Update()
         {
             layoutGroup.spacing = CalculateSpacing();
+        }
+
+        public void DisplayConditionInitiator(bool isDisplay)
+        {
+            conditionCommandInitiator.gameObject.SetActive(isDisplay);
         }
 
         public void OnUpdateCommandBar()

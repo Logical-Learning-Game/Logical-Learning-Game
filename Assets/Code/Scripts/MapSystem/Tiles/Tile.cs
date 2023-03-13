@@ -25,7 +25,6 @@ namespace Unity.Game.MapSystem
 
         public virtual bool IsEnterable(Tuple<int, int> comingDirection)
         {
-            CreateTileAura();
             if (GetDoorOnTile(comingDirection) != null)
             {
                 Door door = GetDoorOnTile(comingDirection).GetComponent<Door>();
@@ -73,7 +72,7 @@ namespace Unity.Game.MapSystem
 
         public void CreateTileAura()
         {
-            Debug.Log("Creating Aura");
+            //Debug.Log("Creating Aura");
             if (AuraFx != null)
             {
                 GameObject tileAura = Instantiate(AuraFx, transform);

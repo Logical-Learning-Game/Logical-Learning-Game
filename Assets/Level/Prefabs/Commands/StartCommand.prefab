@@ -218,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8dccfedeb67ca84fbbb33088a961333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   nextCommand: {fileID: 0}
   previousCommand: []
   status: {fileID: 0}
