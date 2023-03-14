@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using Unity.Game.SaveSystem;
 using Unity.Game.Level;
 using Unity.Game.Command;
+using Unity.Game.MapSystem;
 
 
 namespace Unity.Game.UI
@@ -15,6 +16,7 @@ namespace Unity.Game.UI
         public static event Action<SubmitHistory> GameWon;
         //public static event Action NewMapRestart;
         public static event Action SameMapRestart;
+        public static event Action<int> ShowTutorial;
         //public static event Action<GameData> SettingsUpdated;
         //public static event Action SettingsLoad;
 
@@ -22,7 +24,7 @@ namespace Unity.Game.UI
         [SerializeField] string MainMenuSceneName = "MainMenu";
         [SerializeField] string GameSceneName = "GameMode";
 
-        GameData SettingsData;
+        GameData gameData;
 
 
         void OnEnable()
@@ -35,7 +37,7 @@ namespace Unity.Game.UI
             GameScreen.GameResumed += OnGameResumed;
             GameScreen.GameQuit += OnGameQuit;
 
-           
+            LevelManager.OnMapEnter += OnMapEntered;
         }
 
         void OnDisable()
@@ -47,6 +49,8 @@ namespace Unity.Game.UI
             GameScreen.GamePaused -= OnGamePaused;
             GameScreen.GameResumed -= OnGameResumed;
             GameScreen.GameQuit -= OnGameQuit;
+
+            LevelManager.OnMapEnter -= OnMapEntered;
         }
 
         IEnumerator PauseGameTime(float delay = 2f)
@@ -123,17 +127,33 @@ namespace Unity.Game.UI
             QuitGame();
         }
 
+        void OnMapEntered(Map map)
+        {
+            if(!gameData.SubmitBest.ContainsKey(map.Id))
+            {
+                
+                int contentIndex = map.Id switch
+                {
+                    0 => 0,
+                    1 => 1,
+                    2 => 2,
+                    _ => -1,
+                };
+                if(contentIndex != -1)
+                {
+                    OnGamePaused(.5f);
+                    ShowTutorial?.Invoke(contentIndex);
+                }
+            }
+        }
+
         void OnGameDataLoaded(GameData gameData)
         {
             if (gameData == null)
                 return;
 
-            //SettingsData = gameData;
+            this.gameData = gameData;
 
-            //SettingsData.musicVolume = gameData.musicVolume;
-            //SettingsData.sfxVolume = gameData.sfxVolume;
-
-            //SettingsUpdated?.Invoke(gameData);
 
         }
 

@@ -7,9 +7,9 @@
             <ui:VisualElement name="LeftSection" style="width: 360px; align-items: center;">
                 <ui:VisualElement name="AccountSection" style="width: 100%; height: auto; align-items: center;">
                     <ui:Label text="Account" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 30px; -unity-text-align: upper-center; -unity-font-style: bold;" />
-                    <ui:VisualElement name="UserId" style="flex-direction: row; width: 100%; justify-content: space-between; align-items: flex-end;">
-                        <ui:Label text="User Id:" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 26px; -unity-text-align: upper-center; -unity-font-style: bold;" />
-                        <ui:Label text="__USER_ID__" display-tooltip-when-elided="true" name="UserIdValue" class="default-text" style="align-items: center; justify-content: center; font-size: 22px; -unity-text-align: upper-center; -unity-font-style: normal; margin-right: auto; margin-left: auto;" />
+                    <ui:VisualElement name="UserId" style="flex-direction: column; width: 100%; justify-content: space-between; align-items: center;">
+                        <ui:Label text="User Id" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 26px; -unity-text-align: upper-center; -unity-font-style: bold;" />
+                        <ui:Label text="__USER_ID__" display-tooltip-when-elided="true" name="UserIdValue" class="default-text" style="align-items: center; justify-content: center; font-size: 22px; -unity-text-align: upper-center; -unity-font-style: normal; margin-right: auto; margin-left: auto; flex-wrap: wrap;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="UserName" style="flex-direction: row; width: 100%; justify-content: space-between; align-items: flex-end;">
                         <ui:Label text="Name:" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 26px; -unity-text-align: upper-center; -unity-font-style: bold;" />
@@ -21,7 +21,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement name="AccountStatus" style="flex-direction: row; width: 100%; justify-content: space-between; align-items: flex-end;">
                         <ui:Label text="Status:" display-tooltip-when-elided="true" class="default-text" style="align-items: center; justify-content: center; font-size: 26px; -unity-text-align: upper-center; -unity-font-style: bold;" />
-                        <ui:Label text="__SYNCED/UNSYNCED__" display-tooltip-when-elided="true" name="UserStatusValue" class="default-text" style="align-items: center; justify-content: center; font-size: 22px; -unity-text-align: upper-center; -unity-font-style: normal; margin-right: auto; margin-left: auto;" />
+                        <ui:Label text="Not Synced" display-tooltip-when-elided="true" name="UserStatusValue" class="default-text" style="align-items: center; justify-content: center; font-size: 22px; -unity-text-align: upper-center; -unity-font-style: normal; margin-right: auto; margin-left: auto;" />
                     </ui:VisualElement>
                     <ui:Button display-tooltip-when-elided="true" name="GoogleLinkButton" class="PrimaryButton" style="width: 300px; height: 100px; margin-left: 5px; margin-right: 5px; margin-top: 30px; margin-bottom: 5px; position: relative; flex-direction: row; justify-content: center;">
                         <ui:Label text="Sign In with" display-tooltip-when-elided="true" style="font-size: 26px;" />
@@ -33,6 +33,7 @@
             <ui:VisualElement name="RightSection" style="width: 360px; align-items: center;">
                 <ui:VisualElement name="GameButtonContainer" style="position: absolute; bottom: 40px;">
                     <ui:Button text="Restart Level" display-tooltip-when-elided="true" name="RestartButton" class="PrimaryButton" style="width: 300px; height: 70px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; display: none;" />
+                    <ui:Button text="How To Play" display-tooltip-when-elided="true" name="HowToPlayButton" class="PrimaryButton" style="width: 300px; height: 90px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; font-size: 28px;" />
                     <ui:Button text="Main Menu" display-tooltip-when-elided="true" name="QuitButton" class="PrimaryButton" style="width: 300px; height: 90px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; font-size: 28px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="AccountSection" style="width: 100%; align-items: center; justify-content: space-between;">

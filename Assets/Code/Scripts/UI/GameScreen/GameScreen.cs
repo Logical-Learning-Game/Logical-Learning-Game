@@ -18,7 +18,6 @@ namespace Unity.Game.UI
         public static event Action GameResumed;
         public static event Action GameQuit;
         public static event Action<bool> GameRestarted;
-        public static event Action OpenPanel;
         public static event Action<float> MusicVolumeChanged;
         public static event Action<float> SfxVolumeChanged;
 
@@ -32,6 +31,7 @@ namespace Unity.Game.UI
         [SerializeField] VictoryScreen victoryScreen;
         [SerializeField] LoadingScreen loadingScreen;
         [SerializeField] GoogleSyncScreen googleSyncScreen;
+        [SerializeField] PopupScreen popupScreen;
 
         [SerializeField] Button OutsidePanel;
 
@@ -51,8 +51,11 @@ namespace Unity.Game.UI
             VictoryScreen.SelectMapClick += OnOpenJournalMenu;
             SettingPanelManager.MainMenuClick += OnGameQuit;
             SettingPanelManager.GoogleSyncClick += OnClickSync;
+            SettingPanelManager.HowToPlayClick += OnOpenPopupScreen;
             GoogleSyncScreen.CancelSyncClick += OnOpenJournalMenu;
             GameDataManager.NewGameCompleted += OnOpenJournalMenu;
+            PopupScreen.CloseModalClick += OnClosePopupScreen;
+            GameScreenController.ShowTutorial += OnOpenPopupScreen;
 
 
         }
@@ -63,11 +66,13 @@ namespace Unity.Game.UI
             MapEntryManager.SelectMap -= OnSelectMap;
             VictoryScreen.RestartClick -= OnPlayerRestarted;
             VictoryScreen.SelectMapClick -= OnOpenJournalMenu;
-
             SettingPanelManager.MainMenuClick -= OnGameQuit;
             SettingPanelManager.GoogleSyncClick -= OnClickSync;
+            SettingPanelManager.HowToPlayClick -= OnOpenPopupScreen;
             GoogleSyncScreen.CancelSyncClick -= OnOpenJournalMenu;
             GameDataManager.NewGameCompleted -= OnOpenJournalMenu;
+            PopupScreen.CloseModalClick -= OnClosePopupScreen;
+            GameScreenController.ShowTutorial -= OnOpenPopupScreen;
 
         }
 
@@ -96,6 +101,10 @@ namespace Unity.Game.UI
 
             if (googleSyncScreen != null)
                 allModalScreens.Add(googleSyncScreen);
+
+            if(popupScreen != null)
+                allModalScreens.Add(popupScreen);
+
         }
 
         void ShowModalScreen(MenuScreen modalScreen)
@@ -163,10 +172,23 @@ namespace Unity.Game.UI
         public void OnOpenJournalMenu()
         {
             GamePaused?.Invoke(.5f);
-            OpenPanel?.Invoke();
 
             ShowModalScreen(panelScreen);
+            panelScreen.ShowLevelPanel(null);
             HideGameScreen();
+        }
+
+        public void OnOpenPopupScreen(int contentIndex)
+        {
+            ShowModalScreen(popupScreen);
+            HideGameScreen();
+            popupScreen.ShowContent(contentIndex);
+        }
+
+        public void OnClosePopupScreen()
+        {
+            GameResumed?.Invoke();
+            ShowGameScreen();
         }
 
         void OnOpenGameScreen(ClickEvent evt)

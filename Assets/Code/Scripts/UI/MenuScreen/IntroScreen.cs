@@ -28,13 +28,13 @@ namespace Unity.Game.UI
         void OnEnable()
         {
             IntroScreenController.DisplayContinueButton += DisplayContinueButton;
-            //GameScreen.OpenPanel += OnOpenPanel;
+ 
         }
 
         void OnDisable()
         {
             IntroScreenController.DisplayContinueButton -= DisplayContinueButton;
-            //GameScreen.OpenPanel -= OnOpenPanel;
+        
         }
 
         protected override void SetVisualElements()

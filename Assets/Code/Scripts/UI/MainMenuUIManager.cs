@@ -20,12 +20,13 @@ namespace Unity.Game.UI
         [SerializeField] GoogleSyncScreen googleSyncScreen;
         [SerializeField] PanelScreen panelScreen;
         [SerializeField] LoadingScreen loadingScreen;
+        [SerializeField] PopupScreen popupScreen;
 
         [Header("Scenes")]
         [SerializeField] string MainMenuSceneName = "MainMenu";
         [SerializeField] string GameSceneName = "GameMode";
 
-        public static event Action OpenPanel;
+
 
 
         //[Header("Full-screen overlays")]
@@ -59,6 +60,8 @@ namespace Unity.Game.UI
             GameDataManager.NewGameCompleted += ShowPanelScreen;
 
             SettingPanelManager.MainMenuClick += ReloadScene;
+            SettingPanelManager.HowToPlayClick += OnOpenPopupScreen;
+            PopupScreen.CloseModalClick += OnCloseTutorial;
         }
 
         private void OnDisable()
@@ -77,6 +80,8 @@ namespace Unity.Game.UI
             GameDataManager.NewGameCompleted -= ShowPanelScreen;
 
             SettingPanelManager.MainMenuClick -= ReloadScene;
+            SettingPanelManager.HowToPlayClick -= OnOpenPopupScreen;
+            PopupScreen.CloseModalClick -= OnCloseTutorial;
         }
 
         void Start()
@@ -99,9 +104,10 @@ namespace Unity.Game.UI
                 allModalScreens.Add(panelScreen);
 
             if (loadingScreen != null)
-            {
                 allModalScreens.Add(loadingScreen);
-            }
+
+            if (popupScreen != null)
+                allModalScreens.Add(popupScreen);
         }
 
         // shows one screen at a time
@@ -142,8 +148,8 @@ namespace Unity.Game.UI
 
         public void ShowPanelScreen()
         {
-            OpenPanel?.Invoke();
             ShowModalScreen(panelScreen);
+            panelScreen.ShowLevelPanel(null);
         }
 
         public void LoadGameScene(bool isSameMap)
@@ -168,6 +174,18 @@ namespace Unity.Game.UI
             if (Application.isPlaying)
 #endif
                 SceneManager.LoadSceneAsync(MainMenuSceneName);
+        }
+
+        public void OnOpenPopupScreen(int contentIndex)
+        {
+            ShowModalScreen(popupScreen);
+            popupScreen.ShowContent();
+        }
+
+        public void OnCloseTutorial()
+        {
+            ShowModalScreen(panelScreen);
+            panelScreen.ShowSettingPanel(null);
         }
     }
 }

@@ -776,6 +776,7 @@ MonoBehaviour:
   victoryScreen: {fileID: 167106235}
   loadingScreen: {fileID: 466051971}
   googleSyncScreen: {fileID: 1981783680}
+  popupScreen: {fileID: 861399815}
 --- !u!224 &91696196 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7582507303228929511, guid: ed22b06f0a2f7384889c8516c9848949,
@@ -3470,8 +3471,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 861399814}
+  - component: {fileID: 861399815}
   m_Layer: 0
-  m_Name: ModalScreen
+  m_Name: PopupScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3492,6 +3494,27 @@ Transform:
   m_Father: {fileID: 89046993}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &861399815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861399813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a2087654882ffa4ba20f92e364c5017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScreenName: PopupScreen
+  m_MainMenuUIManager: {fileID: 0}
+  m_Document: {fileID: 89046996}
+  FirstPlayTutorial:
+  - {fileID: 2800000, guid: f03c3df25054fc24c9b354265e354e6c, type: 3}
+  ConditionTutorial:
+  - {fileID: 2800000, guid: f03c3df25054fc24c9b354265e354e6c, type: 3}
+  ItemTutorial:
+  - {fileID: 2800000, guid: f03c3df25054fc24c9b354265e354e6c, type: 3}
 --- !u!1 &875872770
 GameObject:
   m_ObjectHideFlags: 0

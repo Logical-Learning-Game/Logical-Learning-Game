@@ -34,14 +34,12 @@ namespace Unity.Game.UI
         void OnEnable()
         {
 
-            //GameScreen.OpenPanel += OnOpenPanel;
-            //MainMenuUIManager.OpenPanel += OnOpenPanel;
+     
         }
 
         void OnDisable()
         {
-            //GameScreen.OpenPanel -= OnOpenPanel;
-            //MainMenuUIManager.OpenPanel -= OnOpenPanel;
+     
 
         }
 
@@ -75,7 +73,7 @@ namespace Unity.Game.UI
 
         void OnRestartClick(ClickEvent evt)
         {
-            AudioManager.PlayDefaultButtonSound();
+            //AudioManager.PlayDefaultButtonSound();
             RestartClick?.Invoke();
         }
 
