@@ -28,6 +28,7 @@ namespace Unity.Game.UI
         int currentIndex;
 
         [SerializeField] List<Texture2D> FirstPlayTutorial;
+        [SerializeField] List<Texture2D> LoopTutorial;
         [SerializeField] List<Texture2D> ConditionTutorial;
         [SerializeField] List<Texture2D> ItemTutorial;
 
@@ -178,21 +179,25 @@ namespace Unity.Game.UI
             //contentType is type of content that will be serve,
             //-1 is default (serve all reached)
             // 0 is tutorial only
-            // 1 is condition only
-            // 2 is item only
+            // 1 is loop only
+            // 2 is condition only
+            // 3 is item only
             List<Texture2D> popupContent = new List<Texture2D>();
             switch (contentType)
             {
                 case -1:
-                    popupContent = FirstPlayTutorial.Concat(ConditionTutorial).Concat(ItemTutorial).ToList();
-                    break;
-                case 0:
-                    popupContent = FirstPlayTutorial;
+                    popupContent = FirstPlayTutorial.Concat(LoopTutorial).Concat(ConditionTutorial).Concat(ItemTutorial).ToList();
                     break;
                 case 1:
-                    popupContent = ConditionTutorial;
+                    popupContent = FirstPlayTutorial;
                     break;
                 case 2:
+                    popupContent = LoopTutorial;
+                    break;
+                case 3:
+                    popupContent = ConditionTutorial;
+                    break;
+                case 4:
                     popupContent = ItemTutorial;
                     break;
                 default: break;

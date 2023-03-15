@@ -779,11 +779,16 @@ MonoBehaviour:
   m_MainMenuUIManager: {fileID: 0}
   m_Document: {fileID: 89046996}
   FirstPlayTutorial:
-  - {fileID: 2800000, guid: 9bc2fc8daaa884a43b7029a0a8700e26, type: 3}
+  - {fileID: 2800000, guid: f2874500acbc28b48a926d4c466b42fb, type: 3}
+  - {fileID: 2800000, guid: a6c8e71cee88e164c9185e6912f66d8f, type: 3}
+  - {fileID: 2800000, guid: a175854b61adbfc44a423771d09b578f, type: 3}
+  LoopTutorial:
+  - {fileID: 2800000, guid: 7ec58d593f2cc934d9fbee23cc30e3d8, type: 3}
   ConditionTutorial:
-  - {fileID: 2800000, guid: f6bbcc2e211af514a9abf6cf3c6140f1, type: 3}
+  - {fileID: 2800000, guid: 70c64376c0855344d9557748b52ccc70, type: 3}
+  - {fileID: 2800000, guid: f0df8d97a74f07e4e9b74ed123b3146e, type: 3}
   ItemTutorial:
-  - {fileID: 2800000, guid: c68a1c2083705e241bde9f37a2113084, type: 3}
+  - {fileID: 2800000, guid: aa1755f4cec7f8844af586b4c4a7e551, type: 3}
 --- !u!4 &965661988
 Transform:
   m_ObjectHideFlags: 0
