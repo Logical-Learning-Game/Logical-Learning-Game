@@ -92,3 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b74c867772ab1240ab0c66ae4cd9396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemObject: {fileID: 0}
+  AuraFx: {fileID: 1606270983057208885, guid: 4fa4f4d293ea1ee4faf4262f99a756b8, type: 3}
+  AuraColor: {r: 0.5886792, g: 0.99630857, b: 1, a: 1}

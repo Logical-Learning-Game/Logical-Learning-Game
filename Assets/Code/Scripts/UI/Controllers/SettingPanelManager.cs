@@ -22,14 +22,21 @@ namespace Unity.Game.UI
         public static event Action GoogleSyncClick;
         public static event Action<float> MusicVolumeChanged;
         public static event Action<float> SfxVolumeChanged;
+        public static event Action<int> HowToPlayClick;
 
         Slider MusicSlider;
         Slider SFXSlider;
+
+        VisualElement UserId;
+        VisualElement UserName;
+        VisualElement Email;
+        VisualElement Status;
 
         [SerializeField] VisualElement SettingPanel;
 
         Button GoogleSyncButton;
         Button QuitGameButton;
+        Button HowToPlayButton;
         //Button RestartButton;
 
         GameData gameData;
@@ -49,14 +56,13 @@ namespace Unity.Game.UI
             GoogleSyncButton = SettingPanel.Q<Button>("GoogleLinkButton");
             //RestartButton = SettingPanel.Q<Button>("RestartButton");
             QuitGameButton = SettingPanel.Q<Button>("QuitButton");
+            HowToPlayButton = SettingPanel.Q<Button>("HowToPlayButton");
 
-            ShowVisualElement(GoogleSyncButton, false);
-            //if (SceneManager.GetActiveScene().name == "MainMenu")
-            //{
-            //    //ShowVisualElement(RestartButton, false);
-            //    //ShowVisualElement(QuitGameButton, false);
-            //    QuitGameButton.Q<Label>().text = "";
-            //}
+            UserId = SettingPanel.Q("UserId");
+            UserName = SettingPanel.Q("UserName");
+            Email = SettingPanel.Q("Email");
+            Status = SettingPanel.Q("AccountStatus");
+ 
         }
 
         void RegisterButtonCallbacks()
@@ -67,10 +73,12 @@ namespace Unity.Game.UI
             GoogleSyncButton?.RegisterCallback<ClickEvent>(OnClickGoogleSync);
             //RestartButton?.RegisterCallback<ClickEvent>(OnClickRestart);
             QuitGameButton?.RegisterCallback<ClickEvent>(OnClickQuitGame);
+            HowToPlayButton?.RegisterCallback<ClickEvent>(OnClickHowToPlay);
 
             GoogleSyncButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
             //RestartButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
             QuitGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            HowToPlayButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
         }
 
         void OnClickGoogleSync (ClickEvent evt)
@@ -78,14 +86,16 @@ namespace Unity.Game.UI
             GoogleSyncClick?.Invoke();
             AudioManager.PlayDefaultButtonSound();
         }
-        //void OnClickRestart(ClickEvent evt)
-        //{
-        //    RestartClick?.Invoke(true);
-        //    AudioManager.PlayDefaultButtonSound();
-        //}
+
         void OnClickQuitGame(ClickEvent evt)
         {
             MainMenuClick?.Invoke();
+            AudioManager.PlayDefaultButtonSound();
+        }
+
+        void OnClickHowToPlay(ClickEvent evt)
+        {
+            HowToPlayClick?.Invoke(-1);
             AudioManager.PlayDefaultButtonSound();
         }
 
@@ -124,14 +134,7 @@ namespace Unity.Game.UI
         {
             this.gameData = gameData;
             UpdateUserSettingPanel();
-            if (gameData.PlayerId == null || gameData.PlayerId == "__guest__")
-            {
-                ShowVisualElement(GoogleSyncButton, true);
-            }
-            else
-            {
-                ShowVisualElement(GoogleSyncButton, false);
-            }
+            
         }
 
         public void OnOpenSettingPanel()
@@ -149,7 +152,27 @@ namespace Unity.Game.UI
                 SettingPanel = GetComponent<PanelScreen>().SettingPanel;
             }
 
-            SettingPanel.Q<Label>("UserIdValue").text = gameData.PlayerId;
+
+            if (gameData.PlayerId == null || gameData.PlayerId == "__guest__")
+            {
+                ShowVisualElement(UserId, false);
+                ShowVisualElement(UserName, false);
+                ShowVisualElement(Email, false);
+                ShowVisualElement(Status, true);
+                ShowVisualElement(GoogleSyncButton, true);
+
+            }
+            else
+            {
+                ShowVisualElement(UserId, true);
+                ShowVisualElement(UserName, false);
+                ShowVisualElement(Email, false);
+                ShowVisualElement(Status, false);
+                ShowVisualElement(GoogleSyncButton, false);
+
+                SettingPanel.Q<Label>("UserIdValue").text = gameData.PlayerId;
+            }
+
 
             AudioManager.SetVolume(AudioManager.MusicGroup, PlayerPrefs.GetFloat("music", .5f));
             AudioManager.SetVolume(AudioManager.SfxGroup, PlayerPrefs.GetFloat("sfx", .5f));

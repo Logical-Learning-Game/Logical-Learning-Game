@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace Unity.Game.MapSystem
         // Start is called before the first frame update
         public enum RotateDirection { CLOCKWISE, COUNTERCLOCKWISE, BIRDEYE, ORIGIN }
 
+        //public static event Action<GameObject> EnabledBirdEye;
+        //public static event Action DisableBirdEye;
         //Virtual Camera Plane
         [SerializeField] private GameObject MapCenterObj;
         [SerializeField] private GameObject MapCameraObj;
@@ -235,6 +238,11 @@ namespace Unity.Game.MapSystem
         public void RotateBirdEye()
         {
             StartRotate(RotateDirection.BIRDEYE);
+        }
+
+        public bool IsBirdEyeEnabled()
+        {
+            return BirdEyeCameraObj.GetComponent<CinemachineVirtualCamera>().Priority != 0;
         }
         //public void ToggleBirdEye()
         //{

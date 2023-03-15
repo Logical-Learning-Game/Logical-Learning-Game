@@ -9,7 +9,8 @@ namespace Unity.Game.MapSystem
     {
         [SerializeField] GameObject ItemObject;
         Dictionary<Tuple<int, int>, GameObject> DoorOnTile = new Dictionary<Tuple<int, int>, GameObject>() { };
-
+        [SerializeField] GameObject AuraFx;
+        [SerializeField] Color AuraColor;
         // Start is called before the first frame update
         void Awake()
         {
@@ -24,7 +25,6 @@ namespace Unity.Game.MapSystem
 
         public virtual bool IsEnterable(Tuple<int, int> comingDirection)
         {
-
             if (GetDoorOnTile(comingDirection) != null)
             {
                 Door door = GetDoorOnTile(comingDirection).GetComponent<Door>();
@@ -45,6 +45,7 @@ namespace Unity.Game.MapSystem
 
         public virtual void OnTileEntered()
         {
+
             Debug.Log("Character Entered Tile" + gameObject.name);
         }
 
@@ -67,6 +68,19 @@ namespace Unity.Game.MapSystem
         public GameObject GetDoorOnTile(Tuple<int, int> direction)
         {
             return DoorOnTile.TryGetValue(direction, out GameObject door) ? door : null;
+        }
+
+        public void CreateTileAura()
+        {
+            //Debug.Log("Creating Aura");
+            if (AuraFx != null)
+            {
+                GameObject tileAura = Instantiate(AuraFx, transform);
+                var main = tileAura.GetComponent<ParticleSystem>().main;
+                main.startColor = AuraColor;
+                Destroy(tileAura, main.duration+1f);
+            }
+
         }
     }
 }

@@ -36,15 +36,13 @@ namespace Unity.Game.UI
         void OnEnable()
         {
 
-            GameScreen.OpenPanel += OnOpenPanel;
-            MainMenuUIManager.OpenPanel += OnOpenPanel;
+
             //UserStatManager.UpdateUserStat += DisplayUserStat;
         }
 
         void OnDisable()
         {
-            GameScreen.OpenPanel -= OnOpenPanel;
-            MainMenuUIManager.OpenPanel -= OnOpenPanel;
+ 
             //UserStatManager.UpdateUserStat -= DisplayUserStat;
         }
 
@@ -104,7 +102,7 @@ namespace Unity.Game.UI
             ShowVisualElement(visualElement, true);
         }
 
-        void ShowLevelPanel(ClickEvent evt)
+        public void ShowLevelPanel(ClickEvent evt)
         {
             SwitchPanel(LevelPanel);
             OpenLevelPanel?.Invoke();
@@ -115,29 +113,25 @@ namespace Unity.Game.UI
             
 
         }
-        void ShowStatPanel(ClickEvent evt)
+        public void ShowStatPanel(ClickEvent evt)
         {
             SwitchPanel(StatPanel);
             OpenStatPanel?.Invoke();
             AudioManager.PlayDefaultButtonSound();
         }
-        void ShowSettingPanel(ClickEvent evt)
+        public void ShowSettingPanel(ClickEvent evt)
         {
             SwitchPanel(SettingPanel);
             OpenSettingPanel?.Invoke();
             AudioManager.PlayDefaultButtonSound();
         }
-        void ShowHistoryPanel(ClickEvent evt)
+        public void ShowHistoryPanel(ClickEvent evt)
         {
             SwitchPanel(HistoryPanel);
             OpenHistoryPanel?.Invoke();
             AudioManager.PlayDefaultButtonSound();
         }
 
-        void OnOpenPanel()
-        {
-            ShowLevelPanel(null);
-        }
 
         //public void DisplayUserStat(List<int> displayValue)
         //{

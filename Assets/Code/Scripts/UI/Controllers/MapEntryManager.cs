@@ -226,9 +226,8 @@ namespace Unity.Game.UI
 
                 //setting isEnterable based on currentstar
                 bool isEnterable = gameData.GetCurrentStar() >= mapEntryList[i].StarRequirement ? true : false;
-
-                //starRequirement
-                e.Q<Label>("RequirementValue").text = mapEntryList[i].StarRequirement.ToString();
+                
+                
 
                 // Accessing Player Submit Data
                 SubmitHistory mapBestSubmit;
@@ -258,7 +257,23 @@ namespace Unity.Game.UI
                 mapEntryButton.clickable = new Clickable(e => OnClickMapEntry(e, mapEntryList[i], isEnterable));
                 mapEntryButton.UnregisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
                 mapEntryButton.RegisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
-
+                
+                //starRequirement
+                string starReqCount = mapEntryList[i].StarRequirement.ToString();
+                e.Q<Label>("RequirementValue").text = starReqCount;
+                if (!isEnterable)
+                {
+                    e.Q<VisualElement>("NotMeetRequirementModal").style.display = DisplayStyle.Flex;
+                    e.Q<VisualElement>("MapEntryTemplate").style.unityBackgroundImageTintColor = ColorConfig.DISABLED;
+                    mapEntryButton.style.display = DisplayStyle.None;
+                }
+                else
+                {
+                    e.Q<VisualElement>("NotMeetRequirementModal").style.display = DisplayStyle.None;
+                    e.Q<VisualElement>("MapEntryTemplate").style.unityBackgroundImageTintColor = ColorConfig.ENABLED;
+                    mapEntryButton.style.display = DisplayStyle.Flex;
+                }
+                
             };
 
             entryView.makeItem = makeItem;

@@ -111,21 +111,38 @@ namespace Unity.Game.Command
 
         protected virtual void UpdateLine()
         {
+            UILineRenderer lineRenderer = lineDrawerObject.GetComponent<UILineRenderer>();
             if (isLinking)
             {
-                lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = linkPosition - (Vector2)gameObject.transform.position;
+                lineRenderer.Points[0] = Vector2.zero;
+                lineRenderer.Points[1] = linkPosition - (Vector2)gameObject.transform.position;
             }
             else if (gameObject.GetComponent<AbstractCommand>().nextCommand != null)
             {
-                lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = gameObject.GetComponent<AbstractCommand>().nextCommand.transform.position - gameObject.transform.position;
+                // check if it is cycle linking 
+                AbstractCommand nextCommand = gameObject.GetComponent<AbstractCommand>().nextCommand;
+                if (GetComponent<AbstractCommand>().previousCommand.Contains(nextCommand))
+                {
+                    Vector2 direction = gameObject.GetComponent<AbstractCommand>().nextCommand.transform.position - gameObject.transform.position;
+                    direction = direction.normalized;
+                    Vector3 rotatedDirection = Quaternion.Euler(0, 0, 90) * direction;
+
+                    lineRenderer.Points[0] = rotatedDirection*25;
+                    lineRenderer.Points[1] = gameObject.GetComponent<AbstractCommand>().nextCommand.transform.position - gameObject.transform.position + rotatedDirection * 25;
+                }
+                else
+                {
+                    lineRenderer.Points[0] = Vector2.zero;
+                    lineRenderer.Points[1] = gameObject.GetComponent<AbstractCommand>().nextCommand.transform.position - gameObject.transform.position;
+                }
+                
             }
             else
             {
-                lineDrawerObject.GetComponent<UILineRenderer>().Points[1] = Vector2.zero;
+                lineRenderer.Points[1] = Vector2.zero;
             }
 
-
-            lineDrawerObject.GetComponent<UILineRenderer>().Resolution = Vector2.Distance(lineDrawerObject.GetComponent<UILineRenderer>().Points[0], lineDrawerObject.GetComponent<UILineRenderer>().Points[1]) / ResolutionRatio;
+            lineRenderer.Resolution = Vector2.Distance(lineRenderer.Points[0], lineRenderer.Points[1]) / ResolutionRatio;
         }
 
 

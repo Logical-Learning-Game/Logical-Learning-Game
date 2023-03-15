@@ -43,7 +43,7 @@ namespace Unity.Game.RuleSystem
 
         public override string GetDescription()
         {
-            return GetLimitTypeString() + (GetIsMore() ? " is not less than " : " is not more than ") + "<color=#F55135><b>" + GetValue() + "</b></color>";
+            return $"{GetLimitTypeString()} {(GetIsMore() ? " is not less than " : " is not more than ")} <color=#F55135><b>{GetValue()}</b></color>";
         }
 
         public override bool CheckRule(StateValue currentState)

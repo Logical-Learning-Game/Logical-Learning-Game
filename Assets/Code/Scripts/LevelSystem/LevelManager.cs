@@ -33,7 +33,8 @@ namespace Unity.Game.Level
 
         [SerializeField] private GameObject LevelIndicator;
 
-
+        [SerializeField] private GameObject AuraFx;
+        [SerializeField] private Color AuraColor;
         private void OnEnable()
         {
             SessionManager.OnCommandSubmit += OnCommandSubmit;
@@ -76,7 +77,7 @@ namespace Unity.Game.Level
             Debug.Log("OnMapExited Invoked");
 
             OnMapExit?.Invoke();
-            
+
         }
         public void InitLevel()
         {
@@ -137,7 +138,7 @@ namespace Unity.Game.Level
         public void PlayerMove(Vector3 direction)
         {
             StartCoroutine(OnPlayerMove(direction));
-           
+
         }
 
         public IEnumerator OnPlayerMove(Vector3 Direction)
@@ -160,7 +161,7 @@ namespace Unity.Game.Level
                 // if can enter, move the player 
                 if (moveToTile.IsEnterable(movingIntoDirection) == true)
                 {
-                    AudioManager.PlayCharacterStepSound();
+                    moveToTile.CreateTileAura();
                     yield return Player.Instance.MoveTo(Direction);
                     moveToTile.OnTileEntered();
                     RuleManager.Instance.OnPlayCheck();
@@ -172,11 +173,18 @@ namespace Unity.Game.Level
                 }
                 else // if cannot, return the player action
                 {
+                    //create tile aura at null position
+
+                    CreateNullTileAura(tilePos);
+                    CommandManager.Instance.SetStopOnNextAction(true);
                     yield return Player.Instance.OnCannotMoveTo(Direction);
                 }
             }
             else // no tile reference, return the player action
             {
+                Debug.Log("Null Tile Reached");
+                CreateNullTileAura(tilePos);
+                CommandManager.Instance.SetStopOnNextAction(true);
                 yield return Player.Instance.OnCannotMoveTo(Direction);
             }
         }
@@ -272,7 +280,7 @@ namespace Unity.Game.Level
             {
                 for (int j = 0; j < map.Width; j++)
                 {
-                    if ((MapData[i*map.Width + j] & 0b1) == 1)
+                    if ((MapData[i * map.Width + j] & 0b1) == 1)
                     {
                         playerPosition = new int[2] { i, j };
                         playerRotation = new int[2] { (int)(MapData[i * map.Width + j] >> 2) & 0b1, (int)(MapData[i * map.Width + j] >> 1) & 0b1 };
@@ -318,6 +326,17 @@ namespace Unity.Game.Level
             if (GetIsPlayerReachGoal())
             {
                 GameWon?.Invoke(submit);
+            }
+        }
+
+        public void CreateNullTileAura(Tuple<int, int> tilePos)
+        {
+            if (AuraFx != null)
+            {
+                GameObject tileAura = Instantiate(AuraFx, new Vector3(tilePos.Item1 * MapConfig.TILE_SCALE, 0, tilePos.Item2 * MapConfig.TILE_SCALE), Quaternion.identity, transform.parent);
+                var main = tileAura.GetComponent<ParticleSystem>().main;
+                main.startColor = AuraColor;
+                Destroy(tileAura, main.duration + 1f);
             }
         }
     }

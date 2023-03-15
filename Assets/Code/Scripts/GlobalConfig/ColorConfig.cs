@@ -13,5 +13,8 @@ namespace GlobalConfig
             { Medal.SILVER,new Color(180/255f,180/255f,180/255f,255/255f) },
             { Medal.GOLD,new Color(202/255f,177/255f,52/255,255/255f) },
         };
+
+        public static Color DISABLED = new Color(.5f,.5f,.5f);
+        public static Color ENABLED = new Color(1f, 1f, 1f);
     }
 }

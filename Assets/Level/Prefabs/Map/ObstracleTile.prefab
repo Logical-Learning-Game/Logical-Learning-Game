@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &176855872059710906
 Transform:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3755804183689423965
 Transform:
   m_ObjectHideFlags: 0
@@ -206,6 +206,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f1e41547b0bee7b4f9256016960690e1, type: 2}
+    - target: {fileID: 3558831725978240035, guid: 141ea54391a78da488d9e80d356c5256,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4939642445470523632, guid: 141ea54391a78da488d9e80d356c5256,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5293614477910501112, guid: 141ea54391a78da488d9e80d356c5256,
         type: 3}
       propertyPath: m_RootOrder
@@ -261,6 +271,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5748548113728420426, guid: 141ea54391a78da488d9e80d356c5256,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8442389990319206129, guid: 141ea54391a78da488d9e80d356c5256,
         type: 3}
       propertyPath: m_Name
@@ -292,3 +307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeac6db7353995247ade30e1c26e5ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemObject: {fileID: 0}
+  AuraFx: {fileID: 1606270983057208885, guid: 4fa4f4d293ea1ee4faf4262f99a756b8, type: 3}
+  AuraColor: {r: 1, g: 0, b: 0, a: 1}

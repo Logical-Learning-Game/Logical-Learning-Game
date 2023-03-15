@@ -15,6 +15,6 @@ public class Spinnable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0, ItemConfig.ITEM_SPIN_SPEED, 0);
+        
     }
 }

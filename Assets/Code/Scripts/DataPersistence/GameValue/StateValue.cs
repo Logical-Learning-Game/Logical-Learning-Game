@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using Unity.Game.Command;
 using Unity.Game.ActionSystem;
+using Unity.Game.ItemSystem;
+using Unity.Game.Level;
 using System;
+using System.Collections;
 using Newtonsoft.Json;
 
 namespace Unity.Game
@@ -21,6 +24,10 @@ namespace Unity.Game
         [JsonProperty("right_action_count")] public int RightActionCount;
         [JsonProperty("back_action_count")] public int BackActionCount;
         [JsonProperty("condition_action_count")] public int ConditionActionCount;
+        [JsonProperty("all_item_count")] public int AllItemCount;
+        [JsonProperty("keya_item_count")] public int KeyACount;
+        [JsonProperty("keyb_item_count")] public int KeyBCount;
+        [JsonProperty("keyc_item_count")] public int KeyCCount;
 
         public StateValue()
         {
@@ -116,6 +123,23 @@ namespace Unity.Game
             ActionCount = startActionCount + forwardActionCount + leftActionCount + rightActionCount + backActionCount + conditionActionCount;
         }
 
+        public void UpdateItemValue()
+        {
+            int keyA = 0, keyB = 0, keyC = 0;
+
+            foreach(ItemType item in LevelManager.Instance.ItemList)
+            {
+                if (item == ItemType.KEY_A) keyA++;
+                if (item == ItemType.KEY_B) keyB++;
+                if (item == ItemType.KEY_C) keyC++;
+            }
+            
+            KeyACount = keyA;
+            KeyBCount = keyB;
+            KeyCCount = keyC;
+            AllItemCount = keyA + keyB + keyC;
+        }
+
         public object Clone()
         {
             return new StateValue
@@ -134,6 +158,7 @@ namespace Unity.Game
                 ConditionActionCount = ConditionActionCount,
             };
         }
+
     }
 
 }
