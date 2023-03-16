@@ -138,6 +138,7 @@ namespace Unity.Game.UI
 
         public void LoadMapFromFile()
         {
+            Debug.Log("SessionLog");
             mapDataManager.OnLoadMap();
         }
 
@@ -156,6 +157,7 @@ namespace Unity.Game.UI
 
         public void GenerateSessionLog()
         {
+            if (gameData == null || WorldDatas == null) return;
             SessionLogList.Clear();
             //WorldData selectedWorld = WorldDatas.FirstOrDefault(w => w.WorldName == worldSelector);
             foreach (var session in gameData.SessionHistories)
@@ -197,8 +199,9 @@ namespace Unity.Game.UI
             Action<VisualElement, int> bindItem = (e, i) =>
             {
                 // set map name
-                //e.Q<Label>("MapName").text = SessionLogList[i].Session.MapId.ToString();
-                string mapName = (WorldDatas.SelectMany(w => w.MapLists).FirstOrDefault(m => m.Id == SessionLogList[i].Session.MapId).MapName).ToString();
+
+                string mapName = "";
+                if (gameData != null && WorldDatas != null) mapName = (WorldDatas.SelectMany(w => w.MapLists).FirstOrDefault(m => m.Id == SessionLogList[i].Session.MapId).MapName).ToString();
                 e.Q<Label>("MapName").text = mapName;
                 // Get Player Best Submit from each Session
                 SubmitHistory mapBestSubmit = SubmitHistory.GetBestSubmit(SessionLogList[i].Session.SubmitHistories);
@@ -210,6 +213,7 @@ namespace Unity.Game.UI
                         e.Q($"RuleStar{1}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[0].IsPass ? RuleComplete : RuleIncomplete);
                         e.Q($"RuleStar{2}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[1].IsPass ? RuleComplete : RuleIncomplete);
                         e.Q($"RuleStar{3}").style.backgroundImage = new StyleBackground(mapBestSubmit.RuleHistories[2].IsPass ? RuleComplete : RuleIncomplete);
+
                         e.Q("CommandMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[mapBestSubmit.CommandMedal];
                         e.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[mapBestSubmit.ActionMedal];
                     }
@@ -225,7 +229,6 @@ namespace Unity.Game.UI
                 }
                 else
                 {
-                    Debug.Log("i think this line should not happen");
                     e.Q($"RuleStar{1}").style.backgroundImage = new StyleBackground(RuleIncomplete);
                     e.Q($"RuleStar{2}").style.backgroundImage = new StyleBackground(RuleIncomplete);
                     e.Q($"RuleStar{3}").style.backgroundImage = new StyleBackground(RuleIncomplete);
@@ -276,7 +279,7 @@ namespace Unity.Game.UI
 #else
                     var scroller = listView.Q<Scroller>();
                     listView.RegisterCallback<WheelEvent>(@event => {
-                        scroller.value -=  @event.delta.y * 1000;
+                        scroller.value +=  @event.delta.y * 1000;
                         @event.StopPropagation();
                     });
 #endif

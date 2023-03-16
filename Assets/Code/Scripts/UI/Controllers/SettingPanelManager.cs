@@ -176,13 +176,16 @@ namespace Unity.Game.UI
                 SettingPanel.Q<Label>("UserIdValue").text = gameData.PlayerId;
             }
 
-
-            AudioManager.SetVolume(AudioManager.MusicGroup, PlayerPrefs.GetFloat("music", .5f));
-            AudioManager.SetVolume(AudioManager.SfxGroup, PlayerPrefs.GetFloat("sfx", .5f));
+            OnUpdateAudioVolume();
 
             MusicSlider.value = AudioManager.GetVolume("Music") * 100;
             SFXSlider.value = AudioManager.GetVolume("SFX") * 100;
 
+        }
+        void OnUpdateAudioVolume()
+        {
+            AudioManager.SetVolume(AudioManager.MusicGroup, PlayerPrefs.GetFloat("music", .5f));
+            AudioManager.SetVolume(AudioManager.SfxGroup, PlayerPrefs.GetFloat("sfx", .5f));
         }
 
         void ChangeSFXVolume(ChangeEvent<float> evt)

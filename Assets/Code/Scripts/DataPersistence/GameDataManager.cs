@@ -87,6 +87,11 @@ namespace Unity.Game.SaveSystem
             var apiClient = new APIClient();
 
             // if is sync is true, it is necessary to send all history first
+            if(gameData == null || gameData.PlayerId == null)
+            {
+                gameData = saveManager.NewGame();
+            }
+
             gameData.PlayerId = playerId;
             if (isSync)
             {
