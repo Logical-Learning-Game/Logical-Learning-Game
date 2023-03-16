@@ -131,8 +131,10 @@ namespace Unity.Game.MapSystem
 #if UNITY_EDITOR
             if (Application.isPlaying)
             {
+#endif
                 CreateDoors(gameMap);
                 MapViewManager.Instance.GetMapCenter(gameMap.Height, gameMap.Width);
+#if UNITY_EDITOR
             }
 #endif
         }

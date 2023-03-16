@@ -66,16 +66,22 @@ namespace Unity.Game.SaveSystem
         {
             // load saved data from FileDataHandler
 
-            if (gameDataManager.GameData == null)
-            {
-                Debug.Log("gameData is null");
-                gameDataManager.GameData = NewGame();
-            }
-            else if (FileManager.LoadFromFile(m_SaveFilename, out var jsonString))
+            //if (gameDataManager.GameData == null)
+            //{
+            //    Debug.Log("gameData is null");
+            //    gameDataManager.GameData = NewGame();
+            //}
+            //else 
+
+            if (FileManager.LoadFromFile(m_SaveFilename, out var jsonString))
             {
                 Debug.Log("loadData from file:"+jsonString);
                 gameDataManager.GameData = GameData.LoadJson(jsonString);
             }
+            //else
+            //{
+            //    gameDataManager.GameData = NewGame();
+            //}
             // notify other game objects 
             if (gameDataManager.GameData != null)
             {

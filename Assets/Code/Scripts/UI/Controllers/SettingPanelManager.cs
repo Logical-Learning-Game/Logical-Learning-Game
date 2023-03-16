@@ -43,8 +43,11 @@ namespace Unity.Game.UI
 
         private void Awake()
         {
+            
             SetVisualElements();
             RegisterButtonCallbacks();
+
+            UpdateUserSettingPanel();
         }
 
         void SetVisualElements()
@@ -62,7 +65,7 @@ namespace Unity.Game.UI
             UserName = SettingPanel.Q("UserName");
             Email = SettingPanel.Q("Email");
             Status = SettingPanel.Q("AccountStatus");
- 
+
         }
 
         void RegisterButtonCallbacks()
@@ -81,7 +84,7 @@ namespace Unity.Game.UI
             HowToPlayButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
         }
 
-        void OnClickGoogleSync (ClickEvent evt)
+        void OnClickGoogleSync(ClickEvent evt)
         {
             GoogleSyncClick?.Invoke();
             AudioManager.PlayDefaultButtonSound();
@@ -134,7 +137,7 @@ namespace Unity.Game.UI
         {
             this.gameData = gameData;
             UpdateUserSettingPanel();
-            
+
         }
 
         public void OnOpenSettingPanel()
@@ -153,7 +156,7 @@ namespace Unity.Game.UI
             }
 
 
-            if (gameData.PlayerId == null || gameData.PlayerId == "__guest__")
+            if (gameData == null || gameData.PlayerId == null || gameData.PlayerId == "__guest__")
             {
                 ShowVisualElement(UserId, false);
                 ShowVisualElement(UserName, false);

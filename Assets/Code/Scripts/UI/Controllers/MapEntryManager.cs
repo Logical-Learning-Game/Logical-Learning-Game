@@ -139,7 +139,7 @@ namespace Unity.Game.UI
 
         public void LoadMapFromFile()
         {
-            WorldDatas = mapDataManager.OnLoadMap();
+            mapDataManager.OnLoadMap();
         }
 
         public void OnWorldDataLoaded(List<WorldData> worldDatas)
@@ -208,7 +208,8 @@ namespace Unity.Game.UI
             FixListViewScrollingBug(entryView);
             entryView.Q<ScrollView>().scrollDecelerationRate = 5f;
             entryView.Q<ScrollView>().elasticity = 3f;
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/MapEntryTemplate.uxml");
+            //var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/MapEntryTemplate.uxml");
+            var visualTree = Resources.Load<VisualTreeAsset>("MapEntryTemplate");
             Func<VisualElement> makeItem = () => visualTree.Instantiate();
             Action<VisualElement, int> bindItem = (e, i) =>
             {
@@ -226,8 +227,8 @@ namespace Unity.Game.UI
 
                 //setting isEnterable based on currentstar
                 bool isEnterable = gameData.GetCurrentStar() >= mapEntryList[i].StarRequirement ? true : false;
-                
-                
+
+
 
                 // Accessing Player Submit Data
                 SubmitHistory mapBestSubmit;
@@ -257,7 +258,7 @@ namespace Unity.Game.UI
                 mapEntryButton.clickable = new Clickable(e => OnClickMapEntry(e, mapEntryList[i], isEnterable));
                 mapEntryButton.UnregisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
                 mapEntryButton.RegisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
-                
+
                 //starRequirement
                 string starReqCount = mapEntryList[i].StarRequirement.ToString();
                 e.Q<Label>("RequirementValue").text = starReqCount;
@@ -273,7 +274,7 @@ namespace Unity.Game.UI
                     e.Q<VisualElement>("MapEntryTemplate").style.unityBackgroundImageTintColor = ColorConfig.ENABLED;
                     mapEntryButton.style.display = DisplayStyle.Flex;
                 }
-                
+
             };
 
             entryView.makeItem = makeItem;
@@ -297,7 +298,7 @@ namespace Unity.Game.UI
 
         public void OnOpenLevelPanel()
         {
-            if (WorldDatas.Count == 0)
+            if (WorldDatas == null || WorldDatas.Count == 0)
             {
                 LoadMapFromFile();
             }
@@ -354,7 +355,7 @@ namespace Unity.Game.UI
 #else
                     var scroller = listView.Q<Scroller>();
                     listView.RegisterCallback<WheelEvent>(@event => {
-                        scroller.value -=  @event.delta.y * 1000;
+                        scroller.value +=  @event.delta.y * 1000;
                         @event.StopPropagation();
                     });
 #endif
