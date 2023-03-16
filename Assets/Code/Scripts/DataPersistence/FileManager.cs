@@ -24,12 +24,14 @@ namespace Unity.Game.SaveSystem
 
 		public static bool LoadFromFile(string fileName, out string result)
 		{
-			//Debug.Log(Application.persistentDataPath);
-			var fullPath = Path.Combine(Application.persistentDataPath, fileName);
-			if (!File.Exists(fullPath))
-			{
-				File.WriteAllText(fullPath, "");
-			}
+            Debug.Log(Application.persistentDataPath);
+            var fullPath = Path.Combine(Application.persistentDataPath, fileName);
+			//if (!File.Exists(fullPath))
+			//{
+			//	Debug.Log("Path is not existed");
+			//	File.WriteAllText(fullPath, "");
+			//}
+
 			try
 			{
 				result = File.ReadAllText(fullPath);

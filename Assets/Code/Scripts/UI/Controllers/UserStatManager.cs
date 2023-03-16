@@ -57,7 +57,7 @@ namespace Unity.Game.UI
 
         public void LoadMapFromFile()
         {
-            WorldDatas = mapDataManager.OnLoadMap();
+            mapDataManager.OnLoadMap();
         }
 
         public void OnWorldDataLoaded(List<WorldData> worldDatas)
@@ -69,7 +69,7 @@ namespace Unity.Game.UI
         {
             this.gameData = gameData;
 
-            if (WorldDatas.Count == 0)
+            if (WorldDatas == null || WorldDatas.Count == 0)
             {
                 LoadMapFromFile();
             }
@@ -80,7 +80,7 @@ namespace Unity.Game.UI
         public void OnOpenStatPanel()
         {
             //Debug.Log("OpenStatPanel");
-            if (WorldDatas.Count == 0)
+            if (WorldDatas == null || WorldDatas.Count == 0)
             {
                 LoadMapFromFile();
             }
@@ -91,6 +91,8 @@ namespace Unity.Game.UI
 
         List<int> CalculateUserStat(GameData gameData, List<WorldData> worldDatas)
         {
+            if (gameData == null) return null;
+            if (worldDatas == null) return null;
             int starNormalMax = 0, starConditionalMax = 0, starLoopMax = 0;
             int playerStarNormalMax = 0, playerStarConditionalMax = 0, playerStarLoopMax = 0;
             int playerGoldMedal = 0, playerSilverMedal = 0, playerBronzeMedal = 0;
@@ -183,6 +185,7 @@ namespace Unity.Game.UI
 
         void UpdateUserStat(List<int> displayValue)
         {
+            if (displayValue == null || displayValue.Count <= 8) return;
             //    displayValue Order based on UserStatManager Declaration
             VisualElement StatPanel = GetComponent<PanelScreen>().StatPanel;
             StatPanel.Q("StarSummary").Q<Label>("StarSumValue").text = (displayValue[3] + displayValue[4] + displayValue[5]).ToString();

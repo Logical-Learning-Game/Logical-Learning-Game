@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using GlobalConfig;
 using Unity.Game.MapSystem;
 using Unity.Game.UI;
+using System.IO;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Net.Http;
@@ -45,7 +46,7 @@ namespace Unity.Game.SaveSystem
             //MapEntryManager.LoadMap -= OnLoadMap;
         }
 
-        public List<WorldData> OnLoadMap()
+        public async void OnLoadMap()
         {
             // load map data from files
             List<WorldData> worldDatas = new List<WorldData>();
@@ -55,10 +56,14 @@ namespace Unity.Game.SaveSystem
                 //Debug.Log("Load String From Files: "+jsonString);
                 worldDatas = LoadJson(jsonString);
                 // notify other game objects 
+                WorldDataLoaded?.Invoke(worldDatas);
+            }
+            else
+            {
+                await UpdateMap();
             }
             
-            WorldDataLoaded?.Invoke(worldDatas);
-            return worldDatas;
+           
 
         }
 
@@ -79,6 +84,11 @@ namespace Unity.Game.SaveSystem
             string playerId = gameDataManager.GameData.PlayerId;
             if (playerId == "__guest__")
             {
+                TextAsset jsonString = Resources.Load<TextAsset>("GuestMapData");
+                List<WorldData> guestWorldDatas = LoadJson(jsonString.text);
+                MapImageManager.DeleteAllMapImages();
+                WorldDataLoaded?.Invoke(guestWorldDatas);
+                SaveMap();
                 return;
             }
 

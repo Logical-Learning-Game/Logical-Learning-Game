@@ -138,7 +138,7 @@ namespace Unity.Game.UI
 
         public void LoadMapFromFile()
         {
-            WorldDatas = mapDataManager.OnLoadMap();
+            mapDataManager.OnLoadMap();
         }
 
         public void OnWorldDataLoaded(List<WorldData> worldDatas)
@@ -191,7 +191,8 @@ namespace Unity.Game.UI
 
             FixListViewScrollingBug(entryView);
             entryView.Q<ScrollView>().scrollDecelerationRate = 0.0035f;
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/SessionLogTemplate.uxml");
+
+            var visualTree = Resources.Load<VisualTreeAsset>("SessionLogTemplate");
             Func<VisualElement> makeItem = () => visualTree.Instantiate();
             Action<VisualElement, int> bindItem = (e, i) =>
             {
@@ -253,7 +254,7 @@ namespace Unity.Game.UI
 
         public void OnOpenHistoryPanel()
         {
-            if (WorldDatas.Count == 0)
+            if (WorldDatas == null || WorldDatas.Count == 0)
             {
                 LoadMapFromFile();
             }
