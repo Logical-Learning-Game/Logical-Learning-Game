@@ -27,6 +27,10 @@ namespace Unity.Game.SaveSystem
                     BackActionCount = submitHistory.StateValue.BackActionCount,
                     LeftActionCount = submitHistory.StateValue.LeftActionCount,
                     ConditionActionCount = submitHistory.StateValue.ConditionActionCount,
+                    AllItemCount = submitHistory.StateValue.AllItemCount,
+                    KeyACount = submitHistory.StateValue.KeyACount,
+                    KeyBCount = submitHistory.StateValue.KeyBCount,
+                    KeyCCount = submitHistory.StateValue.KeyCCount
                 },
                 RuleHistories = new List<RuleHistoryRequestDTO>(),
                 CommandNodes = new List<CommandNodeDTO>(),
