@@ -22,6 +22,7 @@ namespace Unity.Game.SaveSystem
 
         public static event Action<List<WorldData>> WorldDataLoaded;
 
+        public bool isFetching = false;
         private void Awake()
         {
             if (gameDataManager == null)
@@ -81,8 +82,15 @@ namespace Unity.Game.SaveSystem
 
         public async Task UpdateMap()
         {
+            if (gameDataManager.GameData == null)
+            {
+                Debug.Log("No map, and player is not starting game yet");
+                return;
+            }
+            if (isFetching) return;
+            isFetching = true;
             string playerId = gameDataManager.GameData.PlayerId;
-            if (playerId == "__guest__")
+            if (playerId == "__guest__" )
             {
                 TextAsset jsonString = Resources.Load<TextAsset>("GuestMapData");
                 List<WorldData> guestWorldDatas = LoadJson(jsonString.text);
@@ -96,6 +104,7 @@ namespace Unity.Game.SaveSystem
             bool haveConnectionToServer = await apiClient.ConnectionCheck();
             if (!haveConnectionToServer)
             {
+                // TODO
                 return;
             }
 
@@ -104,6 +113,8 @@ namespace Unity.Game.SaveSystem
             MapImageManager.DeleteAllMapImages();
             WorldDataLoaded?.Invoke(worldDatas);
             SaveMap();
+
+            isFetching = false;
         }
 
         public string ToJson(List<WorldData> worldDatas)

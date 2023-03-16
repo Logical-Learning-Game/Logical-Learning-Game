@@ -46,17 +46,20 @@ namespace Unity.Game
         //[SerializeField] AudioClip m_DefeatSound;
         //[SerializeField] AudioClip m_PotionSound;
 
-  
+
+        private void Awake()
+        {
+            
+        }
         void OnEnable()
         {
-            //SettingsScreen.SettingsUpdated += OnSettingsUpdated;
-            //GameScreenController.SettingsUpdated += OnSettingsUpdated;
+            //SetVolume(MusicGroup, PlayerPrefs.GetFloat("music", .5f));
+            //SetVolume(SfxGroup, PlayerPrefs.GetFloat("sfx", .5f));
         }
 
         void OnDisable()
         {
-            //SettingsScreen.SettingsUpdated -= OnSettingsUpdated;
-            //GameScreenController.SettingsUpdated -= OnSettingsUpdated;
+
         }
 
         // plays one-shot audio

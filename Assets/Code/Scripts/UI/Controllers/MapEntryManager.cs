@@ -139,6 +139,7 @@ namespace Unity.Game.UI
 
         public void LoadMapFromFile()
         {
+            Debug.Log("MapEntry");
             mapDataManager.OnLoadMap();
         }
 
@@ -148,12 +149,15 @@ namespace Unity.Game.UI
 
             if (entryView != null)
             {
+                Debug.Log("entryView is not null, Rebuilding");
                 entryView.Rebuild();
             }
             else
             {
+                Debug.Log("entryView is  null, SetupListView");
                 SetUpListView();
             }
+            CreateDropDownMenu();
         }
 
         public void OnGameDataLoaded(GameData gameData)
@@ -284,15 +288,19 @@ namespace Unity.Game.UI
 
         void CreateDropDownMenu()
         {
-
+            Debug.Log("CreateDropDownMenu");
             dropdownField = GetComponent<PanelScreen>().LevelPanel.Q<DropdownField>("WorldSelector");
+            // TODO need to fix RegisterValueChangedCallback
             dropdownField.RegisterValueChangedCallback(x =>
             {
+                Debug.Log("Test RegisterValueChangedCallback");
                 GenerateMapEntry(x.newValue);
                 LatestChoice = x.newValue;
             });
             dropdownField.choices = GetWorldEntries();
-            dropdownField.value = LatestChoice ?? dropdownField.choices[0];
+            string dropdownValue = "__NONE__";
+            dropdownValue = dropdownField.choices[0];
+            dropdownField.value = (LatestChoice != null && LatestChoice != "__NONE__") ? (LatestChoice):(dropdownValue);
 
         }
 

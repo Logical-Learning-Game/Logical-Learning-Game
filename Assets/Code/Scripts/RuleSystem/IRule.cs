@@ -28,7 +28,7 @@ namespace Unity.Game.RuleSystem
                 case RuleName.COMMAND_LIMIT_RULE:
                     return new CommandLimitRule(id: RuleId, theme: RuleTheme, value: Parameters[0], isMore: Parameters[1] == 1, limitType: LimitTypeIndex[(int)Parameters[2]]);
                 case RuleName.ITEM_COLLECTOR_RULE:
-                    return new LevelClearRule(id: RuleId);
+                    return new ItemCollectorRule(id: RuleId, theme: RuleTheme, value: Parameters[0], isMore: Parameters[1] == 1);
                 case RuleName.LEVEL_CLEAR_RULE:
                     return new LevelClearRule(id: RuleId);
                 default: return new LevelClearRule(id: RuleId);
