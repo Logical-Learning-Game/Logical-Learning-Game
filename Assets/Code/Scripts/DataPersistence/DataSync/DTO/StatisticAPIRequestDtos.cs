@@ -93,6 +93,18 @@ namespace Unity.Game.SaveSystem
 
         [JsonProperty("condition_action_count")]
         public int ConditionActionCount { get; set; }
+
+        [JsonProperty("all_item_count")]
+        public int AllItemCount { get; set; }
+
+        [JsonProperty("keya_item_count")]
+        public int KeyACount { get; set; }
+
+        [JsonProperty("keyb_item_count")]
+        public int KeyBCount { get; set; }
+
+        [JsonProperty("keyc_item_count")]
+        public int KeyCCount { get; set; }
     }
 
     public class RuleHistoryRequestDTO
