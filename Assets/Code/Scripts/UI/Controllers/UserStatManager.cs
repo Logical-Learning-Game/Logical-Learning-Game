@@ -57,6 +57,7 @@ namespace Unity.Game.UI
 
         public void LoadMapFromFile()
         {
+            Debug.Log("UserStat");
             mapDataManager.OnLoadMap();
         }
 
@@ -69,12 +70,13 @@ namespace Unity.Game.UI
         {
             this.gameData = gameData;
 
-            if (WorldDatas == null || WorldDatas.Count == 0)
-            {
-                LoadMapFromFile();
-            }
+            //if (WorldDatas == null || WorldDatas.Count == 0)
+            //{
+            //    Debug.Log("OnGameDataLoaded");
+            //    LoadMapFromFile();
+            //}
 
-            UpdateUserStat(CalculateUserStat(gameData, WorldDatas));
+            //UpdateUserStat(CalculateUserStat(gameData, WorldDatas));
         }
 
         public void OnOpenStatPanel()
@@ -82,6 +84,7 @@ namespace Unity.Game.UI
             //Debug.Log("OpenStatPanel");
             if (WorldDatas == null || WorldDatas.Count == 0)
             {
+                Debug.Log("OnOpenStatPanel");
                 LoadMapFromFile();
             }
 
@@ -185,6 +188,9 @@ namespace Unity.Game.UI
 
         void UpdateUserStat(List<int> displayValue)
         {
+            if (gameData == null) return;
+            if (WorldDatas == null) return;
+
             if (displayValue == null || displayValue.Count <= 8) return;
             //    displayValue Order based on UserStatManager Declaration
             VisualElement StatPanel = GetComponent<PanelScreen>().StatPanel;

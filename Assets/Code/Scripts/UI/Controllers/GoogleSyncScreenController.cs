@@ -84,7 +84,7 @@ namespace Unity.Game.UI
                     };
                     await apiClient.LinkAccount(linkAccountRequest);
                 }
-
+                Debug.Log("OnSigninCompleted invoked");
                 OnSignInComplete(currentPlayerId);
             }
             catch (WebException ex)

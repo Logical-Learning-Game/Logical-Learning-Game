@@ -731,6 +731,7 @@ MonoBehaviour:
   gameDataManager: {fileID: 161260845}
   mapEntryManager: {fileID: 1236263101}
   m_MapFilename: mapdata.dat
+  isFetching: 0
 --- !u!4 &872253282
 Transform:
   m_ObjectHideFlags: 0

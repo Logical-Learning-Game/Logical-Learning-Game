@@ -43,8 +43,11 @@ namespace Unity.Game.UI
             DetectSaveModal = m_Screen.Q<VisualElement>("DetectSaveModal");
             ConfirmSyncButton = m_Screen.Q<Button>(ConfirmSyncButtonName);
             DenySyncButton = m_Screen.Q<Button>(DenySyncButtonName);
+
+
             
             ShowVisualElement(m_Screen, false);
+            ShowVisualElement(DetectSaveModal, false);
         }
 
         protected override void RegisterButtonCallbacks()

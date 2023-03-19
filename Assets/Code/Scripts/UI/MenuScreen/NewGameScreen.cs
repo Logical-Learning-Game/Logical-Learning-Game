@@ -51,6 +51,7 @@ namespace Unity.Game.UI
             ConfirmNewGameButton = m_Screen.Q<Button>("ConfirmNewGameButton");
             
             ShowVisualElement(m_Screen, false);
+            ShowVisualElement(DetectSaveModal, false);
         }
 
         protected override void RegisterButtonCallbacks()
