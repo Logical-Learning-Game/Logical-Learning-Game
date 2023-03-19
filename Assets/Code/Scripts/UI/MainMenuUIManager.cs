@@ -49,11 +49,11 @@ namespace Unity.Game.UI
             IntroScreen.ContinueClick += ShowPanelScreen;
 
             NewGameScreen.BackClick += ShowIntroScreen;
-            NewGameScreen.GoogleNewGameClick += ShowGoogleSyncScreen;
+            NewGameScreen.GoogleNewGameClick += ShowGoogleSyncScreenFromNewGame;
             //NewGameScreen.LocalNewGameClick += ShowPanelScreen;
 
-            GoogleSyncScreen.CancelSyncClick += ShowNewGameScreen;
-            SettingPanelManager.GoogleSyncClick += ShowGoogleSyncScreen;
+            GoogleSyncScreen.CancelSyncClick += OnCancelSyncClick;
+            SettingPanelManager.GoogleSyncClick += ShowGoogleSyncScreenFromSetting;
 
             MapEntryManager.SelectMap += LoadGameScene;
 
@@ -70,10 +70,10 @@ namespace Unity.Game.UI
             IntroScreen.ContinueClick -= ShowPanelScreen;
 
             NewGameScreen.BackClick -= ShowIntroScreen;
-            NewGameScreen.GoogleNewGameClick -= ShowGoogleSyncScreen;
-            SettingPanelManager.GoogleSyncClick -= ShowGoogleSyncScreen;
+            NewGameScreen.GoogleNewGameClick -= ShowGoogleSyncScreenFromNewGame;
+            SettingPanelManager.GoogleSyncClick -= ShowGoogleSyncScreenFromSetting;
 
-            GoogleSyncScreen.CancelSyncClick -= ShowNewGameScreen;
+            GoogleSyncScreen.CancelSyncClick -= OnCancelSyncClick;
 
             MapEntryManager.SelectMap -= LoadGameScene;
 
@@ -141,9 +141,16 @@ namespace Unity.Game.UI
             ShowModalScreen(newGameScreen);
         }
 
-        public void ShowGoogleSyncScreen()
+        public void ShowGoogleSyncScreenFromNewGame()
         {
             ShowModalScreen(googleSyncScreen);
+            googleSyncScreen.LatestScreen = "NewGame";
+        }
+
+        public void ShowGoogleSyncScreenFromSetting()
+        {
+            ShowModalScreen(googleSyncScreen);
+            googleSyncScreen.LatestScreen = "SettingPanel";
         }
 
         public void ShowPanelScreen()
@@ -186,6 +193,23 @@ namespace Unity.Game.UI
         {
             ShowModalScreen(panelScreen);
             panelScreen.ShowSettingPanel(null);
+        }
+
+        public void OnCancelSyncClick(string latestScreen)
+        {
+            if(latestScreen == "NewGame")
+            {
+                ShowNewGameScreen();
+            }
+            else if (latestScreen == "SettingPanel")
+            {
+                ShowModalScreen(panelScreen);
+                panelScreen.ShowSettingPanel(null);
+            }
+            else
+            {
+                ShowIntroScreen();
+            }
         }
     }
 }

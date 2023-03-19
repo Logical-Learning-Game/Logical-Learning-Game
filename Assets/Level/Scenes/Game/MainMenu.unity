@@ -1124,6 +1124,7 @@ MonoBehaviour:
   m_ScreenName: GoogleSyncScreen
   m_MainMenuUIManager: {fileID: 89046997}
   m_Document: {fileID: 89046996}
+  LatestScreen: 
 --- !u!114 &1520760786
 MonoBehaviour:
   m_ObjectHideFlags: 0

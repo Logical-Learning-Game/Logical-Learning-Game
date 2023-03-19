@@ -7,11 +7,12 @@ namespace Unity.Game.UI
 {
     public class GoogleSyncScreen : MenuScreen
     {
-        public static event Action CancelSyncClick;
+        public static event Action<string> CancelSyncClick;
         public static event Action ConfirmSyncClick;
         public static event Action DenySyncClick;
 
         Button CancelSyncButton;
+        public string LatestScreen;
         
         VisualElement DetectSaveModal;
         Button ConfirmSyncButton;
@@ -68,7 +69,7 @@ namespace Unity.Game.UI
         }
         void ClickCancelSync(ClickEvent evt)
         {
-            CancelSyncClick?.Invoke();
+            CancelSyncClick?.Invoke(LatestScreen);
             AudioManager.PlayDefaultWarningSound();
         }
 

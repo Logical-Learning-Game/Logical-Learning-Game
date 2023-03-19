@@ -87,8 +87,8 @@ namespace Unity.Game.Level
             MapManager.Instance.InitMap();
             ItemManager.Instance.InitItems();
             ConditionPickerController.Instance.InitConditionPicker();
-            RuleManager.Instance.InitRule();
             ActionSystem.ActionManager.Instance.ClearAction();
+            RuleManager.Instance.InitRule();
             InitPlayer();
             LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
         }

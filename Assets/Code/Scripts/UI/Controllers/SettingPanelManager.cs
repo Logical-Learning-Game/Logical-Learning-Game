@@ -37,6 +37,7 @@ namespace Unity.Game.UI
         Button GoogleSyncButton;
         Button QuitGameButton;
         Button HowToPlayButton;
+        Button CopyIdButton;
         //Button RestartButton;
 
         GameData gameData;
@@ -60,6 +61,7 @@ namespace Unity.Game.UI
             //RestartButton = SettingPanel.Q<Button>("RestartButton");
             QuitGameButton = SettingPanel.Q<Button>("QuitButton");
             HowToPlayButton = SettingPanel.Q<Button>("HowToPlayButton");
+            CopyIdButton = SettingPanel.Q<Button>("CopyButton");
 
             UserId = SettingPanel.Q("UserId");
             UserName = SettingPanel.Q("UserName");
@@ -77,11 +79,13 @@ namespace Unity.Game.UI
             //RestartButton?.RegisterCallback<ClickEvent>(OnClickRestart);
             QuitGameButton?.RegisterCallback<ClickEvent>(OnClickQuitGame);
             HowToPlayButton?.RegisterCallback<ClickEvent>(OnClickHowToPlay);
+            CopyIdButton?.RegisterCallback<ClickEvent>(OnClickCopyId);
 
             GoogleSyncButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
             //RestartButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
             QuitGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
             HowToPlayButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            CopyIdButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
         }
 
         void OnClickGoogleSync(ClickEvent evt)
@@ -102,6 +106,11 @@ namespace Unity.Game.UI
             AudioManager.PlayDefaultButtonSound();
         }
 
+        void OnClickCopyId(ClickEvent evt)
+        {
+            GUIUtility.systemCopyBuffer = gameData.PlayerId;
+            AudioManager.PlayDefaultButtonSound();
+        }
         void MouseOverButton(MouseOverEvent evt)
         {
             AudioManager.PlayDefaultHoverSound();

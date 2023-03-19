@@ -62,6 +62,8 @@ namespace Unity.Game.RuleSystem
                 RuleObjects[i].GetComponentInChildren<Image>().sprite = result ? RuleComplete : RuleIncomplete;
                 RuleStatus[i] = result;
             }
+            MedalPanelManager.Instance.UpdatePanel();
+            
         }
         public void OnPlanCheck()
         {
@@ -77,6 +79,8 @@ namespace Unity.Game.RuleSystem
                     RuleStatus[i] = result;
                 }
             }
+            MedalPanelManager.Instance.UpdatePanel();
+
         }
 
         public void OnPlayCheck()
@@ -91,6 +95,8 @@ namespace Unity.Game.RuleSystem
                     RuleStatus[i] = result;
                 }
             }
+            MedalPanelManager.Instance.UpdatePanel();
+
         }
 
         public void OnClearCheck()
@@ -104,6 +110,7 @@ namespace Unity.Game.RuleSystem
                     RuleStatus[i] = result;
                 }
             }
+
         }
 
     }
