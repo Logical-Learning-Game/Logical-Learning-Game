@@ -98,6 +98,7 @@ namespace Unity.Game.Level
             (int[] playerPosition, int[] playerRotation) = GetPlayerInitValue(gameMap);
             SetPlayerPosition(playerPosition[0], playerPosition[1]);
             SetPlayerRotation(playerRotation[0], playerRotation[1]);
+            Player.Instance.SetPlayerIdle();
         }
 
         // Update is called once per frame

@@ -35,6 +35,9 @@ namespace Unity.Game.Command
                 status.SetStatus(CommandStatus.Status.Default);
                 linkerCommand.status.SetStatus(CommandStatus.Status.Success);
                 CommandManager.Instance.OnExecute(linkerCommand);
+
+                // Consume Player Current Condition
+                LevelManager.Instance.SetLastSign(ConditionSign.EMPTY);
             }
             else
             {

@@ -12,8 +12,11 @@ namespace Unity.Game
     {
         public static Player Instance { get; private set; }
         [SerializeField] private bool isMoving = false;
-        
+        [SerializeField] private bool isBored = false;
+        [SerializeField] private float TimeUntilBored = 5f;
+        [SerializeField] private float ElapsedTime;
 
+        public Animator CharacterAnimator;
         public Vector3 Front()
         {
             return transform.forward;
@@ -52,7 +55,7 @@ namespace Unity.Game
                 return (int)(transform.position.z / MapConfig.TILE_SCALE);
             }
         }
-        
+
 
         // Start is called before the first frame update
         void Awake()
@@ -60,12 +63,15 @@ namespace Unity.Game
             if (Instance == null)
             {
                 Instance = this;
+                CharacterAnimator = GetComponentInChildren<Animator>();
             }
             else
             {
                 Destroy(gameObject);
             }
         }
+
+
         public IEnumerator MoveTo(Vector3 direction)
         {
             if (isMoving)
@@ -76,6 +82,7 @@ namespace Unity.Game
             isMoving = true;
 
             //rotate first
+            SetEndPlayerMove();
             AudioManager.PlayCharacterStepSound();
             while (Vector3.Distance(transform.forward, direction) >= 0.01f)
             {
@@ -86,7 +93,7 @@ namespace Unity.Game
             transform.rotation = Quaternion.LookRotation(direction);
 
             //then move 
-            
+            SetPlayerMove();
             while (Vector3.Distance(transform.position, destination) >= 0.01f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, destination, PlayerConfig.PLAYER_MOVE_SPEED * Time.deltaTime);
@@ -94,6 +101,7 @@ namespace Unity.Game
             }
             transform.position = Vector3Int.RoundToInt(destination);
             isMoving = false;
+            SetEndPlayerMove();
         }
 
         public IEnumerator OnCannotMoveTo(Vector3 direction)
@@ -113,6 +121,7 @@ namespace Unity.Game
 
             //rotate first
             AudioManager.PlayCharacterStepSound();
+            SetEndPlayerMove();
             while (Vector3.Distance(transform.forward, direction) >= 0.01f)
             {
                 Vector3 splitRotation = Vector3.RotateTowards(transform.forward, direction, PlayerConfig.PLAYER_ROTATE_SPEED * Time.deltaTime, 0.0f);
@@ -122,7 +131,7 @@ namespace Unity.Game
             transform.rotation = Quaternion.LookRotation(direction);
 
             //then move 
-            
+            SetPlayerMove();
             while (Vector3.Distance(transform.position, destination) >= 0.01f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, destination, PlayerConfig.PLAYER_MOVE_SPEED * Time.deltaTime);
@@ -130,6 +139,7 @@ namespace Unity.Game
             }
             transform.position = Vector3Int.RoundToInt(destination);
             AudioManager.PlayDefaultWarningSound();
+            SetEndPlayerMove();
             yield return new WaitForSeconds(PlayerConfig.PLAYER_INVESTIGATE_TIME);
 
             //rotate back
@@ -142,6 +152,7 @@ namespace Unity.Game
             transform.rotation = Quaternion.LookRotation(reverseDirection);
 
             //move back
+            SetPlayerMove();
             while (Vector3.Distance(transform.position, origin) >= 0.01f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, origin, PlayerConfig.PLAYER_MOVE_SPEED * Time.deltaTime);
@@ -150,6 +161,7 @@ namespace Unity.Game
             transform.position = Vector3Int.RoundToInt(origin);
 
             //rotate to origin direction
+            SetEndPlayerMove();
             while (Vector3.Distance(transform.forward, originDirection) >= 0.01f)
             {
                 Vector3 splitRotation = Vector3.RotateTowards(transform.forward, originDirection, PlayerConfig.PLAYER_ROTATE_SPEED * Time.deltaTime, 0.0f);
@@ -164,9 +176,75 @@ namespace Unity.Game
         // Update is called once per frame
         void Update()
         {
+            if (!isMoving)
+            {
+                if (!isBored)
+                {
+                    ElapsedTime += Time.deltaTime;
+                    if (ElapsedTime > TimeUntilBored)
+                    {
+                        isBored = true;
+                        SetPlayerBoredAnimation();
+                        ElapsedTime = 0;
+
+                    }
+                }
+                else if (isBored)
+                {
+                    ElapsedTime += Time.deltaTime;
+                    if (ElapsedTime > TimeUntilBored)
+                    {
+                        isBored = false;
+                        SetPlayerIdle();
+                        ElapsedTime = 0;
+                    }
+                }
+            }
+            else
+            {
+                isBored = false;
+                ElapsedTime = 0;
+            }
 
         }
 
+        public void SetPlayerMove()
+        {
+            CharacterAnimator.SetBool("Run", true);
+            CharacterAnimator.SetBool("Eat", false);
+            CharacterAnimator.SetBool("Turn Head", false);
+        }
 
+        public void SetEndPlayerMove()
+        {
+            CharacterAnimator.SetBool("Run", false);
+        }
+
+        public void SetPlayerIdle()
+        {
+            CharacterAnimator.SetBool("Run", false);
+            CharacterAnimator.SetBool("Eat", false);
+            CharacterAnimator.SetBool("Turn Head", false);
+            TimeUntilBored = Random.Range(10, 20);
+        }
+
+        public void SetPlayerBoredAnimation()
+        {
+            int rand = Random.Range(0, 2);
+            switch (rand)
+            {
+                case 0:
+                    CharacterAnimator.SetBool("Eat", true);
+                    CharacterAnimator.SetBool("Turn Head", false);
+                    TimeUntilBored = Random.Range(2, 6);
+                    break;
+                case 1:
+                    CharacterAnimator.SetBool("Eat", false);
+                    CharacterAnimator.SetBool("Turn Head", true);
+                    TimeUntilBored = Random.Range(3, 10);
+                    break;
+                default: break;
+            }
+        }
     }
 }
