@@ -38,6 +38,7 @@ namespace Unity.Game.UI
         GameData gameData;
 
         DropdownField dropdownField;
+        [SerializeField] private bool isCallbackRegistered = false;
         public static string LatestChoice;
         ListView entryView;
 
@@ -288,19 +289,32 @@ namespace Unity.Game.UI
 
         void CreateDropDownMenu()
         {
-            Debug.Log("CreateDropDownMenu");
+            //Debug.Log("CreateDropDownMenu");
             dropdownField = GetComponent<PanelScreen>().LevelPanel.Q<DropdownField>("WorldSelector");
-            // TODO need to fix RegisterValueChangedCallback
-            dropdownField.RegisterValueChangedCallback(x =>
+            if (!isCallbackRegistered)
             {
-                Debug.Log("Test RegisterValueChangedCallback");
+                dropdownField.RegisterValueChangedCallback(x =>
+            {
                 GenerateMapEntry(x.newValue);
                 LatestChoice = x.newValue;
+
+                if(entryView != null)
+                {
+                    var scroller = entryView?.Q<Scroller>();
+                    //Debug.Log($"current = {scroller.value}");
+                    scroller.value -= 500;
+                    //Debug.Log($"after changed = {scroller.value}");
+   
+                }
+                
+
             });
+                isCallbackRegistered = true;
+            }
             dropdownField.choices = GetWorldEntries();
             string dropdownValue = "__NONE__";
             dropdownValue = dropdownField.choices[0];
-            dropdownField.value = (LatestChoice != null && LatestChoice != "__NONE__") ? (LatestChoice):(dropdownValue);
+            dropdownField.value = (LatestChoice != null && LatestChoice != "__NONE__") ? (LatestChoice) : (dropdownValue);
 
         }
 

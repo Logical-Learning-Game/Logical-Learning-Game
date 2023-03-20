@@ -68,6 +68,11 @@ namespace Unity.Game.UI
             Email = SettingPanel.Q("Email");
             Status = SettingPanel.Q("AccountStatus");
 
+            if(LevelConfig.LEVEL_DEBUG_MODE == true)
+            {
+                SettingPanel.Q<Label>("SFXDEBUGVALUE").style.display = DisplayStyle.Flex;
+                SettingPanel.Q<Label>("BGMDEBUGVALUE").style.display = DisplayStyle.Flex;
+            }
         }
 
         void RegisterButtonCallbacks()

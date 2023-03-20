@@ -131,7 +131,13 @@ namespace Unity.Game.UI
         {
             if(!gameData.SubmitBest.ContainsKey(map.Id))
             {
-                
+                //contentIndex is index of contentType that will be serve,
+                //-1 is default (serve all reached)
+                // 0 is tutorial only
+                // 1 is loop only
+                // 2 is condition only
+                // 3 is item only
+
                 int contentIndex = map.Id switch
                 {
                     0 => 0,

@@ -57,6 +57,6 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:Label text="Label" display-tooltip-when-elided="true" name="BGMDEBUGVALUE" style="position: absolute; top: 112px; left: 322px; font-size: 28px; color: rgba(204, 0, 0, 255);" />
-    <ui:Label text="Label" display-tooltip-when-elided="true" name="SFXDEBUGVALUE" style="position: absolute; top: 46px; left: 321px; font-size: 28px; color: rgba(205, 0, 0, 255);" />
+    <ui:Label text="Label" display-tooltip-when-elided="true" name="BGMDEBUGVALUE" style="position: absolute; top: 112px; left: 322px; font-size: 28px; color: rgb(204, 0, 0); display: none;" />
+    <ui:Label text="Label" display-tooltip-when-elided="true" name="SFXDEBUGVALUE" style="position: absolute; top: 46px; left: 321px; font-size: 28px; color: rgb(205, 0, 0); display: none;" />
 </ui:UXML>

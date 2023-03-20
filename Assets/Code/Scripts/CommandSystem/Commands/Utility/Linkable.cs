@@ -50,7 +50,6 @@ namespace Unity.Game.Command
         {
             if (isLinking)
             {
-                //Debug.Log(eventData.pointerEnter.name);
                 //if pointer is over a linkable object
                 if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Linkable>() != null)
                 {
@@ -64,7 +63,7 @@ namespace Unity.Game.Command
                             //link the two objects
                             gameObject.GetComponent<AbstractCommand>().Unlink();
                             gameObject.GetComponent<AbstractCommand>().LinkTo(eventData.pointerEnter.GetComponent<AbstractCommand>());
-
+                            AudioManager.PlayCommandPickSound();
                         }
                     }
                 }
