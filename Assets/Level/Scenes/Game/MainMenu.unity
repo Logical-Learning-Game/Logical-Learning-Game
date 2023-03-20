@@ -781,8 +781,11 @@ MonoBehaviour:
   m_Document: {fileID: 89046996}
   FirstPlayTutorial:
   - {fileID: 2800000, guid: f2874500acbc28b48a926d4c466b42fb, type: 3}
+  - {fileID: 2800000, guid: abed5433efe95074f893d129e2b47e4d, type: 3}
   - {fileID: 2800000, guid: a6c8e71cee88e164c9185e6912f66d8f, type: 3}
   - {fileID: 2800000, guid: a175854b61adbfc44a423771d09b578f, type: 3}
+  - {fileID: 2800000, guid: 23594b0fb01aaab4781cb7dff74e0728, type: 3}
+  - {fileID: 2800000, guid: ad8efde4427caeb46aa0e1011081d075, type: 3}
   LoopTutorial:
   - {fileID: 2800000, guid: 7ec58d593f2cc934d9fbee23cc30e3d8, type: 3}
   ConditionTutorial:

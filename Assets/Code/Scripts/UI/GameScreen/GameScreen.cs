@@ -35,7 +35,21 @@ namespace Unity.Game.UI
 
         [SerializeField] Button OutsidePanel;
 
-
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if(DefaultInGameScreen.transform.localScale != Vector3.zero)
+                {
+                    OnOpenJournalMenu();
+                }
+                else
+                {
+                    OnOpenGameScreen(null);
+                }
+                AudioManager.PlayDefaultButtonSound();
+            }
+        }
         void OnEnable()
         {
             SetVisualElements();

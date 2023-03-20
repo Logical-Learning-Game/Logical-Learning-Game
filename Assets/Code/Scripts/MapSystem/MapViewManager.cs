@@ -57,11 +57,11 @@ namespace Unity.Game.MapSystem
             {
                 StartRotate(RotateDirection.COUNTERCLOCKWISE);
             }
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.O))
             {
                 StartRotate(RotateDirection.ORIGIN);
             }
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.P))
             {
                 StartRotate(RotateDirection.BIRDEYE);
             }

@@ -201,12 +201,16 @@ namespace Unity.Game.UI
         {
             PlayerPrefs.SetFloat("sfx", evt.newValue / 100);
             AudioManager.SetVolume("SFX", evt.newValue / 100);
+
+            SettingPanel.Q<Label>("SFXDEBUGVALUE").text = $"{evt.newValue}/{AudioManager.GetVolume("SFX")}/{PlayerPrefs.GetFloat("sfx", .5f)}";
         }
 
         void ChangeMusicVolume(ChangeEvent<float> evt)
         {
             PlayerPrefs.SetFloat("music", evt.newValue / 100);
             AudioManager.SetVolume("Music", evt.newValue / 100);
+
+            SettingPanel.Q<Label>("BGMDEBUGVALUE").text = $"{evt.newValue}/{AudioManager.GetVolume("Music")}/{PlayerPrefs.GetFloat("music", .5f)}";
         }
 
 
