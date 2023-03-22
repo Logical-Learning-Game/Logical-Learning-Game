@@ -98,21 +98,21 @@ namespace Unity.Game.Command
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                Debug.Log("Undoing");
-                UndoCommand();
-                CommandBarManager.Instance.OnUpdateCommandBar();
-            }
+            //if (Input.GetKeyDown(KeyCode.Z))
+            //{
+            //    Debug.Log("Undoing");
+            //    UndoCommand();
+            //    CommandBarManager.Instance.OnUpdateCommandBar();
+            //}
 
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 ToggleExecute();
             }
 
-            if (Input.GetKeyDown(KeyCode.Backspace))
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                Debug.Log("Clearing");
+                //Debug.Log("Clearing");
                 ClearCommands();
             }
 

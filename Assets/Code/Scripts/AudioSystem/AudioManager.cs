@@ -49,7 +49,7 @@ namespace Unity.Game
 
         private void Awake()
         {
-            
+
         }
         void OnEnable()
         {
@@ -74,13 +74,14 @@ namespace Unity.Game
 
             AudioSource source = sfxInstance.AddComponent<AudioSource>();
             source.clip = clip;
-            source.Play();
 
             // set the mixer group (e.g. music, sfx, etc.)
             source.outputAudioMixerGroup = GetAudioMixerGroup(SfxGroup);
 
+            source.Play();
+
             // destroy after clip length
-            Destroy(sfxInstance, clip.length);
+            Destroy(sfxInstance, clip.length+.2f);
             DontDestroyOnLoad(sfxInstance);
         }
 
@@ -90,18 +91,28 @@ namespace Unity.Game
             AudioManager audioManager = FindObjectOfType<AudioManager>();
 
             if (audioManager == null)
+            {
+                //Debug.Log("audioManager is null");
                 return null;
+            }
+
 
             if (audioManager.m_MainAudioMixer == null)
+            {
+                //Debug.Log("MainAudioMixer is null");
                 return null;
+            }
+
 
             AudioMixerGroup[] groups = audioManager.m_MainAudioMixer.FindMatchingGroups(groupName);
 
             foreach (AudioMixerGroup match in groups)
             {
-                if (match.ToString() == groupName)
+                //Debug.Log($"found match: {match.name}:{groupName}");
+                if (match.name == groupName)
                     return match;
             }
+            //Debug.Log($"cannot find group name:{groupName}");
             return null;
 
         }

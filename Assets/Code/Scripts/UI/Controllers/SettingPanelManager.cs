@@ -37,6 +37,7 @@ namespace Unity.Game.UI
         Button GoogleSyncButton;
         Button QuitGameButton;
         Button HowToPlayButton;
+        Button CopyIdButton;
         //Button RestartButton;
 
         GameData gameData;
@@ -60,12 +61,18 @@ namespace Unity.Game.UI
             //RestartButton = SettingPanel.Q<Button>("RestartButton");
             QuitGameButton = SettingPanel.Q<Button>("QuitButton");
             HowToPlayButton = SettingPanel.Q<Button>("HowToPlayButton");
+            CopyIdButton = SettingPanel.Q<Button>("CopyButton");
 
             UserId = SettingPanel.Q("UserId");
             UserName = SettingPanel.Q("UserName");
             Email = SettingPanel.Q("Email");
             Status = SettingPanel.Q("AccountStatus");
 
+            if(LevelConfig.LEVEL_DEBUG_MODE == true)
+            {
+                SettingPanel.Q<Label>("SFXDEBUGVALUE").style.display = DisplayStyle.Flex;
+                SettingPanel.Q<Label>("BGMDEBUGVALUE").style.display = DisplayStyle.Flex;
+            }
         }
 
         void RegisterButtonCallbacks()
@@ -77,11 +84,13 @@ namespace Unity.Game.UI
             //RestartButton?.RegisterCallback<ClickEvent>(OnClickRestart);
             QuitGameButton?.RegisterCallback<ClickEvent>(OnClickQuitGame);
             HowToPlayButton?.RegisterCallback<ClickEvent>(OnClickHowToPlay);
+            CopyIdButton?.RegisterCallback<ClickEvent>(OnClickCopyId);
 
             GoogleSyncButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
             //RestartButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
             QuitGameButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
             HowToPlayButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+            CopyIdButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
         }
 
         void OnClickGoogleSync(ClickEvent evt)
@@ -102,6 +111,11 @@ namespace Unity.Game.UI
             AudioManager.PlayDefaultButtonSound();
         }
 
+        void OnClickCopyId(ClickEvent evt)
+        {
+            GUIUtility.systemCopyBuffer = gameData.PlayerId;
+            AudioManager.PlayDefaultButtonSound();
+        }
         void MouseOverButton(MouseOverEvent evt)
         {
             AudioManager.PlayDefaultHoverSound();
@@ -192,12 +206,16 @@ namespace Unity.Game.UI
         {
             PlayerPrefs.SetFloat("sfx", evt.newValue / 100);
             AudioManager.SetVolume("SFX", evt.newValue / 100);
+
+            SettingPanel.Q<Label>("SFXDEBUGVALUE").text = $"{evt.newValue}/{AudioManager.GetVolume("SFX")}/{PlayerPrefs.GetFloat("sfx", .5f)}";
         }
 
         void ChangeMusicVolume(ChangeEvent<float> evt)
         {
             PlayerPrefs.SetFloat("music", evt.newValue / 100);
             AudioManager.SetVolume("Music", evt.newValue / 100);
+
+            SettingPanel.Q<Label>("BGMDEBUGVALUE").text = $"{evt.newValue}/{AudioManager.GetVolume("Music")}/{PlayerPrefs.GetFloat("music", .5f)}";
         }
 
 

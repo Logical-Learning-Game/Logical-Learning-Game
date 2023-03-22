@@ -35,7 +35,21 @@ namespace Unity.Game.UI
 
         [SerializeField] Button OutsidePanel;
 
-
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if(DefaultInGameScreen.transform.localScale != Vector3.zero)
+                {
+                    OnOpenJournalMenu();
+                }
+                else
+                {
+                    OnOpenGameScreen(null);
+                }
+                AudioManager.PlayDefaultButtonSound();
+            }
+        }
         void OnEnable()
         {
             SetVisualElements();
@@ -52,7 +66,7 @@ namespace Unity.Game.UI
             SettingPanelManager.MainMenuClick += OnGameQuit;
             SettingPanelManager.GoogleSyncClick += OnClickSync;
             SettingPanelManager.HowToPlayClick += OnOpenPopupScreen;
-            GoogleSyncScreen.CancelSyncClick += OnOpenJournalMenu;
+            GoogleSyncScreen.CancelSyncClick += OnCancelSyncClick;
             GameDataManager.NewGameCompleted += OnOpenJournalMenu;
             PopupScreen.CloseModalClick += OnClosePopupScreen;
             GameScreenController.ShowTutorial += OnOpenPopupScreen;
@@ -69,7 +83,7 @@ namespace Unity.Game.UI
             SettingPanelManager.MainMenuClick -= OnGameQuit;
             SettingPanelManager.GoogleSyncClick -= OnClickSync;
             SettingPanelManager.HowToPlayClick -= OnOpenPopupScreen;
-            GoogleSyncScreen.CancelSyncClick -= OnOpenJournalMenu;
+            GoogleSyncScreen.CancelSyncClick -= OnCancelSyncClick;
             GameDataManager.NewGameCompleted -= OnOpenJournalMenu;
             PopupScreen.CloseModalClick -= OnClosePopupScreen;
             GameScreenController.ShowTutorial -= OnOpenPopupScreen;
@@ -233,6 +247,13 @@ namespace Unity.Game.UI
             {
                 blurDOF.active = state;
             }
+        }
+
+        public void OnCancelSyncClick(string latestScreen)
+        {
+            ShowModalScreen(panelScreen);
+            panelScreen.ShowSettingPanel(null);
+            HideGameScreen();
         }
     }
 }

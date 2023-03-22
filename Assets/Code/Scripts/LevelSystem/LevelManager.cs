@@ -87,8 +87,8 @@ namespace Unity.Game.Level
             MapManager.Instance.InitMap();
             ItemManager.Instance.InitItems();
             ConditionPickerController.Instance.InitConditionPicker();
-            RuleManager.Instance.InitRule();
             ActionSystem.ActionManager.Instance.ClearAction();
+            RuleManager.Instance.InitRule();
             InitPlayer();
             LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
         }
@@ -98,6 +98,7 @@ namespace Unity.Game.Level
             (int[] playerPosition, int[] playerRotation) = GetPlayerInitValue(gameMap);
             SetPlayerPosition(playerPosition[0], playerPosition[1]);
             SetPlayerRotation(playerRotation[0], playerRotation[1]);
+            Player.Instance.SetPlayerIdle();
         }
 
         // Update is called once per frame

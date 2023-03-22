@@ -58,19 +58,13 @@ namespace Unity.Game.UI
 
         void SetVisualElements()
         {
-            //VisualElement LevelPanel = GetComponent<PanelScreen>().LevelPanel;
-            //MapUpdateButton = LevelPanel.Q<Button>("MapUpdateButton");
+
         }
         void RegisterButtonCallbacks()
         {
-            //MapUpdateButton?.RegisterCallback<ClickEvent>(UpdateMapData);
-            //MapUpdateButton?.RegisterCallback<MouseOverEvent>(MouseOverButton);
+
         }
 
-        //void MouseOverButton(MouseOverEvent evt)
-        //{
-        //    AudioManager.PlayDefaultHoverSound();
-        //}
         private void OnEnable()
         {
             PanelScreen.OpenHistoryPanel += OnOpenHistoryPanel;
@@ -88,54 +82,6 @@ namespace Unity.Game.UI
 
             MapDataManager.WorldDataLoaded -= OnWorldDataLoaded;
         }
-
-        //public async void UpdateMapData(ClickEvent evt)
-        //{
-        //    var apiClient = new APIClient();
-
-        //    isMapLoading = true;
-        //    SetButtonLoading(isMapLoading);
-
-        //    try
-        //    {
-        //        await mapDataManager.UpdateMap();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.LogException(ex);
-        //    }
-
-        //    isMapLoading = false;
-        //    SetButtonLoading(isMapLoading);
-        //}
-
-        //void SetButtonLoading(bool isLoading)
-        //{
-        //    VisualElement icon = MapUpdateButton.contentContainer.Q<VisualElement>("RotateIcon");
-
-        //    if (isLoading)
-        //    {
-        //        RotateCoroutine = StartCoroutine(RotateIcon(icon));
-        //        MapUpdateButton.SetEnabled(false);
-        //        originalRotation = icon.transform.rotation;
-        //    }
-        //    else
-        //    {
-        //        MapUpdateButton.SetEnabled(true);
-        //        StopCoroutine(RotateCoroutine);
-        //        icon.transform.rotation = originalRotation;
-        //    }
-        //}
-
-        //IEnumerator RotateIcon(VisualElement loadingSpinner)
-        //{
-        //    while (true)
-        //    {
-        //        loadingSpinner.transform.rotation = Quaternion.Euler(0, 0, loadingSpinner.transform.rotation.eulerAngles.z + 10f);
-        //        yield return null;
-        //    }
-        //}
-
         public void LoadMapFromFile()
         {
             Debug.Log("SessionLog");
@@ -164,7 +110,7 @@ namespace Unity.Game.UI
             {
                 SessionLogList.Add(session);
             }
-
+            SessionLogList.Reverse();
 
             if (entryView != null)
             {
@@ -174,15 +120,6 @@ namespace Unity.Game.UI
             {
                 SetUpListView();
             }
-
-            //if (SessionLogList.Count == 1)
-            //{
-            //    entryView.style.height = 275;
-            //}
-            //else
-            //{
-            //    entryView.style.height = 550;
-            //}
 
 
         }
@@ -200,8 +137,12 @@ namespace Unity.Game.UI
             {
                 // set map name
 
-                string mapName = "";
-                if (gameData != null && WorldDatas != null) mapName = (WorldDatas.SelectMany(w => w.MapLists).FirstOrDefault(m => m.Id == SessionLogList[i].Session.MapId).MapName).ToString();
+                string mapName = "__MAPNAME__";
+                if (gameData != null && (WorldDatas != null && WorldDatas.Count > 0))
+                {
+                    Map searchedMap = (WorldDatas.SelectMany(w => w.MapLists).FirstOrDefault(m => m.Id == SessionLogList[i]?.Session.MapId));
+                    mapName = searchedMap.MapName.ToString();
+                }
                 e.Q<Label>("MapName").text = mapName;
                 // Get Player Best Submit from each Session
                 SubmitHistory mapBestSubmit = SubmitHistory.GetBestSubmit(SessionLogList[i].Session.SubmitHistories);
@@ -240,6 +181,8 @@ namespace Unity.Game.UI
 
                 string timeDifference = GetTimeDifference(SessionLogList[i].Session.StartDatetime, SessionLogList[i].Session.EndDatetime);
                 e.Q<Label>("SessionDurationValue").text = timeDifference;
+
+                e.Q<Label>("TotalSubmitValue").text = SessionLogList[i].Session.SubmitHistories.Count.ToString();
             };
 
             entryView.makeItem = makeItem;
@@ -284,24 +227,7 @@ namespace Unity.Game.UI
                     });
 #endif
         }
-        //public static void FixListViewScrollingBug(ListView listView)
-        //{
 
-        //    var scroller = listView.Q<Scroller>();
-        //    float scrollSpeed = 2000f; // Adjust this value to control the scrolling speed
-        //    float maxScrollDelta = 100f; // Adjust this value to control the maximum amount of scrolling per frame
-
-        //    listView.RegisterCallback<WheelEvent>(@event =>
-        //    {
-        //        float delta = @event.delta.y * scrollSpeed;
-        //        float targetValue = Mathf.Clamp(scroller.value + delta, 0f, scroller.scrollableSize);
-
-        //        float scrollDelta = Mathf.Clamp(targetValue - scroller.value, -maxScrollDelta, maxScrollDelta);
-
-        //        scroller.ScrollTo(scroller.value + scrollDelta);
-        //        @event.StopPropagation();
-        //    });
-        //}
 
 
     }

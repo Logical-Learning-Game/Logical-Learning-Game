@@ -39,11 +39,13 @@ namespace Unity.Game.SaveSystem
 
         private void OnEnable()
         {
+            GameDataManager.NewGameCompleted += ReloadMapData;
             //MapEntryManager.LoadMap += OnLoadMap;
         }
 
         private void OnDisable()
         {
+            GameDataManager.NewGameCompleted -= ReloadMapData;
             //MapEntryManager.LoadMap -= OnLoadMap;
         }
 
@@ -63,8 +65,6 @@ namespace Unity.Game.SaveSystem
             {
                 await UpdateMap();
             }
-            
-           
 
         }
 
@@ -80,6 +80,12 @@ namespace Unity.Game.SaveSystem
             }
         }
 
+        public async void ReloadMapData()
+        {
+            Debug.Log("Reload Map");
+            await UpdateMap();
+        }
+
         public async Task UpdateMap()
         {
             if (gameDataManager.GameData == null)
@@ -92,11 +98,13 @@ namespace Unity.Game.SaveSystem
             string playerId = gameDataManager.GameData.PlayerId;
             if (playerId == "__guest__" )
             {
+                Debug.Log("Player is Guest, Loading Mapdata from Resources");
                 TextAsset jsonString = Resources.Load<TextAsset>("GuestMapData");
                 List<WorldData> guestWorldDatas = LoadJson(jsonString.text);
                 MapImageManager.DeleteAllMapImages();
                 WorldDataLoaded?.Invoke(guestWorldDatas);
                 SaveMap();
+                isFetching = false;
                 return;
             }
 
@@ -105,11 +113,12 @@ namespace Unity.Game.SaveSystem
             if (!haveConnectionToServer)
             {
                 // TODO
+                isFetching = false;
                 return;
             }
 
             List<WorldData> worldDatas = await apiClient.GetMapData(playerId);
-            Debug.Log($"update world data count {worldDatas.Count}");
+            Debug.Log("Loading MapData From Backend");
             MapImageManager.DeleteAllMapImages();
             WorldDataLoaded?.Invoke(worldDatas);
             SaveMap();

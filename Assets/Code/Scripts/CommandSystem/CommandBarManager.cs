@@ -88,6 +88,7 @@ namespace Unity.Game.Command
             {
                 commandInitiator.OnUpdateCommandBar();
             }
+            
         }
 
         public void CheckRemainingCommand()
