@@ -81,7 +81,7 @@ namespace Unity.Game
             source.Play();
 
             // destroy after clip length
-            Destroy(sfxInstance, clip.length);
+            Destroy(sfxInstance, clip.length+.2f);
             DontDestroyOnLoad(sfxInstance);
         }
 

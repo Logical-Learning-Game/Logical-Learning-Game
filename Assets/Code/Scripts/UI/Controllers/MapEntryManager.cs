@@ -63,6 +63,7 @@ namespace Unity.Game.UI
             VisualElement LevelPanel = GetComponent<PanelScreen>().LevelPanel;
             MapUpdateButton = LevelPanel.Q<Button>("MapUpdateButton");
         }
+
         void RegisterButtonCallbacks()
         {
             MapUpdateButton?.RegisterCallback<ClickEvent>(UpdateMapData);
