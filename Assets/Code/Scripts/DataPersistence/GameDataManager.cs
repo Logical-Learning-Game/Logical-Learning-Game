@@ -18,9 +18,9 @@ namespace Unity.Game.SaveSystem
         SaveManager saveManager;
 
         [SerializeField] bool isGameDataInitialized;
-        [SerializeField] GameData gameData;
+        [SerializeField] public GameData GameData;
         public static GameDataManager Instance { get; private set; }
-        public GameData GameData { set => gameData = value; get => gameData; }
+  
 
         private void Awake()
         {
@@ -73,8 +73,8 @@ namespace Unity.Game.SaveSystem
 
         private void NewGameWithUserId(string playerId)
         {
-            gameData = saveManager.NewGame();
-            gameData.PlayerId = playerId;
+            GameData = saveManager.NewGame();
+            GameData.PlayerId = playerId;
 
             saveManager.SaveGame();
             saveManager.InvokeGameDataLoad();
@@ -87,12 +87,12 @@ namespace Unity.Game.SaveSystem
             var apiClient = new APIClient();
 
             // if is sync is true, it is necessary to send all history first
-            if(gameData == null || gameData.PlayerId == null)
+            if(GameData == null || GameData.PlayerId == null)
             {
-                gameData = saveManager.NewGame();
+                GameData = saveManager.NewGame();
             }
 
-            gameData.PlayerId = playerId;
+            GameData.PlayerId = playerId;
             if (isSync)
             {
                 Debug.Log("Going Sync");
@@ -113,7 +113,7 @@ namespace Unity.Game.SaveSystem
 
         public async Task UpdateGameData(string playerId)
         {
-            if (gameData.PlayerId == "__guest__")
+            if (GameData.PlayerId == "__guest__")
             {
                 Debug.LogWarning("try to update game data as guest");
                 return;
@@ -125,7 +125,7 @@ namespace Unity.Game.SaveSystem
             {
                 GameData newGameData = await apiClient.GetGameData(playerId);
                 Debug.Log($"retrieve game data: {newGameData.SessionHistories} {newGameData.SubmitBest}");
-                gameData = newGameData;
+                GameData = newGameData;
             }
             catch (APIException ex)
             {
@@ -143,7 +143,7 @@ namespace Unity.Game.SaveSystem
 
         public async Task SendGameData()
         {
-            if (gameData.PlayerId == "__guest__")
+            if (GameData.PlayerId == "__guest__")
             {
                 Debug.LogWarning("try to send game data as guest");
                 return;
@@ -160,7 +160,7 @@ namespace Unity.Game.SaveSystem
             }
 
             // send session history to server
-            List<SessionStatus> gameSessionWithSendStatus = gameData.SessionHistories;
+            List<SessionStatus> gameSessionWithSendStatus = GameData.SessionHistories;
 
             foreach (SessionStatus entry in gameSessionWithSendStatus)
             {
@@ -175,7 +175,7 @@ namespace Unity.Game.SaveSystem
 
                 try
                 {
-                    await apiClient.SendSessionHistoryData(gameData.PlayerId, dto);
+                    await apiClient.SendSessionHistoryData(GameData.PlayerId, dto);
                     entry.Status = true;
                 }
                 catch (APIException ex)
@@ -195,7 +195,7 @@ namespace Unity.Game.SaveSystem
             }
 
             // send submit best to server
-            Dictionary<long, SubmitHistory> submitBest = gameData.SubmitBest;
+            Dictionary<long, SubmitHistory> submitBest = GameData.SubmitBest;
             var topSubmitHistoryRequests = new List<TopSubmitHistoryRequest>();
             var submitHistoryDTOMapper = new SubmitHistoryDTOMapper();
 
@@ -215,7 +215,7 @@ namespace Unity.Game.SaveSystem
 
             try
             {
-                await apiClient.SendTopSubmitHistory(gameData.PlayerId, topSubmitHistoryRequests);
+                await apiClient.SendTopSubmitHistory(GameData.PlayerId, topSubmitHistoryRequests);
             }
             catch (APIException ex)
             {

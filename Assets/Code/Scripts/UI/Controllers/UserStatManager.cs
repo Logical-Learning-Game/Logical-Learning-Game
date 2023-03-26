@@ -76,7 +76,7 @@ namespace Unity.Game.UI
             //    LoadMapFromFile();
             //}
 
-            //UpdateUserStat(CalculateUserStat(gameData, WorldDatas));
+            //UpdateUserStat(CalculateUserStat(GameData, WorldDatas));
         }
 
         public void OnOpenStatPanel()
