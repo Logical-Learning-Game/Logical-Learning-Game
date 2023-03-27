@@ -1,0 +1,277 @@
+.default-text {
+    color: rgb(97, 63, 53);
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    font-size: 36px;
+}
+
+.PrimaryButton {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    width: 420px;
+    height: 100px;
+    background-image: url('project://database/Assets/Art/Textures/UI/CommandPickerBar.png?fileID=2800000&guid=207279c1849a4364da796bda0f5276ef&type=3#CommandPickerBar');
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
+    font-size: 32px;
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-style: normal;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+    -unity-slice-left: 40;
+    -unity-slice-top: 40;
+    -unity-slice-right: 40;
+    -unity-slice-bottom: 40;
+}
+
+.PrimaryButton:hover {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    width: 420px;
+    height: 100px;
+    background-image: url('project://database/Assets/Art/Textures/UI/CommandPickerBar.png?fileID=2800000&guid=207279c1849a4364da796bda0f5276ef&type=3#CommandPickerBar');
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
+    font-size: 32px;
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-style: bold;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(207, 207, 207);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+    -unity-slice-left: 40;
+    -unity-slice-top: 40;
+    -unity-slice-right: 40;
+    -unity-slice-bottom: 40;
+}
+
+.PrimaryButton:active {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    width: 420px;
+    height: 100px;
+    background-image: url('project://database/Assets/Art/Textures/UI/CommandPickerBar.png?fileID=2800000&guid=207279c1849a4364da796bda0f5276ef&type=3#CommandPickerBar');
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
+    font-size: 35px;
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-style: bold;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(207, 207, 207);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+    -unity-slice-left: 40;
+    -unity-slice-top: 40;
+    -unity-slice-right: 40;
+    -unity-slice-bottom: 40;
+}
+
+.default-runetext {
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-direction: column;
+    font-size: 35px;
+    -unity-text-align: middle-center;
+    -unity-font: url('project://database/Assets/Art/Fonts/Primus-X3AOg.ttf?fileID=12800000&guid=f1e17f0a8201fe64b9a340cb47340097&type=3#Primus-X3AOg');
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Primus-X3AOg%20SDF.asset?fileID=11400000&guid=dbb397c876b852e40ae5c4c48fc7ca57&type=2#Primus-X3AOg SDF');
+    -unity-font-style: bold;
+    position: absolute;
+    color: rgb(214, 214, 214);
+    text-shadow: 0 0 0 rgb(255, 255, 255);
+}
+
+.SecondaryButton {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    width: 420px;
+    height: 100px;
+    background-image: none;
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
+    font-size: 32px;
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-style: normal;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(97, 63, 53);
+}
+
+.SecondaryButton:hover {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    width: 420px;
+    height: 100px;
+    background-image: none;
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
+    font-size: 32px;
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-style: bold;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(97, 63, 53);
+}
+
+.SecondaryButton:active {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    width: 420px;
+    height: 100px;
+    background-image: none;
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
+    font-size: 35px;
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-style: bold;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(97, 63, 53);
+}
+
+.default-screen {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.default-container {
+    position: absolute;
+    width: 1024px;
+    height: 768px;
+    justify-content: flex-start;
+    background-image: url('project://database/Assets/Art/Textures/UI/CommandPanel.png?fileID=2800000&guid=d7ee3d73a5dd88b439d563fcc659ad28&type=3#CommandPanel');
+    padding-left: 80px;
+    padding-right: 80px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.back-button {
+    width: 65px;
+    background-image: url('project://database/Assets/Art/Textures/UI/Command/LeftForwardArrow.png?fileID=2800000&guid=8bb4c6ee9df7d5e49847637d19b25253&type=3#LeftForwardArrow');
+    height: 50px;
+    -unity-background-image-tint-color: rgb(97, 63, 53);
+    background-color: rgba(188, 188, 188, 0);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.back-button:hover {
+    width: 80px;
+    background-image: url('project://database/Assets/Art/Textures/UI/Command/LeftForwardArrow.png?fileID=2800000&guid=8bb4c6ee9df7d5e49847637d19b25253&type=3#LeftForwardArrow');
+    height: 60px;
+    -unity-background-image-tint-color: rgb(97, 63, 53);
+    background-color: rgba(188, 188, 188, 0);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.IconButton {
+    position: relative;
+    background-image: url('project://database/Assets/Art/Textures/UI/Command/CommandBarLeft.png?fileID=2800000&guid=dc5fd3f7659834a42bd097c53af4166b&type=3#CommandBarLeft');
+    width: 60px;
+    height: 60px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgba(188, 188, 188, 0);
+    -unity-background-image-tint-color: rgba(97, 63, 53, 255);
+}
+
+.IconButton:hover {
+    position: relative;
+    background-image: url('project://database/Assets/Art/Textures/UI/Command/CommandBarLeft.png?fileID=2800000&guid=dc5fd3f7659834a42bd097c53af4166b&type=3#CommandBarLeft');
+    width: 70px;
+    height: 70px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgba(188, 188, 188, 0);
+    -unity-background-image-tint-color: rgb(97, 63, 53);
+}
+
+.IconButton:active {
+    position: relative;
+    background-image: url('project://database/Assets/Art/Textures/UI/Command/CommandBarLeft.png?fileID=2800000&guid=dc5fd3f7659834a42bd097c53af4166b&type=3#CommandBarLeft');
+    width: 70px;
+    height: 70px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgba(188, 188, 188, 0);
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+}

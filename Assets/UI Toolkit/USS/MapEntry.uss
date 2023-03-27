@@ -1,0 +1,24 @@
+.MapEntryLabel {
+    color: rgb(38, 36, 35);
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+    padding-bottom: 0;
+}
+
+.MapEntryButton {
+    background-image: url('project://database/Assets/Art/Textures/UI/CommandPickerBar.png?fileID=2800000&guid=207279c1849a4364da796bda0f5276ef&type=3#CommandPickerBar');
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+.MapEntryButton:hover {
+    background-image: url('project://database/Assets/Art/Textures/UI/CommandPickerBar.png?fileID=2800000&guid=207279c1849a4364da796bda0f5276ef&type=3#CommandPickerBar');
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    -unity-background-image-tint-color: rgb(188, 164, 102);
+}

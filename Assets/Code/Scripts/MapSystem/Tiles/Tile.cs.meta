@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cae9974e15d6352468b27d7f29b8ab3d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ItemObject: {instanceID: 0}
+  - AuraFx: {fileID: 1606270983057208885, guid: 4fa4f4d293ea1ee4faf4262f99a756b8,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
