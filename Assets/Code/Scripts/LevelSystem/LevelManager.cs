@@ -168,6 +168,7 @@ namespace Unity.Game.Level
                     RuleManager.Instance.OnPlayCheck();
                     if (moveToTile is GoalTile)
                     {
+                        CommandManager.Instance.isFinited = true;
                         RuleManager.Instance.OnClearCheck();
                     }
 

@@ -188,16 +188,16 @@ namespace Unity.Game.UI
                 case -1:
                     popupContent = FirstPlayTutorial.Concat(LoopTutorial).Concat(ConditionTutorial).Concat(ItemTutorial).ToList();
                     break;
-                case 1:
+                case 0:
                     popupContent = FirstPlayTutorial;
                     break;
-                case 2:
+                case 1:
                     popupContent = LoopTutorial;
                     break;
-                case 3:
+                case 2:
                     popupContent = ConditionTutorial;
                     break;
-                case 4:
+                case 3:
                     popupContent = ItemTutorial;
                     break;
                 default: break;

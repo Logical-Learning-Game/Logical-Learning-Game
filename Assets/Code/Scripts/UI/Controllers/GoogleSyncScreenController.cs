@@ -16,6 +16,8 @@ namespace Unity.Game.UI
         public static event Action ShowDetectSaveModal;
         public static event Action<string, bool> GoogleNewGame;
 
+        [SerializeField] bool IsWaitingForSync = false;
+        
         [SerializeField] GameData gameData;
         [SerializeField] string currentPlayerId;
 
@@ -31,6 +33,7 @@ namespace Unity.Game.UI
             NewGameScreenController.GoogleNewGame += OnGoogleSignIn;
             GoogleSyncScreen.DenySyncClick += OnDenySync;
             GoogleSyncScreen.ConfirmSyncClick += OnConfirmSync;
+            GoogleSyncScreen.CancelSyncClick += OnCancelSync;
 
             SettingPanelManager.GoogleSyncClick += OnGoogleSignIn;
         }
@@ -42,6 +45,7 @@ namespace Unity.Game.UI
             NewGameScreenController.GoogleNewGame -= OnGoogleSignIn;
             GoogleSyncScreen.DenySyncClick -= OnDenySync;
             GoogleSyncScreen.ConfirmSyncClick -= OnConfirmSync;
+            GoogleSyncScreen.CancelSyncClick -= OnCancelSync;
 
             SettingPanelManager.GoogleSyncClick -= OnGoogleSignIn;
         }
@@ -63,6 +67,7 @@ namespace Unity.Game.UI
             // google signin
             try
             {
+                IsWaitingForSync = true;
                 if (GoogleAuthenticationManager.Instance == null)
                 {
                     gameObject.AddComponent<GoogleAuthenticationManager>();
@@ -80,38 +85,44 @@ namespace Unity.Game.UI
                     var linkAccountRequest = new LinkAccountRequest
                     {
                         PlayerId = playerId,
-                        Email = "basleng@hotmail.com"
+                        Email = "testLLG@hotmail.com"
                     };
                     await apiClient.LinkAccount(linkAccountRequest);
                 }
-                Debug.Log("OnSigninCompleted invoked");
                 OnSignInComplete(currentPlayerId);
             }
             catch (WebException ex)
             {
+                IsWaitingForSync = false;
                 Debug.LogException(ex);
             }
             catch (AuthenticationException ex)
             {
+                IsWaitingForSync = false;
                 Debug.LogException(ex);
             }
             catch (RequestFailedException ex)
             {
+                IsWaitingForSync = false;
                 Debug.LogException(ex);
             }
         }
 
         public void OnSignInComplete(string newUserId)
         {
-            if (gameData == null || gameData?.PlayerId == "" || (gameData.SessionHistories.Count == 0 && gameData.SubmitBest.Count == 0))
+            if (IsWaitingForSync)
             {
-                GoogleNewGame?.Invoke(newUserId, false);
-                return;
-            }
-            else
-            {
-                ShowDetectSaveModal?.Invoke();
-            }
+                IsWaitingForSync = false;
+                if (gameData == null || gameData?.PlayerId == "" || (gameData.SessionHistories.Count == 0 && gameData.SubmitBest.Count == 0))
+                {
+                    GoogleNewGame?.Invoke(newUserId, false);
+                    return;
+                }
+                else
+                {
+                    ShowDetectSaveModal?.Invoke();
+                }
+            } 
         }
 
         public void OnDenySync()
@@ -122,6 +133,11 @@ namespace Unity.Game.UI
         public void OnConfirmSync()
         {
             GoogleNewGame?.Invoke(currentPlayerId, true);
+        }
+
+        public void OnCancelSync(string _)
+        {
+            IsWaitingForSync = false;
         }
     }
 }

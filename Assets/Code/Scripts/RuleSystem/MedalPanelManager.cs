@@ -77,13 +77,13 @@ namespace Unity.Game.RuleSystem
                 CurrentActionMedal.text = $"{currentValue.ActionCount}/{currentMap.LeastSolvableActionGold}";
                 //actionMedal = Medal.GOLD;
             }
-            else if (currentValue.CommandCount <= currentMap.LeastSolvableActionSilver)
+            else if (currentValue.ActionCount <= currentMap.LeastSolvableActionSilver)
             {
                 ActionMedal.color = ColorConfig.MEDAL_COLOR[Medal.SILVER];
                 CurrentActionMedal.text = $"{currentValue.ActionCount}/{currentMap.LeastSolvableActionSilver}";
                 //actionMedal = Medal.SILVER;
             }
-            else if (currentValue.CommandCount <= currentMap.LeastSolvableActionBronze)
+            else if (currentValue.ActionCount <= currentMap.LeastSolvableActionBronze)
             {
                 ActionMedal.color = ColorConfig.MEDAL_COLOR[Medal.BRONZE];
                 CurrentActionMedal.text = $"{currentValue.ActionCount}/{currentMap.LeastSolvableActionBronze}";

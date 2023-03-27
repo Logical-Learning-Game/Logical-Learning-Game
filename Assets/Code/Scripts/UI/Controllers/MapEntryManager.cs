@@ -94,11 +94,10 @@ namespace Unity.Game.UI
 
         public async void UpdateMapData(ClickEvent evt)
         {
-            var apiClient = new APIClient();
-
             isMapLoading = true;
             SetButtonLoading(isMapLoading);
 
+            Debug.Log($"click button:{gameData.PlayerId}");
             try
             {
                 await mapDataManager.UpdateMap();
@@ -149,31 +148,20 @@ namespace Unity.Game.UI
         {
             WorldDatas = worldDatas;
 
-            if (entryView != null)
+            Debug.Log($"WorldData : {worldDatas?.Count}");
+            if (worldDatas?.Count > 0)
             {
-                Debug.Log("entryView is not null, Rebuilding");
-                entryView.Rebuild();
-            }
-            else
-            {
-                Debug.Log("entryView is  null, SetupListView");
                 SetUpListView();
+                CreateDropDownMenu();
+                entryView.Rebuild();
+                GenerateMapEntry(dropdownField.value);
             }
-            CreateDropDownMenu();
+
         }
 
         public void OnGameDataLoaded(GameData gameData)
         {
             this.gameData = gameData;
-
-            if (entryView != null)
-            {
-                entryView.Rebuild();
-            }
-            else
-            {
-                SetUpListView();
-            }
         }
 
         public void GenerateMapEntry(string worldSelector)
@@ -186,15 +174,11 @@ namespace Unity.Game.UI
                 mapEntryList.Add(map);
             }
 
-
-            if (entryView != null)
-            {
-                entryView.Rebuild();
-            }
-            else
+            if (entryView == null)
             {
                 SetUpListView();
             }
+            entryView.Rebuild();
 
             if (mapEntryList.Count == 1)
             {
@@ -219,21 +203,28 @@ namespace Unity.Game.UI
             Func<VisualElement> makeItem = () => visualTree.Instantiate();
             Action<VisualElement, int> bindItem = (e, i) =>
             {
+                bool isImageLoaded = false;
                 // set map name
                 e.Q<Label>("MapName").text = mapEntryList[i].MapName;
 
                 // reset map image to placeholder first
                 e.Q<VisualElement>("MapPreviewImage").style.backgroundImage = MapImagePlaceHolder;
+                e.Q<VisualElement>("MapPreviewImage").style.visibility = Visibility.Hidden;
                 // set map image
                 string mapImageFilename = mapEntryList[i].MapImagePath;
-                StartCoroutine(MapImageManager.GetMapImage(mapEntryList[i].Id.ToString(), mapImageFilename, texture =>
+                if(isImageLoaded != true)
                 {
-                    e.Q<VisualElement>("MapPreviewImage").style.backgroundImage = texture;
-                }));
+                    isImageLoaded = true;
+                    StartCoroutine(MapImageManager.GetMapImage(mapEntryList[i].Id.ToString(), mapImageFilename, texture =>
+                    {
+                        e.Q<VisualElement>("MapPreviewImage").style.backgroundImage = texture;
+                        e.Q<VisualElement>("MapPreviewImage").style.visibility = Visibility.Visible;
+                    }));
+                }
+                
 
                 //setting isEnterable based on currentstar
                 bool isEnterable = gameData.GetCurrentStar() >= mapEntryList[i].StarRequirement ? true : false;
-
 
 
                 // Accessing Player Submit Data

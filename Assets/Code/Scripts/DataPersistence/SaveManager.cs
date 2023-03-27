@@ -68,7 +68,7 @@ namespace Unity.Game.SaveSystem
 
             //if (gameDataManager.GameData == null)
             //{
-            //    Debug.Log("gameData is null");
+            //    Debug.Log("GameData is null");
             //    gameDataManager.GameData = NewGame();
             //}
             //else 

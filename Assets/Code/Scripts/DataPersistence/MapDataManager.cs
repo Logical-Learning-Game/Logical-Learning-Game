@@ -16,7 +16,6 @@ namespace Unity.Game.SaveSystem
 {
     public class MapDataManager : MonoBehaviour
     {
-        [SerializeField] GameDataManager gameDataManager;
         [SerializeField] MapEntryManager mapEntryManager;
         [SerializeField] string m_MapFilename = "mapdata.dat";
 
@@ -25,11 +24,7 @@ namespace Unity.Game.SaveSystem
         public bool isFetching = false;
         private void Awake()
         {
-            if (gameDataManager == null)
-            {
-                GameObject gameDataManagerGameObject = GameObject.Find("GameDataManager");
-                gameDataManager = gameDataManagerGameObject.GetComponent<GameDataManager>();
-            }
+
         }
 
         private void Start()
@@ -88,15 +83,18 @@ namespace Unity.Game.SaveSystem
 
         public async Task UpdateMap()
         {
-            if (gameDataManager.GameData == null)
+
+
+            if (GameDataManager.Instance.GameData == null || GameDataManager.Instance?.GameData?.PlayerId == null)
             {
                 Debug.Log("No map, and player is not starting game yet");
                 return;
             }
             if (isFetching) return;
             isFetching = true;
-            string playerId = gameDataManager.GameData.PlayerId;
-            if (playerId == "__guest__" )
+
+            Debug.Log($"Player Id : {GameDataManager.Instance.GameData.PlayerId}");
+            if (GameDataManager.Instance.GameData.PlayerId == "__guest__" )
             {
                 Debug.Log("Player is Guest, Loading Mapdata from Resources");
                 TextAsset jsonString = Resources.Load<TextAsset>("GuestMapData");
@@ -117,7 +115,7 @@ namespace Unity.Game.SaveSystem
                 return;
             }
 
-            List<WorldData> worldDatas = await apiClient.GetMapData(playerId);
+            List<WorldData> worldDatas = await apiClient.GetMapData(GameDataManager.Instance.GameData.PlayerId);
             Debug.Log("Loading MapData From Backend");
             MapImageManager.DeleteAllMapImages();
             WorldDataLoaded?.Invoke(worldDatas);

@@ -140,9 +140,10 @@ namespace Unity.Game.UI
 
                 int contentIndex = map.Id switch
                 {
-                    0 => 0,
-                    1 => 1,
-                    2 => 2,
+                    1 => 0,
+                    3 => 1,
+                    5 => 3,
+                    7 => 2,
                     _ => -1,
                 };
                 if(contentIndex != -1)

@@ -159,7 +159,7 @@ namespace Unity.Game.UI
             Debug.Log("invoke opensettingpanel");
             UpdateUserSettingPanel();
 
-            //UpdateUserStat(CalculateUserStat(gameData, WorldDatas));
+            //UpdateUserStat(CalculateUserStat(GameData, WorldDatas));
 
         }
         void UpdateUserSettingPanel()

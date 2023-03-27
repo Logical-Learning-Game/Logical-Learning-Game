@@ -53,18 +53,20 @@ namespace Unity.Game.Authentication
         }
 
         public async Task<string> GoogleSignIn()
-        {   
+        {
             GoogleOIDMetadata googleOIDMetadata = await GetGoogleOIDMetaData();
             var googleOIDCAuth = new GoogleOIDCAuthentication(googleOIDMetadata);
             GoogleToken googleToken = await googleOIDCAuth.GetToken();
 
-            if (AuthenticationService.Instance.SessionTokenExists)
+            Debug.Log(AuthenticationService.Instance.IsSignedIn);
+            if (AuthenticationService.Instance.IsSignedIn)
             {
-                AuthenticationService.Instance.ClearSessionToken();
+                AuthenticationService.Instance.SignOut(true);
             }
-            
+
             await AuthenticationService.Instance.SignInWithOpenIdConnectAsync(GoogleOIDConfig.PROVIDER_NAME, googleToken.IdToken);
 
+            Debug.Log($"Authen PlayerId: {AuthenticationService.Instance.PlayerId}");
             return AuthenticationService.Instance.PlayerId;
         }
     }

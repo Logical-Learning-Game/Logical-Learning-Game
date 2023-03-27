@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameDataInitialized: 0
-  gameData:
+  GameData:
     PlayerId: 
     SessionHistories: []
 --- !u!114 &161260846
@@ -728,7 +728,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b30ef793878b4c34aa6b9e7000213a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameDataManager: {fileID: 161260845}
   mapEntryManager: {fileID: 1236263101}
   m_MapFilename: mapdata.dat
   isFetching: 0
@@ -1141,6 +1140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b5c805aaa53734c938c5c3a3d2bd0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsWaitingForSync: 0
   gameData:
     PlayerId: 
     SessionHistories: []

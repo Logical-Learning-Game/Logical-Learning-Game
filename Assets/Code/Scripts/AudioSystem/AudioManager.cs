@@ -274,11 +274,11 @@ namespace Unity.Game
         //}
 
         // event-handling methods
-        //void OnSettingsUpdated(GameData gameData)
+        //void OnSettingsUpdated(GameData GameData)
         //{
-        //    // use the gameData to set the music and sfx volume
-        //    SetVolume(MusicGroup + k_Parameter, gameData.musicVolume / 100f);
-        //    SetVolume(SfxGroup + k_Parameter, gameData.sfxVolume / 100f);
+        //    // use the GameData to set the music and sfx volume
+        //    SetVolume(MusicGroup + k_Parameter, GameData.musicVolume / 100f);
+        //    SetVolume(SfxGroup + k_Parameter, GameData.sfxVolume / 100f);
         //}
     }
 }
