@@ -12,7 +12,7 @@ namespace Unity.Game.ActionSystem
         public string actionName;
         public virtual IEnumerator Execute()
         {
-            yield return new WaitForSeconds(.25f);
+            yield return new WaitForSeconds(.75f);
         }
         
     }
@@ -23,7 +23,7 @@ namespace Unity.Game.ActionSystem
         {
             actionName = "Start!";
         }
-        
+
     }
     public class ForwardAction : Action
     {
@@ -87,9 +87,7 @@ namespace Unity.Game.ActionSystem
 
         public override IEnumerator Execute()
         {
-            // mocking a conditionchecker
-            //condition.SetResult(true);
-            return base.Execute();
+            yield return new WaitForSeconds(.3f);
         }
     }
 

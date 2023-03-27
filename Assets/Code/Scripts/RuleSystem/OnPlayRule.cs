@@ -50,7 +50,7 @@ namespace Unity.Game.RuleSystem
 
         public override string GetDescription()
         {
-            return $"{GetLimitTypeString()} {(GetIsMore()?" is not less than ":" is not more than ")} <color=#F55135><b>{GetValue()}</b></color> ";
+            return $"{GetLimitTypeString()} {(GetIsMore()?" is not less than ":" is not more than ")} <color=#E30B00><b>{GetValue()}</b></color> ";
         }
 
         public override bool CheckRule(StateValue currentState)
@@ -95,13 +95,14 @@ namespace Unity.Game.RuleSystem
 
         public override string GetDescription()
         {
-            return $"Have {GetValue()} item(s) in your inventory";
+            return $"Have {(GetIsMore() ? "not less than" : "not more than")} <color=#E30B00><b>{GetValue()}</b></color> item(s) in your inventory";
         }
 
         public override bool CheckRule(StateValue currentState)
         {
             // simple checking rule, if all item is more than
-            return currentState.AllItemCount == GetValue();
+            //return currentState.AllItemCount == GetValue();
+            return GetIsMore() ? (currentState.AllItemCount >= GetValue()) : (currentState.AllItemCount <= GetValue());
         }
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using GlobalConfig;
@@ -73,7 +74,7 @@ namespace Unity.Game.Command
 
         public bool isExecuting = false;
         private bool stopOnNextAction = false;
-        private bool isFinited = false;
+        public bool isFinited = false;
         //private bool isFreezing = false;
 
 
@@ -316,7 +317,7 @@ namespace Unity.Game.Command
 
             if (stopOnNextAction == true)
             {
-                isFinited = false;
+                //isFinited = false;
                 SetStopOnNextAction(false);
                 SetIsExecuting(false);
                 OnSubmitFinish();
@@ -346,12 +347,17 @@ namespace Unity.Game.Command
                 OnSubmitFinish();
                 Debug.Log($"Max Step Exceed ({CommandConfig.COMMAND_MAX_STEP})");
             }
-
+            
         }
 
         private void OnSubmitFinish()
         {
-            (Medal commandMedal, Medal actionMedal) = SubmitHistory.GetMedal((StateValue)RuleManager.Instance.CurrentStateValue.Clone(), LevelManager.Instance.GetMap());
+            (Medal commandMedal, Medal actionMedal) = (Medal.NONE, Medal.NONE);
+            
+            if(RuleManager.Instance.RuleStatus.All(x => x))
+            {
+                (commandMedal, actionMedal) = SubmitHistory.GetMedal((StateValue)RuleManager.Instance.CurrentStateValue.Clone(), LevelManager.Instance.GetMap());
+            }
 
             var submitContext = new SubmitContext
             {

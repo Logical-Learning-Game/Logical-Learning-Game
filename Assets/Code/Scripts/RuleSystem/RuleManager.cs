@@ -56,6 +56,7 @@ namespace Unity.Game.RuleSystem
         {
             CurrentStateValue.UpdateCommandValue();
             CurrentStateValue.UpdateActionValue();
+            CurrentStateValue.UpdateItemValue();
             for (int i = 0; i < Rules.Count; i++)
             {
                 bool result = Rules[i].CheckRule(CurrentStateValue);
@@ -86,6 +87,7 @@ namespace Unity.Game.RuleSystem
         public void OnPlayCheck()
         {
             CurrentStateValue.UpdateActionValue();
+            CurrentStateValue.UpdateItemValue();
             for (int i = 0; i < Rules.Count; i++)
             {
                 if (Rules[i] is OnPlayRule)

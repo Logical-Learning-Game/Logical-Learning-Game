@@ -129,11 +129,11 @@ namespace Unity.Game.SaveSystem
             {
                 actionMedal = Medal.GOLD;
             }
-            else if (currentValue.CommandCount <= map.LeastSolvableActionSilver)
+            else if (currentValue.ActionCount <= map.LeastSolvableActionSilver)
             {
                 actionMedal = Medal.SILVER;
             }
-            else if (currentValue.CommandCount <= map.LeastSolvableActionBronze)
+            else if (currentValue.ActionCount <= map.LeastSolvableActionBronze)
             {
                 actionMedal = Medal.BRONZE;
             }

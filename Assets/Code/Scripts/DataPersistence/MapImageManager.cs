@@ -21,7 +21,7 @@ namespace Unity.Game.SaveSystem
 
         public static IEnumerator GetMapImage(string filename,string imgpath, System.Action<Texture2D> onComplete)
         {
-            if (filename is null) yield break;
+            if (filename is null || imgpath is null) yield break;
             // Check if the file already exists in the persistent data path
             string filePath = Path.Combine(Application.persistentDataPath, MapImageBaseDirectoryPath, filename);
             if (File.Exists(filePath))

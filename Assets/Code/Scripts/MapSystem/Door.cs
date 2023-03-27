@@ -42,7 +42,7 @@ namespace Unity.Game.MapSystem
             }
             else
             {
-                AudioManager.PlayPickItemSound();
+                AudioManager.PlayDefaultWarningSound();
                 yield return new WaitForSeconds(0.5f);
             }
         }

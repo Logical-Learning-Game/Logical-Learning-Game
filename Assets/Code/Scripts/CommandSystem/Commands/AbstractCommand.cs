@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI.Extensions;
+using Unity.Game.RuleSystem;
 
 namespace Unity.Game.Command
 {
@@ -37,10 +38,12 @@ namespace Unity.Game.Command
         {
             //Debug.Log("Command Executing");
             status.SetStatus(CommandStatus.Status.Executing);
+            RuleManager.Instance.OnPlayCheck();
 
             yield return AddAction();
             //Debug.Log("Executing Complete");
             status.SetStatus(CommandStatus.Status.Success);
+            
             CommandManager.Instance.OnExecute(this);
         }
 
