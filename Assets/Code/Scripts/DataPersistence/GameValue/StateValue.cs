@@ -49,11 +49,11 @@ namespace Unity.Game
         {
             // update value of each command by finding GameObject
             int startCommandCount = GameObject.FindGameObjectsWithTag("StartCommand").Length;
-            
+
             int forwardCommandCount = 0, leftCommandCount = 0, rightCommandCount = 0, backCommandCount = 0;
             foreach (GameObject command in GameObject.FindGameObjectsWithTag("MoveCommand"))
             {
-                if(command.GetComponent<AbstractCommand>() is ForwardCommand)
+                if (command.GetComponent<AbstractCommand>() is ForwardCommand)
                 {
                     forwardCommandCount++;
                 }
@@ -75,7 +75,7 @@ namespace Unity.Game
             RightCommandCount = rightCommandCount;
             BackCommandCount = backCommandCount;
             ConditionCommandCount = GameObject.FindGameObjectsWithTag("ConditionCommand").Length;
-            
+
             CommandCount = startCommandCount + ForwardCommandCount + LeftCommandCount + RightCommandCount + BackCommandCount + ConditionCommandCount;
         }
 
@@ -109,7 +109,8 @@ namespace Unity.Game
                 else if (action is ConditionAction)
                 {
                     conditionActionCount++;
-                }else if (action is StartAction)
+                }
+                else if (action is StartAction)
                 {
                     startActionCount++;
                 }
@@ -127,13 +128,13 @@ namespace Unity.Game
         {
             int keyA = 0, keyB = 0, keyC = 0;
 
-            foreach(ItemType item in LevelManager.Instance.ItemList)
+            foreach (ItemType item in LevelManager.Instance.ItemList)
             {
                 if (item == ItemType.KEY_A) keyA++;
                 if (item == ItemType.KEY_B) keyB++;
                 if (item == ItemType.KEY_C) keyC++;
             }
-            
+
             KeyACount = keyA;
             KeyBCount = keyB;
             KeyCCount = keyC;
@@ -156,6 +157,10 @@ namespace Unity.Game
                 RightActionCount = RightActionCount,
                 BackActionCount = BackActionCount,
                 ConditionActionCount = ConditionActionCount,
+                AllItemCount = AllItemCount,
+                KeyACount = KeyACount,
+                KeyBCount = KeyBCount,
+                KeyCCount = KeyCCount,
             };
         }
 
