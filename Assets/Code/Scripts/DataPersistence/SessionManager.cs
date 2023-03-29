@@ -130,6 +130,8 @@ namespace Unity.Game.SaveSystem
 
         private static void GameObjectCommandsToNodeAndEdgeFormat(List<GameObject> commands, out List<CommandNode> commandNodes, out List<CommandEdge> commandEdges)
         {
+            Debug.Log(commands.Count);
+
             commandNodes = new List<CommandNode>();
             commandEdges = new List<CommandEdge>();
 
@@ -163,9 +165,14 @@ namespace Unity.Game.SaveSystem
                     var conditionCommand = abstractCommand as ConditionCommand;
 
                     // conditional edge
-                    destinationNodeIndex = invertedIndexLookup[conditionCommand.linkerCommand.nextCommand];
-                    commandEdges.Add(new CommandEdge(sourceNodeIndex, destinationNodeIndex, EdgeType.CONDITIONAL));
+                    if(conditionCommand.linkerCommand.nextCommand != null)
+                    {
+                        destinationNodeIndex = invertedIndexLookup[conditionCommand.linkerCommand.nextCommand];
+                        commandEdges.Add(new CommandEdge(sourceNodeIndex, destinationNodeIndex, EdgeType.CONDITIONAL));
+                    }
                 }
+                    
+                   
 
                 if (abstractCommand.nextCommand != null)
                 {

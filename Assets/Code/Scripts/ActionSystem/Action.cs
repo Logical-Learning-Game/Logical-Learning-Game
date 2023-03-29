@@ -87,7 +87,15 @@ namespace Unity.Game.ActionSystem
 
         public override IEnumerator Execute()
         {
-            yield return new WaitForSeconds(.3f);
+            if(LevelManager.Instance.lastSign == ConditionSign.EMPTY)
+            {
+                yield return null;
+            }
+            else
+            {
+                yield return new WaitForSeconds(.5f);
+            }
+            
         }
     }
 

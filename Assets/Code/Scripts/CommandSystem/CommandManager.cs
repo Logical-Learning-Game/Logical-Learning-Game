@@ -175,7 +175,6 @@ namespace Unity.Game.Command
                     GameObject startCommand = GameObject.FindGameObjectWithTag("StartCommand");
                     startCommand.GetComponent<AbstractCommand>().StartExecute();
                     StartCoroutine(MapViewManager.Instance.ViewPlayerMove());
-                    AudioManager.PlayCommandStartSound();
                 }
                 else
                 {
@@ -209,11 +208,13 @@ namespace Unity.Game.Command
             {
                 Debug.Log("Executing");
                 ExecuteCommands();
+                AudioManager.PlayCommandStartSound();
             }
             else
             {
                 Debug.Log("Stopping");
                 StopExecute();
+                AudioManager.PlayDefaultWarningSound();
             }
         }
         
