@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Unity.Game.Command;
 using Unity.Game.ActionSystem;
 using Unity.Game.ItemSystem;
@@ -49,7 +49,6 @@ namespace Unity.Game
         {
             // update value of each command by finding GameObject
             int startCommandCount = GameObject.FindGameObjectsWithTag("StartCommand").Length;
-
             int forwardCommandCount = 0, leftCommandCount = 0, rightCommandCount = 0, backCommandCount = 0;
             foreach (GameObject command in GameObject.FindGameObjectsWithTag("MoveCommand"))
             {
@@ -75,7 +74,6 @@ namespace Unity.Game
             RightCommandCount = rightCommandCount;
             BackCommandCount = backCommandCount;
             ConditionCommandCount = GameObject.FindGameObjectsWithTag("ConditionCommand").Length;
-
             CommandCount = startCommandCount + ForwardCommandCount + LeftCommandCount + RightCommandCount + BackCommandCount + ConditionCommandCount;
         }
 
@@ -111,6 +109,7 @@ namespace Unity.Game
                     conditionActionCount++;
                 }
                 else if (action is StartAction)
+
                 {
                     startActionCount++;
                 }
