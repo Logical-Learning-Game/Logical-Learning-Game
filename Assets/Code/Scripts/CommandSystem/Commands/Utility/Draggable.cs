@@ -95,6 +95,7 @@ namespace Unity.Game.Command
             if (commandPanelArea != null)
             {
                 RectTransform panelArea = commandPanelArea.GetComponent<RectTransform>();
+                
                 RectTransform objectRect = GetComponent<RectTransform>();
                 //Debug.Log($"panelArea: {panelArea.rect},{objectRect.position}");
 

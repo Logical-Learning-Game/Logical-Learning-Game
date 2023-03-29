@@ -92,6 +92,12 @@ namespace Unity.Game.Command
             previousCommand.Clear();
             gameObject.SetActive(false);
             gameObject.GetComponentInChildren<Linkable>().OnDelete();
+
+            if (CommandManager.Instance.commands.Contains(gameObject))
+            {
+                CommandManager.Instance.commands.Remove(gameObject);
+            } 
+
         }
 
         public virtual void OnStatusChange()
