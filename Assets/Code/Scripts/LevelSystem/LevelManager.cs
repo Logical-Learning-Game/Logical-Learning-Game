@@ -89,6 +89,7 @@ namespace Unity.Game.Level
             ConditionPickerController.Instance.InitConditionPicker();
             ActionSystem.ActionManager.Instance.ClearAction();
             RuleManager.Instance.InitRule();
+            CommandManager.Instance.InitCommands();
             InitPlayer();
             LevelIndicator.GetComponent<TMPro.TMP_Text>().text = gameMap.MapName;
         }
@@ -108,11 +109,6 @@ namespace Unity.Game.Level
             // movement and map debug
             if (GlobalConfig.LevelConfig.LEVEL_DEBUG_MODE == true)
             {
-                // reset movement
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    InitLevel();
-                }
 
                 // movement test 
                 if (Input.GetKeyDown(KeyCode.W))

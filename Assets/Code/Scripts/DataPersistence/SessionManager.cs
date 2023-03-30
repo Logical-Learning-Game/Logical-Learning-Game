@@ -130,7 +130,7 @@ namespace Unity.Game.SaveSystem
 
         private static void GameObjectCommandsToNodeAndEdgeFormat(List<GameObject> commands, out List<CommandNode> commandNodes, out List<CommandEdge> commandEdges)
         {
-            Debug.Log(commands.Count);
+            //Debug.Log(commands.Count);
 
             commandNodes = new List<CommandNode>();
             commandEdges = new List<CommandEdge>();

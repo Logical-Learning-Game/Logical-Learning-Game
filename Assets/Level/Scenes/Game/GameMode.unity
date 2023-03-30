@@ -778,6 +778,7 @@ MonoBehaviour:
   loadingScreen: {fileID: 466051971}
   googleSyncScreen: {fileID: 1981783680}
   popupScreen: {fileID: 861399815}
+  IsGameWinning: 0
 --- !u!224 &91696196 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7582507303228929511, guid: ed22b06f0a2f7384889c8516c9848949,
@@ -8221,6 +8222,8 @@ GameObject:
   - component: {fileID: 1925376062}
   - component: {fileID: 1925376061}
   - component: {fileID: 1925376060}
+  - component: {fileID: 1925376064}
+  - component: {fileID: 1925376063}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -8278,6 +8281,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1925376063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925376059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7998c3d93c88b4e94a86cbea895dfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1925376064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925376059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc3e1e57c34037b488c912a64cedc969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultCursor: {fileID: 2800000, guid: 7182724d5267bc542819a29b0f484ca8, type: 3}
+  LeftClickCursor: {fileID: 2800000, guid: e8a177552971bb64a862d8505634f9b9, type: 3}
+  RightClickCursor: {fileID: 2800000, guid: 85866ff5051e8da43866fec1088a59ae, type: 3}
 --- !u!1 &1964936029
 GameObject:
   m_ObjectHideFlags: 0
