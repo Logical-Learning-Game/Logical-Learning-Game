@@ -198,10 +198,14 @@ namespace Unity.Game.Command
             {
                 MapManager.Instance.IsAuraInit = false;
                 OnCommandUpdate?.Invoke();
-                foreach (GameObject command in commands)
+                while (commands.Count > 0)
                 {
-                    command.GetComponent<AbstractCommand>().Delete();
+                    commands[0].GetComponent<AbstractCommand>().Delete();
                 }
+                //foreach (GameObject command in commands)
+                //{
+                //    command.GetComponent<AbstractCommand>().Delete();
+                //}
                 commands.Clear();
                 CommandBarManager.Instance.OnUpdateCommandBar();
             }
