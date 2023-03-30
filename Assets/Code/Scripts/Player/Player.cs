@@ -4,6 +4,7 @@ using UnityEngine;
 using GlobalConfig;
 using Unity.Game.Conditions;
 using Unity.Game.ItemSystem;
+using Unity.Game.Command;
 
 namespace Unity.Game
 {
@@ -74,6 +75,12 @@ namespace Unity.Game
 
         public IEnumerator MoveTo(Vector3 direction)
         {
+            if (CommandManager.Instance.isExecuting == false)
+            {
+                isMoving = false;
+                yield break;
+            }
+
             if (isMoving)
             {
                 yield break;
@@ -86,6 +93,11 @@ namespace Unity.Game
             AudioManager.PlayCharacterStepSound();
             while (Vector3.Distance(transform.forward, direction) >= 0.01f)
             {
+                if(CommandManager.Instance.isExecuting == false)
+                {
+                    isMoving = false;
+                    yield break;
+                }
                 Vector3 splitRotation = Vector3.RotateTowards(transform.forward, direction, PlayerConfig.PLAYER_ROTATE_SPEED * Time.deltaTime, 0.0f);
                 transform.rotation = Quaternion.LookRotation(splitRotation);
                 yield return null;
@@ -96,6 +108,11 @@ namespace Unity.Game
             SetPlayerMove();
             while (Vector3.Distance(transform.position, destination) >= 0.01f)
             {
+                if (CommandManager.Instance.isExecuting == false)
+                {
+                    isMoving = false;
+                    yield break;
+                }
                 transform.position = Vector3.MoveTowards(transform.position, destination, PlayerConfig.PLAYER_MOVE_SPEED * Time.deltaTime);
                 yield return null;
             }
@@ -106,6 +123,12 @@ namespace Unity.Game
 
         public IEnumerator OnCannotMoveTo(Vector3 direction)
         {
+            if (CommandManager.Instance.isExecuting == false)
+            {
+                isMoving = false;
+                yield break;
+            }
+
             if (isMoving)
             {
                 yield break;
@@ -124,6 +147,11 @@ namespace Unity.Game
             SetEndPlayerMove();
             while (Vector3.Distance(transform.forward, direction) >= 0.01f)
             {
+                if (CommandManager.Instance.isExecuting == false)
+                {
+                    isMoving = false;
+                    yield break;
+                }
                 Vector3 splitRotation = Vector3.RotateTowards(transform.forward, direction, PlayerConfig.PLAYER_ROTATE_SPEED * Time.deltaTime, 0.0f);
                 transform.rotation = Quaternion.LookRotation(splitRotation);
                 yield return null;
@@ -134,6 +162,11 @@ namespace Unity.Game
             SetPlayerMove();
             while (Vector3.Distance(transform.position, destination) >= 0.01f)
             {
+                if (CommandManager.Instance.isExecuting == false)
+                {
+                    isMoving = false;
+                    yield break;
+                }
                 transform.position = Vector3.MoveTowards(transform.position, destination, PlayerConfig.PLAYER_MOVE_SPEED * Time.deltaTime);
                 yield return null;
             }
@@ -145,6 +178,11 @@ namespace Unity.Game
             //rotate back
             while (Vector3.Distance(transform.forward, reverseDirection) >= 0.01f)
             {
+                if (CommandManager.Instance.isExecuting == false)
+                {
+                    isMoving = false;
+                    yield break;
+                }
                 Vector3 splitRotation = Vector3.RotateTowards(transform.forward, reverseDirection, PlayerConfig.PLAYER_ROTATE_SPEED * Time.deltaTime, 0.0f);
                 transform.rotation = Quaternion.LookRotation(splitRotation);
                 yield return null;
@@ -155,6 +193,11 @@ namespace Unity.Game
             SetPlayerMove();
             while (Vector3.Distance(transform.position, origin) >= 0.01f)
             {
+                if (CommandManager.Instance.isExecuting == false)
+                {
+                    isMoving = false;
+                    yield break;
+                }
                 transform.position = Vector3.MoveTowards(transform.position, origin, PlayerConfig.PLAYER_MOVE_SPEED * Time.deltaTime);
                 yield return null;
             }
@@ -164,6 +207,11 @@ namespace Unity.Game
             SetEndPlayerMove();
             while (Vector3.Distance(transform.forward, originDirection) >= 0.01f)
             {
+                if (CommandManager.Instance.isExecuting == false)
+                {
+                    isMoving = false;
+                    yield break;
+                }
                 Vector3 splitRotation = Vector3.RotateTowards(transform.forward, originDirection, PlayerConfig.PLAYER_ROTATE_SPEED * Time.deltaTime, 0.0f);
                 transform.rotation = Quaternion.LookRotation(splitRotation);
                 yield return null;

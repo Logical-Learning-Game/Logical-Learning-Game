@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Game.Conditions;
 using TMPro;
 using Unity.Game.Level;
+using Unity.Game.Command;
 
 namespace Unity.Game.MapSystem
 {
@@ -21,7 +22,10 @@ namespace Unity.Game.MapSystem
         public override void OnTileEntered()
         {
             base.OnTileEntered();
-            LevelManager.Instance.SetLastSign(tileCondition.sign);
+            if (CommandManager.Instance.isExecuting)
+            {
+                LevelManager.Instance.SetLastSign(tileCondition.sign);
+            }
         }
         
         public void SetTileCondition(ConditionSign sign)
