@@ -35,6 +35,8 @@ namespace Unity.Game.UI
 
         [SerializeField] Button OutsidePanel;
 
+        [SerializeField] private bool IsGameWinning;
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -140,6 +142,7 @@ namespace Unity.Game.UI
 
         void OnGameWon(SubmitHistory submit)
         {
+
             OutsidePanel.SetEnabled(false);
             AudioManager.PlayVictorySound();
             StartCoroutine(GameWonRoutine(submit));
@@ -153,6 +156,7 @@ namespace Unity.Game.UI
 
         IEnumerator GameWonRoutine(SubmitHistory submit)
         {
+            IsGameWinning = true;
             victoryScreen.SetSubmitData(submit);
             yield return new WaitForSeconds(1);
 
@@ -162,9 +166,10 @@ namespace Unity.Game.UI
 
             //AudioManager.PlayVictorySound();
             //ShowVisualElement(m_WinScreen, true);
-
+            GamePaused?.Invoke(0f);
             ShowModalScreen(victoryScreen);
             HideGameScreen();
+            IsGameWinning = false;
         }
 
         void ShowGameScreen()
@@ -185,11 +190,13 @@ namespace Unity.Game.UI
 
         public void OnOpenJournalMenu()
         {
-            GamePaused?.Invoke(.5f);
-
-            ShowModalScreen(panelScreen);
-            panelScreen.ShowLevelPanel(null);
-            HideGameScreen();
+            if (!IsGameWinning)
+            {
+                GamePaused?.Invoke(.5f);
+                ShowModalScreen(panelScreen);
+                panelScreen.ShowLevelPanel(null);
+                HideGameScreen();
+            }
         }
 
         public void OnOpenPopupScreen(int contentIndex)

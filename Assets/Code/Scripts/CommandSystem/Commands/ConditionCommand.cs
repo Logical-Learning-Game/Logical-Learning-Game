@@ -14,19 +14,18 @@ namespace Unity.Game.Command
         // default nextCommand is false case;
         public Condition commandCondition = new Condition();
 
-
         [SerializeField]
         public AbstractCommand linkerCommand;
 
         public override IEnumerator Execute()
         {
-            Debug.Log("Condition Command Executing");
+            //Debug.Log("Condition Command Executing");
             status.SetStatus(CommandStatus.Status.Executing);
             linkerCommand.status.SetStatus(CommandStatus.Status.Executing);
             
             yield return AddAction();
             
-            Debug.Log("Executing Complete");
+            //Debug.Log("Executing Complete");
             ConditionSign tileSign = LevelManager.Instance.GetLastSign();
 
             if (commandCondition.CompareSign(tileSign))
@@ -58,6 +57,7 @@ namespace Unity.Game.Command
         {
             linkerCommand = GetComponentInChildren<LinkerCommand>();
             base.Awake();
+            SetCondition(ConditionSign.A);
         }
 
         public override void OnVerify()
@@ -87,7 +87,7 @@ namespace Unity.Game.Command
 
         public void SetCondition(ConditionSign condition)
         {
-            Debug.Log("Setting Condition to: " + condition.ToString());
+            //Debug.Log("Setting Condition to: " + condition.ToString());
             commandCondition.SetConditionSign(condition);
             OnSetCondition();
 

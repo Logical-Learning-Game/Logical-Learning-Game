@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Unity.Game.Conditions;
 using Unity.Game.Level;
+using Unity.Game.Command;
 
 namespace Unity.Game.ActionSystem
 {
@@ -12,9 +13,17 @@ namespace Unity.Game.ActionSystem
         public string actionName;
         public virtual IEnumerator Execute()
         {
-            yield return new WaitForSeconds(.75f);
+            if (CommandManager.Instance.isExecuting)
+            {
+                yield return null;
+            }
+            else
+            {
+                yield break;
+            }
         }
         
+
     }
 
     public class StartAction : Action
@@ -22,6 +31,12 @@ namespace Unity.Game.ActionSystem
         public StartAction()
         {
             actionName = "Start!";
+        }
+
+        public override IEnumerator Execute()
+        {
+            base.Execute();
+            yield return new WaitForSeconds(.75f);
         }
 
     }
@@ -34,6 +49,7 @@ namespace Unity.Game.ActionSystem
         
         public override IEnumerator Execute()
         {
+            base.Execute();
             yield return LevelManager.Instance.OnPlayerMove(Player.Instance.Front());
         }
     }
@@ -47,6 +63,7 @@ namespace Unity.Game.ActionSystem
 
         public override IEnumerator Execute()
         {
+            base.Execute();
             yield return LevelManager.Instance.OnPlayerMove(Player.Instance.Left());
         }
     }
@@ -60,6 +77,7 @@ namespace Unity.Game.ActionSystem
 
         public override IEnumerator Execute()
         {
+            base.Execute();
             yield return LevelManager.Instance.OnPlayerMove(Player.Instance.Right());
         }
     }
@@ -73,6 +91,7 @@ namespace Unity.Game.ActionSystem
 
         public override IEnumerator Execute()
         {
+            base.Execute();
             yield return LevelManager.Instance.OnPlayerMove(Player.Instance.Back());
         }
     }
@@ -87,7 +106,16 @@ namespace Unity.Game.ActionSystem
 
         public override IEnumerator Execute()
         {
-            yield return new WaitForSeconds(.3f);
+            base.Execute();
+            if (LevelManager.Instance.lastSign == ConditionSign.EMPTY)
+            {
+                yield return null;
+            }
+            else
+            {
+                yield return new WaitForSeconds(.5f);
+            }
+            
         }
     }
 

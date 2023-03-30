@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Unity.Game.Command;
 using Unity.Game.ActionSystem;
 using Unity.Game.ItemSystem;
@@ -128,7 +128,6 @@ namespace Unity.Game
             int keyA = 0, keyB = 0, keyC = 0;
 
             foreach (ItemType item in LevelManager.Instance.ItemList)
-
             {
                 if (item == ItemType.KEY_A) keyA++;
                 if (item == ItemType.KEY_B) keyB++;
@@ -161,7 +160,6 @@ namespace Unity.Game
                 KeyACount = KeyACount,
                 KeyBCount = KeyBCount,
                 KeyCCount = KeyCCount,
-
             };
         }
 

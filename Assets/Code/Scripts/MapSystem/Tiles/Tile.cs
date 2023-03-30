@@ -46,7 +46,7 @@ namespace Unity.Game.MapSystem
         public virtual void OnTileEntered()
         {
 
-            Debug.Log("Character Entered Tile" + gameObject.name);
+            //Debug.Log("Character Entered Tile" + gameObject.name);
         }
 
         public void SetItemObject(GameObject itemObject)

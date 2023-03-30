@@ -36,7 +36,6 @@ namespace Unity.Game.Command
 
         public virtual IEnumerator Execute()
         {
-            //Debug.Log("Command Executing");
             status.SetStatus(CommandStatus.Status.Executing);
             RuleManager.Instance.OnPlayCheck();
 
@@ -51,7 +50,9 @@ namespace Unity.Game.Command
 
         public void StartExecute()
         {
-            StartCoroutine(Execute());
+            CommandManager.Instance.ExecuteIEnumerator = Execute();
+            StartCoroutine(CommandManager.Instance.ExecuteIEnumerator);
+            Debug.Log($"ExecuteIEnumerator is Started:{gameObject.name}");
         }
 
         public virtual void LinkTo(AbstractCommand nextCommand)
@@ -92,6 +93,12 @@ namespace Unity.Game.Command
             previousCommand.Clear();
             gameObject.SetActive(false);
             gameObject.GetComponentInChildren<Linkable>().OnDelete();
+
+            if (CommandManager.Instance.commands.Contains(gameObject))
+            {
+                CommandManager.Instance.commands.Remove(gameObject);
+            } 
+
         }
 
         public virtual void OnStatusChange()

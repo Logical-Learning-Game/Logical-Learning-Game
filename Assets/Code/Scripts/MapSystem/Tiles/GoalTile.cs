@@ -17,9 +17,13 @@ namespace Unity.Game.MapSystem
         public override void OnTileEntered()
         {
             base.OnTileEntered();
-            Debug.Log("Enter goal!, this level should be pass");
-            LevelManager.Instance.SetIsPlayerReachGoal();
-            CommandManager.Instance.SetStopOnNextAction(true);
+            if (CommandManager.Instance.isExecuting)
+            {
+                Debug.Log("Enter goal!, this level should be pass");
+                LevelManager.Instance.SetIsPlayerReachGoal();
+                CommandManager.Instance.SetStopOnNextAction(true);
+            }
+            
         }
     }
 }

@@ -76,10 +76,17 @@ namespace Unity.Game.Command
         private bool stopOnNextAction = false;
         public bool isFinited = false;
         //private bool isFreezing = false;
-
-
+        public IEnumerator ExecuteIEnumerator;
         // Start is called before the first frame update
+        public void InitCommands()
+        {
+            if (isExecuting)
+            {
+                SetIsExecuting(false);
+            }
+            //stopOnNextAction = false;
 
+        }
         private void Awake()
         {
             if (Instance == null)
@@ -162,7 +169,7 @@ namespace Unity.Game.Command
 
         public void ExecuteCommands()
         {
-            //need more implementation
+
             OnCommandUpdate?.Invoke();
             if (!isExecuting)
             {
@@ -179,7 +186,8 @@ namespace Unity.Game.Command
                 }
                 else
                 {
-                    Debug.Log("Invalid Command, Please Check");
+                    //Debug.Log("Invalid Command, Please Check");
+                    AudioManager.PlayDefaultWarningSound();
                 }
             }
         }
@@ -214,6 +222,7 @@ namespace Unity.Game.Command
             {
                 Debug.Log("Stopping");
                 StopExecute();
+                AudioManager.PlayDefaultWarningSound();
             }
         }
         
@@ -314,16 +323,22 @@ namespace Unity.Game.Command
         public void OnExecute(AbstractCommand command)
         {
             // update linerenderer color when command is execute
+            if (!isExecuting)
+            {
+                Debug.Log("Not Executing Now, return");
+                return;
+            }
 
             if (stopOnNextAction == true)
             {
                 //isFinited = false;
+                Debug.Log("CheckStopOnNextAction");
                 SetStopOnNextAction(false);
                 SetIsExecuting(false);
                 OnSubmitFinish();
                 return;
             }
-            
+
             // check for limiting steps
             StepUp();
             if (GetRemainingStep() > 0)
@@ -377,6 +392,11 @@ namespace Unity.Game.Command
         public void SetIsExecuting(bool isExecuting)
         {
             this.isExecuting = isExecuting;
+            if(isExecuting == false)
+            {
+                StopCoroutine(ExecuteIEnumerator);
+                Debug.Log("Execute Coroutine is Stopped");
+            }
         }
 
         public void SetStopOnNextAction(bool stopOnNextAction)

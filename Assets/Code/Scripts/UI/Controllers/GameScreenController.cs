@@ -17,6 +17,7 @@ namespace Unity.Game.UI
         //public static event Action NewMapRestart;
         public static event Action SameMapRestart;
         public static event Action<int> ShowTutorial;
+        public static bool IsGamePause = false;
         //public static event Action<GameData> SettingsUpdated;
         //public static event Action SettingsLoad;
 
@@ -105,15 +106,26 @@ namespace Unity.Game.UI
         void OnGamePaused(float delay)
         {
             //SettingsLoad?.Invoke();
-            StopAllCoroutines();
-            StartCoroutine(PauseGameTime(delay));
+            if(IsGamePause == false)
+            {
+                StopAllCoroutines();
+                StartCoroutine(PauseGameTime(delay));
+                IsGamePause = true;
+                Debug.Log("game is pause");
+            }
         }
 
         void OnGameResumed()
         {
             //SettingsUpdated?.Invoke(SettingsData);
-            StopAllCoroutines();
-            Time.timeScale = 1f;
+            if(IsGamePause == true)
+            {
+                StopAllCoroutines();
+                Time.timeScale = 1f;
+                IsGamePause = false;
+                Debug.Log("game is resume");
+            }
+   
         }
 
         void OnGameRestarted(bool isSameMap)

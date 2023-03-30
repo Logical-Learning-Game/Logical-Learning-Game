@@ -30,7 +30,9 @@ namespace Unity.Game.ActionSystem
         {
             actionList.Add(action);
             ActionBarManager.Instance.AddToContent(action);
+  
             yield return action.Execute();
+
             // Action Execute Completed
 
         }
