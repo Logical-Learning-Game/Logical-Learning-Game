@@ -247,7 +247,7 @@
     border-top-width: 0;
     border-bottom-width: 0;
     background-color: rgba(188, 188, 188, 0);
-    -unity-background-image-tint-color: rgba(97, 63, 53, 255);
+    -unity-background-image-tint-color: rgb(97, 63, 53);
 }
 
 .IconButton:hover {
@@ -274,4 +274,11 @@
     border-bottom-width: 0;
     background-color: rgba(188, 188, 188, 0);
     -unity-background-image-tint-color: rgb(0, 0, 0);
+}
+
+.unity-base-dropdown {
+    -unity-font: url('project://database/Assets/Art/Fonts/Prompt-Regular.ttf?fileID=12800000&guid=343e2a82379c7064794241e513fe0448&type=3#Prompt-Regular');
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/Font%20Assets/Prompt-Regular%20SDF.asset?fileID=11400000&guid=8798cd5c5cb20e54d95a66a294701877&type=2#Prompt-Regular SDF');
+    font-size: 20px;
+    color: rgba(97, 63, 53, 255);
 }
