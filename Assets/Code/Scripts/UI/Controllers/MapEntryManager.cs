@@ -21,8 +21,8 @@ namespace Unity.Game.UI
         [SerializeField] MapDataManager mapDataManager;
 
         public static event Action<bool> SelectMap;
-        public static event Action UpdateMap;
-        public static event Action LoadMap;
+        //public static event Action UpdateMap;
+        //public static event Action LoadMap;
 
         //public static Dictionary<string, List<Map>> MapLists;
 
@@ -97,7 +97,7 @@ namespace Unity.Game.UI
             isMapLoading = true;
             SetButtonLoading(isMapLoading);
 
-            Debug.Log($"click button:{gameData.PlayerId}");
+            //Debug.Log($"click button:{gameData.PlayerId}");
             try
             {
                 await mapDataManager.UpdateMap();
@@ -207,6 +207,16 @@ namespace Unity.Game.UI
                 // set map name
                 e.Q<Label>("MapName").text = mapEntryList[i].MapName;
 
+                //reset star display first
+                e.Q($"RuleStar{1}").style.backgroundImage = RuleIncomplete;
+                e.Q($"RuleStar{2}").style.backgroundImage = RuleIncomplete;
+                e.Q($"RuleStar{3}").style.backgroundImage = RuleIncomplete;
+                e.Q("CommandMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[Medal.NONE];
+                e.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[Medal.NONE];
+
+                // reset datetime display
+                e.Q<Label>("BestPlayDate").text = "None";
+
                 // reset map image to placeholder first
                 e.Q<VisualElement>("MapPreviewImage").style.backgroundImage = MapImagePlaceHolder;
                 e.Q<VisualElement>("MapPreviewImage").style.visibility = Visibility.Hidden;
@@ -222,10 +232,8 @@ namespace Unity.Game.UI
                     }));
                 }
                 
-
                 //setting isEnterable based on currentstar
                 bool isEnterable = gameData.GetCurrentStar() >= mapEntryList[i].StarRequirement ? true : false;
-
 
                 // Accessing Player Submit Data
                 SubmitHistory mapBestSubmit;
@@ -234,23 +242,30 @@ namespace Unity.Game.UI
                 {
                     if (mapBestSubmit.IsCompleted)
                     {
+
                         e.Q($"RuleStar{1}").style.backgroundImage = mapBestSubmit.RuleHistories[0].IsPass ? RuleComplete : RuleIncomplete;
                         e.Q($"RuleStar{2}").style.backgroundImage = mapBestSubmit.RuleHistories[1].IsPass ? RuleComplete : RuleIncomplete;
                         e.Q($"RuleStar{3}").style.backgroundImage = mapBestSubmit.RuleHistories[2].IsPass ? RuleComplete : RuleIncomplete;
                         e.Q("CommandMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[mapBestSubmit.CommandMedal];
                         e.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[mapBestSubmit.ActionMedal];
+                    
                     }
 
                     e.Q<Label>("BestPlayDate").text = mapBestSubmit.SubmitDatetime.ToString("g");
+                
                 }
                 else
                 {
+
                     e.Q($"RuleStar{1}").style.backgroundImage = RuleIncomplete;
                     e.Q($"RuleStar{2}").style.backgroundImage = RuleIncomplete;
                     e.Q($"RuleStar{3}").style.backgroundImage = RuleIncomplete;
                     e.Q("CommandMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[Medal.NONE];
                     e.Q("ActionMedal").style.unityBackgroundImageTintColor = ColorConfig.MEDAL_COLOR[Medal.NONE];
+
+                    e.Q<Label>("BestPlayDate").text = "None";
                 }
+
                 var mapEntryButton = e.Q<UnityEngine.UIElements.Button>("MapEntryButton");
                 mapEntryButton.clickable = new Clickable(e => OnClickMapEntry(e, mapEntryList[i], isEnterable));
                 mapEntryButton.UnregisterCallback<MouseOverEvent>(e => AudioManager.PlayDefaultHoverSound());
@@ -258,18 +273,24 @@ namespace Unity.Game.UI
 
                 //starRequirement
                 string starReqCount = mapEntryList[i].StarRequirement.ToString();
+
                 e.Q<Label>("RequirementValue").text = starReqCount;
+
                 if (!isEnterable)
                 {
+                    
                     e.Q<VisualElement>("NotMeetRequirementModal").style.display = DisplayStyle.Flex;
                     e.Q<VisualElement>("MapEntryTemplate").style.unityBackgroundImageTintColor = ColorConfig.DISABLED;
                     mapEntryButton.style.display = DisplayStyle.None;
+
                 }
                 else
                 {
+                  
                     e.Q<VisualElement>("NotMeetRequirementModal").style.display = DisplayStyle.None;
                     e.Q<VisualElement>("MapEntryTemplate").style.unityBackgroundImageTintColor = ColorConfig.ENABLED;
                     mapEntryButton.style.display = DisplayStyle.Flex;
+
                 }
 
             };
@@ -277,6 +298,7 @@ namespace Unity.Game.UI
             entryView.makeItem = makeItem;
             entryView.itemsSource = mapEntryList;
             entryView.bindItem = bindItem;
+
         }
 
         void CreateDropDownMenu()

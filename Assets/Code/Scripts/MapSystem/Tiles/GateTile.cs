@@ -7,7 +7,7 @@ namespace Unity.Game.MapSystem
 {
     public class GateTile : Tile
     {
-        [SerializeField] private bool isOpened = false;
+        [SerializeField] private bool isOpened;
         [SerializeField] private GateTile gatePair;
         
         //public override bool IsEnterable()

@@ -18,8 +18,6 @@ namespace Unity.Game.UI
         public static event Action GameResumed;
         public static event Action GameQuit;
         public static event Action<bool> GameRestarted;
-        public static event Action<float> MusicVolumeChanged;
-        public static event Action<float> SfxVolumeChanged;
 
         [Header("Blur")]
         [SerializeField] Volume Volume;

@@ -13,7 +13,9 @@
             <ui:Button text="Setting" display-tooltip-when-elided="true" name="SettingButton" class="PanelButton" />
             <ui:Button text="Log" display-tooltip-when-elided="true" name="HistoryButton" class="PanelButton" />
         </ui:VisualElement>
-        <ui:Instance template="LevelPanel" name="LevelPanel" class="default-panel" style="display: flex;" />
+        <ui:Instance template="LevelPanel" name="LevelPanel" class="default-panel" style="display: flex;">
+            <AttributeOverrides element-name="LevelListView" focusable="true" />
+        </ui:Instance>
         <ui:Instance template="StatsPanel" name="StatsPanel" class="default-panel" style="display: none;" />
         <ui:Instance template="SettingPanel" name="SettingPanel" class="default-panel" style="display: none;" />
         <ui:Instance template="HistoryPanel" name="HistoryPanel" class="default-panel" style="display: none;" />

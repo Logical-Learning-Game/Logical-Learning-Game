@@ -20,8 +20,8 @@ namespace Unity.Game.UI
     {
         public static event Action MainMenuClick;
         public static event Action GoogleSyncClick;
-        public static event Action<float> MusicVolumeChanged;
-        public static event Action<float> SfxVolumeChanged;
+        //public static event Action<float> MusicVolumeChanged;
+        //public static event Action<float> SfxVolumeChanged;
         public static event Action<int> HowToPlayClick;
 
         Slider MusicSlider;
@@ -102,6 +102,7 @@ namespace Unity.Game.UI
         void OnClickQuitGame(ClickEvent evt)
         {
             MainMenuClick?.Invoke();
+            SaveManager.Instance.SaveGame();
             AudioManager.PlayDefaultButtonSound();
         }
 
