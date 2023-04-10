@@ -18,7 +18,7 @@ namespace Unity.Game.Command
         public void OnBeginDrag(PointerEventData eventData)
         {
 
-            if (isEnabled)
+            if (isEnabled && !CommandManager.Instance.isExecuting)
             {
                 if (eventData.button == PointerEventData.InputButton.Left)
                 {
