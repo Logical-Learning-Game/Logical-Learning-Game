@@ -29,7 +29,7 @@ namespace Unity.Game.Authentication
 
         private void Awake()
         {
-            Debug.Log("GoogleAuthenticator is Awaked");
+            //Debug.Log("GoogleAuthenticator is Awaked");
             instance = this;
         }
 
@@ -52,22 +52,24 @@ namespace Unity.Game.Authentication
             return googleOIDMetadata;
         }
 
-        public async Task<string> GoogleSignIn()
+        public async Task<(string,string)> GoogleSignIn()
         {
             GoogleOIDMetadata googleOIDMetadata = await GetGoogleOIDMetaData();
             var googleOIDCAuth = new GoogleOIDCAuthentication(googleOIDMetadata);
             GoogleToken googleToken = await googleOIDCAuth.GetToken();
 
-            Debug.Log(AuthenticationService.Instance.IsSignedIn);
+            //Debug.Log($"IDToken: {googleToken.IdToken}");
+
+            //Debug.Log(AuthenticationService.Instance.IsSignedIn);
             if (AuthenticationService.Instance.IsSignedIn)
             {
                 AuthenticationService.Instance.SignOut(true);
             }
 
             await AuthenticationService.Instance.SignInWithOpenIdConnectAsync(GoogleOIDConfig.PROVIDER_NAME, googleToken.IdToken);
-
-            Debug.Log($"Authen PlayerId: {AuthenticationService.Instance.PlayerId}");
-            return AuthenticationService.Instance.PlayerId;
+            //Debug.Log(googleToken.GetJWTClaim().Email);
+            //Debug.Log($"Authen PlayerId: {AuthenticationService.Instance.PlayerId}");
+            return (AuthenticationService.Instance.PlayerId, googleToken.GetJWTClaim().Email);
         }
     }
 }

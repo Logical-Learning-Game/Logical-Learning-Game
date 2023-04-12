@@ -55,7 +55,7 @@ namespace Unity.Game.SaveSystem
 
         private void StartSession(Map map)
         {
-            Debug.Log("Session is created");
+            //Debug.Log("Session is created");
             CurrentGameSession = new GameSession(map.Id);
             
         }
@@ -69,7 +69,7 @@ namespace Unity.Game.SaveSystem
 
         private async void EndSession()
         {
-            Debug.Log("Session is ending");
+            //Debug.Log("Session is ending");
             if (CurrentGameSession == null)
             {
                 SaveManager.SaveGame();

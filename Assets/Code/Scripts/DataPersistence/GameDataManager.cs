@@ -17,10 +17,10 @@ namespace Unity.Game.SaveSystem
 
         SaveManager saveManager;
 
-        [SerializeField] bool isGameDataInitialized;
+        //[SerializeField] bool isGameDataInitialized;
         [SerializeField] public GameData GameData;
         public static GameDataManager Instance { get; private set; }
-  
+
 
         private void Awake()
         {
@@ -33,12 +33,12 @@ namespace Unity.Game.SaveSystem
             {
                 Destroy(gameObject);
             }
-            
+
             DontDestroyOnLoad(gameObject);
         }
 
         private void Start()
-        { 
+        {
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
@@ -46,7 +46,7 @@ namespace Unity.Game.SaveSystem
             saveManager?.LoadGame();
 
             // flag that GameData is loaded the first time
-            isGameDataInitialized = true;
+            //isGameDataInitialized = true;
         }
 
         private void OnEnable()
@@ -66,7 +66,7 @@ namespace Unity.Game.SaveSystem
 
         }
 
-        void OnSceneLoaded(Scene scene,LoadSceneMode loadSceneMode)
+        void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
             saveManager.InvokeGameDataLoad();
         }
@@ -75,6 +75,7 @@ namespace Unity.Game.SaveSystem
         {
             GameData = saveManager.NewGame();
             GameData.PlayerId = playerId;
+            GameData.Email = "";
 
             saveManager.SaveGame();
             saveManager.InvokeGameDataLoad();
@@ -82,32 +83,34 @@ namespace Unity.Game.SaveSystem
             NewGameCompleted?.Invoke();
         }
 
-        private async void SyncGameData(string playerId, bool isSync)
+        private async void SyncGameData(string playerId, string playerEmail, bool isSync)
         {
             var apiClient = new APIClient();
 
             // if is sync is true, it is necessary to send all history first
-            if(GameData == null || GameData.PlayerId == null)
+            if (GameData == null || GameData.PlayerId == null)
             {
                 GameData = saveManager.NewGame();
             }
 
             GameData.PlayerId = playerId;
+            GameData.Email = playerEmail;
+
             if (isSync)
             {
-                Debug.Log("Going Sync");
+                //Debug.Log("Going Sync");
 
                 // send all history first
                 await SendGameData();
             }
             else
             {
-                Debug.Log("Don't Sync");
+                //Debug.Log("Don't Sync");
             }
 
             // retrieve game data
             await UpdateGameData(playerId);
-           
+
             NewGameCompleted?.Invoke();
         }
 
@@ -115,7 +118,7 @@ namespace Unity.Game.SaveSystem
         {
             if (GameData.PlayerId == "__guest__")
             {
-                Debug.LogWarning("try to update game data as guest");
+                //Debug.LogWarning("try to update game data as guest");
                 return;
             }
 
@@ -124,7 +127,7 @@ namespace Unity.Game.SaveSystem
             try
             {
                 GameData newGameData = await apiClient.GetGameData(playerId);
-                Debug.Log($"retrieve game data: {newGameData.SessionHistories} {newGameData.SubmitBest}");
+                //Debug.Log($"retrieve game data: {newGameData.SessionHistories} {newGameData.SubmitBest}");
                 GameData = newGameData;
             }
             catch (APIException ex)
@@ -145,7 +148,7 @@ namespace Unity.Game.SaveSystem
         {
             if (GameData.PlayerId == "__guest__")
             {
-                Debug.LogWarning("try to send game data as guest");
+                //Debug.LogWarning("try to send game data as guest");
                 return;
             }
 
@@ -228,6 +231,6 @@ namespace Unity.Game.SaveSystem
 
         }
 
-       
+
     }
 }

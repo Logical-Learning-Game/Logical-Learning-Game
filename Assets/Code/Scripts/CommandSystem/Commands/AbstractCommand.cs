@@ -52,7 +52,7 @@ namespace Unity.Game.Command
         {
             CommandManager.Instance.ExecuteIEnumerator = Execute();
             StartCoroutine(CommandManager.Instance.ExecuteIEnumerator);
-            Debug.Log($"ExecuteIEnumerator is Started:{gameObject.name}");
+            //Debug.Log($"ExecuteIEnumerator is Started:{gameObject.name}");
         }
 
         public virtual void LinkTo(AbstractCommand nextCommand)
@@ -64,7 +64,7 @@ namespace Unity.Game.Command
             }
             else
             {
-                Debug.Log("Cannot Link to UnlinkableType Command");
+                //Debug.Log("Cannot Link to UnlinkableType Command");
             }
 
         }

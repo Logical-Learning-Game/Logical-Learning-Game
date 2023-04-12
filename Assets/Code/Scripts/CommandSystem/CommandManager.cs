@@ -219,12 +219,12 @@ namespace Unity.Game.Command
         {
             if (!isExecuting)
             {
-                Debug.Log("Executing");
+                //Debug.Log("Executing");
                 ExecuteCommands();
             }
             else
             {
-                Debug.Log("Stopping");
+                //Debug.Log("Stopping");
                 StopExecute();
                 AudioManager.PlayDefaultWarningSound();
             }
@@ -329,14 +329,14 @@ namespace Unity.Game.Command
             // update linerenderer color when command is execute
             if (!isExecuting)
             {
-                Debug.Log("Not Executing Now, return");
+                //Debug.Log("Not Executing Now, return");
                 return;
             }
 
             if (stopOnNextAction == true)
             {
                 //isFinited = false;
-                Debug.Log("CheckStopOnNextAction");
+                //Debug.Log("CheckStopOnNextAction");
                 SetStopOnNextAction(false);
                 SetIsExecuting(false);
                 OnSubmitFinish();
@@ -356,7 +356,7 @@ namespace Unity.Game.Command
                     isFinited = true;
                     SetIsExecuting(false);
                     OnSubmitFinish();
-                    Debug.Log("All Commands Executed successfully");
+                    //Debug.Log("All Commands Executed successfully");
                 }
             }
             else
@@ -364,7 +364,7 @@ namespace Unity.Game.Command
                 isFinited = false;
                 SetIsExecuting(false);
                 OnSubmitFinish();
-                Debug.Log($"Max Step Exceed ({CommandConfig.COMMAND_MAX_STEP})");
+                //Debug.Log($"Max Step Exceed ({CommandConfig.COMMAND_MAX_STEP})");
             }
             
         }
@@ -399,7 +399,7 @@ namespace Unity.Game.Command
             if(isExecuting == false)
             {
                 StopCoroutine(ExecuteIEnumerator);
-                Debug.Log("Execute Coroutine is Stopped");
+                //Debug.Log("Execute Coroutine is Stopped");
             }
         }
 
