@@ -140,7 +140,7 @@ namespace Unity.Game.UI
 
         public void LoadMapFromFile()
         {
-            Debug.Log("MapEntry");
+            //Debug.Log("MapEntry");
             mapDataManager.OnLoadMap();
         }
 
@@ -148,7 +148,7 @@ namespace Unity.Game.UI
         {
             WorldDatas = worldDatas;
 
-            Debug.Log($"WorldData : {worldDatas?.Count}");
+            //Debug.Log($"WorldData : {worldDatas?.Count}");
             if (worldDatas?.Count > 0)
             {
                 SetUpListView();
@@ -351,7 +351,7 @@ namespace Unity.Game.UI
 
         void OnClickMapEntry(EventBase evt, Map map, bool isEnterable)
         {
-            Debug.Log($"{map.MapName}: can enter? : {isEnterable}");
+            //Debug.Log($"{map.MapName}: can enter? : {isEnterable}");
             if (isEnterable)
             {
                 LoadLevelMap(map);

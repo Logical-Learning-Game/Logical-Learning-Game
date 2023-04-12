@@ -229,9 +229,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c4c3febc8db8434c8cd657fb91f4451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGameDataInitialized: 0
   GameData:
     PlayerId: 
+    Email: 
     SessionHistories: []
 --- !u!114 &161260846
 MonoBehaviour:
@@ -1161,8 +1161,10 @@ MonoBehaviour:
   IsWaitingForSync: 0
   gameData:
     PlayerId: 
+    Email: 
     SessionHistories: []
   currentPlayerId: 
+  currentPlayerEmail: 
 --- !u!1 &1541580292
 GameObject:
   m_ObjectHideFlags: 0

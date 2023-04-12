@@ -20,7 +20,7 @@ namespace Unity.Game.MapSystem
         public override void OnTileEntered()
         {
             base.OnTileEntered();
-            Debug.Log("Entered Condition Tile, Character should memorize this pattern");
+            //Debug.Log("Entered Condition Tile, Character should memorize this pattern");
         }
     }
 }

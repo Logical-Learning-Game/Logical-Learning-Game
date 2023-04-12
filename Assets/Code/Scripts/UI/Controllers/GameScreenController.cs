@@ -111,7 +111,7 @@ namespace Unity.Game.UI
                 StopAllCoroutines();
                 StartCoroutine(PauseGameTime(delay));
                 IsGamePause = true;
-                Debug.Log("game is pause");
+                //Debug.Log("game is pause");
             }
         }
 
@@ -123,14 +123,14 @@ namespace Unity.Game.UI
                 StopAllCoroutines();
                 Time.timeScale = 1f;
                 IsGamePause = false;
-                Debug.Log("game is resume");
+                //Debug.Log("game is resume");
             }
    
         }
 
         void OnGameRestarted(bool isSameMap)
         {
-            Debug.Log("OnGameRestarted invoked");
+            //Debug.Log("OnGameRestarted invoked");
             RestartLevel(isSameMap);
         }
 

@@ -26,7 +26,7 @@ namespace Unity.Game.Command
         {
             if (nextCommand == conditionCommand)
             {
-                Debug.Log("same command");
+                //Debug.Log("same command");
             }
             else
             {

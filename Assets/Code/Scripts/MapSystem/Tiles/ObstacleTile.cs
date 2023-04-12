@@ -17,7 +17,7 @@ namespace Unity.Game.MapSystem
         public override void OnTileEntered()
         {
             base.OnTileEntered();
-            Debug.Log("Character Should not enter ObstacleTile");
+            //Debug.Log("Character Should not enter ObstacleTile");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Unity.Game.MapSystem
             base.OnTileEntered();
             if (CommandManager.Instance.isExecuting)
             {
-                Debug.Log("Enter goal!, this level should be pass");
+                //Debug.Log("Enter goal!, this level should be pass");
                 LevelManager.Instance.SetIsPlayerReachGoal();
                 CommandManager.Instance.SetStopOnNextAction(true);
             }

@@ -75,7 +75,7 @@ namespace Unity.Game.SaveSystem
 
             if (FileManager.LoadFromFile(m_SaveFilename, out var jsonString))
             {
-                Debug.Log("loadData from file:"+jsonString);
+                //Debug.Log("loadData from file:"+jsonString);
                 gameDataManager.GameData = GameData.LoadJson(jsonString);
             }
             //else
@@ -96,7 +96,7 @@ namespace Unity.Game.SaveSystem
             // save to disk with FileDataHandler
             if (FileManager.WriteToFile(m_SaveFilename, jsonFile))
             {
-                Debug.Log("SaveManager.SaveGame: " + m_SaveFilename + " json string: " + jsonFile);
+                //Debug.Log("SaveManager.SaveGame: " + m_SaveFilename + " json string: " + jsonFile);
             }
         }
 
