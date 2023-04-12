@@ -57,7 +57,7 @@ namespace Unity.Game.UI
 
         public void LoadMapFromFile()
         {
-            Debug.Log("UserStat");
+            //Debug.Log("UserStat");
             mapDataManager.OnLoadMap();
         }
 
@@ -84,7 +84,7 @@ namespace Unity.Game.UI
             //Debug.Log("OpenStatPanel");
             if (WorldDatas == null || WorldDatas.Count == 0)
             {
-                Debug.Log("OnOpenStatPanel");
+                //Debug.Log("OnOpenStatPanel");
                 LoadMapFromFile();
             }
 

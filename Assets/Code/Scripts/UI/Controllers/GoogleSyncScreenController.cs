@@ -14,12 +14,13 @@ namespace Unity.Game.UI
     public class GoogleSyncScreenController : MonoBehaviour
     {
         public static event Action ShowDetectSaveModal;
-        public static event Action<string, bool> GoogleNewGame;
+        public static event Action<string, string, bool> GoogleNewGame;
 
         [SerializeField] bool IsWaitingForSync = false;
-        
+
         [SerializeField] GameData gameData;
         [SerializeField] string currentPlayerId;
+        [SerializeField] string currentPlayerEmail;
 
         void Awake()
         {
@@ -61,7 +62,6 @@ namespace Unity.Game.UI
             this.gameData = gameData;
         }
 
-        // scene-management methods
         public async void OnGoogleSignIn()
         {
             // google signin
@@ -72,9 +72,10 @@ namespace Unity.Game.UI
                 {
                     gameObject.AddComponent<GoogleAuthenticationManager>();
                 }
-                string playerId = await GoogleAuthenticationManager.Instance.GoogleSignIn();
-                Debug.Log($"PlayerId: {playerId}");
+                (string playerId, string playerEmail) = await GoogleAuthenticationManager.Instance.GoogleSignIn();
+                //Debug.Log($"PlayerId: {playerId}");
                 currentPlayerId = playerId;
+                currentPlayerEmail = playerEmail;
 
                 var apiClient = new APIClient();
 
@@ -85,11 +86,11 @@ namespace Unity.Game.UI
                     var linkAccountRequest = new LinkAccountRequest
                     {
                         PlayerId = playerId,
-                        Email = "testLLG@hotmail.com"
+                        Email = playerEmail
                     };
                     await apiClient.LinkAccount(linkAccountRequest);
                 }
-                OnSignInComplete(currentPlayerId);
+                OnSignInComplete(currentPlayerId, currentPlayerEmail);
             }
             catch (WebException ex)
             {
@@ -108,31 +109,31 @@ namespace Unity.Game.UI
             }
         }
 
-        public void OnSignInComplete(string newUserId)
+        public void OnSignInComplete(string newUserId, string playerEmail = "")
         {
             if (IsWaitingForSync)
             {
                 IsWaitingForSync = false;
                 if (gameData == null || gameData?.PlayerId == "" || (gameData.SessionHistories.Count == 0 && gameData.SubmitBest.Count == 0))
                 {
-                    GoogleNewGame?.Invoke(newUserId, false);
+                    GoogleNewGame?.Invoke(newUserId, playerEmail, false);
                     return;
                 }
                 else
                 {
                     ShowDetectSaveModal?.Invoke();
                 }
-            } 
+            }
         }
 
         public void OnDenySync()
         {
-            GoogleNewGame?.Invoke(currentPlayerId, false);
+            GoogleNewGame?.Invoke(currentPlayerId,currentPlayerEmail, false);
         }
 
         public void OnConfirmSync()
         {
-            GoogleNewGame?.Invoke(currentPlayerId, true);
+            GoogleNewGame?.Invoke(currentPlayerId,currentPlayerEmail, true);
         }
 
         public void OnCancelSync(string _)

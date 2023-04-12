@@ -71,13 +71,13 @@ namespace Unity.Game.SaveSystem
             // save to disk with FileDataHandler
             if (FileManager.WriteToFile(m_MapFilename, jsonFile))
             {
-                Debug.Log("MapDataManager.SaveMapData: " + m_MapFilename + " json string: " + jsonFile);
+                //Debug.Log("MapDataManager.SaveMapData: " + m_MapFilename + " json string: " + jsonFile);
             }
         }
 
         public async void ReloadMapData()
         {
-            Debug.Log("Reload Map");
+            //Debug.Log("Reload Map");
             await UpdateMap();
         }
 
@@ -87,16 +87,16 @@ namespace Unity.Game.SaveSystem
 
             if (GameDataManager.Instance.GameData == null || GameDataManager.Instance?.GameData?.PlayerId == null)
             {
-                Debug.Log("No map, and player is not starting game yet");
+                //Debug.Log("No map, and player is not starting game yet");
                 return;
             }
             if (isFetching) return;
             isFetching = true;
 
-            Debug.Log($"Player Id : {GameDataManager.Instance.GameData.PlayerId}");
+            //Debug.Log($"Player Id : {GameDataManager.Instance.GameData.PlayerId}");
             if (GameDataManager.Instance.GameData.PlayerId == "__guest__" )
             {
-                Debug.Log("Player is Guest, Loading Mapdata from Resources");
+                //Debug.Log("Player is Guest, Loading Mapdata from Resources");
                 TextAsset jsonString = Resources.Load<TextAsset>("GuestMapData");
                 List<WorldData> guestWorldDatas = LoadJson(jsonString.text);
                 MapImageManager.DeleteAllMapImages();
@@ -116,7 +116,7 @@ namespace Unity.Game.SaveSystem
             }
 
             List<WorldData> worldDatas = await apiClient.GetMapData(GameDataManager.Instance.GameData.PlayerId);
-            Debug.Log("Loading MapData From Backend");
+            //Debug.Log("Loading MapData From Backend");
             MapImageManager.DeleteAllMapImages();
             WorldDataLoaded?.Invoke(worldDatas);
             SaveMap();

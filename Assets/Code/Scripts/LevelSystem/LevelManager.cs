@@ -65,7 +65,7 @@ namespace Unity.Game.Level
         void Start()
         {
 
-            Debug.Log("start invoked");
+            //Debug.Log("start invoked");
             if (gameMap != null && SceneManager.GetActiveScene().name == "GameMode")
             {
                 OnMapEnter?.Invoke(gameMap);
@@ -74,7 +74,7 @@ namespace Unity.Game.Level
         }
         private void OnDestroy()
         {
-            Debug.Log("OnMapExited Invoked");
+            //Debug.Log("OnMapExited Invoked");
 
             OnMapExit?.Invoke();
 
@@ -180,7 +180,7 @@ namespace Unity.Game.Level
             }
             else // no tile reference, return the player action
             {
-                Debug.Log("Null Tile Reached");
+                //Debug.Log("Null Tile Reached");
                 CreateNullTileAura(tilePos);
                 CommandManager.Instance.SetStopOnNextAction(true);
                 yield return Player.Instance.OnCannotMoveTo(Direction);

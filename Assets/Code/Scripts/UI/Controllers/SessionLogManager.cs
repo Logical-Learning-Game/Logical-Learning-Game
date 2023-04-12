@@ -84,7 +84,7 @@ namespace Unity.Game.UI
         }
         public void LoadMapFromFile()
         {
-            Debug.Log("SessionLog");
+            //Debug.Log("SessionLog");
             mapDataManager.OnLoadMap();
         }
 

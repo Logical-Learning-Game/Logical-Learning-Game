@@ -157,7 +157,7 @@ namespace Unity.Game.UI
 
         public void OnOpenSettingPanel()
         {
-            Debug.Log("invoke opensettingpanel");
+            //Debug.Log("invoke opensettingpanel");
             UpdateUserSettingPanel();
 
             //UpdateUserStat(CalculateUserStat(GameData, WorldDatas));
@@ -184,11 +184,12 @@ namespace Unity.Game.UI
             {
                 ShowVisualElement(UserId, true);
                 ShowVisualElement(UserName, false);
-                ShowVisualElement(Email, false);
+                ShowVisualElement(Email, true);
                 ShowVisualElement(Status, false);
                 ShowVisualElement(GoogleSyncButton, false);
 
                 SettingPanel.Q<Label>("UserIdValue").text = gameData.PlayerId;
+                SettingPanel.Q<Label>("UserEmailValue").text = gameData.Email;
             }
 
             OnUpdateAudioVolume();

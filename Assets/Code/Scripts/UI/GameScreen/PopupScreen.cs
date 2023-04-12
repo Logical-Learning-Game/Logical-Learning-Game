@@ -130,19 +130,23 @@ namespace Unity.Game.UI
                     if (currentIndex == 0)
                     {
                         PreviousButton.SetEnabled(false);
+                        PreviousButton.style.visibility = Visibility.Hidden;
                     }
                     else
                     {
                         PreviousButton.SetEnabled(true);
+                        PreviousButton.style.visibility = Visibility.Visible;
                     }
 
                     if (currentIndex == ImageList.Count - 1)
                     {
                         NextButton.SetEnabled(false);
+                        NextButton.style.visibility = Visibility.Hidden;
                     }
                     else
                     {
                         NextButton.SetEnabled(true);
+                        NextButton.style.visibility = Visibility.Visible;
                     }
                 }
                 else

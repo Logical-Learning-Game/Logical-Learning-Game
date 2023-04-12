@@ -38,7 +38,7 @@ namespace Unity.Game.SaveSystem
         public async Task SendSessionHistoryData(string playerId, GameSessionHistoryRequest dto)
         {
             string content = JsonConvert.SerializeObject(dto);
-            Debug.Log($"content: {content}");
+            //Debug.Log($"content: {content}");
             var requestBody = new StringContent(content, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync($"/v1/players/{playerId}/session_history", requestBody);
             if (!response.IsSuccessStatusCode)

@@ -49,7 +49,7 @@ namespace Unity.Game.ItemSystem
 
             foreach (ItemType itemType in itemTypes)
             {
-                Debug.Log($"Instantiate {itemType}");
+                //Debug.Log($"Instantiate {itemType}");
                 GameObject itemObject = Instantiate(KeyDisplayPrefab, transform, false);
                 itemObject.transform.Find("KeyText").GetComponent<TMP_Text>().text = ItemTypeString[itemType];
                 ItemObjects.Add(itemType, itemObject);
